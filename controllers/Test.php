@@ -20,7 +20,6 @@ class Test extends CI_Controller
 
     public function index()
     {
-        log_message('DEBUG','#TRAZA|TEST| estoy en Index ');
       $this->load->view('test');
     }
 
@@ -28,5 +27,20 @@ class Test extends CI_Controller
     {
         $data = $this->input->get();
         $this->load->view('testView', $data);
+    }
+
+    public function recibeData(){
+        if (!empty($_FILES)) {
+     
+            $file = $_FILES['file']['tmp_name'];          //3             
+              
+            $targetPath = dirname( __FILE__ ) . $ds. $storeFolder . $ds;  //4
+             
+            $targetFile =  $targetPath. $_FILES['file']['name'];  //5
+         
+            move_uploaded_file($file,$targetFile); //6
+             
+        }
+        echo json_encode("true");
     }
 }
