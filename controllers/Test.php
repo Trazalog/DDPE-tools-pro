@@ -8,16 +8,7 @@ class Test extends CI_Controller
         $this->load->model('Tests');
     }
 
-    // public function test()
-    // {
-
-    // }
-
-    // public function wso()
-    // {
-
-    // }
-
+    /*MODULO IMAGE FORMS DINAMICO */
     public function index()
     {
       $this->load->view('test');
@@ -29,18 +20,10 @@ class Test extends CI_Controller
         $this->load->view('testView', $data);
     }
 
-    public function recibeData(){
-        if (!empty($_FILES)) {
-     
-            $file = $_FILES['file']['tmp_name'];          //3             
-              
-            $targetPath = dirname( __FILE__ ) . $ds. $storeFolder . $ds;  //4
-             
-            $targetFile =  $targetPath. $_FILES['file']['name'];  //5
-         
-            move_uploaded_file($file,$targetFile); //6
-             
-        }
-        echo json_encode("true");
+    /* COMPONENTE MOSAICO */
+    public function mosaicoImagenes(){
+        $data['imgsCodf'] = $this->Tests->imagenesCodificadas();
+        $this->load->view('mosaicoImagenes',$data);
     }
+    /* FIN COMPONENTE MOSAICO */
 }
