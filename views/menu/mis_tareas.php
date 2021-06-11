@@ -1,1 +1,0 @@
- <li><a href="#" class="link" data-link="<?php echo BPM ?>Proceso"><i class="glyphicon glyphicon-list-alt"></i>Mis Tareas</a></li>
