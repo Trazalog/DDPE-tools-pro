@@ -35,7 +35,7 @@ class Inspeccion extends CI_Controller
 
         $data = $this->input->post('datos');
         $data['usuario_app'] = userNick();
-        log_message("ERROR", "DATA agregarChofer >>".json_encode($data));
+        log_message("DEBUG", "DATA agregarChofer >>".json_encode($data));
 		// $resp = $this->Inspecciones->agregarChofer($data);
         $resp = true;
 		if ($resp != null) {
@@ -53,7 +53,7 @@ class Inspeccion extends CI_Controller
 
         $data = $this->input->post('datos');
         $data['usuario_app'] = userNick();
-        log_message("ERROR", "DATA agregarEstablecimiento >>".json_encode($data));
+        log_message("DEBUG", "DATA agregarEstablecimiento >>".json_encode($data));
 		// $resp = $this->Inspecciones->agregarEstablecimiento($data);
         $resp = true;
 		if ($resp != null) {
@@ -71,7 +71,7 @@ class Inspeccion extends CI_Controller
 
         $data = $this->input->post('datos');
         $data['usuario_app'] = userNick();
-        log_message("ERROR", "DATA agregarEmpresa >>".json_encode($data));
+        log_message("DEBUG", "DATA agregarEmpresa >>".json_encode($data));
 		// $resp = $this->Inspecciones->agregarEmpresa($data);
         $resp = true;
 		if ($resp != null) {
@@ -89,7 +89,7 @@ class Inspeccion extends CI_Controller
 
         $data = $this->input->post('datos');
         $data['usuario_app'] = userNick();
-        log_message("ERROR", "DATA agregarDeposito >>".json_encode($data));
+        log_message("DEBUG", "DATA agregarDeposito >>".json_encode($data));
 		// $resp = $this->Inspecciones->agregarDeposito($data);
         $resp = true;
 		if ($resp != null) {
@@ -107,7 +107,7 @@ class Inspeccion extends CI_Controller
 
         $data = $this->input->post('datos');
         $data['usuario_app'] = userNick();
-        log_message("ERROR", "DATA agregarTransportista >>".json_encode($data));
+        log_message("DEBUG", "DATA agregarTransportista >>".json_encode($data));
 		// $resp = $this->Inspecciones->agregarTransportista($data);
         $resp = true;
 		if ($resp != null) {
@@ -115,5 +115,13 @@ class Inspeccion extends CI_Controller
 		} else {
 			return json_encode(false);
 		}
+    }
+    /**
+	* Ingreso por barrera
+	* @param array 
+	* @return bool
+	*/
+    public function ingresoBarrera(){
+        $this->load->view('barrera/barrera');
     }
 }

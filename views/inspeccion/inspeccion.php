@@ -124,10 +124,12 @@
                     <div class="input-group">
                         <select class="form-control select2 select2-hidden-accesible" name="doc_chofer" id="doc_chofer" onChange="seChofer(this)">
                             <option value="" disabled selected>-Seleccionar-</option>	
-                            <?php 
+                            <?php
+                            if(!empty($choferes)){
                                 foreach ($choferes as $chof) {
                                     echo "<option data-json='".json_encode($chof)."' value='".$chof->dni."'>".$chof->dni."</option>";
                                 }
+                            }
                             ?>
                         </select>
                         <span id="add_chofer" class="input-group-addon" data-toggle="modal" data-target="#mdl-chofer"><i class="fa fa-plus"></i></span>
@@ -178,10 +180,12 @@
                         <div class="input-group">
                             <select class="form-control select2 select2-hidden-accesible" name="esta_nom" id="esta_nom" onChange="seEstable(this)">
                                 <option value="" disabled selected>-Seleccionar-</option>	
-                                <?php 
+                                <?php
+                                if(!empty($establecimientos)){ 
                                     foreach ($establecimientos as $esta) {
                                         echo "<option data-json='".json_encode($esta)."' value='".$esta->id."'>".$esta->nombre."</option>";
                                     }
+                                }
                                 ?>
                             </select>
                             <span id="add_establecimiento" class="input-group-addon" data-toggle="modal" data-target="#mdl-establecimiento"><i class="fa fa-plus"></i></span>
@@ -197,10 +201,12 @@
                         <div class="input-group">
                         <select class="form-control select2 select2-hidden-accesible" name="empre_destino" id="empre_destino" onChange="seEmpresa(this)">
                             <option value="" disabled selected>-Seleccionar-</option>	
-                            <?php 
+                            <?php
+                            if(!empty($empresas)){ 
                                 foreach ($empresas as $emp) {
                                     echo "<option data-json='".json_encode($emp)."' value='".$emp->cuit."'>".$emp->razon_social."</option>";
                                 }
+                            }
                             ?>
                         </select>
                             <span id="add_empresa" class="input-group-addon" data-toggle="modal" data-target="#mdl-empresa"><i class="fa fa-plus"></i></span>
@@ -216,10 +222,12 @@
                         <div class="input-group">
                         <select class="form-control select2 select2-hidden-accesible" name="depo_destino" id="depo_destino">
                             <option value="" disabled selected>-Seleccionar-</option>	
-                            <?php 
+                            <?php
+                            if(!empty($depositos)){ 
                                 foreach ($depositos as $depo) {
                                     echo "<option data-json='".json_encode($depo)."' value='".$depo->depo_id."'>".$depo->calle." - ".$depo->altura."</option>";
                                 }
+                            }
                             ?>
                         </select>
                             <span id="add_deposito" class="input-group-addon" data-toggle="modal" data-target="#mdl-deposito"><i class="fa fa-plus"></i></span>
@@ -245,10 +253,12 @@
                         <div class="input-group">
                             <select class="form-control select2 select2-hidden-accesible" name="transportista" id="transportista">
                                 <option value="" disabled selected>-Seleccionar-</option>	
-                                <?php 
+                                <?php
+                                if(!empty($empresas)){ 
                                     foreach ($empresas as $emp) {
                                         echo "<option data-json='".json_encode($emp)."' value='".$emp->cuit."'>".$emp->razon_social."</option>";
                                     }
+                                }
                                 ?>
                             </select>
                             <span id="add_transportista" class="input-group-addon" data-toggle="modal" data-target="#mdl-transportista"><i class="fa fa-plus"></i></span>
