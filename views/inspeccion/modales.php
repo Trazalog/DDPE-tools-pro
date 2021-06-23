@@ -1,5 +1,3 @@
-<!-- HOJA DE ESTILOS PARA LOS CASE IMAGE DE FORMULARIOS DINAMICOS -->
-<link rel="stylesheet" href="lib/imageForms/styleImgForm.css">
 <!-- Modal CHOFER -->
 <div class="modal modal-fade" id="mdl-chofer">
     <div class="modal-dialog modal-sm">
