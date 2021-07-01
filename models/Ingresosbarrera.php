@@ -59,9 +59,9 @@ class Ingresosbarrera extends CI_Model
 	*/
     public function lanzarBonitaProcess($contract)
     {
-        log_message("ERROR","#TRAZA | #SICPOA | Ingresosbarrera | lanzarBonitaProcess  >> ".json_encode($contract));
         $rsp =  $this->bpm->lanzarProceso(BPM_PROCESS_ID_INGRESO_CAMIONES, $contract);
         log_message("ERROR","#TRAZA | #SICPOA | Ingresosbarrera | lanzarBonitaProcess  >> ".json_encode($rsp));
+        
         return $rsp;
     }
 

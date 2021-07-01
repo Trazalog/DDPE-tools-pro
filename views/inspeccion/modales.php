@@ -144,9 +144,9 @@
             <!-- Modal Header -->
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Agregar Transportista</h4>
+                <h4 class="modal-title">Escaneo Documentacion</h4>
             </div>
-            <form id="formTransportista" action="#">
+            <form id="formDocumentacion" action="#">
                 <!-- Modal body -->
                 <div class="modal-body">
                     <div class="row">

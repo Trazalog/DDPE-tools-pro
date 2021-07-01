@@ -28,4 +28,3 @@
     <!-- <div id="imgtext"></div> -->
     </div>
 </div>
-</script>
