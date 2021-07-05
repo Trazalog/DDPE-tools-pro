@@ -111,8 +111,8 @@ class Ingreso_barrera extends CI_Controller
 
             if ($lanzar_bpm == "true") {
                 $this->BonitaProcess($petr_id);
-
-                return $rsp;
+                
+                echo json_encode($rsp);
 
             } else {
                 log_message('DEBUG', '#TRAZA | #SICPOA | Ingreso_barrera | >> guardarPedidoTrabajo   >> lanzar_bpm viene false');
@@ -122,17 +122,17 @@ class Ingreso_barrera extends CI_Controller
 
             log_message('ERROR', '#TRAZA | #SICPOA | Ingreso_barrera | >> guardarPedidoTrabajo  >> ERROR al guardar pedido de trabajo Status false');
 
-            // $this->eliminarPedidoTrabajo($petr_id);
+            $this->eliminarPedidoTrabajo($petr_id);
 
-            return $rsp;
+            echo json_encode($rsp);
 
         } else {
 
             log_message('DEBUG', '#TRAZA | #SICPOA | Ingreso_barrera | >> guardarPedidoTrabajo  >> ERROR TREMENDO');
 
-            // $this->eliminarPedidoTrabajo($petr_id);
+            $this->eliminarPedidoTrabajo($petr_id);
 
-            return $rsp;
+            echo json_encode($rsp);
 
 
         }
@@ -149,8 +149,10 @@ class Ingreso_barrera extends CI_Controller
 
         if ($case_id) {
             log_message('DEBUG', '#TRAZA | #SICPOA | Ingreso_barrera | >> BonitaProcess  >> TODO OK - se lanzo proceso correctamente');
+            $this->ActualizarCaseId($case_id, $petr_id);
         }else{
             log_message('ERROR', '#TRAZA | #SICPOA | Ingreso_barrera | >> BonitaProcess  >> ERROR AL LANZAR BONITA PROCESS');
+            $this->eliminarPedidoTrabajo($petr_id);
         }
         return;
     }
@@ -158,7 +160,7 @@ class Ingreso_barrera extends CI_Controller
     public function ActualizarCaseId($case_id, $petr_id)
     {
 
-				$str_case_id = (string) $case_id;
+		$str_case_id = (string) $case_id;
 
         $data['_put_pedidotrabajo'] = array(
 
@@ -171,16 +173,12 @@ class Ingreso_barrera extends CI_Controller
 
         if (!$rsp) {
 
-            log_message('ERROR', '#TRAZA | #BPM >> ActualizarCaseId  >> ERROR AL ACTUALIZAR');
-
-           // $this->eliminarPedidoTrabajo($petr_id);
+            log_message('ERROR', '#TRAZA | #SICPOA | Ingreso_barrera | >> ActualizarCaseId  >> ERROR AL ACTUALIZAR');
 
             return $rsp;
 
         } else {
-            log_message('DEBUG', '#TRAZA | #BPM >> ActualizarCaseId  >> TODO OK - se actualizo CaseId del pedido');
-            #echo json_encode($data);
-            //     $this->BonitaProcess($petr_id);
+            log_message('DEBUG', '#TRAZA | #SICPOA | Ingreso_barrera | >> ActualizarCaseId  >> TODO OK - se actualizo CaseId del pedido');
 
         }
 

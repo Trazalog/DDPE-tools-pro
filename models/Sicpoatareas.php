@@ -16,7 +16,7 @@ class Sicpoatareas extends CI_Model
         $task_id = $tarea->taskId;
         $case_id = $tarea->caseId;
         $user_app = userNick();
-        $aux_pedido = $ci->rest->callAPI("GET",REST_PRO."/pedidoTrabajo/xcaseid/".$case_id);
+        $aux_pedido = $this->rest->callAPI("GET",REST_PRO."/pedidoTrabajo/xcaseid/".$case_id);
         $data_generico =json_decode($aux_pedido["data"]);
         $aux_pedido = $data_generico->pedidoTrabajo;
         
@@ -84,8 +84,8 @@ class Sicpoatareas extends CI_Model
     {
         $case_id = $tarea->caseId;
 
-        $aux = $ci->rest->callAPI("GET",REST_PRO."/pedidoTrabajo/xcaseid/".$case_id);
-        $data_generico =json_decode($aux["data"]);
+        $aux = $this->rest->callAPI("GET",REST_PRO."/pedidoTrabajo/xcaseid/".$case_id);
+        $data_generico = json_decode($aux["data"]);
         $aux = $data_generico->pedidoTrabajo;
         return $aux;
     }
@@ -100,10 +100,11 @@ class Sicpoatareas extends CI_Model
     public function desplegarVista($tarea)
     {
         switch ($tarea->nombreTarea) {
-            
             //paso 1
             case 'Pre - Carga de Datos':
-                
+                $info_id = $this->getXCaseId($tarea)->info_id;
+                $data['imgsBarrera'] = $this->getImgsBarrera($info_id);
+
                 return $this->load->view(SICP . 'tareas/preCargaDatos', $data, true);
         
                 log_message('DEBUG', "#TRAZA | #SICPOA | Sicpoatareas | desplegarVista()  tarea->nombreTarea: >> " . $tarea->nombreTarea);
@@ -244,7 +245,7 @@ public function guardarForms($data)
      $task_id = $tarea->taskId;
      $case_id = $tarea->caseId;
      $user_app = userNick();
-     $aux = $ci->rest->callAPI("GET",REST_PRO."/pedidoTrabajo/xcaseid/".$case_id);
+     $aux = $this->rest->callAPI("GET",REST_PRO."/pedidoTrabajo/xcaseid/".$case_id);
      $data_generico =json_decode($aux["data"]);
      $aux = $data_generico->pedidoTrabajo;
 
@@ -483,6 +484,51 @@ case 'Despacho':
                 break;
         }
     }
+    /**
+	* Obtengo las imagenes cargadas en Imgres Barrera guardadas en instancias_formularios
+	* @param array info_id
+	* @return array Imagenes relacionadas con el info_id
+	*/
+    function getImgsBarrera($info_id){
+        if($info_id){
+            $imagenes = array();
+            $this->load->model(FRM . 'Forms');
+            $res = $this->Forms->obtener($info_id);
 
+            foreach ($res->items as $dato) {
+                if(isset($dato->valor4_base64)){
+                    $rec = stream_get_contents($dato->valor4_base64);
+                    $ext = $this->obtenerExtension($dato->valor);
+                    array_push($imagenes, $ext.$rec);
+                }
+            }
+        }
+        return $imagenes;
+    }
+
+    /**
+	* Funcion para obtener la extension del archivo codificado
+	* @param array nombre archivo con su extension
+	* @return array cabecera para la url lsito para usar en atributo src
+	*/
+    function obtenerExtension($archivo){
+        $ext = explode('.',$archivo);
+            switch(strtolower($ext[1])){
+                case 'jpg': $ext = 'data:image/jpg;base64,';break;
+                case 'png': $ext = 'data:image/png;base64,';break;
+                case 'jpeg': $ext = 'data:image/jpeg;base64,';break;
+                case 'pjpeg': $ext = 'data:image/pjpeg;base64,';break;
+                case 'wbmp': $ext = 'data:image/vnd.wap.wbmp;base64,';break;
+                case 'webp': $ext = 'data:image/webp;base64,';break;
+                case 'pdf': $ext = 'data:application/pdf;base64,';break;
+                case 'doc': $ext = 'data:application/msword;base64,';break;
+                case 'xls': $ext = 'data:application/vnd.ms-excel;base64,';break;
+                case 'docx': $ext = 'data:application/vnd.openxmlformats-officedocument.wordprocessingml.document;base64,';break;
+                case 'txt': $ext = 'data:text/plain;base64,';break;
+                case 'csv': $ext = 'data:text/csv;base64,';break;
+                default: $ext = "";
+            }
+        return $ext;
+    }
    
 }
