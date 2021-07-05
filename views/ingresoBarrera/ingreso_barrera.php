@@ -76,7 +76,7 @@ var guardarPedidoTrabajo = function() {
         contentType: false,
         processData: false,
         success: function(rsp) {
-
+         console.log(rsp);   
          var result = rsp.status.toString(); 
         
          console.log('status esta en saliendo por success:' + result);
@@ -90,12 +90,6 @@ var guardarPedidoTrabajo = function() {
                 )
                 $('#'+idForm)[0].reset();
                 linkTo('<?php echo BPM ?>Proceso/');
-                //lineas del checho #CHUKA
-                //   reload('#pedidos-trabajos');
-                //   $('#mdl-peta').modal('hide');
-                //   reload('#frm-peta')
-                //   detectarForm();
-                //   initForm();
 
             } else {
                 Swal.fire(
@@ -108,7 +102,7 @@ var guardarPedidoTrabajo = function() {
         },
 
         error: function(rsp) {
-
+            console.log(rsp); 
             var result = rsp.status.toString(); 
         
         console.log('status esta en saliendo por error:' + result);

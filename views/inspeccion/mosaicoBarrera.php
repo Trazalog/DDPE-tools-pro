@@ -63,8 +63,8 @@
     </div>
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="fotos">
-            <?php foreach ($imgBarrera->items as $key => $value) {
-                echo "<img class='thumbnail fotos barrera' height='51' width='45' src='imgTEST/$value->imgCodif' alt='' onclick='preview(this)'>";
+            <?php foreach ($imgsBarrera as $key => $value) {
+                echo "<img class='thumbnail fotos barrera' height='51' width='45' src='$value' alt='' onclick='preview(this)'>";
             } ?>
         </div>
     </div>
