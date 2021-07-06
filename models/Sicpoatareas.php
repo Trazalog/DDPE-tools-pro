@@ -113,7 +113,9 @@ class Sicpoatareas extends CI_Model
      
             //paso 2
             case 'Inspección en PCC':
- 
+                $info_id = $this->getXCaseId($tarea)->info_id;
+                $data['imgsBarrera'] = $this->getImgsBarrera($info_id);
+                
                 return $this->load->view(SICP . 'tareas/inspeccionPCC', $data, true);
 
                 log_message('DEBUG', "#TRAZA | #SICPOA | Sicpoatareas | desplegarVista()  tarea->nombreTarea: >> " . $tarea->nombreTarea);
