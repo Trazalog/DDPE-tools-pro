@@ -53,7 +53,7 @@
   margin-right: auto;
   margin-left:auto;
   display: block;
-  max-width: 250px;
+  max-width: 60%;
 }
 </style>
 <!-- FIN CSS -->

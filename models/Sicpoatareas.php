@@ -111,7 +111,7 @@ class Sicpoatareas extends CI_Model
 
             break;
      
-            //paso 2
+            //paso 1
             case 'Inspección en PCC':
                 $info_id = $this->getXCaseId($tarea)->info_id;
                 $data['imgsBarrera'] = $this->getImgsBarrera($info_id);
@@ -121,7 +121,7 @@ class Sicpoatareas extends CI_Model
                 log_message('DEBUG', "#TRAZA | #SICPOA | Sicpoatareas | desplegarVista()  tarea->nombreTarea: >> " . $tarea->nombreTarea);
               
             break;
- 
+            //paso 1
             case 'Escaneo documentacion':
  
                      
@@ -132,16 +132,16 @@ class Sicpoatareas extends CI_Model
                          
             break;
 
-            //paso 4
-                case 'Relleno, Corte de  Banda y Embandado':
-                      
+            //paso 1
+            case 'Alerta de camión que no paso por PCC':
+                $info_id = $this->getXCaseId($tarea)->info_id;
+                $data['imgsBarrera'] = $this->getImgsBarrera($info_id);
+                
+                return $this->load->view(SICP . 'tareas/alertaPCC', $data, true);
              
-                         return $this->load->view(YUDIPROC . 'tareas/pedido_reparacion_neumaticos/view_preparacion_banda', $data, true);
-             
-                         log_message('DEBUG', 'YUDI Reparacion view-Preparacion de Banda->' . $tarea->nombreTarea);
+                log_message('DEBUG', "#TRAZA | #SICPOA | Sicpoatareas | desplegarVista()  tarea->nombreTarea: >> " . $tarea->nombreTarea);
               
-
-                         break;
+                break;
                         
                 // case 'Embandado':
  

@@ -1,3 +1,8 @@
+<style>
+.frm-save{
+    display: none;
+}
+</style>
 <!-- Modal CHOFER -->
 <div class="modal modal-fade" id="mdl-chofer">
     <div class="modal-dialog modal-sm">
@@ -146,7 +151,9 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Escaneo Documentacion</h4>
             </div>
-            <form id="formDocumentacion" action="#">
+            <div class="panel-subheading" style="text-align: right">
+                <label><?php echo $this->session->userdata['first_name'].' '.$this->session->userdata['last_name'].' - '.date('m/d/Y H:i:s')?></label>
+            </div> 
                 <!-- Modal body -->
                 <div class="modal-body">
                     <div class="row">
@@ -154,11 +161,16 @@
                     </div>
                 </div>
                 <!-- Modal footer -->
-                <!-- <div class="modal-footer">
-                    <button type="button" class="btn" data-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary" onclick="agregarTransportista(this,'Transportista')">Agregar</button>
-                </div> -->
-            </form>
+                <div class="modal-footer">
+                <div class="col-md-6 col-sm-12 col-md-offset-6" style="text-align:right;margin-top: 20px;">
+                    <button type="button" class="btn btn-danger" onclick="cerrarModal()">Cerrar</button>
+
+                    <button type="button" id="btn-accion" class="btn btn-primary btn-guardar"
+                        onclick="frmGuardar($('.frm-new').find('form'))">Guardar</button>
+                </div>
+            </div>
+
+            <!-- ************************************************************ -->
         </div>
     </div>
 </div>
@@ -189,5 +201,9 @@
                 alertify.error("Se produjo un Error!");
             }
         });
+    }
+
+    function cerrarModal() {
+        $('#mdl-documentacion').modal('hide');
     }
 </script>
