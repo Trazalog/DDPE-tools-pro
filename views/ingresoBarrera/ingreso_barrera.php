@@ -2,11 +2,20 @@
 .frm-save {
     display: none;
 }
+.panel-subheading{
+    text-align: right;
+}
 </style>
 <div class="panel panel-default">
     <div class="panel-heading">
         <h3 class="panel-title">Nuevo Ingreso por Barrera</h3>
     </div>
+    <div class="panel-subheading">
+        <label><?php echo $this->session->userdata['first_name'].' '.$this->session->userdata['last_name'].' - '.date('m/d/Y H:i:s')?></label>
+        </br>
+        <label>Punto de control: <?php echo $puntoControl; ?></label>
+        </br>
+    </div> 
     <div class="panel-body" id="div_ingreso_barrera">
         <div class="col-md-12">
             <div class="frm-new" data-form="12"></div>
@@ -18,7 +27,6 @@
                     <button type="button" id="btn-accion" class="btn btn-primary btn-guardar"
                         onclick="frmGuardar($('.frm-new').find('form'),guardarPedidoTrabajo)">Guardar</button>
                 </div>
-
             </div>
 
             <!-- ************************************************************ -->

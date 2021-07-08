@@ -72,11 +72,11 @@
                 <div class="col-md-12 col-sm-12 col-xs-12">
                         <label for="doc_sanitaria">Doc. Sanitaria Tipo(<strong style="color: #dd4b39">*</strong>):</label>
                     <div class="form-check form-check-inline">
-                        <input type="radio" class='form-check-input' name="doc_sanitaria" required />
+                        <input type="radio" class='form-check-input' name="doc_sanitaria" value="PT" />
                         <label class="form-check-label" for="">PT</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input type="radio" class='form-check-input' name="doc_sanitaria" required />
+                        <input type="radio" class='form-check-input' name="doc_sanitaria" value="PCR" />
                         <label class="form-check-label" for="">PCR</label>
                     </div>
                 </div>
@@ -301,50 +301,13 @@
                     </div>                    
                 </div>
                 <!--________________-->
-                <!--Requiere Reprecintado-->
+                <!--Acta Infraccion-->
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="form-group">
-                        <label for="reprecintado">¿Requiere Reprecintado?:</label>
-                        <div class="form-check form-check-inline">
-                            <input type="radio" class='form-check-input' name="reprecintado" value="si" onchange="showValidar(this)"/>
-                            <label class="form-check-label" for="">Sí</label>
+                        <label for="infraccion">Acta infracción en calle:</label>
+                        <div class="">
+                            <?php echo "<img class='thumbnail documentacion' height='51' width='45' src='imgTEST/image_2.jpg' alt='' onclick='previewInfraccion(this)'>";?>
                         </div>
-                        <div class="form-check form-check-inline">
-                            <input type="radio" class='form-check-input' name="reprecintado" value="no" onchange="showValidar(this)"/>
-                            <label class="form-check-label" for="">No</label>
-                        </div>
-                    </div>
-                </div>
-                <!--________________-->
-                <!--Bruto-->
-                <div class="col-md-3 col-sm-3 col-xs-6">
-                    <div class="form-group">
-                        <label for="bruto">Bruto(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input class="form-control" name="bruto" id="bruto" placeholder="Bruto..." />
-                    </div>                    
-                </div>
-                <!--________________-->
-                <!--Taza-->
-                <div class="col-md-3 col-sm-3 col-xs-6">
-                    <div class="form-group">
-                        <label for="taza">Taza(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input class="form-control" name="taza" id="taza" placeholder="Taza..." />
-                    </div>                    
-                </div>
-                <!--________________-->
-                <!--Neto-->
-                <div class="col-md-3 col-sm-3 col-xs-6">
-                    <div class="form-group">
-                        <label for="neto">Neto(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input class="form-control" name="neto" id="neto" placeholder="Neto..." />
-                    </div>                    
-                </div>
-                <!--________________-->
-                <!--Ticket-->
-                <div class="col-md-3 col-sm-3 col-xs-6">
-                    <div class="form-group">
-                        <label for="ticket">Ticket(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input class="form-control" name="ticket" id="ticket" placeholder="Ticket..." />
                     </div>                    
                 </div>
                 <!--________________-->
@@ -607,6 +570,12 @@ initForm();
 //
 //Preview sin agregar clase select
 //
+function previewInfraccion(imgs) {
+  // Tomo el elemento para la vista previa
+  var expandImg = document.getElementById("expandedImg");
+  //Lo asigno a la src de la vista previa
+  expandImg.src = imgs.src;
+}
 function showValidar(tag){
     if(tag.value == "si"){
         $("#bloque_validar").hide();
