@@ -86,14 +86,12 @@ var guardarPedidoTrabajo = function() {
         success: function(rsp) {
          console.log(rsp);   
          var result = rsp.status.toString(); 
-        
-         console.log('status esta en saliendo por success:' + result);
 
             if (rsp.status) {
-                console.log("Exito al guardar Formulario");
+                
                 Swal.fire(
                     'Guardado!',
-                    'El Pedido de Trabajo se Guardo Correctamente',
+                    'El formulario de ingreso por barrera se guardo correctamente',
                     'success'
                 )
                 $('#'+idForm)[0].reset();
@@ -102,10 +100,10 @@ var guardarPedidoTrabajo = function() {
             } else {
                 Swal.fire(
                     'Oops...',
-                    'No se Guardo Pedido de Trabajo',
+                    'No se guardo formulario ingreso por barrera',
                     'error'
                 )
-                console.log("Error al guardar Formulario de Pedido de trabajo");
+                console.log("Error al guardar formulario de ingreso por barrera");
             }
         },
 
@@ -115,10 +113,10 @@ var guardarPedidoTrabajo = function() {
         
         console.log('status esta en saliendo por error:' + result);
 
-            console.log("Error al guardar Formulario");
+            console.log("Error al guardar formulario");
             Swal.fire(
                 'Oops...',
-                'No se Guardo Formulario',
+                'No se guardo formulario',
                 'error'
             )
         },

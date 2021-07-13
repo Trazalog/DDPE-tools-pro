@@ -84,7 +84,7 @@ class Ingreso_barrera extends CI_Controller
             'descripcion' => $proceso->descripcion,
             'estado' => $proceso->esin_id,
             'objetivo' => "6",
-            'fec_inicio' => "2021-06-29",
+            'fec_inicio' => date('Y-m-d'),
             'fec_entrega' => "2021-12-31",
             'usuario_app' => $user_app,
             'umti_id' => "unidad_medida_tiempoMeses",

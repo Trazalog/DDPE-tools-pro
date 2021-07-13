@@ -36,7 +36,7 @@ class Inspeccion extends CI_Controller
         $data = $this->input->post('datos');
         $data['usuario_app'] = userNick();
         log_message("DEBUG", "DATA agregarChofer >>".json_encode($data));
-		// $resp = $this->Inspecciones->agregarChofer($data);
+		$resp = $this->Inspecciones->agregarChofer($data);
         $resp = true;
 		if ($resp != null) {
 			return json_encode(true);

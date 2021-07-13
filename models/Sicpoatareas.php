@@ -24,15 +24,15 @@ class Sicpoatareas extends CI_Model
         
         if(isset($case_id)){
             
-            $aux = new StdClass();
-            $aux->color = 'success'; //primary //secondary // success // danger // warning // info // light // dark //white 
-            $aux->texto = "N° Codigo:  $aux_pedido->cod_proyecto";
-            $array['info'][] = $aux;
+            // $aux = new StdClass();
+            // $aux->color = 'success'; //primary //secondary // success // danger // warning // info // light // dark //white 
+            // $aux->texto = "N° Codigo:  $aux_pedido->cod_proyecto";
+            // $array['info'][] = $aux;
 
-            $aux = new StdClass();
-            $aux->color = 'primary';
-            $aux->texto = "Objetivo:  $aux_pedido->objetivo   $aux_pedido->unidad_medida";
-            $array['info'][] =$aux;
+            // $aux = new StdClass();
+            // $aux->color = 'primary';
+            // $aux->texto = "Objetivo:  $aux_pedido->objetivo   $aux_pedido->unidad_medida";
+            // $array['info'][] =$aux;
 
             $aux = new StdClass();
             $aux->color = 'warning';
@@ -44,10 +44,10 @@ class Sicpoatareas extends CI_Model
             $aux->texto = "Fecha Inicio: ".formatFechaPG( $aux_pedido->fec_inicio);
             $array['info'][] = $aux;
 
-            $aux = new StdClass();
-            $aux->color = 'default';
-            $aux->texto = "Fecha Entrega: ".formatFechaPG( $aux_pedido->fec_entrega);
-            $array['info'][] = $aux;
+            // $aux = new StdClass();
+            // $aux->color = 'default';
+            // $aux->texto = "Fecha Entrega: ".formatFechaPG( $aux_pedido->fec_entrega);
+            // $array['info'][] = $aux;
 
             $array['descripcion'] =  $aux_pedido->descripcion;
         }else{
@@ -111,7 +111,7 @@ class Sicpoatareas extends CI_Model
 
             break;
      
-            //paso 1
+            //paso 2
             case 'Inspección en PCC':
                 $info_id = $this->getXCaseId($tarea)->info_id;
                 $data['imgsBarrera'] = $this->getImgsBarrera($info_id);
@@ -121,7 +121,7 @@ class Sicpoatareas extends CI_Model
                 log_message('DEBUG', "#TRAZA | #SICPOA | Sicpoatareas | desplegarVista()  tarea->nombreTarea: >> " . $tarea->nombreTarea);
               
             break;
-            //paso 1
+            //paso 2
             case 'Escaneo documentacion':
  
                      
@@ -132,7 +132,7 @@ class Sicpoatareas extends CI_Model
                          
             break;
 
-            //paso 1
+            //paso 2
             case 'Alerta de camión que no paso por PCC':
                 $info_id = $this->getXCaseId($tarea)->info_id;
                 $data['imgsBarrera'] = $this->getImgsBarrera($info_id);
@@ -142,71 +142,17 @@ class Sicpoatareas extends CI_Model
                 log_message('DEBUG', "#TRAZA | #SICPOA | Sicpoatareas | desplegarVista()  tarea->nombreTarea: >> " . $tarea->nombreTarea);
               
                 break;
-                        
-                // case 'Embandado':
- 
-                
-                //          return $this->load->view(YUDIPROC . 'tareas/pedido_reparacion_neumaticos/view_embandado', $data, true);
-             
-                //          log_message('DEBUG', 'YUDI Reparacion view-Embandado->' . $tarea->nombreTarea);
+            //paso 2       
+            case 'Reprecintado':
+                $info_id = $this->getXCaseId($tarea)->info_id;
+                $data['docu_sanitaria'] = array('PT', 'PCR');
+                return $this->load->view(SICP . 'tareas/alertaPCC', $data, true);
+
+                log_message('DEBUG', "#TRAZA | #SICPOA | Sicpoatareas | desplegarVista()  tarea->nombreTarea: >> " . $tarea->nombreTarea);
               
 
-                //          break; 
-                     
-                // case 'Montaje':
- 
-                      
-                //          return $this->load->view(YUDIPROC . 'tareas/pedido_reparacion_neumaticos/view_montaje', $data, true);
-             
-                //          log_message('DEBUG', 'YUDI Reparacion view-Montaje->' . $tarea->nombreTarea);
-              
-
-                //          break; 
- 
-                // case 'Raspado':
- 
-                                       
-                //          return $this->load->view(YUDIPROC . 'tareas/pedido_reparacion_neumaticos/view_raspado', $data, true);
-
-                //          log_message('DEBUG', 'YUDI Reparacion view-Raspado->' . $tarea->nombreTarea);
-              
-             
-                //          break; 
-
-              //paso 5           
-                case 'Autoclave':
- 
-                           
-                         return $this->load->view(YUDIPROC . 'tareas/pedido_reparacion_neumaticos/view_vulcanizado', $data, true);
-
-                         log_message('DEBUG', 'YUDI Reparacion view-Vulcanización en autoclave->' . $tarea->nombreTarea);
-              
-                         
-             
-                         break;  
-
-              //paso 6
-                case 'Pintado y acabado final':
- 
-                         
-                         return $this->load->view(YUDIPROC . 'tareas/pedido_reparacion_neumaticos/view_pintado_final', $data, true);
-
-                         log_message('DEBUG', 'YUDI Reparacion view-Pintado y acabado final->' . $tarea->nombreTarea);
-              
-             
-                         break;   
-
-              //paso 7           
-                case 'Despacho':
-
-    
-                    return $this->load->view(YUDIPROC . 'tareas/pedido_reparacion_neumaticos/view_desmontaje', $data, true);
-
-                    log_message('DEBUG', 'YUDI Reparacion view-Despacho->' . $tarea->nombreTarea);
-        
-        
-                    break;            
-                         
+                break;             
+            //default           
             default:
             
             //return $this->load->view(YUDIPROC . 'tareas/pedido_reparacion_neumaticos/view_aprueba_reparacion', $data, true);
@@ -217,120 +163,102 @@ class Sicpoatareas extends CI_Model
         }
     }
 
-// Guardar guardar Pedido de Trabajo
-public function guardarForms($data)
-{
-   // POST http://10.142.0.7:8280/services/PRODataService/pedidoTrabajo/tarea/form 
-    $url = REST_PRO . '/pedidoTrabajo/tarea/form';
-    $rsp = $this->rest->callApi('POST', $url, $data);
-    return $rsp;
-    
-    if (!$rsp) {
+    // Guardar guardar Pedido de Trabajo
+    public function guardarForms($data)
+    {
+        $url = REST_PRO . '/pedidoTrabajo/tarea/form';
+        $rsp = $this->rest->callApi('POST', $url, $data);
+        return $rsp;
+        
+        if (!$rsp) {
 
-        log_message('ERROR', '#TRAZA | #BPM >> guardarForms  >> ERROR AL FORM');
+            log_message('ERROR', '#TRAZA | #SICPOA | Sicpoatareas | guardarForms()  >> ERROR AL GUARDAR FORM');
 
-    } else {
-        log_message('DEBUG', '#TRAZA | #BPM >> guardarForms  >> TODO OK');
+        } else {
+            log_message('DEBUG', '#TRAZA | #SICPOA | Sicpoatareas | guardarForms()  >> SE GUARDO CORRECTAMENTE');
+
+        }
 
     }
 
-}
 
-    
+    public function getContrato($tarea, $form){
 
-
-
-    public function getContrato($tarea, $form)
-    {
-     $ci =& get_instance();
-     $nom_tarea = $tarea->nombreTarea;
-     $task_id = $tarea->taskId;
-     $case_id = $tarea->caseId;
-     $user_app = userNick();
-     $aux = $this->rest->callAPI("GET",REST_PRO."/pedidoTrabajo/xcaseid/".$case_id);
-     $data_generico =json_decode($aux["data"]);
-     $aux = $data_generico->pedidoTrabajo;
-
+        $ci =& get_instance();
+        $nom_tarea = $tarea->nombreTarea;
+        $task_id = $tarea->taskId;
+        $case_id = $tarea->caseId;
+        $user_app = userNick();
+        $aux = $this->rest->callAPI("GET",REST_PRO."/pedidoTrabajo/xcaseid/".$case_id);
+        $data_generico = json_decode($aux["data"]);
+        $aux = $data_generico->pedidoTrabajo;
 
         switch ($tarea->nombreTarea) {
- //paso 1
-    // case 'Carga de Datos e Impresión de Etiqueta 1':
-               
-               
-    //             $data['_post_pedidotrabajo_tarea_form'] = array(
 
-    //                 "nom_tarea" => "$nom_tarea",
-    //                 "task_id" => $task_id,
-    //                 "usuario_app" => $user_app,
-    //                 "case_id" => $case_id,
-    //                 "info_id" => $aux->info_id
-                   
-            
-    //             );
-            
-            
-    //             $rsp = $this->Yudiproctareas->guardarForms($data);
-            
-    //             if (!$rsp) {
-            
-    //                 log_message('ERROR', '#TRAZA | #BPM >> guardarForms  >> ERROR AL GUARDAR FORM - Recepción');
-            
-    //             } else {
-    //                 log_message('DEBUG', '#TRAZA | #BPM >> guardarForms  >> GUARDADO OK FORM - Recepción');
-            
-    //             }
-            
-              
-    // break;
+            //paso 1
+            case 'Pre - Carga de Datos':       
 
-//paso 2
-    case 'Revisión Inicial':       
+            $data['_post_pedidotrabajo_tarea_form'] = array(
 
-    $data['_post_pedidotrabajo_tarea_form'] = array(
-
-            "nom_tarea" => "$nom_tarea",
-            "task_id" => $task_id,
-            "usuario_app" => $user_app,
-            "case_id" => $case_id,
-            "info_id" => $form['frm_info_id']
-    
-        );
-    
-    
-        $rsp = $this->Yudiproctareas->guardarForms($data);
-    
-        if (!$rsp) {
-    
-            log_message('ERROR', '#TRAZA | #BPM >> guardarForms  >> ERROR AL GUARDAR FORM - Revisión Inicial');
-    
-        } else {
-            log_message('DEBUG', '#TRAZA | #BPM >> guardarForms  >> GUARDADO OK FORM - Revisión Inicial');
-    
-        }
-                   
-    
-            $contrato["apruebaTrabajo"]  = $form['result'];
-
-              return $contrato;
-         
-        break;
-    
-    //paso 3
-        case 'Raspado y Escariado':
-     
+                    "nom_tarea" => "$nom_tarea",
+                    "task_id" => $task_id,
+                    "usuario_app" => $user_app,
+                    "case_id" => $case_id,
+                    "info_id" => $form['frm_info_id']
             
-        log_message('DEBUG', 'YUDI Reparacion -Escariado');
+                );
+                // "_post_inspeccion":{
+                //     "case_id":"2",
+                //     "patente_tractor":"pat-222",
+                //     "nro_senasa":"23233",
+                //     "productos":"carnicos",
+                //     "reprecintado":"false",
+                //     "bruto":"34",
+                //     "tara":"44",
+                //     "ticket":"ticket",
+                //     "resultado":"resultado",
+                //     "cant_fajas":"",
+                //     "bruto_reprecintado":"10",
+                //     "ticket_reprecintado":"ticket_reprecintado",
+                //     "usuario_app":"usuario_app",
+                //     "petr_id":"130",
+                //     "chof_id":"27888888",
+                //     "inca_id":"",
+                //     "observaciones":"observaciones"
+                //  }
     
-               $contrato["apruebaEscariado"]  = $form['result'];
-              
-    
-                  
-             return $contrato;
-         
+            $rsp = $this->Yudiproctareas->guardarForms($data);
         
-        break;
+            if (!$rsp) {
+        
+                log_message('ERROR', '#TRAZA | #BPM >> guardarForms  >> ERROR AL GUARDAR FORM - Revisión Inicial');
+        
+            } else {
+                log_message('DEBUG', '#TRAZA | #BPM >> guardarForms  >> GUARDADO OK FORM - Revisión Inicial');
+        
+            }
+                    
+        
+                $contrato["apruebaTrabajo"]  = $form['result'];
 
- //paso 4 "Cabina" view_preparacion_banda
+                return $contrato;
+            
+            break;
+    
+            //paso 2
+            case 'Inspección en PCC':
+            
+                    
+            log_message('DEBUG', 'YUDI Reparacion -Escariado');
+            
+                $contrato["apruebaEscariado"]  = $form['result'];
+                        
+                return $contrato;
+                
+                
+            break;
+
+        //paso 4 "Cabina" view_preparacion_banda
         case 'Relleno, Corte de  Banda y Embandado':
  
             log_message('DEBUG', 'YUDI Reparacion view-Preparacion de Banda->' . $tarea->nombreTarea);
@@ -361,19 +289,64 @@ public function guardarForms($data)
             break;
 
           
-    //paso 5
-            case 'Autoclave':
- 
-                log_message('DEBUG', 'YUDI Reparacion view-Vulcanización en autoclave->' . $tarea->nombreTarea);
+        //paso 5
+        case 'Autoclave':
+
+            log_message('DEBUG', 'YUDI Reparacion view-Vulcanización en autoclave->' . $tarea->nombreTarea);
+    
+            $data['_post_pedidotrabajo_tarea_form'] = array(
+    
+                "nom_tarea" => "$nom_tarea",
+                "task_id" => $task_id,
+                "usuario_app" => $user_app,
+                "case_id" => $case_id,
+                "info_id" => $form['frm_info_id']
+                
         
+            );
+        
+        
+            $rsp = $this->Yudiproctareas->guardarForms($data);
+        
+            if (!$rsp) {
+        
+                log_message('ERROR', '#TRAZA | #BPM >> guardarForms  >> ERROR AL GUARDAR FORM - Vulcanización en autoclave');
+        
+            } else {
+                log_message('DEBUG', '#TRAZA | #BPM >> guardarForms  >> GUARDADO OK FORM - Vulcanización en autoclave');
+        
+            }
+    
+            break;
+
+        //paso 6
+        case 'Pintado y acabado final':
+
+            log_message('DEBUG', 'YUDI Reparacion view-Pintado y acabado final->' . $tarea->nombreTarea);
+    
+            if ($form['result'] == 'ok') {
+
+                log_message('DEBUG', 'YUDI Reparacion -Pintado y acabado final contrato', json_encode($form['result'],true) );
+
+                $contrato["retornaAPaso"]  = $form['result'];
+                    
+                            
+                        return $contrato;
+        
+                break;
+
+
+            }else {
+
+                
                 $data['_post_pedidotrabajo_tarea_form'] = array(
-        
+    
                     "nom_tarea" => "$nom_tarea",
                     "task_id" => $task_id,
                     "usuario_app" => $user_app,
                     "case_id" => $case_id,
                     "info_id" => $form['frm_info_id']
-                   
+                    
             
                 );
             
@@ -382,110 +355,62 @@ public function guardarForms($data)
             
                 if (!$rsp) {
             
-                    log_message('ERROR', '#TRAZA | #BPM >> guardarForms  >> ERROR AL GUARDAR FORM - Vulcanización en autoclave');
+                    log_message('ERROR', '#TRAZA | #BPM >> guardarForms  >> ERROR AL GUARDAR FORM - Pintado y acabado final');
             
                 } else {
-                    log_message('DEBUG', '#TRAZA | #BPM >> guardarForms  >> GUARDADO OK FORM - Vulcanización en autoclave');
+                    log_message('DEBUG', '#TRAZA | #BPM >> guardarForms  >> GUARDADO OK FORM - Pintado y acabado final');
             
                 }
+
+                log_message('DEBUG', 'YUDI Reparacion -Pintado y acabado final contrato', json_encode($form['result'],true) );
+
+                $contrato["retornaAPaso"]  = $form['result'];
+                    
+                            
+                        return $contrato;
         
                 break;
+            }
 
-        //paso 6
-                case 'Pintado y acabado final':
- 
-                    log_message('DEBUG', 'YUDI Reparacion view-Pintado y acabado final->' . $tarea->nombreTarea);
+        case 'Despacho':
+
+            log_message('DEBUG', 'YUDI Reparacion view- Reparacion -Despacho->' . $tarea->nombreTarea);
             
-                    if ($form['result'] == 'ok') {
-
-                        log_message('DEBUG', 'YUDI Reparacion -Pintado y acabado final contrato', json_encode($form['result'],true) );
-     
-                        $contrato["retornaAPaso"]  = $form['result'];
-                            
-                                  
-                             return $contrato;
+            $data['_post_pedidotrabajo_tarea_form'] = array(
+    
+                "nom_tarea" => "$nom_tarea",
+                "task_id" => $task_id,
+                "usuario_app" => $user_app,
+                "case_id" => $case_id,
+                "info_id" => $form['frm_info_id']
                 
-                        break;
-
-
-                    }else {
-
-                       
-                        $data['_post_pedidotrabajo_tarea_form'] = array(
-            
-                            "nom_tarea" => "$nom_tarea",
-                            "task_id" => $task_id,
-                            "usuario_app" => $user_app,
-                            "case_id" => $case_id,
-                            "info_id" => $form['frm_info_id']
-                           
-                    
-                        );
-                    
-                    
-                        $rsp = $this->Yudiproctareas->guardarForms($data);
-                    
-                        if (!$rsp) {
-                    
-                            log_message('ERROR', '#TRAZA | #BPM >> guardarForms  >> ERROR AL GUARDAR FORM - Pintado y acabado final');
-                    
-                        } else {
-                            log_message('DEBUG', '#TRAZA | #BPM >> guardarForms  >> GUARDADO OK FORM - Pintado y acabado final');
-                    
-                        }
-
-                        log_message('DEBUG', 'YUDI Reparacion -Pintado y acabado final contrato', json_encode($form['result'],true) );
-     
-                        $contrato["retornaAPaso"]  = $form['result'];
-                            
-                                  
-                             return $contrato;
-                
-                        break;
-                    }
-
-                   
-
-case 'Despacho':
-   
-
-         log_message('DEBUG', 'YUDI Reparacion view- Reparacion -Despacho->' . $tarea->nombreTarea);
         
-         $data['_post_pedidotrabajo_tarea_form'] = array(
- 
-             "nom_tarea" => "$nom_tarea",
-             "task_id" => $task_id,
-             "usuario_app" => $user_app,
-             "case_id" => $case_id,
-             "info_id" => $form['frm_info_id']
-            
-     
-         );
-     
-     
-         $rsp = $this->Yudiproctareas->guardarForms($data);
-     
-         if (!$rsp) {
-     
-             log_message('ERROR', '#TRAZA | #BPM >> guardarForms  >> ERROR AL GUARDAR FORM - YUDI -Despacho');
-     
-         } else {
-             log_message('DEBUG', '#TRAZA | #BPM >> guardarForms  >> GUARDADO OK FORM - YUDI -Despacho');
-     
-         }
-     
+            );
+        
+        
+            $rsp = $this->Yudiproctareas->guardarForms($data);
+        
+            if (!$rsp) {
+        
+                log_message('ERROR', '#TRAZA | #BPM >> guardarForms  >> ERROR AL GUARDAR FORM - YUDI -Despacho');
+        
+            } else {
+                log_message('DEBUG', '#TRAZA | #BPM >> guardarForms  >> GUARDADO OK FORM - YUDI -Despacho');
+        
+            }
+        
             $contrato["controlTrabajoTerminado"]  = $form['result'];
-        
-              
-         return $contrato;
- 
-         break;
+            
+                
+            return $contrato;
+    
+            break;
 
             default:
                 # code...
-                break;
+            break;
+            }
         }
-    }
     /**
 	* Obtengo las imagenes cargadas en Imgres Barrera guardadas en instancias_formularios
 	* @param array info_id
