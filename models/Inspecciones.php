@@ -7,6 +7,23 @@ class Inspecciones extends CI_Model
         parent::__construct();
     }
 
+    /**
+	* Trae listado de choferes 
+	* @param 
+	* @return array con listado de choferes
+	*/
+    public function getChoferes(){
+        
+        $url = REST_SICP."/choferes";
+
+        $aux = $this->rest->callAPI("GET",$url);
+        $aux = json_decode($aux["data"]);
+
+        log_message('DEBUG', "#TRAZA | #SICPOA | Inspecciones | getChoferes()  aux: >> " . json_encode($aux));
+
+        return $aux->choferes->chofer;
+    }
+    
     public function getEstablecimientos(){
         
         $url = "http://localhost:8080/establecimientos";
@@ -35,15 +52,6 @@ class Inspecciones extends CI_Model
         $aux = json_decode($aux["data"]);
 
         return $aux->fotos->foto;
-    }
-    public function getChoferes(){
-        
-        $url = "http://localhost:8080/choferes";
-
-        $aux = $this->rest->callAPI("GET",$url);
-        $aux = json_decode($aux["data"]);
-
-        return $aux->choferes->chofer;
     }
     public function getDepositos(){
         

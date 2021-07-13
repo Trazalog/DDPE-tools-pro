@@ -198,7 +198,7 @@
             },
             error: function(result){
                 wc();
-                alertify.error("Se produjo un Error!");
+                alertify.error("Se produjo un error al agregar!");
             }
         });
     }
