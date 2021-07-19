@@ -104,6 +104,8 @@ class Sicpoatareas extends CI_Model
             case 'Pre - Carga de Datos':
                 $info_id = $this->getXCaseId($tarea)->info_id;
                 $data['imgsBarrera'] = $this->getImgsBarrera($info_id);
+                $data['departamentos'] = $this->getDepartamentos();
+                $data['depositos'] = $this->getDepositos(empresa());
 
                 return $this->load->view(SICP . 'tareas/preCargaDatos', $data, true);
         
@@ -115,6 +117,8 @@ class Sicpoatareas extends CI_Model
             case 'Inspección en PCC':
                 $info_id = $this->getXCaseId($tarea)->info_id;
                 $data['imgsBarrera'] = $this->getImgsBarrera($info_id);
+                $data['departamentos'] = $this->getDepartamentos();
+                $data['depositos'] = $this->getDepositos(empresa());
                 
                 return $this->load->view(SICP . 'tareas/inspeccionPCC', $data, true);
 
@@ -184,7 +188,6 @@ class Sicpoatareas extends CI_Model
 
     public function getContrato($tarea, $form){
 
-        $ci =& get_instance();
         $nom_tarea = $tarea->nombreTarea;
         $task_id = $tarea->taskId;
         $case_id = $tarea->caseId;
@@ -198,45 +201,26 @@ class Sicpoatareas extends CI_Model
             //paso 1
             case 'Pre - Carga de Datos':       
 
-            $data['_post_pedidotrabajo_tarea_form'] = array(
+                $data['_post_pedidotrabajo_tarea_form'] = array(
 
-                    "nom_tarea" => "$nom_tarea",
-                    "task_id" => $task_id,
-                    "usuario_app" => $user_app,
-                    "case_id" => $case_id,
-                    "info_id" => $form['frm_info_id']
+                        "nom_tarea" => "$nom_tarea",
+                        "task_id" => $task_id,
+                        "usuario_app" => $user_app,
+                        "case_id" => $case_id,
+                        "info_id" => $form['frm_info_id']
+                
+                    );
+        
+                $rsp = $this->guardarForms($data);
             
-                );
-                // "_post_inspeccion":{
-                //     "case_id":"2",
-                //     "patente_tractor":"pat-222",
-                //     "nro_senasa":"23233",
-                //     "productos":"carnicos",
-                //     "reprecintado":"false",
-                //     "bruto":"34",
-                //     "tara":"44",
-                //     "ticket":"ticket",
-                //     "resultado":"resultado",
-                //     "cant_fajas":"",
-                //     "bruto_reprecintado":"10",
-                //     "ticket_reprecintado":"ticket_reprecintado",
-                //     "usuario_app":"usuario_app",
-                //     "petr_id":"130",
-                //     "chof_id":"27888888",
-                //     "inca_id":"",
-                //     "observaciones":"observaciones"
-                //  }
-    
-            $rsp = $this->Yudiproctareas->guardarForms($data);
-        
-            if (!$rsp) {
-        
-                log_message('ERROR', '#TRAZA | #BPM >> guardarForms  >> ERROR AL GUARDAR FORM - Revisión Inicial');
-        
-            } else {
-                log_message('DEBUG', '#TRAZA | #BPM >> guardarForms  >> GUARDADO OK FORM - Revisión Inicial');
-        
-            }
+                if (!$rsp) {
+            
+                    log_message('ERROR', '#TRAZA | #SICPOA | Sicpoatareas | getContrato()  >> ERROR AL GUARDAR FORM -> Pre - Carga de Datos');
+            
+                } else {
+                    log_message('DEBUG', '#TRAZA | #SICPOA | Sicpoatareas | getContrato()  >> GUARDADO OK FORM -> Pre - Carga de Datos');
+            
+                }
                     
         
                 $contrato["apruebaTrabajo"]  = $form['result'];
@@ -457,5 +441,44 @@ class Sicpoatareas extends CI_Model
             }
         return $ext;
     }
-   
+    /**
+	*  Listado de departamentos
+	* @param
+	* @return array departamentos
+	*/
+    public function getDepartamentos(){
+        
+        $this->db->select('A.*');
+		$this->db->from('core.tablas A');
+		// $this->db->where('A.empr_id', empresa());
+        $this->db->where('eliminado', false);
+		$this->db->where('tabla', 'departamentos_sanjuan');
+		$this->db->order_by('valor');
+
+
+		$query = $this->db->get();
+
+		if ($query && $query->num_rows() > 0) {
+			return $query->result();
+		} else {
+			return array();
+		}
+		
+    }
+    /**
+	* Busca depositos para empresa destino seleccionada 
+	* @param string empr_id
+	* @return array listado de depositos coincidentes con empr_id
+	*/
+    public function getDepositos($dato){
+        
+        $url = REST_SICP."/depositos/empresa/".$dato;
+
+        $aux = $this->rest->callAPI("GET",$url);
+        $resp = json_decode($aux['data']);
+
+        log_message('DEBUG', "#TRAZA | #SICPOA | Inspecciones | getDepositos()  resp: >> " . json_encode($resp));
+
+        return $resp->depositos->deposito;
+    }
 }

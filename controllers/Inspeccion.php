@@ -15,105 +15,114 @@ class Inspeccion extends CI_Controller
 
     /* COMPONENTE INSPECCION */
     public function inspecciones(){
-        $data['establecimientos'] = $this->Inspecciones->getEstablecimientos();
-        $data['choferes'] = $this->Inspecciones->getChoferes();
-        $data['empresas'] = $this->Inspecciones->getEmpresas();
-        $data['depositos'] = $this->Inspecciones->getDepositos();
-        $data['imgBarrera'] = $this->Inspecciones->getFotosBarrera();
-        // $data['imgDocu'] = $this->Inspecciones->getFotosDocumentacion(); CAMBIAR
-        $data['imgDocu'] = $this->Inspecciones->getFotosBarrera();
-        
+
         $this->load->view('inspeccion/inspeccion',$data);
     }
     /* FIN COMPONENTE INSPECCION */
     /**
 	* Guarda Chofer
-	* @param array dni y nombre chofer
-	* @return bool true o false segun resultado de servicio de guardado
+	* @param array datos chofer
+	* @return bool true o false segun resultado de servicio de guardadobuscarChoferes
 	*/
     public function agregarChofer(){
 
-        $data = $this->input->post('datos');
+        $data = $this->input->post('data');
         $data['usuario_app'] = userNick();
-        log_message("DEBUG", "DATA agregarChofer >>".json_encode($data));
+        
 		$resp = $this->Inspecciones->agregarChofer($data);
-        $resp = true;
-		if ($resp != null) {
-			return json_encode(true);
+        
+		if ($resp['status']) {
+			echo json_encode($resp);
 		} else {
-			return json_encode(false);
+			echo json_encode($resp);
 		}
     }
     /**
-	* Guarda Establecimiento
-	* @param array nombre Establecimiento
-	* @return bool true o false segun resultado de servicio de guardado
+	* Busca Choferes que coincidan con un patron ingresado
+	* @param array patron ingresado en pantalla
+	* @return array listado de choferes coincidentes con el criterio de busqueda
 	*/
-    public function agregarEstablecimiento(){
+    public function buscaChoferes(){
 
-        $data = $this->input->post('datos');
-        $data['usuario_app'] = userNick();
-        log_message("DEBUG", "DATA agregarEstablecimiento >>".json_encode($data));
-		// $resp = $this->Inspecciones->agregarEstablecimiento($data);
-        $resp = true;
-		if ($resp != null) {
-			return json_encode(true);
+        $dato = $this->input->get('patron');
+        
+		$resp = $this->Inspecciones->buscaChoferes($dato);
+        
+		if ($resp) {
+			echo json_encode($resp);
 		} else {
-			return json_encode(false);
+			echo json_encode($resp);
 		}
     }
     /**
-	* Guarda Empresa
-	* @param array nombre Empresa
+	* Guarda Empresa, lo reutilizo para establecimiento, empresa y transportista
+	* @param array datos Empresa
 	* @return bool true o false segun resultado de servicio de guardado
 	*/
     public function agregarEmpresa(){
 
-        $data = $this->input->post('datos');
+        $data = $this->input->post('data');
         $data['usuario_app'] = userNick();
-        log_message("DEBUG", "DATA agregarEmpresa >>".json_encode($data));
-		// $resp = $this->Inspecciones->agregarEmpresa($data);
-        $resp = true;
-		if ($resp != null) {
-			return json_encode(true);
+        
+		$resp = $this->Inspecciones->agregarEmpresa($data);
+        
+		if ($resp['status']) {
+			echo json_encode($resp);
 		} else {
-			return json_encode(false);
+			echo json_encode($resp);
+		}
+    }
+	/**
+	* Busca empresas que coincidan con un patron ingresado
+	* @param string patron ingresado
+	* @return array listado de empresas coincidentes con patron
+	*/
+    public function buscaEmpresas(){
+
+        $dato = $this->input->get('patron');
+        
+		$resp = $this->Inspecciones->buscaEmpresas($dato);
+        
+		if ($resp) {
+			echo json_encode($resp);
+		} else {
+			echo json_encode($resp);
 		}
     }
     /**
-	* Guarda Deposito
-	* @param array nombre Deposito
+	* Guarda deposito
+	* @param array datos deposito
 	* @return bool true o false segun resultado de servicio de guardado
 	*/
     public function agregarDeposito(){
 
-        $data = $this->input->post('datos');
-        $data['usuario_app'] = userNick();
-        log_message("DEBUG", "DATA agregarDeposito >>".json_encode($data));
-		// $resp = $this->Inspecciones->agregarDeposito($data);
-        $resp = true;
-		if ($resp != null) {
-			return json_encode(true);
+        $data = $this->input->post('data');
+        $data['empr_id'] = empresa();
+        
+		$resp = $this->Inspecciones->agregarDeposito($data);
+        
+		if ($resp['status']) {
+			echo json_encode($resp);
 		} else {
-			return json_encode(false);
+			echo json_encode($resp);
 		}
     }
-    /**
-	* Guarda Transportista
-	* @param array nombre Transportista
-	* @return bool true o false segun resultado de servicio de guardado
+	/**
+	* Busca depositos por id de empresa
+	* @param string empr_id
+	* @return array listado de depositos coincidentes con id
 	*/
-    public function agregarTransportista(){
+    public function getDepositos(){
 
-        $data = $this->input->post('datos');
-        $data['usuario_app'] = userNick();
-        log_message("DEBUG", "DATA agregarTransportista >>".json_encode($data));
-		// $resp = $this->Inspecciones->agregarTransportista($data);
-        $resp = true;
-		if ($resp != null) {
-			return json_encode(true);
+        // $dato = $this->input->get('empr_id');
+		$dato = empresa();
+        
+		$resp = $this->Inspecciones->getDepositos($dato);
+        
+		if ($resp) {
+			echo json_encode($resp);
 		} else {
-			return json_encode(false);
+			echo json_encode($resp);
 		}
     }
     /**

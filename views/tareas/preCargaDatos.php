@@ -15,7 +15,7 @@
 .permTransito{
     min-height: 20px;
     text-align: center;
-    font-size: 20px;
+    font-size: 15px;
 }
 .caja{
     margin-top: 15px;
@@ -75,11 +75,11 @@
                 <div class="col-md-12 col-sm-12 col-xs-12">
                         <label for="doc_sanitaria">Doc. Sanitaria Tipo(<strong style="color: #dd4b39">*</strong>):</label>
                     <div class="form-check form-check-inline">
-                        <input type="radio" class='form-check-input' name="doc_sanitaria" required />
+                        <input type="radio" class='form-check-input' name="doc_sanitaria" value="PT" required />
                         <label class="form-check-label" for="">PT</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input type="radio" class='form-check-input' name="doc_sanitaria" required />
+                        <input type="radio" class='form-check-input' name="doc_sanitaria" value="PCR" required />
                         <label class="form-check-label" for="">PCR</label>
                     </div>
                 </div>
@@ -126,15 +126,8 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                         <label for="doc_chofer">DNI Chofer(<strong style="color: #dd4b39">*</strong>):</label>
                     <div class="input-group">
-                        <select class="form-control select2 select2-hidden-accesible" name="doc_chofer" id="doc_chofer" onChange="seChofer(this)" required>
-                            <option value="" disabled selected>-Seleccionar-</option>	
-                            <?php
-                            if(!empty($choferes)){
-                                foreach ($choferes as $chof) {
-                                    echo "<option data-json='".json_encode($chof)."' value='".$chof->dni."'>".$chof->dni."</option>";
-                                }
-                            }
-                            ?>
+                        <select class="form-control select2 select2-hidden-accesible" name="doc_chofer" id="doc_chofer" required>
+                            <option value="" disabled selected></option>
                         </select>
                         <span id="add_chofer" class="input-group-addon" data-toggle="modal" data-target="#mdl-chofer"><i class="fa fa-plus"></i></span>
                     </div>
@@ -182,7 +175,7 @@
                     <div class="form-group">
                         <label for="esta_nom">Nombre Establecimiento(<strong style="color: #dd4b39">*</strong>):</label>
                         <div class="input-group">
-                            <select class="form-control select2 select2-hidden-accesible" name="esta_nom" id="esta_nom" onChange="seEstable(this)">
+                            <select class="form-control select2 select2-hidden-accesible empresa" name="esta_nom" id="esta_nom">
                                 <option value="" disabled selected>-Seleccionar-</option>	
                                 <?php
                                 if(!empty($establecimientos)){ 
@@ -192,7 +185,7 @@
                                 }
                                 ?>
                             </select>
-                            <span id="add_establecimiento" class="input-group-addon" data-toggle="modal" data-target="#mdl-establecimiento"><i class="fa fa-plus"></i></span>
+                            <span id="add_establecimiento" class="input-group-addon" data-toggle="modal" data-target="#mdl-empresa" onclick="$('#tipoEmpresa').val('Establecimiento')"><i class="fa fa-plus"></i></span>
                         </div>
                     </div>
                 </div>
@@ -203,17 +196,10 @@
                     <div class="form-group">
                         <label for="empre_destino">Empresa Destino(<strong style="color: #dd4b39">*</strong>):</label>
                         <div class="input-group">
-                        <select class="form-control select2 select2-hidden-accesible" name="empre_destino" id="empre_destino" onChange="seEmpresa(this)">
-                            <option value="" disabled selected>-Seleccionar-</option>	
-                            <?php
-                            if(!empty($empresas)){ 
-                                foreach ($empresas as $emp) {
-                                    echo "<option data-json='".json_encode($emp)."' value='".$emp->cuit."'>".$emp->razon_social."</option>";
-                                }
-                            }
-                            ?>
+                        <select class="form-control select2 select2-hidden-accesible empresa" name="empre_destino" id="empre_destino">
+                            <option value="" disabled selected></option>
                         </select>
-                            <span id="add_empresa" class="input-group-addon" data-toggle="modal" data-target="#mdl-empresa"><i class="fa fa-plus"></i></span>
+                            <span id="add_empresa" class="input-group-addon" data-toggle="modal" data-target="#mdl-empresa" onclick="$('#tipoEmpresa').val('Empresa')"><i class="fa fa-plus"></i></span>
                         </div>
                     </div>                    
                 </div>
@@ -255,17 +241,10 @@
                     <div class="form-group">
                         <label for="transportista">Transportista(<strong style="color: #dd4b39">*</strong>):</label>
                         <div class="input-group">
-                            <select class="form-control select2 select2-hidden-accesible" name="transportista" id="transportista">
-                                <option value="" disabled selected>-Seleccionar-</option>	
-                                <?php
-                                if(!empty($empresas)){ 
-                                    foreach ($empresas as $emp) {
-                                        echo "<option data-json='".json_encode($emp)."' value='".$emp->cuit."'>".$emp->razon_social."</option>";
-                                    }
-                                }
-                                ?>
+                            <select class="form-control select2 select2-hidden-accesible empresa" name="transportista" id="transportista">
+                                <option value="" disabled selected></option>	
                             </select>
-                            <span id="add_transportista" class="input-group-addon" data-toggle="modal" data-target="#mdl-transportista"><i class="fa fa-plus"></i></span>
+                            <span id="add_transportista" class="input-group-addon" data-toggle="modal" data-target="#mdl-empresa" onclick="$('#tipoEmpresa').val('Transportista')"><i class="fa fa-plus"></i></span>
                         </div>
                     </div>                    
                 </div>
@@ -336,8 +315,143 @@
 //
 $(document).ready(function() {
     $('.select2').select2();
-});
+    $('#doc_chofer').select2({
+        ajax: {
+            url: "<?php echo SICP; ?>inspeccion/buscaChoferes",
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+                return {
+                    patron: params.term, // parámetro búsqueda que recibe el controlador
+                    page: params.page
+                };
+            },
+            processResults: function (data, params) {
+                
+                params.page = params.page || 1;
+                
+                var results = [];
+                $.each(data, function(i, obj) {
+                    results.push({
+                        id: obj.dni,
+                        text: obj.nombre,
+                        fec_alta: obj.fec_alta
+                    });
+                });
+                return {
+                    results: results,
+                    pagination: {
+                        more: (params.page * 30) < results.length
+                    }
+                };
+            }
+        },
+        placeholder: 'Buscar chofer',
+        minimumInputLength: 3,
+        templateResult: function (chofer) {
 
+            if (chofer.loading) {
+                return "Buscando choferes...";
+            }
+
+            var $container = $(
+                "<div class='select2-result-repository clearfix'>" +
+                "<div class='select2-result-repository__meta'>" +
+                    "<div class='select2-result-repository__title'></div>" +
+                    "<div class='select2-result-repository__description'></div>" +
+                "</div>" +
+                "</div>"
+            );
+
+            $container.find(".select2-result-repository__title").text(chofer.id);
+            $container.find(".select2-result-repository__description").text(chofer.text);
+
+            return $container;
+        },
+        templateSelection: function (chofer) {
+            return chofer.id || chofer.text;
+        },
+        language: {
+            noResults: function() {
+                return '<option>No hay coincidencias</option>';
+            },
+            inputTooShort: function () {
+                return 'Ingrese 3 o mas dígitos para comenzar la búsqueda'; 
+            }
+        },
+        escapeMarkup: function(markup) {
+            return markup;
+        },
+    });
+    $('.empresa').select2({
+        ajax: {
+            url: "<?php echo SICP; ?>inspeccion/buscaEmpresas",
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+                return {
+                    patron: params.term, // parámetro búsqueda
+                    page: params.page
+                };
+            },
+            processResults: function (data, params) {
+    
+                params.page = params.page || 1;
+                
+                var results = [];
+                $.each(data, function(i, obj) {
+                    results.push({
+                        id: obj.cuit,
+                        text: obj.razon_social,
+                    });
+                });
+                return {
+                    results: results,
+                    pagination: {
+                        more: (params.page * 30) < results.length
+                    }
+                };
+            }
+        },
+        placeholder: 'Buscar empresa',
+        minimumInputLength: 3,
+        templateResult: function (empresa) {
+
+            if (empresa.loading) {
+                return "Buscando empresas...";
+            }
+
+            var $container = $(
+                "<div class='select2-result-repository clearfix'>" +
+                "<div class='select2-result-repository__meta'>" +
+                    "<div class='select2-result-repository__title'></div>" +
+                    "<div class='select2-result-repository__description'></div>" +
+                "</div>" +
+                "</div>"
+            );
+
+            $container.find(".select2-result-repository__title").text(empresa.id);
+            $container.find(".select2-result-repository__description").text(empresa.text);
+
+            return $container;
+        },
+        templateSelection: function (empresa) {
+            return empresa.text;
+        },
+        language: {
+            noResults: function() {
+                return '<option>No hay coincidencias</option>';
+            },
+            inputTooShort: function () {
+                return 'Ingrese 3 o mas dígitos para comenzar la búsqueda'; 
+            }
+        },
+        escapeMarkup: function(markup) {
+            return markup;
+        },
+    });
+});//FIN document.ready
+    
 //
 //Script's seccion destino
 //
@@ -350,8 +464,12 @@ function agregarDestino(){
         var depo_destino = $('#depo_destino').val();
 
         var datos = {};
-        datos.empre_destino = empre_destino;
+        datos.rol = "DESTINO";
+        datos.empr_id = empre_destino;
+        datos.case_id = $("#caseId").val();
         datos.depo_destino = depo_destino;
+        datos.usuario_app = '<?php echo $this->session->userdata['usernick']; ?>';
+
         var div = `<div class='form-group permTransito' data-json='${JSON.stringify(datos)}'>
                         <span> 
                         <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i>
@@ -401,18 +519,21 @@ var accion;
                     var emision = $('#emision').val();
                     var salida = $('#salida').val();
                     var fecha = $("#fecha").val();
+                    var tipo = $('input[name=doc_sanitaria]:checked').val();
 
                     var datos = {};
-                    datos.soli_num = soli_num;
-                    datos.emision = emision;
-                    datos.salida = salida;
-                    datos.fecha = fecha;
+                    datos.perm_id = soli_num;
+                    datos.lugar_emision = emision;
+                    datos.fecha_hora_salida = fecha +" "+salida;
+                    datos.tipo = tipo;
+                    datos.usuario_app = '<?php echo $this->session->userdata['usernick']; ?>';
+                    datos.case_id = $("#caseId").val(); 
 
                     var div = `<div class='form-group permTransito' data-json='${JSON.stringify(datos)}'>
                                     <span> 
                                     <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i>
-                                    <i class='fa fa-fw fa-edit text-light-blue' style='cursor: pointer; margin-left: 12px;' title='Editar'></i> 
-                                    | ${soli_num} - ${emision} - ${salida} - ${fecha}
+                                    <i class='fa fa-fw fa-edit text-light-blue' style='cursor: pointer;' title='Editar'></i> 
+                                    | ${soli_num} - ${tipo} - ${emision} - ${salida} ${fecha}
                                     </span>
                             </div>`;
                     $('#sec_permisos').append(div);
@@ -421,6 +542,7 @@ var accion;
                     $("#emision").val('');
                     $("#salida").val('');
                     $("#fecha").val('');
+                    $('input[name=doc_sanitaria]:checked').prop('checked',false);
                 // }else{
                 //     $('#sec_permisos').find()
                 // }
@@ -474,15 +596,17 @@ var accion;
 			var reporte = validarCamposTermico();
 									
 			if(reporte == ''){
-                var term_patente = $("#term_patente").val();
-                // var descDepo = $("#depo_origen_id option:selected").text();
                 var temperatura = $('#temperatura').val();
                 var precintos = $('#precintos').val();
+                var term_patente = $("#term_patente").val();
+                // var descDepo = $("#depo_origen_id option:selected").text();
 
                 var datos = {};
-                datos.term_patente = term_patente;
                 datos.temperatura = temperatura;
                 datos.precintos = precintos;
+                datos.usuario_app = '<?php echo $this->session->userdata['usernick']; ?>';
+                datos.case_id = $("#caseId").val();
+                datos.term_patente = term_patente;
 
                 var div = `<div class='form-group permTransito' data-json='${JSON.stringify(datos)}'>
                                 <span> 
@@ -521,20 +645,20 @@ var accion;
 //
 //Scripts SELECTS
 //
-//Acutalizo datos de chofer
-function seChofer(elem){
-    var nomChofer = JSON.parse($(elem).find(":selected").attr("data-json")).nombre;
-    $("#nom_chofer").val(nomChofer);
-}
-function seEstable(elem){
-    var nomChofer = JSON.parse($(elem).find(":selected").attr("data-json")).nombre;
-    $("#nom_chofer").val(nomChofer);
-}
+//Acutalizo nombre del chofer
+$('#doc_chofer').on('select2:select', function (e) {
+    var data = e.params.data;
+    $("#nom_chofer").val(data.text);
+});
+$('#esta_nom').on('select2:select', function (e) {
+    var data = e.params.data;
+    $("#esta_num").val(data.id);
+});
 //Script apra inicio de formulario 11
 //Escaneo doucmentacion
 $(document).ready(function () {
     
-detectarForm();
-initForm();
+    detectarForm();
+    initForm();
 });
 </script>

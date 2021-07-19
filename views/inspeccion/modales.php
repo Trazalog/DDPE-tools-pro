@@ -15,14 +15,14 @@
             <form id="formChofer" action="#">
             <!-- Modal body -->
                 <div class="modal-body">
-                        <div class="form-group">
-                            <label>Nombre(<strong style="color: #dd4b39">*</strong>):</label>
-                            <input class="form-control" type="text" name="nombre">
-                        </div>
-                        <div class="form-group">
-                            <label>DNI(<strong style="color: #dd4b39">*</strong>):</label>
-                            <input class="form-control" type="text" name="dni">
-                        </div>
+                    <div class="form-group">
+                        <label>DNI(<strong style="color: #dd4b39">*</strong>):</label>
+                        <input id="mdl-dni" class="form-control" type="number" name="dni" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Nombre(<strong style="color: #dd4b39">*</strong>):</label>
+                        <input id="mdl-nombre" class="form-control" type="text" name="nombre" required>
+                    </div>
                 </div>
                 <!-- Modal footer -->
                 <div class="modal-footer">
@@ -34,33 +34,6 @@
     </div>
 </div>
 <!-- FIN MODAL CHOFER -->
-<!-- Modal ESTABLECIMIENTO -->
-<div class="modal modal-fade" id="mdl-establecimiento">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Agregar Establecimiento</h4>
-            </div>
-            <form id="formEstablecimiento" action="#">
-                <!-- Modal body -->
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label>Nombre(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input class="form-control" type="text" name="nombre_esta">
-                    </div>
-                </div>
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <button type="button" class="btn" data-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary" onclick="agregarEstablecimiento(this,'Establecimiento')">Agregar</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-<!-- FIN MODAL ESTABLECIMIENTO -->
 <!-- Modal EMPRESA -->
 <div class="modal modal-fade" id="mdl-empresa">
     <div class="modal-dialog modal-sm">
@@ -70,18 +43,27 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Agregar Empresa</h4>
             </div>
+            <input id="tipoEmpresa" type="hidden" name="tipoEmpresa">
             <form id="formEmpresa" action="#">
                 <!-- Modal body -->
                 <div class="modal-body">
                     <div class="form-group">
-                        <label>Nombre(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input class="form-control" type="text" name="nombre_empr">
+                        <label>Cuit(<strong style="color: #dd4b39">*</strong>):</label>
+                        <input id="mdl-cuit" class="form-control" type="text" name="cuit" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Razon Social(<strong style="color: #dd4b39">*</strong>):</label>
+                        <input id="mdl-razon_social" class="form-control" type="text" name="razon_social" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Número:</label>
+                        <input id="mdl-num_esta" class="form-control" type="text" name="num_establecimiento">
                     </div>
                 </div>
                 <!-- Modal footer -->
                 <div class="modal-footer">
                     <button type="button" class="btn" data-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary" onclick="agregarEmpresa(this,'Empresa')">Agregar</button>
+                    <button type="button" class="btn btn-primary" onclick="agregar(this,'Empresa')">Agregar</button>
                 </div>
             </form>
         </div>
@@ -101,47 +83,39 @@
                 <!-- Modal body -->
                 <div class="modal-body">
                     <div class="form-group">
-                        <label>Nombre(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input class="form-control" type="text" name="nombre_depo">
+                        <label>Calle(<strong style="color: #dd4b39">*</strong>):</label>
+                        <input id="calle" class="form-control" type="text" name="calle" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Altura(<strong style="color: #dd4b39">*</strong>):</label>
+                        <input id="altura" class="form-control" type="number" name="altura" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Departamento(<strong style="color: #dd4b39">*</strong>):</label>
+                        <div class="input-group" style="width: 100%;">
+                            <select class="form-control select2 select2-hidden-accesible" name="depa_id" id="depa_id" required style="width: 100%;">
+                                <option value="" disabled selected>-Seleccionar-</option>	
+                                <?php
+                                if(!empty($departamentos)){ 
+                                    foreach ($departamentos as $depa) {
+                                        echo "<option data-json='".json_encode($depa)."' value='".$depa->tabl_id."'>".$depa->valor."</option>";
+                                    }
+                                }
+                                ?>
+                            </select>
+                        </div>
                     </div>
                 </div>
                 <!-- Modal footer -->
                 <div class="modal-footer">
                     <button type="button" class="btn" data-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary" onclick="agregarDeposito(this,'Deposito')">Agregar</button>
+                    <button type="button" class="btn btn-primary" onclick="agregar(this,'Deposito')">Agregar</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 <!-- FIN MODAL DEPOSITO -->
-<!-- Modal TRANSPORTISTA -->
-<div class="modal modal-fade" id="mdl-transportista">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Agregar Transportista</h4>
-            </div>
-            <form id="formTransportista" action="#">
-                <!-- Modal body -->
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label>Nombre Transportista(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input class="form-control" type="text" name="transp_nom">
-                    </div>
-                </div>
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <button type="button" class="btn" data-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary" onclick="agregarTransportista(this,'Transportista')">Agregar</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-<!-- FIN MODAL TRANSPORTISTA -->
 <!-- Modal Escanear Documentacion -->
 <div class="modal modal-fade" id="mdl-documentacion">
     <div class="modal-dialog modal-xl">
@@ -185,16 +159,77 @@
         var form = $('#'+idForm)[0];
         var datos = new FormData(form);
         var data = formToObject(datos);
-        
+
         wo();
         $.ajax({
             type: "POST",
             url: "<?php echo SICP; ?>inspeccion/agregar"+recurso,
             data:{ data },
             success: function (response) {
-
+                
                 wc();
-                alertify.success("Guardado con éxito!");
+                if(response){
+                    //Busco id del modal y lo cierro
+                    var modal = $(elem).closest('.modal').attr('id');
+                    $("#"+modal).modal('hide');
+                    alertify.success("Guardado con éxito!");
+                    //actualizo combos luego de agregar opcion y la selecciono
+                    switch(recurso){
+                        case "Deposito":
+                            var direccion = $("#calle").val() + " - " + $("#altura").val();
+                            var newOpc = new Option(direccion, 1, true, true);
+                            $('#depo_destino').append(newOpc).trigger('change');
+                            //Limpio form
+                            $('#calle').val('');
+                            $('#altura').val('');
+                            $('#departamento').val(null).trigger('change');
+                        break;
+
+                        case "Chofer":
+                            var chofer = $("#mdl-dni").val() + " " + $("#mdl-nombre").val();
+                            var newOpc = new Option(chofer, $("#mdl-dni").val(), true, true);
+                            $("#nom_chofer").val($("#mdl-nombre").val());
+                            $('#doc_chofer').append(newOpc).trigger('change');
+                            //Limpio form
+                            $('#mdl-dni').val('');
+                            $('#mdl-nombre').val('');
+                        break;
+
+                        case "Empresa":
+                            switch ($('#tipoEmpresa').val()) {
+                                case 'Empresa':
+                                    var empresa = $("#mdl-razon_social").val();
+                                    var newOpc = new Option(empresa, $("#mdl-cuit").val(), true, true);
+                                    $('#empre_destino').append(newOpc).trigger('change');
+                                break;
+
+                                case 'Establecimiento':
+                                    var empresa = $("#mdl-razon_social").val();
+                                    var newOpc = new Option(empresa, $("#mdl-cuit").val(), true, true);
+                                    $("#esta_num").val($("#mdl-num_esta").val());
+                                    $('#esta_nom').append(newOpc).trigger('change');
+                                break;
+
+                                case 'Transportista':
+                                    var empresa = $("#mdl-razon_social").val();
+                                    var newOpc = new Option(empresa, $("#mdl-cuit").val(), true, true);
+                                    $('#transportista').append(newOpc).trigger('change');
+                                break;
+
+                                default:
+                                    break;
+                            }
+                            //Limpio form
+                            $('#mdl-cuit').val('');
+                            $('#mdl-razon_social').val('');
+                            $('#mdl-num_esta').val('');
+                        break;
+
+                    }
+
+                }else{
+                    alertify.error("Se produjo un error al agregar!");
+                }
             },
             error: function(result){
                 wc();
