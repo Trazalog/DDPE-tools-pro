@@ -306,11 +306,11 @@
                     <div class="form-group">
                         <label for="reprecintado">¿Requiere Reprecintado?:</label>
                         <div class="form-check form-check-inline">
-                            <input type="radio" class='form-check-input' name="reprecintado" value="si" onchange="showValidar(this)"/>
+                            <input type="radio" class='form-check-input' name="reprecintado" value="true"/>
                             <label class="form-check-label" for="">Sí</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input type="radio" class='form-check-input' name="reprecintado" value="no" onchange="showValidar(this)"/>
+                            <input type="radio" class='form-check-input' name="reprecintado" value="false"/>
                             <label class="form-check-label" for="">No</label>
                         </div>
                     </div>
@@ -327,7 +327,7 @@
                 <!--Taza-->
                 <div class="col-md-3 col-sm-3 col-xs-6">
                     <div class="form-group">
-                        <label for="taza">Taza(<strong style="color: #dd4b39">*</strong>):</label>
+                        <label for="taza">Tara(<strong style="color: #dd4b39">*</strong>):</label>
                         <input class="form-control" name="taza" id="taza" placeholder="Taza..." />
                     </div>                    
                 </div>
