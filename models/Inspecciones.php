@@ -111,4 +111,96 @@ class Inspecciones extends CI_Model {
 
         return $resp->depositos->deposito;
     }
+    /**
+	* Alta de una inspeccion
+	* @param array datos de la inspeccion
+	* @return bool
+	*/
+    public function agregarInspeccion($data){
+        
+        $post['_post_inspeccion'] = $data;
+        $url = REST_SICP."/inspeccion";
+
+        $aux = $this->rest->callAPI("POST",$url,$post);
+
+        log_message('DEBUG', "#TRAZA | #SICPOA | Inspecciones | agregarInspeccion()  resp: >> " . json_encode($aux));
+
+        return $aux;
+    }
+    /**
+	* Agrega los permisos de transito de una inspeccion
+	* @param array datos permisos de transito
+	* @return bool true or false
+	*/
+    public function agregarPermisos($data){
+
+        $batch_req = [];
+        foreach ($data as $key) {
+            $aux["perm_id"] = $key['perm_id'];
+            $aux["lugar_emision"] = $key['lugar_emision'];
+            $aux["fecha_hora_salida"] = $key['fecha_hora_salida'];
+            $aux["tipo"] = $key['tipo'];
+            $aux["usuario_app"] = userNick();
+            $aux["case_id"] = $key['case_id'];
+
+
+            $batch_req['_post_inspeccion_permiso_batch_req']['_post_inspeccion_permiso'][] = $aux;
+        }
+
+        $url = REST_SICP."/_post_inspeccion_permiso_batch_req";
+        $rsp = $this->rest->callApi('POST', $url, $batch_req);
+        
+        log_message('DEBUG', "#TRAZA | #SICPOA | Inspecciones | agregarPermisos()  resp: >> " . json_encode($rsp));
+        return $rsp;
+    }
+    /**
+	* Agrega los destinos de una inspeccion
+	* @param array datos destinos
+	* @return bool true or false
+	*/
+    public function agregarEmpresas($data){
+
+        $batch_req = [];
+        foreach ($data as $key) {
+            $aux["rol"] = $key['rol'];
+            $aux["empr_id"] = $key['empr_id'];
+            $aux["case_id"] = $key['case_id'];
+            $aux["usuario_app"] = userNick();
+            $aux["depo_id"] = $key['depo_id'];
+
+
+            $batch_req['_post_inspeccion_empresa_batch_req']['_post_inspeccion_empresa'][] = $aux;
+        }
+
+        $url = REST_SICP."/_post_inspeccion_empresa_batch_req";
+        $rsp = $this->rest->callApi('POST', $url, $batch_req);
+        
+        log_message('DEBUG', "#TRAZA | #SICPOA | Inspecciones | agregarEmpresas()  resp: >> " . json_encode($rsp));
+        return $rsp;
+    }
+    /**
+	* Agrega los termicos de una inspeccion
+	* @param array datos termicos
+	* @return bool true or false
+	*/
+    public function agregarTermicos($data){
+
+        $batch_req = [];
+        foreach ($data as $key) {
+            $aux["temperatura"] = $key['temperatura'];
+            $aux["precintos"] = $key['precintos'];
+            $aux["usuario_app"] = userNick();
+            $aux["case_id"] = $key['case_id'];
+            $aux["term_id"] = $key['term_id'];
+
+
+            $batch_req['_post_inspeccion_termico_batch_req']['_post_inspeccion_termico'][] = $aux;
+        }
+
+        $url = REST_SICP."/_post_inspeccion_termico_batch_req";
+        $rsp = $this->rest->callApi('POST', $url, $batch_req);
+        
+        log_message('DEBUG', "#TRAZA | #SICPOA | Inspecciones | agregarTermicos()  resp: >> " . json_encode($rsp));
+        return $rsp;
+    }
 }

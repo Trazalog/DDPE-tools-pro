@@ -33,13 +33,13 @@
             <h3>Permiso de tránsito</h3>
         </div>
         <!--<div class="box-body"> -->
-
+        <input type="text" class="form-control hidden" name="petr_id" id="petr_id" value="<?php echo $petr_id?>">
 
                 <!--Solicitud-->
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                         <label for="Solicitud">Solicitud N°(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input type="text" class="form-control requerido" name="soli_num" id="soli_num" placeholder="Ingrese número de solicitud..."/>
+                        <input type="text" class="form-control requerido" id="soli_num" placeholder="Ingrese número de solicitud..."/>
                     </div>
                 </div>
                 <!--________________-->
@@ -48,7 +48,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                         <label for="emision">Lugar de emisión(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input type="text" class="form-control" name="emision" id="emision" placeholder="Ingrese lugar de emisión..."/>
+                        <input type="text" class="form-control" id="emision" placeholder="Ingrese lugar de emisión..."/>
                     </div>
                 </div>
                 <!--________________-->
@@ -57,7 +57,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                     <label for="salida">Hora de Salida(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input type="time" class="form-control" name="salida" id="salida" placeholder="Ingrese hora de salida..."/>
+                        <input type="time" class="form-control" id="salida" placeholder="Ingrese hora de salida..."/>
                     </div>
                 </div>
                 <!--________________-->
@@ -66,7 +66,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                     <label for="fecha">Fecha(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input type="date" class="form-control" name="fecha" id="fecha" placeholder="Ingrese fecha..."/>
+                        <input type="date" class="form-control" id="fecha" placeholder="Ingrese fecha..."/>
                     </div>
                 </div>
                 <!--________________-->
@@ -75,12 +75,12 @@
                 <div class="col-md-12 col-sm-12 col-xs-12">
                         <label for="doc_sanitaria">Doc. Sanitaria Tipo(<strong style="color: #dd4b39">*</strong>):</label>
                     <div class="form-check form-check-inline">
-                        <input type="radio" class='form-check-input' name="doc_sanitaria" value="PT" required />
+                        <input type="radio" class='form-check-input' name="doc_sanitaria" value="PT"/>
                         <label class="form-check-label" for="">PT</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input type="radio" class='form-check-input' name="doc_sanitaria" value="PCR" required />
-                        <label class="form-check-label" for="">PCR</label>
+                        <input type="radio" class='form-check-input' name="doc_sanitaria" value="PTR"/>
+                        <label class="form-check-label" for="">PTR</label>
                     </div>
                 </div>
                 <!--________________-->
@@ -126,7 +126,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                         <label for="doc_chofer">DNI Chofer(<strong style="color: #dd4b39">*</strong>):</label>
                     <div class="input-group">
-                        <select class="form-control select2 select2-hidden-accesible" name="doc_chofer" id="doc_chofer" required>
+                        <select class="form-control select2 select2-hidden-accesible choferes" name="chof_id" id="doc_chofer" required>
                             <option value="" disabled selected></option>
                         </select>
                         <span id="add_chofer" class="input-group-addon" data-toggle="modal" data-target="#mdl-chofer"><i class="fa fa-plus"></i></span>
@@ -147,7 +147,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group has-feedback">
                     <label for="patenteTractor">Patente Tractor(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input class="form-control" name="patenteTractor" id="patenteTractor" placeholder="Ingrese Patente Tractor..." required/>
+                        <input class="form-control" name="patente_tractor" id="patenteTractor" placeholder="Ingrese Patente Tractor..." required/>
                     </div>
                 </div>
                 <!--________________-->
@@ -156,7 +156,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                     <label for="num_senasa">N° SENASA(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input class="form-control" name="num_senasa" id="num_senasa" placeholder="Ingrese N° SENASA..." required/>
+                        <input class="form-control" name="nro_senasa" id="num_senasa" placeholder="Ingrese N° SENASA..." required/>
                     </div>
                 </div>
                 <!--________________-->
@@ -253,7 +253,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                         <label for="producto">Producto/s(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input class="form-control" name="producto" id="producto" placeholder="Ingrese Producto..." />
+                        <input class="form-control" name="productos" id="producto" placeholder="Ingrese Producto..." required/>
                     </div>                    
                 </div>
                 <!--________________-->
@@ -261,7 +261,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                         <label for="term_patente">Térmico Patente(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input class="form-control" name="term_patente" id="term_patente" placeholder="Ingrese Térmico Patente..." />
+                        <input class="form-control" id="term_patente" placeholder="Ingrese Térmico Patente..." />
                     </div>                    
                 </div>
                 <!--________________-->
@@ -269,7 +269,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                         <label for="temperatura">Temperatura(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input class="form-control" name="temperatura" id="temperatura" placeholder="Ingrese Temperatura..." />
+                        <input type="number" class="form-control" id="temperatura" placeholder="Ingrese Temperatura..." />
                     </div>                    
                 </div>
                 <!--________________-->
@@ -277,7 +277,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                         <label for="precintos">Precintos N°(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input class="form-control" name="precintos" id="precintos" placeholder="Ingrese Precintos..." />
+                        <input class="form-control" id="precintos" placeholder="Ingrese Precintos..." />
                     </div>                    
                 </div>
                 <!--________________-->
@@ -288,7 +288,7 @@
                  <!--__________________________________-->
                 <div class="col-md-12 col-sm-12 col-xs-12 centrar">
                     <h4>Térmico:</h4>
-                    <div id="sec_termico"></div>
+                    <div id="sec_termicos"></div>
                 </div>
                 <!--________________-->
                 <!--Precintos-->
@@ -348,6 +348,7 @@ $(document).ready(function() {
         },
         placeholder: 'Buscar chofer',
         minimumInputLength: 3,
+        dropdownCssClass: "choferes",
         templateResult: function (chofer) {
 
             if (chofer.loading) {
@@ -451,7 +452,13 @@ $(document).ready(function() {
         },
     });
 });//FIN document.ready
-    
+//Filtro para solo numero en combo box DNI Chofer
+$(document).on("keydown", ".choferes", function(e) {
+    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57) && (e.which < 96 || e.which > 105)) {
+        e.preventDefault();
+        alert("Ingrese dígitos únicamente");
+    }
+});
 //
 //Script's seccion destino
 //
@@ -460,17 +467,16 @@ function agregarDestino(){
     var reporte = validarCamposDestino();
                             
     if(reporte == ''){
-        var empre_destino = $("#empre_destino").val();
-        var depo_destino = $('#depo_destino').val();
+        var empre_destino = $('#empre_destino').find(':selected').text();
+        var depo_destino = $('#depo_destino').find(':selected').text();
 
         var datos = {};
         datos.rol = "DESTINO";
-        datos.empr_id = empre_destino;
+        datos.empr_id = $("#empre_destino").val();
         datos.case_id = $("#caseId").val();
-        datos.depo_destino = depo_destino;
-        datos.usuario_app = '<?php echo $this->session->userdata['usernick']; ?>';
+        datos.depo_id = $("#depo_destino").val();
 
-        var div = `<div class='form-group permTransito' data-json='${JSON.stringify(datos)}'>
+        var div = `<div class='form-group empreDestino' data-json='${JSON.stringify(datos)}'>
                         <span> 
                         <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i>
                         | ${empre_destino} - ${depo_destino}
@@ -478,8 +484,8 @@ function agregarDestino(){
                 </div>`;
         $('#sec_destinos').append(div);
         //Limpio luego de agregar
-        $("#empre_destino").val('');
-        $("#depo_destino").val('');
+        $('#empre_destino').val(null).trigger('change');
+        $('#depo_destino').val(null).trigger('change');
     }else{
         alert(reporte);
     }
@@ -526,7 +532,6 @@ var accion;
                     datos.lugar_emision = emision;
                     datos.fecha_hora_salida = fecha +" "+salida;
                     datos.tipo = tipo;
-                    datos.usuario_app = '<?php echo $this->session->userdata['usernick']; ?>';
                     datos.case_id = $("#caseId").val(); 
 
                     var div = `<div class='form-group permTransito' data-json='${JSON.stringify(datos)}'>
@@ -569,19 +574,21 @@ var accion;
 			valida = "Seleccione una Fecha!";
 		}
         //Documentacion sanitaria
-		// if($("#depo_id").attr() == null){
-		// 	valida = "Seleccione un tipo de Doc. sanitaria!";
-		// }
+		if($("input[name='doc_sanitaria']:checked").val() == null){
+			valida = "Seleccione un tipo de Doc. sanitaria!";
+		}
 		return valida;
     }
 
     $(document).on("click",".fa-edit",function(e) {
         // accion = "editar";
         var data =	JSON.parse($(e.target).closest('div').attr('data-json'));
-        $("#soli_num").val(data.soli_num);
-        $("#emision").val(data.emision);
-        $("#salida").val(data.salida);
-        $("#fecha").val(data.fecha);
+        $("#soli_num").val(data.perm_id);
+        $("#emision").val(data.lugar_emision);
+        aux = data.fecha_hora_salida.split(" ");
+        $("#salida").val(aux[1]);
+        $("#fecha").val(aux[0]);
+        $("input[name=doc_sanitaria][value='"+data.tipo+"']").prop("checked",true);
         $(e.target).closest('div').remove();
 
 	});
@@ -604,17 +611,16 @@ var accion;
                 var datos = {};
                 datos.temperatura = temperatura;
                 datos.precintos = precintos;
-                datos.usuario_app = '<?php echo $this->session->userdata['usernick']; ?>';
                 datos.case_id = $("#caseId").val();
-                datos.term_patente = term_patente;
+                datos.term_id = term_patente;
 
-                var div = `<div class='form-group permTransito' data-json='${JSON.stringify(datos)}'>
+                var div = `<div class='form-group termicos' data-json='${JSON.stringify(datos)}'>
                                 <span> 
                                 <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i> 
                                 | ${term_patente} - ${temperatura} - ${precintos}
                                 </span>
                         </div>`;
-                $('#sec_termico').append(div);
+                $('#sec_termicos').append(div);
                 //Limpio luego de agregar
                 $("#term_patente").val('');
                 $("#temperatura").val('');
@@ -654,11 +660,188 @@ $('#esta_nom').on('select2:select', function (e) {
     var data = e.params.data;
     $("#esta_num").val(data.id);
 });
-//Script apra inicio de formulario 11
+//Script para inicio de formulario 11
 //Escaneo doucmentacion
 $(document).ready(function () {
     
     detectarForm();
     initForm();
 });
+//
+//Cierre formulario
+function cerrarTareaform(){
+    debugger;
+    //obtengo el formulario de la inspeccion
+    var dataForm = new FormData($('#formPreCarga')[0]);
+    dataForm.append('case_id', $("#caseId").val());
+
+    //Guardo la inspeccion
+    $.ajax({
+        type: 'POST',
+        data: dataForm,
+        cache: false,
+        contentType: false,
+        processData: false,
+        url: "<?php echo SICP; ?>inspeccion/agregarInspeccion",
+        success: function(data) {
+            console.log("Se guardo el formulario de PreCarga correctamente");
+
+            permisos = [];
+            //obtengo los permisos
+            $('#sec_permisos div.permTransito').each(function(i, obj) {
+                var json = JSON.parse($(obj).attr('data-json'));
+                permisos[i] = json;
+            });
+            //Guardo los permisos
+            $.ajax({
+                type: 'POST',
+                data: {permisos},
+                url: "<?php echo SICP; ?>inspeccion/agregarPermisos",
+                success: function(data) {
+                    console.log("Se guardaron los permisos correctamente");
+                },
+                error: function(data) {
+                    alert("Error al guardar permisos");
+                }
+            });
+            empresas = [];
+            //obtengo los destinos
+            $('#sec_destinos div.empreDestino').each(function(i, obj) {
+                var json = JSON.parse($(obj).attr('data-json'));
+                empresas[i] = json;
+            });
+            //obtengo origen
+            origen = {};
+            origen.rol = "ORIGEN";
+            origen.empr_id = $("#esta_nom").val();
+            origen.case_id = $("#caseId").val();
+            origen.depo_id = "";
+            empresas.push(origen);
+            //obtengo transportista
+            transp = {};
+            transp.rol = "TRANSPORTISTA";
+            transp.empr_id = $("#transportista").val();
+            transp.case_id = $("#caseId").val();
+            transp.depo_id = "";
+            empresas.push(transp);
+            //Guardo las empresas
+            $.ajax({
+                type: 'POST',
+                data: {empresas},
+                url: "<?php echo SICP; ?>inspeccion/agregarEmpresas",
+                success: function(data) {
+                    console.log("Se guardaron los empresas correctamente");
+                },
+                error: function(data) {
+                    alert("Error al guardar empresas");
+                }
+            });
+            termicos = [];
+            //obtengo los termicos
+            $('#sec_termicos div.termicos').each(function(i, obj) {
+                var json = JSON.parse($(obj).attr('data-json'));
+                termicos[i] = json;
+            });
+            //Guardo los termicos
+            $.ajax({
+                type: 'POST',
+                data: {termicos},
+                url: "<?php echo SICP; ?>inspeccion/agregarTermicos",
+                success: function(data) {
+                    console.log("Se guardaron los termicos correctamente");
+                },
+                error: function(data) {
+                    alert("Error al guardar termicos");
+                }
+            });
+        },
+        error: function(data) {
+            alert("Error al guardar formulario de PreCarga");
+        }
+    });
+
+    
+}
+    
+
+function cerrarTarea() {
+
+    if(!frm_validar('#formPreCarga')){
+        console.log("Error al validar Formulario");
+				Swal.fire(
+					'Error..',
+					'Debes completar los campos obligatorios (*)',
+					'error'
+				);
+        return;
+    }
+    //
+    //VALIDACION PERMISOS DE TRANSITO
+    //
+    if ( !$('#sec_permisos').children().length > 0 ) { 
+        Swal.fire(
+					'Error..',
+					'No se agregaron permisos de tránsito (*)',
+					'error'
+				);
+        return;
+    }
+    //
+    //VALIDACION EMPRESAS DESTINO
+    //
+    if ( !$('#sec_destinos').children().length > 0 ) {
+        Swal.fire(
+					'Error..',
+					'No se agregaron empresas de destino (*)',
+					'error'
+				);
+        return;
+    }
+    //
+    //VALIDACION TERMICOS
+    //
+    if ( !$('#sec_termicos').children().length > 0 ) {
+        
+        Swal.fire(
+					'Error..',
+					'No se agregaron térmicos (*)',
+					'error'
+				);
+        return;
+    }
+    //Una vez validado el formulario, lo guardo
+    cerrarTareaform();
+
+    //No uso formulario dinámico
+    var dataForm = new FormData();
+
+    var id = $('#taskId').val();
+
+    $.ajax({
+        type: 'POST',
+        data: dataForm,
+        cache: false,
+        contentType: false,
+        processData: false,
+        url: '<?php base_url() ?>index.php/<?php echo BPM ?>Proceso/cerrarTarea/' + id,
+        success: function(data) {
+            //wc();
+            //back();
+            linkTo('<?php echo BPM ?>Proceso/');
+            setTimeout(() => {
+            Swal.fire(
+                
+                    'Perfecto!',
+                    'Se Finalizó la Tarea Correctamente!',
+                    'success'
+                )
+		  }, 13000);
+    
+        },
+        error: function(data) {
+            alert("Error");
+        }
+    });
+    debugger;
+}
 </script>

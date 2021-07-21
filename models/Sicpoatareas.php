@@ -102,10 +102,12 @@ class Sicpoatareas extends CI_Model
         switch ($tarea->nombreTarea) {
             //paso 1
             case 'Pre - Carga de Datos':
-                $info_id = $this->getXCaseId($tarea)->info_id;
+                $datos = $this->getXCaseId($tarea);
+                $info_id = $datos->info_id;
                 $data['imgsBarrera'] = $this->getImgsBarrera($info_id);
                 $data['departamentos'] = $this->getDepartamentos();
                 $data['depositos'] = $this->getDepositos(empresa());
+                $data['petr_id'] = $datos->petr_id;
 
                 return $this->load->view(SICP . 'tareas/preCargaDatos', $data, true);
         
@@ -200,31 +202,10 @@ class Sicpoatareas extends CI_Model
 
             //paso 1
             case 'Pre - Carga de Datos':       
-
-                $data['_post_pedidotrabajo_tarea_form'] = array(
-
-                        "nom_tarea" => "$nom_tarea",
-                        "task_id" => $task_id,
-                        "usuario_app" => $user_app,
-                        "case_id" => $case_id,
-                        "info_id" => $form['frm_info_id']
+        
+                $contrato["resultadoInspeccion"]  = true;
                 
-                    );
-        
-                $rsp = $this->guardarForms($data);
-            
-                if (!$rsp) {
-            
-                    log_message('ERROR', '#TRAZA | #SICPOA | Sicpoatareas | getContrato()  >> ERROR AL GUARDAR FORM -> Pre - Carga de Datos');
-            
-                } else {
-                    log_message('DEBUG', '#TRAZA | #SICPOA | Sicpoatareas | getContrato()  >> GUARDADO OK FORM -> Pre - Carga de Datos');
-            
-                }
-                    
-        
-                $contrato["apruebaTrabajo"]  = $form['result'];
-
+                log_message('DEBUG', '#TRAZA | #SICPOA | Sicpoatareas | getContrato()  >> contrato '.json_encode($contrato));
                 return $contrato;
             
             break;
