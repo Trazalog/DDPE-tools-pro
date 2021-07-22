@@ -1,4 +1,4 @@
-<data enableBatchRequests="true" enableBoxcarring="true" name="ddpeSICPOADataSource" transports="http https local">
+<data enableBatchRequests="true" enableBoxcarring="true" name="ddpeSicpoaDataService" transports="http https local">
    <config enableOData="false" id="SICPOADataSource">
       <property name="carbon_datasource_name">ddpeSicpoaDataSource</property>
    </config>
