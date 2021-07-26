@@ -489,7 +489,7 @@ $(document).on("keydown", ".limited", function(e) {
 $(document).on("keydown", ".limitedNumbers", function(e) {
     if (e.which != 8 && e.which != 0 && e.which != 9 && e.which != 109 && e.which != 192 && (e.which < 37 || e.which > 40) && (e.which < 65 || e.which > 90)) {
         e.preventDefault();
-        alert("Caracteres válidos: A-Z, 0-9 y -");
+        alert("Caracteres válidos: A-Z y -");
     }
 });
 //
