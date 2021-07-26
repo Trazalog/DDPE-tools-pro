@@ -9,6 +9,13 @@ class Inspecciones extends CI_Model {
     public function __construct()
     {
         parent::__construct();
+        // si esta vencida la sesion redirige al login
+		$data = $this->session->userdata();
+		// log_message('DEBUG','#Main/login | '.json_encode($data));
+		if(!$data['email']){
+			log_message('DEBUG','#TRAZA|DASH|CONSTRUCT|ERROR  >> Sesion Expirada!!!');
+			redirect(DNATO.'main/login');
+		}
     }
     
     /**
@@ -183,7 +190,7 @@ class Inspecciones extends CI_Model {
 	* @param array datos termicos
 	* @return bool true or false
 	*/
-    public function agregarTermicos($data){
+    public function agregarTermicosInspeccion($data){
 
         $batch_req = [];
         foreach ($data as $key) {
@@ -200,7 +207,26 @@ class Inspecciones extends CI_Model {
         $url = REST_SICP."/_post_inspeccion_termico_batch_req";
         $rsp = $this->rest->callApi('POST', $url, $batch_req);
         
-        log_message('DEBUG', "#TRAZA | #SICPOA | Inspecciones | agregarTermicos()  resp: >> " . json_encode($rsp));
+        log_message('DEBUG', "#TRAZA | #SICPOA | Inspecciones | agregarTermicosInspeccion()  resp: >> " . json_encode($rsp));
         return $rsp;
+    }
+    /**
+	* Alta de termicos
+	* @param array datos termicos
+	* @return 
+	*/
+    public function agregarTermicos($data){
+        
+        $url = REST_SICP."/termico";
+
+        foreach ($data as $key) {
+            $aux["patente"] = $key['term_id'];
+            $aux["usuario_app"] = userNick();
+
+
+            $post['_post_termico'] = $aux;
+            $this->rest->callApi('POST', $url, $post);
+        }
+        log_message('DEBUG', "#TRAZA | #SICPOA | Inspecciones | agregarTermicos() ");
     }
 }

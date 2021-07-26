@@ -9,7 +9,7 @@
 					<thead>
 							<tr>
 									<th>Acciones</th>
-									<th>Numero de Pedido</th>
+									<th>Número de Pedido</th>
 									<th>Cliente</th>
 									<th>Domicilio</th>
 									<th>Tipo de Trabajo</th>

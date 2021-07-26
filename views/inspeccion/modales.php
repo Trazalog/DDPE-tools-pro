@@ -49,7 +49,7 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label>Cuit(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input id="mdl-cuit" class="form-control" type="text" name="cuit" required>
+                        <input type="number" id="mdl-cuit" class="form-control" type="text" name="cuit" required>
                     </div>
                     <div class="form-group">
                         <label>Razon Social(<strong style="color: #dd4b39">*</strong>):</label>
@@ -80,6 +80,7 @@
                 <h4 class="modal-title">Agregar Depósito</h4>
             </div>
             <form id="formDeposito" action="#">
+                <input id="empr_id_destino" type="hidden" name="empr_id">
                 <!-- Modal body -->
                 <div class="modal-body">
                     <div class="form-group">
@@ -166,9 +167,9 @@
             url: "<?php echo SICP; ?>inspeccion/agregar"+recurso,
             data:{ data },
             success: function (response) {
-                
+                resp = JSON.parse(response);
                 wc();
-                if(response){
+                if(resp.status){
                     //Busco id del modal y lo cierro
                     var modal = $(elem).closest('.modal').attr('id');
                     $("#"+modal).modal('hide');
