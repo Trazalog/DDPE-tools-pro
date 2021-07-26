@@ -11,7 +11,7 @@
         <h3 class="panel-title">Nuevo Ingreso por Barrera</h3>
     </div>
     <div class="panel-subheading">
-        <label><?php echo $this->session->userdata['first_name'].' '.$this->session->userdata['last_name'].' - '.date('m/d/Y H:i:s')?></label>
+        <label><?php echo $this->session->userdata['first_name'].' '.$this->session->userdata['last_name'].' - '.date('d/m/Y H:i:s')?></label>
         </br>
         <label>Punto de control: <?php echo $puntoControl; ?></label>
         </br>

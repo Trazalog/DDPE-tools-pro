@@ -40,7 +40,7 @@ class Sicpoatareas extends CI_Model
             $array['info'][] = $aux;
 
             $aux = new StdClass();
-            $aux->color = 'danger';
+            $aux->color = 'primary';
             $aux->texto = "Fecha Inicio: ".formatFechaPG( $aux_pedido->fec_inicio);
             $array['info'][] = $aux;
 
@@ -106,7 +106,6 @@ class Sicpoatareas extends CI_Model
                 $info_id = $datos->info_id;
                 $data['imgsBarrera'] = $this->getImgsBarrera($info_id);
                 $data['departamentos'] = $this->getDepartamentos();
-                $data['depositos'] = $this->getDepositos(empresa());
                 $data['petr_id'] = $datos->petr_id;
 
                 return $this->load->view(SICP . 'tareas/preCargaDatos', $data, true);
@@ -115,18 +114,6 @@ class Sicpoatareas extends CI_Model
 
             break;
      
-            //paso 2
-            case 'Inspección en PCC':
-                $info_id = $this->getXCaseId($tarea)->info_id;
-                $data['imgsBarrera'] = $this->getImgsBarrera($info_id);
-                $data['departamentos'] = $this->getDepartamentos();
-                $data['depositos'] = $this->getDepositos(empresa());
-                
-                return $this->load->view(SICP . 'tareas/inspeccionPCC', $data, true);
-
-                log_message('DEBUG', "#TRAZA | #SICPOA | Sicpoatareas | desplegarVista()  tarea->nombreTarea: >> " . $tarea->nombreTarea);
-              
-            break;
             //paso 2
             case 'Escaneo documentacion':
  
@@ -138,7 +125,19 @@ class Sicpoatareas extends CI_Model
                          
             break;
 
-            //paso 2
+            //paso 3
+            case 'Inspección en PCC':
+                $info_id = $this->getXCaseId($tarea)->info_id;
+                $data['imgsBarrera'] = $this->getImgsBarrera($info_id);
+                $data['departamentos'] = $this->getDepartamentos();
+                
+                return $this->load->view(SICP . 'tareas/inspeccionPCC', $data, true);
+
+                log_message('DEBUG', "#TRAZA | #SICPOA | Sicpoatareas | desplegarVista()  tarea->nombreTarea: >> " . $tarea->nombreTarea);
+              
+            break;
+
+            //paso 3
             case 'Alerta de camión que no paso por PCC':
                 $info_id = $this->getXCaseId($tarea)->info_id;
                 $data['imgsBarrera'] = $this->getImgsBarrera($info_id);
@@ -169,22 +168,23 @@ class Sicpoatareas extends CI_Model
         }
     }
 
-    // Guardar guardar Pedido de Trabajo
+    // Guardar registro Pedido de Trabajo form
     public function guardarForms($data)
     {
         $url = REST_PRO . '/pedidoTrabajo/tarea/form';
         $rsp = $this->rest->callApi('POST', $url, $data);
-        return $rsp;
         
-        if (!$rsp) {
+        if ($rsp['status']) {
 
-            log_message('ERROR', '#TRAZA | #SICPOA | Sicpoatareas | guardarForms()  >> ERROR AL GUARDAR FORM');
-
-        } else {
             log_message('DEBUG', '#TRAZA | #SICPOA | Sicpoatareas | guardarForms()  >> SE GUARDO CORRECTAMENTE');
-
+            
+        } else {
+            
+            log_message('ERROR', '#TRAZA | #SICPOA | Sicpoatareas | guardarForms()  >> ERROR AL GUARDAR FORM');
+            
         }
 
+        return $rsp;
     }
 
 
@@ -211,6 +211,36 @@ class Sicpoatareas extends CI_Model
             break;
     
             //paso 2
+            case 'Escaneo documentacion':
+        
+                $data['_post_pedidotrabajo_tarea_form'] = array(
+        
+                    "nom_tarea" => "$nom_tarea",
+                    "task_id" => $task_id,
+                    "usuario_app" => $user_app,
+                    "case_id" => $case_id,
+                    "info_id" => $form['frm_info_id']
+                
+            
+                );
+                
+                $rsp = $this->guardarForms($data);
+
+                if($rsp['status']){
+                    //Actualizo el info_id_doc en 'inspeccione's una vez guardado el escaneo documentacion
+                    $info_id_doc = array('info_id_doc' => $form['frm_info_id']);
+
+                    $str = $this->db->update_string('sicpoa.inspecciones', $info_id_doc, "case_id = $case_id");
+                    log_message('DEBUG', '#TRAZA | #SICPOA | Sicpoatareas | getContrato()  >> info_id_doc '.json_encode($str));
+                    $contrato["escaneoDocumentacion"]  = $rsp['status'];
+                }
+                
+                log_message('DEBUG', '#TRAZA | #SICPOA | Sicpoatareas | getContrato()  >> contrato '.json_encode($contrato));
+                return $contrato;
+            
+            break;
+
+            //paso 3
             case 'Inspección en PCC':
             
                     
@@ -221,36 +251,6 @@ class Sicpoatareas extends CI_Model
                 return $contrato;
                 
                 
-            break;
-
-        //paso 4 "Cabina" view_preparacion_banda
-        case 'Relleno, Corte de  Banda y Embandado':
- 
-            log_message('DEBUG', 'YUDI Reparacion view-Preparacion de Banda->' . $tarea->nombreTarea);
-    
-            $data['_post_pedidotrabajo_tarea_form'] = array(
-    
-                "nom_tarea" => "$nom_tarea",
-                "task_id" => $task_id,
-                "usuario_app" => $user_app,
-                "case_id" => $case_id,
-                "info_id" => $form['frm_info_id']
-               
-        
-            );
-        
-        
-            $rsp = $this->Yudiproctareas->guardarForms($data);
-        
-            if (!$rsp) {
-        
-                log_message('ERROR', '#TRAZA | #BPM >> guardarForms  >> ERROR AL GUARDAR FORM - Preparacion de Banda');
-        
-            } else {
-                log_message('DEBUG', '#TRAZA | #BPM >> guardarForms  >> GUARDADO OK FORM - Preparacion de Banda');
-        
-            }
-    
             break;
 
           
@@ -337,40 +337,6 @@ class Sicpoatareas extends CI_Model
                 break;
             }
 
-        case 'Despacho':
-
-            log_message('DEBUG', 'YUDI Reparacion view- Reparacion -Despacho->' . $tarea->nombreTarea);
-            
-            $data['_post_pedidotrabajo_tarea_form'] = array(
-    
-                "nom_tarea" => "$nom_tarea",
-                "task_id" => $task_id,
-                "usuario_app" => $user_app,
-                "case_id" => $case_id,
-                "info_id" => $form['frm_info_id']
-                
-        
-            );
-        
-        
-            $rsp = $this->Yudiproctareas->guardarForms($data);
-        
-            if (!$rsp) {
-        
-                log_message('ERROR', '#TRAZA | #BPM >> guardarForms  >> ERROR AL GUARDAR FORM - YUDI -Despacho');
-        
-            } else {
-                log_message('DEBUG', '#TRAZA | #BPM >> guardarForms  >> GUARDADO OK FORM - YUDI -Despacho');
-        
-            }
-        
-            $contrato["controlTrabajoTerminado"]  = $form['result'];
-            
-                
-            return $contrato;
-    
-            break;
-
             default:
                 # code...
             break;
@@ -445,21 +411,5 @@ class Sicpoatareas extends CI_Model
 			return array();
 		}
 		
-    }
-    /**
-	* Busca depositos para empresa destino seleccionada 
-	* @param string empr_id
-	* @return array listado de depositos coincidentes con empr_id
-	*/
-    public function getDepositos($dato){
-        
-        $url = REST_SICP."/depositos/empresa/".$dato;
-
-        $aux = $this->rest->callAPI("GET",$url);
-        $resp = json_decode($aux['data']);
-
-        log_message('DEBUG', "#TRAZA | #SICPOA | Inspecciones | getDepositos()  resp: >> " . json_encode($resp));
-
-        return $resp->depositos->deposito;
     }
 }

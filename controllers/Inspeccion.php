@@ -13,6 +13,15 @@ class Inspeccion extends CI_Controller
       $this->load->view('test');
     }
 
+	/**
+	* Ingreso por barrera
+	* @param array 
+	* @return bool
+	*/
+    public function ingresoBarrera(){
+        $this->load->view('barrera/barrera');
+    }
+
     /* COMPONENTE INSPECCION */
     public function inspecciones(){
 
@@ -97,7 +106,6 @@ class Inspeccion extends CI_Controller
     public function agregarDeposito(){
 
         $data = $this->input->post('data');
-        $data['empr_id'] = empresa();
         
 		$resp = $this->Inspecciones->agregarDeposito($data);
         
@@ -114,10 +122,9 @@ class Inspeccion extends CI_Controller
 	*/
     public function getDepositos(){
 
-        // $dato = $this->input->get('empr_id');
-		$dato = empresa();
+        $dato = $this->input->post('destino');
         
-		$resp = $this->Inspecciones->getDepositos($dato);
+		$resp = $this->Inspecciones->getDepositos($dato['empr_id']);
         
 		if ($resp) {
 			echo json_encode($resp);
@@ -154,68 +161,43 @@ class Inspeccion extends CI_Controller
 		$resp = $this->Inspecciones->agregarInspeccion($data);
         
 		if ($resp['status']) {
+			
 			echo json_encode($resp);
 		} else {
 			echo json_encode($resp);
 		}
     }
 	/**
-	* Guarda permisos de transito
-	* @param array datos permisos de transito
+	* Guarda todos la informacion relacionada con la inspeccion
+	* @param array con permisos,empresas y termicos
 	* @return bool true o false segun resultado de servicio de guardado
 	*/
-    public function agregarPermisos(){
+    public function guardarDatosInspeccion(){
 		
-        $data = $this->input->post('permisos');
+		$permisos = $this->input->post('permisos');
+        $empresas = $this->input->post('empresas');
+		$termicos = $this->input->post('termicos');
+
+		//Agrego permisos
+		$rspPermisos = $this->Inspecciones->agregarPermisos($permisos);
+		//Agrego empresas
+		$respEmpresas = $this->Inspecciones->agregarEmpresas($empresas);
+		//Agrego termicos a la tabla termicos
+		$this->Inspecciones->agregarTermicos($termicos);
+		//Luego los agrego a tabla inspecciones_termicos
+		$respTermInspeccion = $this->Inspecciones->agregarTermicosInspeccion($termicos);
         
-		$resp = $this->Inspecciones->agregarPermisos($data);
-        
-		if ($resp['status']) {
+		if ($respTermInspeccion['status'] && $rspPermisos['status'] && $respEmpresas['status']) {
+			$resp['status'] = true;
+			$resp['message'] = "Se agregaron permisos, empresas y termicos correctamente";
 			echo json_encode($resp);
 		} else {
+			$resp['status'] = false;
+			$resp['message'] = "Se produjo un error guardando los datos";
+			$resp['permisos'] = $rspPermisos['data'];
+			$resp['empresas'] = $respEmpresas['data'];
+			$resp['termicos'] = $respTermInspeccion['data'];
 			echo json_encode($resp);
 		}
-    }
-	/**
-	* Guarda destinos
-	* @param array datos destinos
-	* @return bool true o false segun resultado de servicio de guardado
-	*/
-    public function agregarEmpresas(){
-		
-        $data = $this->input->post('empresas');
-        
-		$resp = $this->Inspecciones->agregarEmpresas($data);
-        
-		if ($resp['status']) {
-			echo json_encode($resp);
-		} else {
-			echo json_encode($resp);
-		}
-    }
-	/**
-	* Guarda termicos
-	* @param array datos termicos
-	* @return bool true o false segun resultado de servicio de guardado
-	*/
-    public function agregarTermicos(){
-		
-        $data = $this->input->post('termicos');
-        
-		$resp = $this->Inspecciones->agregarTermicos($data);
-        
-		if ($resp['status']) {
-			echo json_encode($resp);
-		} else {
-			echo json_encode($resp);
-		}
-    }
-    /**
-	* Ingreso por barrera
-	* @param array 
-	* @return bool
-	*/
-    public function ingresoBarrera(){
-        $this->load->view('barrera/barrera');
     }
 }
