@@ -26,14 +26,14 @@
 </style>
 <!--_______ FORMULARIO PERMISO DE TRANSITO BOX 1______-->
 <form class="formPreCarga" id="formPreCarga">
-<div class="row">
-    <div class="col-md-6">
-     <div class="caja" id="boxPermisoTransito">
-        <div class="box-tittle centrar">
-            <h3>Permiso de tránsito</h3>
-        </div>
-        <!--<div class="box-body"> -->
-        <input type="text" class="form-control hidden" name="petr_id" id="petr_id" value="<?php echo $petr_id?>">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="caja" id="boxPermisoTransito">
+                <div class="box-tittle centrar">
+                    <h3>Permiso de tránsito</h3>
+                </div>
+                <!--<div class="box-body"> -->
+                <input type="text" class="form-control hidden" name="petr_id" id="petr_id" value="<?php echo $petr_id?>">
 
                 <!--Solicitud-->
                 <div class="col-md-6 col-sm-6 col-xs-12">
@@ -85,221 +85,213 @@
                 </div>
                 <!--________________-->
 
-            <!--_________________ Agregar_________________-->
-                <div class="form-group text-right">
-                    <button type="button" class="btn btn-outline-dark" onclick="agregarPermiso()" >Agregar</button>
-                </div>                
-            <!--__________________________________-->
-            <div class="col-md-12 col-sm-12 col-xs-12 centrar">
-                <h4>Permisos:</h4>
-                <div id="sec_permisos"></div>
-                <hr>
-            </div>
-
-            <?php $this->load->view(SICP.'inspeccion/mosaicoBarrera.php') ?>
-            <hr>
-            <!-- The expanding image container -->
-            <div class="col-sm-12 col-md-12 col-xl-12">
-                <div class="contenedor">
-                <!-- Boton para ocultar imagen -->
-                <!-- <span onclick="this.parentElement.style.display='none'" class="closebtn">&times;</span> -->
-
-                <!-- Expanded image -->
-                <img src="lib\imageForms\preview.png" id="expandedImg" style="">
-
-                <!-- Image text -->
-                <!-- <div id="imgtext"></div> -->
-                </div>
-            </div>
-        <!--</div> FIN box-body -->
-    
-    </div><!-- FIN box-primary -->
-</div>
-<!--_______ FIN FORMULARIO PERMISO DE TRANSITO BOX 1 ______-->
-
-<!--_______ FORMULARIO INSPECCION BOX 2______-->
-<div class="col-md-6">
-    <div class="caja" id="boxInspeccion">
-        <!-- <div class="box-body"> -->
-
-                <!--DNI Chofer-->
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                        <label for="doc_chofer">DNI Chofer(<strong style="color: #dd4b39">*</strong>):</label>
-                    <div class="input-group">
-                        <select class="form-control select2 select2-hidden-accesible choferes" name="chof_id" id="doc_chofer" required>
-                            <option value="" disabled selected></option>
-                        </select>
-                        <span id="add_chofer" class="input-group-addon" data-toggle="modal" data-target="#mdl-chofer"><i class="fa fa-plus"></i></span>
-                    </div>
-                </div>
-                <!--________________-->
-
-                <!-- Nombre CHOFER -->
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="nom_chofer">Nombre Chofer(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input type="text" class="form-control" name="nom_chofer" id="nom_chofer" placeholder="" readonly/>
-                    </div>
-                </div>
-                <!--________________-->
-
-                <!--Patente Tractor-->
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    <div class="form-group has-feedback">
-                    <label for="patenteTractor">Patente Tractor(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input class="form-control limited" name="patente_tractor" id="patenteTractor" placeholder="Ingrese Patente Tractor..." required/>
-                    </div>
-                </div>
-                <!--________________-->
-
-                <!--N° SENASA-->
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    <div class="form-group">
-                    <label for="num_senasa">N° SENASA(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input type="text" class="form-control limitedChars" name="nro_senasa" id="num_senasa" placeholder="Ingrese N° SENASA..." required/>
-                    </div>
-                </div>
-                <!--________________-->
-                
-                <!--Establecimiento N°-->
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    <div class="form-group">
-                    <label for="esta_num">Establecimiento N°(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input class="form-control" name="esta_num" id="esta_num" placeholder="Ingrese Establecimiento N°..." readonly/>
-                    </div>
-                </div>
-                <!--________________-->
-
-                <!--Nombre Establecimiento-->
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="esta_nom">Nombre Establecimiento(<strong style="color: #dd4b39">*</strong>):</label>
-                        <div class="input-group">
-                            <select class="form-control select2 select2-hidden-accesible empresa" name="esta_nom" id="esta_nom">
-                                <option value="" disabled selected>-Seleccionar-</option>	
-                                <?php
-                                if(!empty($establecimientos)){ 
-                                    foreach ($establecimientos as $esta) {
-                                        echo "<option data-json='".json_encode($esta)."' value='".$esta->id."'>".$esta->nombre."</option>";
-                                    }
-                                }
-                                ?>
-                            </select>
-                            <span id="add_establecimiento" class="input-group-addon" data-toggle="modal" data-target="#mdl-empresa" onclick="$('#tipoEmpresa').val('Establecimiento')"><i class="fa fa-plus"></i></span>
-                        </div>
-                    </div>
-                </div>
-                <!--________________-->
-
-                <!--Empresa Destino-->
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="empre_destino">Empresa Destino(<strong style="color: #dd4b39">*</strong>):</label>
-                        <div class="input-group">
-                        <select class="form-control select2 select2-hidden-accesible empresa" name="empre_destino" id="empre_destino">
-                            <option value="" disabled selected></option>
-                        </select>
-                            <span id="add_empresa" class="input-group-addon" data-toggle="modal" data-target="#mdl-empresa" onclick="$('#tipoEmpresa').val('Empresa')"><i class="fa fa-plus"></i></span>
-                        </div>
-                    </div>                    
-                </div>
-                <!--________________-->
-
-                <!--Depósito Destino-->
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="depo_destino">Depósito Destino(<strong style="color: #dd4b39">*</strong>):</label>
-                        <div class="input-group">
-                        <select class="form-control select2 select2-hidden-accesible" name="depo_destino" id="depo_destino">
-                            <option value="" disabled selected>-Seleccionar-</option>
-                        </select>
-                            <span id="add_deposito" class="input-group-addon" data-toggle="modal" data-target="#mdl-deposito"><i class="fa fa-plus"></i></span>
-                        </div>
-                    </div>                    
-                </div>
                 <!--_________________ Agregar_________________-->
-                <div class="form-group text-right">
-                    <button type="button" class="btn btn-outline-dark" onclick="agregarDestino()" >Agregar</button>
-                </div>                
-                 <!--__________________________________-->
-
+                    <div class="form-group text-right">
+                        <button type="button" class="btn btn-outline-dark" onclick="agregarPermiso()" >Agregar</button>
+                    </div>                
+                <!--__________________________________-->
                 <div class="col-md-12 col-sm-12 col-xs-12 centrar">
-                    <h4>Empresa Destino:</h4>
-                    <div id="sec_destinos"></div>
+                    <h4>Permisos:</h4>
+                    <div id="sec_permisos"></div>
+                    <hr>
+                </div>
+
+                <?php $this->load->view(SICP.'inspeccion/mosaicoBarrera.php') ?>
                 <hr>
-                </div>
-                <!--________________-->
-                <!--Transportista-->
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="transportista">Transportista(<strong style="color: #dd4b39">*</strong>):</label>
-                        <div class="input-group">
-                            <select class="form-control select2 select2-hidden-accesible empresa" name="transportista" id="transportista">
-                                <option value="" disabled selected></option>	
-                            </select>
-                            <span id="add_transportista" class="input-group-addon" data-toggle="modal" data-target="#mdl-empresa" onclick="$('#tipoEmpresa').val('Transportista')"><i class="fa fa-plus"></i></span>
-                        </div>
-                    </div>                    
-                </div>
-                <!--________________-->
-                <!--Producto-->
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="producto">Producto/s(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input class="form-control" name="productos" id="producto" placeholder="Ingrese Producto..." required/>
-                    </div>                    
-                </div>
-                <!--________________-->
-                <!--Termico Patente-->
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="term_patente">Térmico Patente(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input class="form-control limited" id="term_patente" placeholder="Ingrese Térmico Patente..." />
-                    </div>                    
-                </div>
-                <!--________________-->
-                <!--Temperatura-->
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="temperatura">Temperatura(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input type="number" class="form-control" id="temperatura" placeholder="Ingrese Temperatura..." />
-                    </div>                    
-                </div>
-                <!--________________-->
-                <!--Precintos-->
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="precintos">Precintos N°(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input class="form-control limitedChars" id="precintos" placeholder="Ingrese Precintos..." />
-                    </div>                    
-                </div>
-                <!--________________-->
-                <!--_________________ Agregar_________________-->
-                <div class="form-group text-right">
-                    <button type="button" class="btn btn-outline-dark" onclick="agregarTermico()" >Agregar</button>
-                </div>                
-                 <!--__________________________________-->
-                <div class="col-md-12 col-sm-12 col-xs-12 centrar">
-                    <h4>Térmico:</h4>
-                    <div id="sec_termicos"></div>
-                </div>
-                <!--________________-->
-                <!--Precintos-->
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                    <div class="form-group">
-                        <label for="observaciones">Observaciones:</label>
-                        <textarea class="form-control" row="3" name="observaciones" id="observaciones" placeholder="Observaciones..." ></textarea>
-                    </div>                    
-                </div>
-                <!--________________-->
-            
-            </div>
-        <!-- </div> -->
+                <!-- The expanding image container -->
+                <div class="col-sm-12 col-md-12 col-xl-12">
+                    <div class="contenedor">
+                    <!-- Boton para ocultar imagen -->
+                    <!-- <span onclick="this.parentElement.style.display='none'" class="closebtn">&times;</span> -->
 
-    </div> <!--FIN box-primary-->
-</div><!--FIN col-->
-<!--_______ FIN FORMULARIO INSPECCION BOX 2______-->
-</div>
+                    <!-- Expanded image -->
+                    <img src="lib\imageForms\preview.png" id="expandedImg" style="">
+
+                    <!-- Image text -->
+                    <!-- <div id="imgtext"></div> -->
+                    </div>
+                </div>
+            <!--</div> FIN box-body -->
+        
+            </div><!-- FIN box-primary -->
+        </div>
+        <!--_______ FIN FORMULARIO PERMISO DE TRANSITO BOX 1 ______-->
+        <!--_______ FORMULARIO INSPECCION BOX 2______-->
+        <div class="col-md-6">
+            <div class="caja" id="boxInspeccion">
+                <!-- <div class="box-body"> -->
+
+                        <!--DNI Chofer-->
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                <label for="doc_chofer">DNI Chofer(<strong style="color: #dd4b39">*</strong>):</label>
+                            <div class="input-group">
+                                <select class="form-control select2 select2-hidden-accesible choferes" name="chof_id" id="doc_chofer" required>
+                                    <option value="" disabled selected></option>
+                                </select>
+                                <span id="add_chofer" class="input-group-addon" data-toggle="modal" data-target="#mdl-chofer"><i class="fa fa-plus"></i></span>
+                            </div>
+                        </div>
+                        <!--________________-->
+
+                        <!-- Nombre CHOFER -->
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                <label for="nom_chofer">Nombre Chofer(<strong style="color: #dd4b39">*</strong>):</label>
+                                <input type="text" class="form-control" name="nom_chofer" id="nom_chofer" placeholder="" readonly/>
+                            </div>
+                        </div>
+                        <!--________________-->
+
+                        <!--Patente Tractor-->
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <div class="form-group has-feedback">
+                            <label for="patenteTractor">Patente Tractor(<strong style="color: #dd4b39">*</strong>):</label>
+                                <input class="form-control limited" name="patente_tractor" id="patenteTractor" placeholder="Ingrese Patente Tractor..." required/>
+                            </div>
+                        </div>
+                        <!--________________-->
+
+                        <!--N° SENASA-->
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                            <label for="num_senasa">N° SENASA(<strong style="color: #dd4b39">*</strong>):</label>
+                                <input type="text" class="form-control limitedChars" name="nro_senasa" id="num_senasa" placeholder="Ingrese N° SENASA..." required/>
+                            </div>
+                        </div>
+                        <!--________________-->
+                        
+                        <!--Establecimiento N°-->
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                            <label for="esta_num">Establecimiento N°(<strong style="color: #dd4b39">*</strong>):</label>
+                                <input class="form-control" name="esta_num" id="esta_num" placeholder="Ingrese Establecimiento N°..." readonly/>
+                            </div>
+                        </div>
+                        <!--________________-->
+
+                        <!--Nombre Establecimiento-->
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                <label for="esta_nom">Establecimiento(<strong style="color: #dd4b39">*</strong>):</label>
+                                <div class="input-group">
+                                    <select class="form-control select2 select2-hidden-accesible empresa" name="esta_nom" id="esta_nom">
+                                        <option value="" disabled selected></option>
+                                    </select>
+                                    <span id="add_establecimiento" class="input-group-addon" data-toggle="modal" data-target="#mdl-empresa" onclick="$('#tipoEmpresa').val('Establecimiento')"><i class="fa fa-plus"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <!--________________-->
+
+                        <!--Empresa Destino-->
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                <label for="empre_destino">Empresa Destino(<strong style="color: #dd4b39">*</strong>):</label>
+                                <div class="input-group">
+                                <select class="form-control select2 select2-hidden-accesible empresa" name="empre_destino" id="empre_destino">
+                                    <option value="" disabled selected></option>
+                                </select>
+                                    <span id="add_empresa" class="input-group-addon" data-toggle="modal" data-target="#mdl-empresa" onclick="$('#tipoEmpresa').val('Empresa')"><i class="fa fa-plus"></i></span>
+                                </div>
+                            </div>                    
+                        </div>
+                        <!--________________-->
+
+                        <!--Depósito Destino-->
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                <label for="depo_destino">Depósito Destino(<strong style="color: #dd4b39">*</strong>):</label>
+                                <div class="input-group">
+                                <select class="form-control select2 select2-hidden-accesible" name="depo_destino" id="depo_destino">
+                                    <option value="" disabled selected>-Seleccionar-</option>
+                                </select>
+                                    <span id="add_deposito" class="input-group-addon" data-toggle="modal" data-target="#mdl-deposito"><i class="fa fa-plus"></i></span>
+                                </div>
+                            </div>                    
+                        </div>
+                        <!--_________________ Agregar_________________-->
+                        <div class="form-group text-right">
+                            <button type="button" class="btn btn-outline-dark" onclick="agregarDestino()" >Agregar</button>
+                        </div>                
+                        <!--__________________________________-->
+
+                        <div class="col-md-12 col-sm-12 col-xs-12 centrar">
+                            <h4>Empresa Destino:</h4>
+                            <div id="sec_destinos"></div>
+                        <hr>
+                        </div>
+                        <!--________________-->
+                        <!--Transportista-->
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                <label for="transportista">Transportista(<strong style="color: #dd4b39">*</strong>):</label>
+                                <div class="input-group">
+                                    <select class="form-control select2 select2-hidden-accesible empresa" name="transportista" id="transportista">
+                                        <option value="" disabled selected></option>	
+                                    </select>
+                                    <span id="add_transportista" class="input-group-addon" data-toggle="modal" data-target="#mdl-empresa" onclick="$('#tipoEmpresa').val('Transportista')"><i class="fa fa-plus"></i></span>
+                                </div>
+                            </div>                    
+                        </div>
+                        <!--________________-->
+                        <!--Producto-->
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                <label for="producto">Producto/s(<strong style="color: #dd4b39">*</strong>):</label>
+                                <input class="form-control" name="productos" id="producto" placeholder="Ingrese Producto..." required/>
+                            </div>                    
+                        </div>
+                        <!--________________-->
+                        <!--Termico Patente-->
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                <label for="term_patente">Térmico Patente(<strong style="color: #dd4b39">*</strong>):</label>
+                                <input class="form-control limited" id="term_patente" placeholder="Ingrese Térmico Patente..." />
+                            </div>                    
+                        </div>
+                        <!--________________-->
+                        <!--Temperatura-->
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                <label for="temperatura">Temperatura(<strong style="color: #dd4b39">*</strong>):</label>
+                                <input type="number" class="form-control" id="temperatura" placeholder="Ingrese Temperatura..." />
+                            </div>                    
+                        </div>
+                        <!--________________-->
+                        <!--Precintos-->
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                <label for="precintos">Precintos N°(<strong style="color: #dd4b39">*</strong>):</label>
+                                <input class="form-control limitedChars" id="precintos" placeholder="Ingrese Precintos..." />
+                            </div>                    
+                        </div>
+                        <!--________________-->
+                        <!--_________________ Agregar_________________-->
+                        <div class="form-group text-right">
+                            <button type="button" class="btn btn-outline-dark" onclick="agregarTermico()" >Agregar</button>
+                        </div>                
+                        <!--__________________________________-->
+                        <div class="col-md-12 col-sm-12 col-xs-12 centrar">
+                            <h4>Térmico:</h4>
+                            <div id="sec_termicos"></div>
+                        </div>
+                        <!--________________-->
+                        <!--Precintos-->
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="form-group">
+                                <label for="observaciones">Observaciones:</label>
+                                <textarea class="form-control" row="3" name="observaciones" id="observaciones" placeholder="Observaciones..." ></textarea>
+                            </div>                    
+                        </div>
+                        <!--________________-->
+                    
+                    </div>
+                <!-- </div> -->
+
+            </div> <!--FIN box-primary-->
+        </div><!--FIN col-->
+    <!--_______ FIN FORMULARIO INSPECCION BOX 2______-->
+    </div>
 </form>
 <script>
 //
