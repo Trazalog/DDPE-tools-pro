@@ -8,9 +8,13 @@
     </div>
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="fotos">
-            <?php foreach ($imgDocu->items as $key => $value) {
-                echo "<img class='thumbnail fotos documentacion' height='51' width='45' src='imgTEST/$value->imgCodif' alt='' onclick='preview(this)'>";
-            } ?>
+            <?php
+            if(!empty($imgsEscaneo)){
+                foreach ($imgsEscaneo as $key => $value) {
+                    echo "<img class='thumbnail fotos documentacion' height='51' width='45' src='$value' alt='' onclick='preview(this)'>";
+                }
+            } 
+            ?>
         </div>
     </div>
 </div>

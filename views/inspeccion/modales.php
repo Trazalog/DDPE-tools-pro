@@ -177,8 +177,12 @@
                     //actualizo combos luego de agregar opcion y la selecciono
                     switch(recurso){
                         case "Deposito":
+                            dataResp = JSON.parse(resp.data);
+                
+                            depo_id_new = dataResp.respuesta.resultado[0].depo_id;
                             var direccion = $("#calle").val() + " - " + $("#altura").val();
-                            var newOpc = new Option(direccion, 1, true, true);
+                            
+                            var newOpc = new Option(direccion, depo_id_new, true, true);
                             $('#depo_destino').append(newOpc).trigger('change');
                             //Limpio form
                             $('#calle').val('');

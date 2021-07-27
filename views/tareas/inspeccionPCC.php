@@ -32,11 +32,12 @@
                 <div class="box-tittle centrar">
                     <h3>Permiso de tránsito</h3>
                 </div>
+                <input type="text" class="form-control hidden" name="petr_id" id="petr_id" value="<?php echo $petr_id?>">
                 <!--Solicitud-->
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                         <label for="Solicitud">Solicitud N°(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input type="text" class="form-control requerido" name="soli_num" id="soli_num" placeholder="Ingrese número de solicitud..."/>
+                        <input type="text" class="form-control requerido limitedChars" id="soli_num" placeholder="Ingrese número de solicitud..."/>
                     </div>
                 </div>
                 <!--________________-->
@@ -45,7 +46,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                         <label for="emision">Lugar de emisión(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input type="text" class="form-control" name="emision" id="emision" placeholder="Ingrese lugar de emisión..."/>
+                        <input type="text" class="form-control limitedNumbers" id="emision" placeholder="Ingrese lugar de emisión..."/>
                     </div>
                 </div>
                 <!--________________-->
@@ -54,7 +55,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                     <label for="salida">Hora de Salida(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input type="time" class="form-control" name="salida" id="salida" placeholder="Ingrese hora de salida..."/>
+                        <input type="time" class="form-control" id="salida" placeholder="Ingrese hora de salida..."/>
                     </div>
                 </div>
                 <!--________________-->
@@ -63,7 +64,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                     <label for="fecha">Fecha(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input type="date" class="form-control" name="fecha" id="fecha" placeholder="Ingrese fecha..."/>
+                        <input type="date" class="form-control" id="fecha" placeholder="Ingrese fecha..."/>
                     </div>
                 </div>
                 <!--________________-->
@@ -72,12 +73,12 @@
                 <div class="col-md-12 col-sm-12 col-xs-12">
                         <label for="doc_sanitaria">Doc. Sanitaria Tipo(<strong style="color: #dd4b39">*</strong>):</label>
                     <div class="form-check form-check-inline">
-                        <input type="radio" class='form-check-input' name="doc_sanitaria" required />
+                        <input type="radio" class='form-check-input' name="doc_sanitaria" value="PT"/>
                         <label class="form-check-label" for="">PT</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input type="radio" class='form-check-input' name="doc_sanitaria" required />
-                        <label class="form-check-label" for="">PCR</label>
+                        <input type="radio" class='form-check-input' name="doc_sanitaria" value="PTR"/>
+                        <label class="form-check-label" for="">PTR</label>
                     </div>
                 </div>
                 <!--________________-->
@@ -107,15 +108,8 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                         <label for="doc_chofer">DNI Chofer(<strong style="color: #dd4b39">*</strong>):</label>
                     <div class="input-group">
-                        <select class="form-control select2 select2-hidden-accesible" name="doc_chofer" id="doc_chofer" onChange="seChofer(this)" required>
-                            <option value="" disabled selected>-Seleccionar-</option>	
-                            <?php
-                            if(!empty($choferes)){
-                                foreach ($choferes as $chof) {
-                                    echo "<option data-json='".json_encode($chof)."' value='".$chof->dni."'>".$chof->dni."</option>";
-                                }
-                            }
-                            ?>
+                        <select class="form-control select2 select2-hidden-accesible choferes" name="chof_id" id="doc_chofer" required>
+                            <option value="" disabled selected></option>	
                         </select>
                         <span id="add_chofer" class="input-group-addon" data-toggle="modal" data-target="#mdl-chofer"><i class="fa fa-plus"></i></span>
                     </div>
@@ -135,7 +129,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group has-feedback">
                     <label for="patenteTractor">Patente Tractor(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input class="form-control" name="patenteTractor" id="patenteTractor" placeholder="Ingrese Patente Tractor..." required/>
+                        <input class="form-control" name="patente_tractor" id="patenteTractor" placeholder="Ingrese Patente Tractor..." required/>
                     </div>
                 </div>
                 <!--________________-->
@@ -144,7 +138,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                     <label for="num_senasa">N° SENASA(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input class="form-control" name="num_senasa" id="num_senasa" placeholder="Ingrese N° SENASA..." required/>
+                        <input class="form-control limitedChars" name="nro_senasa" id="num_senasa" placeholder="Ingrese N° SENASA..." required/>
                     </div>
                 </div>
                 <!--________________-->
@@ -164,14 +158,7 @@
                         <label for="esta_nom">Nombre Establecimiento(<strong style="color: #dd4b39">*</strong>):</label>
                         <div class="input-group">
                             <select class="form-control select2 select2-hidden-accesible" name="esta_nom" id="esta_nom" onChange="seEstable(this)">
-                                <option value="" disabled selected>-Seleccionar-</option>	
-                                <?php
-                                if(!empty($establecimientos)){ 
-                                    foreach ($establecimientos as $esta) {
-                                        echo "<option data-json='".json_encode($esta)."' value='".$esta->id."'>".$esta->nombre."</option>";
-                                    }
-                                }
-                                ?>
+                                <option value="" disabled selected></option>	
                             </select>
                             <span id="add_establecimiento" class="input-group-addon" data-toggle="modal" data-target="#mdl-establecimiento"><i class="fa fa-plus"></i></span>
                         </div>
@@ -185,14 +172,7 @@
                         <label for="empre_destino">Empresa Destino(<strong style="color: #dd4b39">*</strong>):</label>
                         <div class="input-group">
                         <select class="form-control select2 select2-hidden-accesible" name="empre_destino" id="empre_destino" onChange="seEmpresa(this)">
-                            <option value="" disabled selected>-Seleccionar-</option>	
-                            <?php
-                            if(!empty($empresas)){ 
-                                foreach ($empresas as $emp) {
-                                    echo "<option data-json='".json_encode($emp)."' value='".$emp->cuit."'>".$emp->razon_social."</option>";
-                                }
-                            }
-                            ?>
+                            <option value="" disabled selected></option>
                         </select>
                             <span id="add_empresa" class="input-group-addon" data-toggle="modal" data-target="#mdl-empresa"><i class="fa fa-plus"></i></span>
                         </div>

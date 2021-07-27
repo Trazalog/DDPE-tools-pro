@@ -7,6 +7,7 @@ class Sicpoatareas extends CI_Model
     public function __construct()
     {
         parent::__construct();
+        $this->load->model(SICP . 'Ingresosbarrera');
     }
 
     public function map($tarea)
@@ -23,19 +24,9 @@ class Sicpoatareas extends CI_Model
 
         
         if(isset($case_id)){
-            
-            // $aux = new StdClass();
-            // $aux->color = 'success'; //primary //secondary // success // danger // warning // info // light // dark //white 
-            // $aux->texto = "N° Codigo:  $aux_pedido->cod_proyecto";
-            // $array['info'][] = $aux;
-
-            // $aux = new StdClass();
-            // $aux->color = 'primary';
-            // $aux->texto = "Objetivo:  $aux_pedido->objetivo   $aux_pedido->unidad_medida";
-            // $array['info'][] =$aux;
 
             $aux = new StdClass();
-            $aux->color = 'warning';
+            $aux->color = 'warning';//primary //secondary // success // danger // warning // info // light // dark //white 
             $aux->texto = "Estado: $aux_pedido->estado ";
             $array['info'][] = $aux;
 
@@ -43,11 +34,6 @@ class Sicpoatareas extends CI_Model
             $aux->color = 'primary';
             $aux->texto = "Fecha Inicio: ".formatFechaPG( $aux_pedido->fec_inicio);
             $array['info'][] = $aux;
-
-            // $aux = new StdClass();
-            // $aux->color = 'default';
-            // $aux->texto = "Fecha Entrega: ".formatFechaPG( $aux_pedido->fec_entrega);
-            // $array['info'][] = $aux;
 
             $array['descripcion'] =  $aux_pedido->descripcion;
         }else{
@@ -102,11 +88,11 @@ class Sicpoatareas extends CI_Model
         switch ($tarea->nombreTarea) {
             //paso 1
             case 'Pre - Carga de Datos':
-                $datos = $this->getXCaseId($tarea);
-                $info_id = $datos->info_id;
-                $data['imgsBarrera'] = $this->getImgsBarrera($info_id);
+                $tareaData = $this->getXCaseId($tarea);
+                
+                $data['imgsBarrera'] = $this->getImgsBarrera($tareaData->info_id);
                 $data['departamentos'] = $this->getDepartamentos();
-                $data['petr_id'] = $datos->petr_id;
+                $data['petr_id'] = $tareaData->petr_id;
 
                 return $this->load->view(SICP . 'tareas/preCargaDatos', $data, true);
         
@@ -127,9 +113,20 @@ class Sicpoatareas extends CI_Model
 
             //paso 3
             case 'Inspección en PCC':
-                $info_id = $this->getXCaseId($tarea)->info_id;
-                $data['imgsBarrera'] = $this->getImgsBarrera($info_id);
+                $tareaData = $this->getXCaseId($tarea);
+
+                $data['imgsBarrera'] = $this->getImgsBarrera($tareaData->info_id);
                 $data['departamentos'] = $this->getDepartamentos();
+                $data['petr_id'] = $tareaData->petr_id;
+                
+                //Es el info_id del formulario de escaneo documentacion
+                //que puede o no estar cargado a la hora de la inspeccion
+                $formulario = $this->Ingresosbarrera->getFormularios($tareaData->petr_id);
+                $escaneoInfoId = $formulario['data'][0]->forms->form[0]->info_id;
+
+                if(isset($escaneoInfoId)){
+                    $data['imgsEscaneo'] = $this->getImgsEscaneoDocu($escaneoInfoId);
+                }
                 
                 return $this->load->view(SICP . 'tareas/inspeccionPCC', $data, true);
 
@@ -226,16 +223,10 @@ class Sicpoatareas extends CI_Model
                 
                 $rsp = $this->guardarForms($data);
 
-                if($rsp['status']){
-                    //Actualizo el info_id_doc en 'inspeccione's una vez guardado el escaneo documentacion
-                    $info_id_doc = array('info_id_doc' => $form['frm_info_id']);
-
-                    $str = $this->db->update_string('sicpoa.inspecciones', $info_id_doc, "case_id = $case_id");
-                    log_message('DEBUG', '#TRAZA | #SICPOA | Sicpoatareas | getContrato()  >> info_id_doc '.json_encode($str));
-                    $contrato["escaneoDocumentacion"]  = $rsp['status'];
-                }
+                $contrato["escaneoDocumentacion"]  = $rsp['status'];
                 
                 log_message('DEBUG', '#TRAZA | #SICPOA | Sicpoatareas | getContrato()  >> contrato '.json_encode($contrato));
+
                 return $contrato;
             
             break;
@@ -343,11 +334,33 @@ class Sicpoatareas extends CI_Model
             }
         }
     /**
-	* Obtengo las imagenes cargadas en Imgres Barrera guardadas en instancias_formularios
+	* Obtengo las imagenes cargadas en Ingreso Barrera guardadas en instancias_formularios
 	* @param array info_id
 	* @return array Imagenes relacionadas con el info_id
 	*/
     function getImgsBarrera($info_id){
+        if($info_id){
+            $imagenes = array();
+            $this->load->model(FRM . 'Forms');
+            $res = $this->Forms->obtener($info_id);
+
+            foreach ($res->items as $dato) {
+                if(isset($dato->valor4_base64)){
+                    $rec = stream_get_contents($dato->valor4_base64);
+                    $ext = $this->obtenerExtension($dato->valor);
+                    array_push($imagenes, $ext.$rec);
+                }
+            }
+        }
+        return $imagenes;
+    }
+
+    /**
+	* Obtengo las imagenes cargadas en Escaneo Documentacion guardadas en instancias_formularios
+	* @param array info_id
+	* @return array Imagenes relacionadas con el info_id
+	*/
+    function getImgsEscaneoDocu($info_id){
         if($info_id){
             $imagenes = array();
             $this->load->model(FRM . 'Forms');

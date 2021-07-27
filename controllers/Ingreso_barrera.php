@@ -111,7 +111,7 @@ class Ingreso_barrera extends CI_Controller
             // echo $respuesta;
 
             if ($lanzar_bpm == "true") {
-                $this->BonitaProcess($petr_id);
+                $this->BonitaProcess($petr_id, $proceso->nombre_bpm);
                 
                 echo json_encode($rsp);
 
@@ -140,12 +140,12 @@ class Ingreso_barrera extends CI_Controller
 
     }
 
-    public function BonitaProcess($petr_id){
+    public function BonitaProcess($petr_id,$id_bpm_process){
       
         $data = array(
             'p_petrId' => $petr_id);
 
-        $rsp = $this->Ingresosbarrera->lanzarBonitaProcess($data);
+        $rsp = $this->Ingresosbarrera->lanzarBonitaProcess($data, $id_bpm_process);
         $case_id = json_decode($rsp['data']['caseId']);
 
         if ($case_id) {
