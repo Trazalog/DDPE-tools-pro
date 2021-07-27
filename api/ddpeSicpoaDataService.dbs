@@ -143,10 +143,9 @@
       <param name="usuario_app" sqlType="STRING"/>
    </query>
    <query id="setTermico" useConfig="SICPOADataSource">
-      <sql>insert&#xd;	into&#xd;	sicpoa.termicos (patente,&#xd;	usuario_app,&#xd;	empr_id)&#xd;values(:patente,&#xd;	:usuario_app,&#xd;	:empr_id);</sql>
+      <sql>insert&#xd;	into&#xd;	sicpoa.termicos (patente,&#xd;	usuario_app)&#xd;values(:patente,&#xd;	:usuario_app);</sql>
       <param name="patente" sqlType="STRING"/>
       <param name="usuario_app" sqlType="STRING"/>
-      <param name="empr_id" sqlType="STRING"/>
    </query>
    <resource method="POST" path="/inspeccion">
       <call-query href="setInspeccion">
@@ -280,7 +279,7 @@
       <call-query href="setTermico">
          <with-param name="patente" query-param="patente"/>
          <with-param name="usuario_app" query-param="usuario_app"/>
-         <with-param name="empr_id" query-param="empr_id"/>
       </call-query>
    </resource>
 </data>
+
