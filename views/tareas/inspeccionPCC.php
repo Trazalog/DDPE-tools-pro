@@ -25,7 +25,7 @@
 }
 </style>
 <!--_______ FORMULARIO PERMISO DE TRANSITO BOX 1______-->
-<form class="formPreCarga" id="formPreCarga">
+<form class="formInspeccion" id="formInspeccion">
     <div class="row">
         <div class="col-md-6 col-sm-12 col-xs-12">
             <div class="caja" id="boxPermisoTransito">
@@ -283,34 +283,34 @@
                 </div>
                 <!--________________-->
                 <!--Bruto-->
-                <div class="col-md-3 col-sm-3 col-xs-6">
+                <div class="col-md-4 col-sm-6 col-xs-6">
                     <div class="form-group">
-                        <label for="bruto">Bruto(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input class="form-control" name="bruto" id="bruto" placeholder="Bruto..." />
+                        <label for="bruto">Bruto:</label>
+                        <input class="form-control neto onlyNumbers" name="bruto" id="bruto" placeholder="Bruto..." />
                     </div>                    
                 </div>
                 <!--________________-->
-                <!--Taza-->
-                <div class="col-md-3 col-sm-3 col-xs-6">
+                <!--Tara-->
+                <div class="col-md-4 col-sm-6 col-xs-6">
                     <div class="form-group">
-                        <label for="taza">Tara(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input class="form-control" name="tara" id="tara" placeholder="Tara..." />
+                        <label for="tara">Tara:</label>
+                        <input class="form-control neto onlyNumbers" name="tara" id="tara" placeholder="Tara..." />
                     </div>                    
                 </div>
                 <!--________________-->
                 <!--Neto-->
-                <div class="col-md-3 col-sm-3 col-xs-6">
+                <div class="col-md-4 col-sm-6 col-xs-6">
                     <div class="form-group">
-                        <label for="neto">Neto(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input class="form-control" name="neto" id="neto" placeholder="Neto..." />
+                        <label for="neto">Neto:</label>
+                        <input class="form-control" id="neto" placeholder="Neto..." readonly/>
                     </div>                    
                 </div>
                 <!--________________-->
                 <!--Ticket-->
-                <div class="col-md-3 col-sm-3 col-xs-6">
+                <div class="col-md-6 col-sm-6 col-xs-6">
                     <div class="form-group">
-                        <label for="ticket">Ticket(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input class="form-control" name="ticket" id="ticket" placeholder="Ticket..." />
+                        <label for="ticket">Ticket:</label>
+                        <input class="form-control" name="ticket" id="ticket" placeholder="Ingrese Ticket..." />
                     </div>                    
                 </div>
                 <!--________________-->
@@ -319,11 +319,11 @@
                     <div class="form-group">
                         <label for="inspValida">¿Inspección correcta?:</label>
                         <div class="form-check form-check-inline">
-                            <input type="radio" class='form-check-input' name="inspValida" value="si" onchange="showValidar(this)"/>
+                            <input type="radio" class='form-check-input' name="inspValida" value="correcta" onchange="showValidar(this)"/>
                             <label class="form-check-label" for="">Sí</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input type="radio" class='form-check-input' name="inspValida" value="no" onchange="showValidar(this)"/>
+                            <input type="radio" class='form-check-input' name="inspValida" value="incorrecta" onchange="showValidar(this)"/>
                             <label class="form-check-label" for="">No</label>
                         </div>
                     </div>
@@ -509,6 +509,12 @@ $(document).ready(function() {
     });
     //Deshabilito los depositos destino hasta que se elija una empresa destino
     $("#depo_destino").prop("disabled", true);
+
+    //Script para inicio de formulario 11
+    //Escaneo doucmentacion
+    detectarForm();
+    initForm();
+
 });//FIN document.ready
 /******************************************************************************* */
 //
@@ -521,7 +527,7 @@ $('#doc_chofer').select2().on('select2:open', function() {
 //Filtro para solo numero en combo box DNI Chofer
 //KeyCode: 8 = Borrar, 0 = Nada, 9 = Tab, 48-57 = N° izq, 96-105 = N° der, 37-40 = flechas
 $(document).on("keydown", ".choferes", function(e) {
-    if (e.which != 8 && e.which != 0 && e.which != 9 && (e.which < 48 || e.which > 57) && (e.which < 96 || e.which > 105) && (e.which < 37 || e.which > 40)) {
+    if (e.which != 8 && e.which != 0 && e.which != 9 && e.which != 13 && (e.which < 48 || e.which > 57) && (e.which < 96 || e.which > 105) && (e.which < 37 || e.which > 40)) {
         e.preventDefault();
         alert("Ingrese dígitos únicamente");
     }
@@ -529,15 +535,15 @@ $(document).on("keydown", ".choferes", function(e) {
 //Filtro para NUMEROS, "/ -" inputs
 //KeyCode: 111 = / , 109 = -
 $(document).on("keydown", ".limitedChars", function(e) {
-    if (e.which != 8 && e.which != 0 && e.which != 9 && e.which != 109 && e.which != 111 && (e.which < 48 || e.which > 57) && (e.which < 96 || e.which > 105) && (e.which < 37 || e.which > 40)) {
+    if (e.which != 8 && e.which != 0 && e.which != 9 && e.which != 13 && e.which != 109 && e.which != 111 && (e.which < 48 || e.which > 57) && (e.which < 96 || e.which > 105) && (e.which < 37 || e.which > 40)) {
         e.preventDefault();
         alert("Caracteres válidos: 0-9, / y -");
     }
 });
 //Filtro para PRECINTOS N° A-Z, /, - y flechas
-//KeyCode:
+//KeyCode: 13 = Enter
 $(document).on("keydown", ".limited", function(e) {
-    if (e.which != 8 && e.which != 0 && e.which != 9 && e.which != 109 && (e.which < 48 || e.which > 57) && (e.which < 96 || e.which > 105) && (e.which < 37 || e.which > 40) && (e.which < 65 || e.which > 90)) {
+    if (e.which != 8 && e.which != 0 && e.which != 9 && e.which != 13 && e.which != 109 && (e.which < 48 || e.which > 57) && (e.which < 96 || e.which > 105) && (e.which < 37 || e.which > 40) && (e.which < 65 || e.which > 90)) {
         e.preventDefault();
         alert("Caracteres válidos: A-Z, 0-9 y -");
     }
@@ -545,9 +551,17 @@ $(document).on("keydown", ".limited", function(e) {
 //Filtro para inputs A-Z, - y flechas
 //KeyCode: Ñ = 192
 $(document).on("keydown", ".limitedNumbers", function(e) {
-    if (e.which != 8 && e.which != 0 && e.which != 9 && e.which != 109 && e.which != 192 && (e.which < 37 || e.which > 40) && (e.which < 65 || e.which > 90)) {
+    if (e.which != 8 && e.which != 0 && e.which != 9 && e.which != 13 && e.which != 20 && e.which != 32 && e.which != 109 && e.which != 192 && (e.which < 37 || e.which > 40) && (e.which < 65 || e.which > 90)) {
         e.preventDefault();
         alert("Caracteres válidos: A-Z y -");
+    }
+});
+//Filtro para solo numeros
+//KeyCode: . = 110, . = 190
+$(document).on("keydown", ".onlyNumbers", function(e) {
+    if (e.which != 8 && e.which != 0 && e.which != 9 && e.which != 13 && e.which != 110 && e.which != 190 && (e.which < 48 || e.which > 57) && (e.which < 96 || e.which > 105) && (e.which < 37 || e.which > 40)) {
+        e.preventDefault();
+        alert("Caracteres validos: 0-9 y .");
     }
 });
 //
@@ -602,79 +616,77 @@ $(document).on("click",".fa-trash",function(e) {
 //Scripts Permisos transito
 //
 var accion;
-    function agregarPermiso(){
-			//Informamos el campo vacio 
-			var reporte = validarCamposPermiso();
-									
-			if(reporte == ''){
-                // if(accion != 'editar'){
-                    var soli_num = $("#soli_num").val();
-                    // var descDepo = $("#depo_origen_id option:selected").text();
-                    var emision = $('#emision').val();
-                    var salida = $('#salida').val();
-                    var fecha = $("#fecha").val();
+function agregarPermiso(){
+    //Informamos el campo vacio 
+    var reporte = validarCamposPermiso();
+                            
+    if(reporte == ''){
+        
+        var soli_num = $("#soli_num").val();
+        // var descDepo = $("#depo_origen_id option:selected").text();
+        var emision = $('#emision').val();
+        var salida = $('#salida').val();
+        var fecha = $("#fecha").val();
 
-                    var datos = {};
-                    datos.soli_num = soli_num;
-                    datos.emision = emision;
-                    datos.salida = salida;
-                    datos.fecha = fecha;
+        var datos = {};
+        datos.soli_num = soli_num;
+        datos.emision = emision;
+        datos.salida = salida;
+        datos.fecha = fecha;
 
-                    var div = `<div class='form-group permTransito' data-json='${JSON.stringify(datos)}'>
-                                    <span> 
-                                    <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i>
-                                    <i class='fa fa-fw fa-edit text-light-blue' style='cursor: pointer; margin-left: 12px;' title='Editar'></i> 
-                                    | ${soli_num} - ${emision} - ${salida} - ${fecha}
-                                    </span>
-                            </div>`;
-                    $('#sec_permisos').append(div);
-                    //Limpio luego de agregar
-                    $("#soli_num").val('');
-                    $("#emision").val('');
-                    $("#salida").val('');
-                    $("#fecha").val('');
-                // }else{
-                //     $('#sec_permisos').find()
-                // }
-			}else{
-					alert(reporte);
-			}
-	}
-    function validarCamposPermiso(){
-        var valida = '';
-        //Numero de solicitud
-		if($("#soli_num").val() == ""){
-			valida = "Complete Numero de solicitud!";
-		}
-        //Lugar de emision
-		if($("#emision").val() == ""){
-			valida = "Complete Lugar de emision!";
-		}
-        //Hora de salida
-		if($("#salida").val() == ""){
-			valida = "Seleccione una Hora de salida!";
-		}
-        //Fecha
-		if($("#fecha").val() == ""){
-			valida = "Seleccione una Fecha!";
-		}
-        //Documentacion sanitaria
-		// if($("#depo_id").attr() == null){
-		// 	valida = "Seleccione un tipo de Doc. sanitaria!";
-		// }
-		return valida;
+        var div = `<div class='form-group permTransito' data-json='${JSON.stringify(datos)}'>
+                        <span> 
+                        <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i>
+                        <i class='fa fa-fw fa-edit text-light-blue' style='cursor: pointer; margin-left: 12px;' title='Editar'></i> 
+                        | ${soli_num} - ${emision} - ${salida} - ${fecha}
+                        </span>
+                </div>`;
+        $('#sec_permisos').append(div);
+        //Limpio luego de agregar
+        $("#soli_num").val('');
+        $("#emision").val('');
+        $("#salida").val('');
+        $("#fecha").val('');
+
+    }else{
+        alert(reporte);
     }
+}
+function validarCamposPermiso(){
+    var valida = '';
+    //Numero de solicitud
+    if($("#soli_num").val() == ""){
+        valida = "Complete Numero de solicitud!";
+    }
+    //Lugar de emision
+    if($("#emision").val() == ""){
+        valida = "Complete Lugar de emision!";
+    }
+    //Hora de salida
+    if($("#salida").val() == ""){
+        valida = "Seleccione una Hora de salida!";
+    }
+    //Fecha
+    if($("#fecha").val() == ""){
+        valida = "Seleccione una Fecha!";
+    }
+    //Documentacion sanitaria
+    // if($("#depo_id").attr() == null){
+    // 	valida = "Seleccione un tipo de Doc. sanitaria!";
+    // }
+    return valida;
+}
 
-    $(document).on("click",".fa-edit",function(e) {
-        // accion = "editar";
-        var data =	JSON.parse($(e.target).closest('div').attr('data-json'));
-        $("#soli_num").val(data.soli_num);
-        $("#emision").val(data.emision);
-        $("#salida").val(data.salida);
-        $("#fecha").val(data.fecha);
-        $(e.target).closest('div').remove();
+$(document).on("click",".fa-edit",function(e) {
+    // accion = "editar";
+    var data =	JSON.parse($(e.target).closest('div').attr('data-json'));
+    $("#soli_num").val(data.soli_num);
+    $("#emision").val(data.emision);
+    $("#salida").val(data.salida);
+    $("#fecha").val(data.fecha);
+    $(e.target).closest('div').remove();
 
-	});
+});
 //FIN Script's seccion permisos transito
 /***************************************************** */
 /***************************************************** */
@@ -682,34 +694,34 @@ var accion;
 //Scripts Termico
 //
     function agregarTermico(){
-			//Informamos el campo vacio 
-			var reporte = validarCamposTermico();
-									
-			if(reporte == ''){
-                var term_patente = $("#term_patente").val();
-                // var descDepo = $("#depo_origen_id option:selected").text();
-                var temperatura = $('#temperatura').val();
-                var precintos = $('#precintos').val();
+        //Informamos el campo vacio 
+        var reporte = validarCamposTermico();
+                                
+        if(reporte == ''){
+            var term_patente = $("#term_patente").val();
+            // var descDepo = $("#depo_origen_id option:selected").text();
+            var temperatura = $('#temperatura').val();
+            var precintos = $('#precintos').val();
 
-                var datos = {};
-                datos.term_patente = term_patente;
-                datos.temperatura = temperatura;
-                datos.precintos = precintos;
+            var datos = {};
+            datos.term_patente = term_patente;
+            datos.temperatura = temperatura;
+            datos.precintos = precintos;
 
-                var div = `<div class='form-group permTransito' data-json='${JSON.stringify(datos)}'>
-                                <span> 
-                                <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i> 
-                                | ${term_patente} - ${temperatura} - ${precintos}
-                                </span>
-                        </div>`;
-                $('#sec_termico').append(div);
-                //Limpio luego de agregar
-                $("#term_patente").val('');
-                $("#temperatura").val('');
-                $("#precintos").val('');
-			}else{
-				alert(reporte);
-			}
+            var div = `<div class='form-group permTransito' data-json='${JSON.stringify(datos)}'>
+                            <span> 
+                            <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i> 
+                            | ${term_patente} - ${temperatura} - ${precintos}
+                            </span>
+                    </div>`;
+            $('#sec_termico').append(div);
+            //Limpio luego de agregar
+            $("#term_patente").val('');
+            $("#temperatura").val('');
+            $("#precintos").val('');
+        }else{
+            alert(reporte);
+        }
 	}
     function validarCamposTermico(){
         var valida = '';
@@ -731,32 +743,255 @@ var accion;
 /***************************************************** */
 /***************************************************** */
 //
-//Scripts SELECTS
+//Scripts SELECTS que actualizan combos o inputs
 //
-//Acutalizo datos de chofer
-function seChofer(elem){
-    var nomChofer = JSON.parse($(elem).find(":selected").attr("data-json")).nombre;
-    $("#nom_chofer").val(nomChofer);
-}
-function seEstable(elem){
-    var nomChofer = JSON.parse($(elem).find(":selected").attr("data-json")).nombre;
-    $("#nom_chofer").val(nomChofer);
-}
-//Script apra inicio de formulario 11
-//Escaneo doucmentacion
-$(document).ready(function () {
-    
-detectarForm();
-initForm();
+//Actualizo nombre del chofer
+$('#doc_chofer').on('select2:select', function (e) {
+    var data = e.params.data;
+    $("#nom_chofer").val(data.text);
 });
+$('#esta_nom').on('select2:select', function (e) {
+    var data = e.params.data;
+    $("#esta_num").val(data.id);
+});
+//Cargo listado de depositos para empresa destino seleccionada
+$("#empre_destino").on('change', function(){
+    //asigno la empresa al modal para altas rapidas
+    $("#empr_id_destino").val($("#empre_destino").val());
+    //Habilito el combo box
+    $("#depo_destino").prop("disabled", false);
+    //limpio opciones del combo
+    $('#depo_destino').html('').select2({data: {id:null, text: null}});
+    //Cargo los depositos coincidientes con la empresa destino seleccionada
+    destino = {};
+    destino.empr_id = $("#empre_destino").val();
+
+    $.ajax({
+        type: 'POST',
+        data: {destino},
+        url: "<?php echo SICP; ?>inspeccion/getDepositos",
+        success: function(data) {
+            if(data != 'null'){
+                datos = JSON.parse(data);
+                
+                $.each(datos, function(i, obj) {
+                    depo_id = obj.depo_id;
+                    direccion = obj.calle + " - " + obj.altura;
+
+                    newOpc = new Option(direccion, depo_id, false, false);
+                    $('#depo_destino').append(newOpc);
+                });
+                $('#depo_destino').trigger('change');
+
+            }else{
+                console.log("Sin depositos relacionados a esta empresa destino");
+            }
+        },
+        error: function(data) {
+            alert("Error al obtener depositos");
+        }
+    });
+});
+//Actualizo neto cuando se cargue Bruto y Tara
+$(".neto").on("change", function () {
+    bruto = $("#bruto").val();
+    tara = $("#tara").val();
+
+    if(bruto != '' && tara != ''){
+        neto = bruto - tara;
+        if(neto > 0){
+            $('#neto').val(neto);
+        }else{
+            alert("El peso bruto es menor al peso tara");
+        }
+    }
+});
+//Cierre formulario
+async function cerrarTareaform(){
+
+    //obtengo el formulario de la inspeccion
+    var dataForm = new FormData($('#formInspeccion')[0]);
+    var frm_info_id = $('#formEscaneoDocu .frm').attr('data-ninfoid');
+    
+    dataForm.append('case_id', $("#caseId").val());
+    dataForm.append('info_id_doc', frm_info_id);
+
+    correcto = ""; //Confirma que todo se guardo correctamente para cerrar tarea
+
+    //Guardo los datos del formulario para no perderlos en reload
+    //obtengo los permisos
+    permisos = [];
+    $('#sec_permisos div.permTransito').each(function(i, obj) {
+        var json = JSON.parse($(obj).attr('data-json'));
+        permisos[i] = json;
+    });
+
+    //obtengo los destinos
+    empresas = [];
+    $('#sec_destinos div.empreDestino').each(function(i, obj) {
+        var json = JSON.parse($(obj).attr('data-json'));
+        empresas[i] = json;
+    });
+    //obtengo origen
+    origen = {};
+    origen.rol = "ORIGEN";
+    origen.empr_id = $("#esta_nom").val();
+    origen.case_id = $("#caseId").val();
+    origen.depo_id = "";
+    empresas.push(origen);
+    
+    //obtengo transportista
+    transp = {};
+    transp.rol = "TRANSPORTISTA";
+    transp.empr_id = $("#transportista").val();
+    transp.case_id = $("#caseId").val();
+    transp.depo_id = "";
+    empresas.push(transp);
+    
+    //obtengo los termicos
+    termicos = [];
+    $('#sec_termicos div.termicos').each(function(i, obj) {
+        var json = JSON.parse($(obj).attr('data-json'));
+        termicos[i] = json;
+    });
+
+    //Guardo la inspeccion
+    let guardadoCompleto = new Promise( function(resolve,reject){
+            $.ajax({
+            type: 'POST',
+            data: dataForm,
+            cache: false,
+            contentType: false,
+            processData: false,
+            url: "<?php echo SICP; ?>inspeccion/agregarInspeccion",
+            success: function(data) {
+                console.log("Se guardo el formulario de PreCarga correctamente");
+                
+                //Guardo los permisos, empresas y termicos
+                $.ajax({
+                    type: 'POST',
+                    data: {permisos, empresas, termicos},
+                    url: "<?php echo SICP; ?>inspeccion/guardarDatosInspeccion",
+                    success: function(data) {
+                        resp = JSON.parse(data);
+                        if(resp.status){
+                            console.log(resp.message);
+                            resolve("Correcto");
+                        }else{
+                            console.log(resp.message);
+                            reject("Error");
+                        }
+                    },
+                    error: function(data) {
+                        alert("Error al guardar datos del formulario");
+                        reject("Error");
+                    }
+                });
+
+            },
+            error: function(data) {
+                alert("Error al guardar formulario de PreCarga");
+                reject("Error");
+            }
+        });
+    });
+    return await guardadoCompleto;
+}
+    
+
+function cerrarTarea() {
+
+    if(!frm_validar('#formInspeccion')){
+        console.log("Error al validar Formulario");
+				Swal.fire(
+					'Error..',
+					'Debes completar los campos obligatorios (*)',
+					'error'
+				);
+        return;
+    }
+    //
+    //VALIDACION PERMISOS DE TRANSITO
+    //
+    if ( !$('#sec_permisos').children().length > 0 ) { 
+        Swal.fire(
+					'Error..',
+					'No se agregaron permisos de tránsito (*)',
+					'error'
+				);
+        return;
+    }
+    //
+    //VALIDACION EMPRESAS DESTINO
+    //
+    if ( !$('#sec_destinos').children().length > 0 ) {
+        Swal.fire(
+					'Error..',
+					'No se agregaron empresas de destino (*)',
+					'error'
+				);
+        return;
+    }
+    //
+    //VALIDACION TERMICOS
+    //
+    if ( !$('#sec_termicos').children().length > 0 ) {
+        
+        Swal.fire(
+					'Error..',
+					'No se agregaron térmicos (*)',
+					'error'
+				);
+        return;
+    }
+    //Una vez validado el formulario, lo guardo
+    cerrarTareaform().then((result) => {
+        
+        //No uso formulario dinámico
+        var dataForm = new FormData();
+
+        var id = $('#taskId').val();
+
+        $.ajax({
+            type: 'POST',
+            data: dataForm,
+            cache: false,
+            contentType: false,
+            processData: false,
+            url: '<?php base_url() ?>index.php/<?php echo BPM ?>Proceso/cerrarTarea/' + id,
+            success: function(data) {
+                //wc();
+                //back();
+                linkTo('<?php echo BPM ?>Proceso/');
+                setTimeout(() => {
+                Swal.fire(
+                    
+                        'Perfecto!',
+                        'Se finalizó la tarea correctamente!',
+                        'success'
+                    )
+        	  }, 13000);
+
+            },
+            error: function(data) {
+                alert("Error al finalizar tarea");
+            }
+        });
+        
+    }).catch((err) => {
+        console.log(err);
+        alert("Error al finalizar tarea");
+    });
+}
+
 //FIN Scripts SELECTS
 /***************************************************** */
 /***************************************************** */
 //
-//Preview sin agregar clase select
+//Bloques para validar
 //
 function showValidar(tag){
-    if(tag.value == "si"){
+    if(tag.value == "correcta"){
         $("#bloque_validar").hide();
     }else{
         $("#bloque_validar").show();
