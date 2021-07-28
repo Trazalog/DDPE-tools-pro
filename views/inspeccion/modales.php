@@ -132,7 +132,7 @@
                 <!-- Modal body -->
                 <div class="modal-body">
                     <div class="row">
-                        <div class="frm-new" data-form="11"></div>
+                        <div id="formEscaneoDocu" class="frm-new" data-form="11"></div>
                     </div>
                 </div>
                 <!-- Modal footer -->

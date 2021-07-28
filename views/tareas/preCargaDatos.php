@@ -455,7 +455,7 @@ $('#doc_chofer').select2().on('select2:open', function() {
 //Filtro para solo numero en combo box DNI Chofer
 //KeyCode: 8 = Borrar, 0 = Nada, 9 = Tab, 48-57 = N° izq, 96-105 = N° der, 37-40 = flechas
 $(document).on("keydown", ".choferes", function(e) {
-    if (e.which != 8 && e.which != 0 && e.which != 9 && (e.which < 48 || e.which > 57) && (e.which < 96 || e.which > 105) && (e.which < 37 || e.which > 40)) {
+    if (e.which != 8 && e.which != 0 && e.which != 9 && e.which != 13 && (e.which < 48 || e.which > 57) && (e.which < 96 || e.which > 105) && (e.which < 37 || e.which > 40)) {
         e.preventDefault();
         alert("Ingrese dígitos únicamente");
     }
@@ -463,15 +463,15 @@ $(document).on("keydown", ".choferes", function(e) {
 //Filtro para NUMEROS, "/ -" inputs
 //KeyCode: 111 = / , 109 = -
 $(document).on("keydown", ".limitedChars", function(e) {
-    if (e.which != 8 && e.which != 0 && e.which != 9 && e.which != 109 && e.which != 111 && (e.which < 48 || e.which > 57) && (e.which < 96 || e.which > 105) && (e.which < 37 || e.which > 40)) {
+    if (e.which != 8 && e.which != 0 && e.which != 9 && e.which != 13 && e.which != 109 && e.which != 111 && (e.which < 48 || e.which > 57) && (e.which < 96 || e.which > 105) && (e.which < 37 || e.which > 40)) {
         e.preventDefault();
         alert("Caracteres válidos: 0-9, / y -");
     }
 });
 //Filtro para PRECINTOS N° A-Z, /, - y flechas
-//KeyCode:
+//KeyCode: 13 = Enter
 $(document).on("keydown", ".limited", function(e) {
-    if (e.which != 8 && e.which != 0 && e.which != 9 && e.which != 109 && (e.which < 48 || e.which > 57) && (e.which < 96 || e.which > 105) && (e.which < 37 || e.which > 40) && (e.which < 65 || e.which > 90)) {
+    if (e.which != 8 && e.which != 0 && e.which != 9 && e.which != 13 && e.which != 109 && (e.which < 48 || e.which > 57) && (e.which < 96 || e.which > 105) && (e.which < 37 || e.which > 40) && (e.which < 65 || e.which > 90)) {
         e.preventDefault();
         alert("Caracteres válidos: A-Z, 0-9 y -");
     }
@@ -479,7 +479,7 @@ $(document).on("keydown", ".limited", function(e) {
 //Filtro para inputs A-Z, - y flechas
 //KeyCode: Ñ = 192, Espacio = 32, Bloq. Mayús = 20
 $(document).on("keydown", ".limitedNumbers", function(e) {
-    if (e.which != 8 && e.which != 0 && e.which != 9 && e.which != 32 && e.which != 109 && e.which != 192 && (e.which < 37 || e.which > 40) && (e.which < 65 || e.which > 90)) {
+    if (e.which != 8 && e.which != 0 && e.which != 9 && e.which != 13 && e.which != 20 && e.which != 32 && e.which != 109 && e.which != 192 && (e.which < 37 || e.which > 40) && (e.which < 65 || e.which > 90)) {
         e.preventDefault();
         alert("Caracteres válidos: A-Z y -");
     }
@@ -544,38 +544,36 @@ var accion;
 			var reporte = validarCamposPermiso();
 									
 			if(reporte == ''){
-                // if(accion != 'editar'){
-                    var soli_num = $("#soli_num").val();
-                    // var descDepo = $("#depo_origen_id option:selected").text();
-                    var emision = $('#emision').val();
-                    var salida = $('#salida').val();
-                    var fecha = $("#fecha").val();
-                    var tipo = $('input[name=doc_sanitaria]:checked').val();
+                
+                var soli_num = $("#soli_num").val();
+                // var descDepo = $("#depo_origen_id option:selected").text();
+                var emision = $('#emision').val();
+                var salida = $('#salida').val();
+                var fecha = $("#fecha").val();
+                var tipo = $('input[name=doc_sanitaria]:checked').val();
 
-                    var datos = {};
-                    datos.perm_id = soli_num;
-                    datos.lugar_emision = emision;
-                    datos.fecha_hora_salida = fecha +" "+salida;
-                    datos.tipo = tipo;
-                    datos.case_id = $("#caseId").val(); 
+                var datos = {};
+                datos.perm_id = soli_num;
+                datos.lugar_emision = emision;
+                datos.fecha_hora_salida = fecha +" "+salida;
+                datos.tipo = tipo;
+                datos.case_id = $("#caseId").val(); 
 
-                    var div = `<div class='form-group permTransito' data-json='${JSON.stringify(datos)}'>
-                                    <span> 
-                                    <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i>
-                                    <i class='fa fa-fw fa-edit text-light-blue' style='cursor: pointer;' title='Editar'></i> 
-                                    | ${soli_num} - ${tipo} - ${emision} - ${salida} ${fecha}
-                                    </span>
-                            </div>`;
-                    $('#sec_permisos').append(div);
-                    //Limpio luego de agregar
-                    $("#soli_num").val('');
-                    $("#emision").val('');
-                    $("#salida").val('');
-                    $("#fecha").val('');
-                    $('input[name=doc_sanitaria]:checked').prop('checked',false);
-                // }else{
-                //     $('#sec_permisos').find()
-                // }
+                var div = `<div class='form-group permTransito' data-json='${JSON.stringify(datos)}'>
+                                <span> 
+                                <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i>
+                                <i class='fa fa-fw fa-edit text-light-blue' style='cursor: pointer;' title='Editar'></i> 
+                                | ${soli_num} - ${tipo} - ${emision} - ${salida} ${fecha}
+                                </span>
+                        </div>`;
+                $('#sec_permisos').append(div);
+                //Limpio luego de agregar
+                $("#soli_num").val('');
+                $("#emision").val('');
+                $("#salida").val('');
+                $("#fecha").val('');
+                $('input[name=doc_sanitaria]:checked').prop('checked',false);
+
 			}else{
 					alert(reporte);
 			}
@@ -624,35 +622,35 @@ var accion;
 //Scripts Termico
 //
     function agregarTermico(){
-			//Informamos el campo vacio 
-			var reporte = validarCamposTermico();
-									
-			if(reporte == ''){
-                var temperatura = $('#temperatura').val();
-                var precintos = $('#precintos').val();
-                var term_patente = $("#term_patente").val();
-                // var descDepo = $("#depo_origen_id option:selected").text();
+        //Informamos el campo vacio 
+        var reporte = validarCamposTermico();
+                                
+        if(reporte == ''){
+            var temperatura = $('#temperatura').val();
+            var precintos = $('#precintos').val();
+            var term_patente = $("#term_patente").val();
+            // var descDepo = $("#depo_origen_id option:selected").text();
 
-                var datos = {};
-                datos.temperatura = temperatura;
-                datos.precintos = precintos;
-                datos.case_id = $("#caseId").val();
-                datos.term_id = term_patente;
+            var datos = {};
+            datos.temperatura = temperatura;
+            datos.precintos = precintos;
+            datos.case_id = $("#caseId").val();
+            datos.term_id = term_patente;
 
-                var div = `<div class='form-group termicos' data-json='${JSON.stringify(datos)}'>
-                                <span> 
-                                <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i> 
-                                | ${term_patente} - ${temperatura} - ${precintos}
-                                </span>
-                        </div>`;
-                $('#sec_termicos').append(div);
-                //Limpio luego de agregar
-                $("#term_patente").val('');
-                $("#temperatura").val('');
-                $("#precintos").val('');
-			}else{
-				alert(reporte);
-			}
+            var div = `<div class='form-group termicos' data-json='${JSON.stringify(datos)}'>
+                            <span> 
+                            <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i> 
+                            | ${term_patente} - ${temperatura} - ${precintos}
+                            </span>
+                    </div>`;
+            $('#sec_termicos').append(div);
+            //Limpio luego de agregar
+            $("#term_patente").val('');
+            $("#temperatura").val('');
+            $("#precintos").val('');
+        }else{
+            alert(reporte);
+        }
 	}
     function validarCamposTermico(){
         var valida = '';
@@ -723,14 +721,7 @@ $("#empre_destino").on('change', function(){
         }
     });
 });
-//Script para inicio de formulario 11
-//Escaneo doucmentacion
-$(document).ready(function () {
-    
-    detectarForm();
-    initForm();
-});
-//
+
 //Cierre formulario
 async function cerrarTareaform(){
     debugger;
@@ -867,7 +858,7 @@ function cerrarTarea() {
     }
     //Una vez validado el formulario, lo guardo
     cerrarTareaform().then((result) => {
-        console.log(result);
+        
         //No uso formulario dinámico
         var dataForm = new FormData();
 
