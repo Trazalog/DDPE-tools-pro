@@ -155,12 +155,12 @@
                 <!--Nombre Establecimiento-->
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
-                        <label for="esta_nom">Nombre Establecimiento(<strong style="color: #dd4b39">*</strong>):</label>
+                        <label for="esta_nom">Establecimiento(<strong style="color: #dd4b39">*</strong>):</label>
                         <div class="input-group">
-                            <select class="form-control select2 select2-hidden-accesible" name="esta_nom" id="esta_nom" onChange="seEstable(this)">
+                            <select class="form-control select2 select2-hidden-accesible" name="esta_nom" id="esta_nom">
                                 <option value="" disabled selected></option>	
                             </select>
-                            <span id="add_establecimiento" class="input-group-addon" data-toggle="modal" data-target="#mdl-establecimiento"><i class="fa fa-plus"></i></span>
+                            <span id="add_establecimiento" class="input-group-addon" data-toggle="modal" data-target="#mdl-empresa"><i class="fa fa-plus"></i></span>
                         </div>
                     </div>
                 </div>
@@ -171,10 +171,10 @@
                     <div class="form-group">
                         <label for="empre_destino">Empresa Destino(<strong style="color: #dd4b39">*</strong>):</label>
                         <div class="input-group">
-                        <select class="form-control select2 select2-hidden-accesible" name="empre_destino" id="empre_destino" onChange="seEmpresa(this)">
-                            <option value="" disabled selected></option>
-                        </select>
-                            <span id="add_empresa" class="input-group-addon" data-toggle="modal" data-target="#mdl-empresa"><i class="fa fa-plus"></i></span>
+                            <select class="form-control select2 select2-hidden-accesible empresa" name="empre_destino" id="empre_destino">
+                                <option value="" disabled selected></option>
+                            </select>
+                            <span id="add_empresa" class="input-group-addon" data-toggle="modal" data-target="#mdl-empresa" onclick="$('#tipoEmpresa').val('Empresa')"><i class="fa fa-plus"></i></span>
                         </div>
                     </div>                    
                 </div>
@@ -185,16 +185,9 @@
                     <div class="form-group">
                         <label for="depo_destino">Depósito Destino(<strong style="color: #dd4b39">*</strong>):</label>
                         <div class="input-group">
-                        <select class="form-control select2 select2-hidden-accesible" name="depo_destino" id="depo_destino">
-                            <option value="" disabled selected>-Seleccionar-</option>	
-                            <?php
-                            if(!empty($depositos)){ 
-                                foreach ($depositos as $depo) {
-                                    echo "<option data-json='".json_encode($depo)."' value='".$depo->depo_id."'>".$depo->calle." - ".$depo->altura."</option>";
-                                }
-                            }
-                            ?>
-                        </select>
+                            <select class="form-control select2 select2-hidden-accesible" name="depo_destino" id="depo_destino">
+                                <option value="" disabled selected>-Seleccionar-</option>
+                            </select>
                             <span id="add_deposito" class="input-group-addon" data-toggle="modal" data-target="#mdl-deposito"><i class="fa fa-plus"></i></span>
                         </div>
                     </div>                    
@@ -216,17 +209,10 @@
                     <div class="form-group">
                         <label for="transportista">Transportista(<strong style="color: #dd4b39">*</strong>):</label>
                         <div class="input-group">
-                            <select class="form-control select2 select2-hidden-accesible" name="transportista" id="transportista">
-                                <option value="" disabled selected>-Seleccionar-</option>	
-                                <?php
-                                if(!empty($empresas)){ 
-                                    foreach ($empresas as $emp) {
-                                        echo "<option data-json='".json_encode($emp)."' value='".$emp->cuit."'>".$emp->razon_social."</option>";
-                                    }
-                                }
-                                ?>
+                            <select class="form-control select2 select2-hidden-accesible empresa" name="transportista" id="transportista">
+                                <option value="" disabled selected></option>
                             </select>
-                            <span id="add_transportista" class="input-group-addon" data-toggle="modal" data-target="#mdl-transportista"><i class="fa fa-plus"></i></span>
+                            <span id="add_transportista" class="input-group-addon" data-toggle="modal" data-target="#mdl-empresa"><i class="fa fa-plus"></i></span>
                         </div>
                     </div>                    
                 </div>
@@ -235,7 +221,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                         <label for="producto">Producto/s(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input class="form-control" name="producto" id="producto" placeholder="Ingrese Producto..." />
+                        <input class="form-control" name="productos" id="producto" placeholder="Ingrese Producto..." />
                     </div>                    
                 </div>
                 <!--________________-->
@@ -243,7 +229,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                         <label for="term_patente">Térmico Patente(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input class="form-control" name="term_patente" id="term_patente" placeholder="Ingrese Térmico Patente..." />
+                        <input class="form-control limited" id="term_patente" placeholder="Ingrese Térmico Patente..." />
                     </div>                    
                 </div>
                 <!--________________-->
@@ -251,7 +237,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                         <label for="temperatura">Temperatura(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input class="form-control" name="temperatura" id="temperatura" placeholder="Ingrese Temperatura..." />
+                        <input type="number" class="form-control" id="temperatura" placeholder="Ingrese Temperatura..." />
                     </div>                    
                 </div>
                 <!--________________-->
@@ -259,7 +245,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                         <label for="precintos">Precintos N°(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input class="form-control" name="precintos" id="precintos" placeholder="Ingrese Precintos..." />
+                        <input class="form-control limitedChars" id="precintos" placeholder="Ingrese Precintos..." />
                     </div>                    
                 </div>
                 <!--________________-->
@@ -270,7 +256,7 @@
                 <!--__________________________________-->
                 <div class="col-md-12 col-sm-12 col-xs-12 centrar">
                     <h4>Térmico:</h4>
-                    <div id="sec_termico"></div>
+                    <div id="sec_termicos"></div>
                 </div>
                 <!--________________-->
                 <!--Observaciones-->
@@ -308,7 +294,7 @@
                 <div class="col-md-3 col-sm-3 col-xs-6">
                     <div class="form-group">
                         <label for="taza">Tara(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input class="form-control" name="taza" id="taza" placeholder="Taza..." />
+                        <input class="form-control" name="tara" id="tara" placeholder="Tara..." />
                     </div>                    
                 </div>
                 <!--________________-->
@@ -380,8 +366,190 @@
 //
 $(document).ready(function() {
     $('.select2').select2();
-});
+    $('#doc_chofer').select2({
+        ajax: {
+            url: "<?php echo SICP; ?>inspeccion/buscaChoferes",
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+                return {
+                    patron: params.term, // parámetro búsqueda que recibe el controlador
+                    page: params.page
+                };
+            },
+            processResults: function (data, params) {
+                
+                params.page = params.page || 1;
+                
+                var results = [];
+                $.each(data, function(i, obj) {
+                    results.push({
+                        id: obj.dni,
+                        text: obj.nombre,
+                        fec_alta: obj.fec_alta
+                    });
+                });
+                return {
+                    results: results,
+                    pagination: {
+                        more: (params.page * 30) < results.length
+                    }
+                };
+            }
+        },
+        language: "es",
+        placeholder: 'Buscar chofer',
+        minimumInputLength: 3,
+        maximumInputLength: 8,
+        dropdownCssClass: "choferes",
+        templateResult: function (chofer) {
 
+            if (chofer.loading) {
+                return "Buscando choferes...";
+            }
+
+            var $container = $(
+                "<div class='select2-result-repository clearfix'>" +
+                "<div class='select2-result-repository__meta'>" +
+                    "<div class='select2-result-repository__title'></div>" +
+                    "<div class='select2-result-repository__description'></div>" +
+                "</div>" +
+                "</div>"
+            );
+
+            $container.find(".select2-result-repository__title").text(chofer.id);
+            $container.find(".select2-result-repository__description").text(chofer.text);
+
+            return $container;
+        },
+        templateSelection: function (chofer) {
+            return chofer.id || chofer.text;
+        },
+        language: {
+            noResults: function() {
+                return '<option>No hay coincidencias</option>';
+            },
+            inputTooShort: function () {
+                return 'Ingrese 3 o mas dígitos para comenzar la búsqueda'; 
+            },
+            inputTooLong: function () {
+                return 'Hasta 8 dígitos permitidos'; 
+            }
+        },
+        escapeMarkup: function(markup) {
+            return markup;
+        },
+    });
+    $('.empresa').select2({
+        ajax: {
+            url: "<?php echo SICP; ?>inspeccion/buscaEmpresas",
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+                return {
+                    patron: params.term, // parámetro búsqueda
+                    page: params.page
+                };
+            },
+            processResults: function (data, params) {
+    
+                params.page = params.page || 1;
+                
+                var results = [];
+                $.each(data, function(i, obj) {
+                    results.push({
+                        id: obj.cuit,
+                        text: obj.razon_social,
+                    });
+                });
+                return {
+                    results: results,
+                    pagination: {
+                        more: (params.page * 30) < results.length
+                    }
+                };
+            }
+        },
+        placeholder: 'Buscar empresa',
+        minimumInputLength: 3,
+        templateResult: function (empresa) {
+
+            if (empresa.loading) {
+                return "Buscando empresas...";
+            }
+
+            var $container = $(
+                "<div class='select2-result-repository clearfix'>" +
+                "<div class='select2-result-repository__meta'>" +
+                    "<div class='select2-result-repository__title'></div>" +
+                    "<div class='select2-result-repository__description'></div>" +
+                "</div>" +
+                "</div>"
+            );
+
+            $container.find(".select2-result-repository__title").text(empresa.id);
+            $container.find(".select2-result-repository__description").text(empresa.text);
+
+            return $container;
+        },
+        templateSelection: function (empresa) {
+            return empresa.text;
+        },
+        language: {
+            noResults: function() {
+                return '<option>No hay coincidencias</option>';
+            },
+            inputTooShort: function () {
+                return 'Ingrese 3 o mas dígitos para comenzar la búsqueda'; 
+            }
+        },
+        escapeMarkup: function(markup) {
+            return markup;
+        },
+    });
+    //Deshabilito los depositos destino hasta que se elija una empresa destino
+    $("#depo_destino").prop("disabled", true);
+});//FIN document.ready
+/******************************************************************************* */
+//
+//VALIDACIONES CARACTERES PERMITIDOS
+//
+//Limito cantidad de caracteres DNI chofer
+$('#doc_chofer').select2().on('select2:open', function() {
+    $('.select2-search__field').attr('maxlength', 8);
+});
+//Filtro para solo numero en combo box DNI Chofer
+//KeyCode: 8 = Borrar, 0 = Nada, 9 = Tab, 48-57 = N° izq, 96-105 = N° der, 37-40 = flechas
+$(document).on("keydown", ".choferes", function(e) {
+    if (e.which != 8 && e.which != 0 && e.which != 9 && (e.which < 48 || e.which > 57) && (e.which < 96 || e.which > 105) && (e.which < 37 || e.which > 40)) {
+        e.preventDefault();
+        alert("Ingrese dígitos únicamente");
+    }
+});
+//Filtro para NUMEROS, "/ -" inputs
+//KeyCode: 111 = / , 109 = -
+$(document).on("keydown", ".limitedChars", function(e) {
+    if (e.which != 8 && e.which != 0 && e.which != 9 && e.which != 109 && e.which != 111 && (e.which < 48 || e.which > 57) && (e.which < 96 || e.which > 105) && (e.which < 37 || e.which > 40)) {
+        e.preventDefault();
+        alert("Caracteres válidos: 0-9, / y -");
+    }
+});
+//Filtro para PRECINTOS N° A-Z, /, - y flechas
+//KeyCode:
+$(document).on("keydown", ".limited", function(e) {
+    if (e.which != 8 && e.which != 0 && e.which != 9 && e.which != 109 && (e.which < 48 || e.which > 57) && (e.which < 96 || e.which > 105) && (e.which < 37 || e.which > 40) && (e.which < 65 || e.which > 90)) {
+        e.preventDefault();
+        alert("Caracteres válidos: A-Z, 0-9 y -");
+    }
+});
+//Filtro para inputs A-Z, - y flechas
+//KeyCode: Ñ = 192
+$(document).on("keydown", ".limitedNumbers", function(e) {
+    if (e.which != 8 && e.which != 0 && e.which != 9 && e.which != 109 && e.which != 192 && (e.which < 37 || e.which > 40) && (e.which < 65 || e.which > 90)) {
+        e.preventDefault();
+        alert("Caracteres válidos: A-Z y -");
+    }
+});
 //
 //Script's seccion destino
 //

@@ -188,9 +188,9 @@
                             <div class="form-group">
                                 <label for="empre_destino">Empresa Destino(<strong style="color: #dd4b39">*</strong>):</label>
                                 <div class="input-group">
-                                <select class="form-control select2 select2-hidden-accesible empresa" name="empre_destino" id="empre_destino">
-                                    <option value="" disabled selected></option>
-                                </select>
+                                    <select class="form-control select2 select2-hidden-accesible empresa" name="empre_destino" id="empre_destino">
+                                        <option value="" disabled selected></option>
+                                    </select>
                                     <span id="add_empresa" class="input-group-addon" data-toggle="modal" data-target="#mdl-empresa" onclick="$('#tipoEmpresa').val('Empresa')"><i class="fa fa-plus"></i></span>
                                 </div>
                             </div>                    
@@ -202,9 +202,9 @@
                             <div class="form-group">
                                 <label for="depo_destino">Depósito Destino(<strong style="color: #dd4b39">*</strong>):</label>
                                 <div class="input-group">
-                                <select class="form-control select2 select2-hidden-accesible" name="depo_destino" id="depo_destino">
-                                    <option value="" disabled selected>-Seleccionar-</option>
-                                </select>
+                                    <select class="form-control select2 select2-hidden-accesible" name="depo_destino" id="depo_destino">
+                                        <option value="" disabled selected>-Seleccionar-</option>
+                                    </select>
                                     <span id="add_deposito" class="input-group-addon" data-toggle="modal" data-target="#mdl-deposito"><i class="fa fa-plus"></i></span>
                                 </div>
                             </div>                    
@@ -477,9 +477,9 @@ $(document).on("keydown", ".limited", function(e) {
     }
 });
 //Filtro para inputs A-Z, - y flechas
-//KeyCode: Ñ = 192
+//KeyCode: Ñ = 192, Espacio = 32, Bloq. Mayús = 20
 $(document).on("keydown", ".limitedNumbers", function(e) {
-    if (e.which != 8 && e.which != 0 && e.which != 9 && e.which != 109 && e.which != 192 && (e.which < 37 || e.which > 40) && (e.which < 65 || e.which > 90)) {
+    if (e.which != 8 && e.which != 0 && e.which != 9 && e.which != 32 && e.which != 109 && e.which != 192 && (e.which < 37 || e.which > 40) && (e.which < 65 || e.which > 90)) {
         e.preventDefault();
         alert("Caracteres válidos: A-Z y -");
     }
@@ -686,7 +686,7 @@ $('#esta_nom').on('select2:select', function (e) {
     $("#esta_num").val(data.id);
 });
 //Cargo listado de depositos para empresa destino seleccionada
-$("#empre_destino").on('select2:select', function(){
+$("#empre_destino").on('change', function(){
     //asigno la empresa al modal para altas rapidas
     $("#empr_id_destino").val($("#empre_destino").val());
     //Habilito el combo box
@@ -703,12 +703,13 @@ $("#empre_destino").on('select2:select', function(){
         url: "<?php echo SICP; ?>inspeccion/getDepositos",
         success: function(data) {
             if(data != 'null'){
-                
                 datos = JSON.parse(data);
+                
                 $.each(datos, function(i, obj) {
-
+                    depo_id = obj.depo_id;
                     direccion = obj.calle + " - " + obj.altura;
-                    newOpc = new Option(direccion, 1, false, false);
+
+                    newOpc = new Option(direccion, depo_id, false, false);
                     $('#depo_destino').append(newOpc);
                 });
                 $('#depo_destino').trigger('change');
