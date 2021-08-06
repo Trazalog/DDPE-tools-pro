@@ -118,11 +118,36 @@ class Sicpoatareas extends CI_Model
                 $data['imgsBarrera'] = $this->getImgsBarrera($tareaData->info_id);
                 $data['departamentos'] = $this->getDepartamentos();
                 $data['petr_id'] = $tareaData->petr_id;
+                $data['infracciones'] = $this->getInfracciones();
+                $data['preCargaDatos'] = $this->getPreCargaDatos($tareaData->case_id);
+                
+                $empresas = $data['preCargaDatos']->empresas->empresa;
+
+                //Separo las empresas por su rol
+                if(!empty($empresas)){
+                    foreach($empresas as $key => $value){
+                        
+                        if($value->rol == "DESTINO"){
+                            $data['destinos'][$key] = $value;
+
+                        }elseif ($value->rol == "ORIGEN") {
+                            $data['origen'] = $value;
+
+                        }elseif($value->rol == "TRANSPORTISTA"){
+                            $data['transportista'] = $value;
+
+                        }
+                    }
+                    $data['preDataCargada'] = true;
+                }else{
+                    $data['preDataCargada'] = false;
+                }
                 
                 //Es el info_id del formulario de escaneo documentacion
                 //que puede o no estar cargado a la hora de la inspeccion
                 $formulario = $this->Ingresosbarrera->getFormularios($tareaData->petr_id);
                 $escaneoInfoId = $formulario['data'][0]->forms->form[0]->info_id;
+                $data['escaneoInfoId'] = $escaneoInfoId;// Lo mando a la vista apra instaciar formulario en modal
 
                 if(isset($escaneoInfoId)){
                     $data['imgsEscaneo'] = $this->getImgsEscaneoDocu($escaneoInfoId);
@@ -223,7 +248,7 @@ class Sicpoatareas extends CI_Model
                 
                 $rsp = $this->guardarForms($data);
 
-                $contrato["escaneoDocumentacion"]  = $rsp['status'];
+                $contrato["erroresDocumentacion"]  = $rsp['status'];
                 
                 log_message('DEBUG', '#TRAZA | #SICPOA | Sicpoatareas | getContrato()  >> contrato '.json_encode($contrato));
 
@@ -233,14 +258,20 @@ class Sicpoatareas extends CI_Model
 
             //paso 3
             case 'Inspección en PCC':
-            
-                    
-            log_message('DEBUG', 'YUDI Reparacion -Escariado');
-            
-                $contrato["apruebaEscariado"]  = $form['result'];
-                        
-                return $contrato;
+
+                if($form['inspValida'] == 'correcta'){
+                    $contrato["erroresDocumentacion"]  = false;
+                }else{
+                    $contrato["erroresDocumentacion"]  = true;
+                }
+                $contrato["petrId"]  = $form['petr_id'];
+                $contrato["reprecintado"]  = $form['reprecintado'];
+                $contrato["resultadoInspeccion"]  = $form['inspValida'];
+
                 
+                log_message('DEBUG', '#TRAZA | #SICPOA | Sicpoatareas | getContrato()  >> contrato '.json_encode($contrato));
+
+                return $contrato;
                 
             break;
 
@@ -262,7 +293,7 @@ class Sicpoatareas extends CI_Model
             );
         
         
-            $rsp = $this->Yudiproctareas->guardarForms($data);
+            // $rsp = $this->Yudiproctareas->guardarForms($data);
         
             if (!$rsp) {
         
@@ -307,7 +338,7 @@ class Sicpoatareas extends CI_Model
                 );
             
             
-                $rsp = $this->Yudiproctareas->guardarForms($data);
+                // $rsp = $this->Yudiproctareas->guardarForms($data);
             
                 if (!$rsp) {
             
@@ -424,5 +455,37 @@ class Sicpoatareas extends CI_Model
 			return array();
 		}
 		
+    }
+    /**
+	* Listado tipo de infracciones 
+	* @param  
+	* @return array listado con tipos de infracciones
+	*/
+    public function getInfracciones(){
+        
+        $url = REST_CORE."/tabla/tipos_infraccion/empresa/";
+
+        $aux = $this->rest->callAPI("GET",$url);
+        $resp = json_decode($aux['data']);
+
+        log_message('DEBUG', "#TRAZA | #SICPOA | Inspecciones | getInfracciones()  resp: >> " . json_encode($resp));
+
+        return $resp->tablas->tabla;
+    }
+    /**
+	* Obtengo la informacion de la inspeccion precargada 
+	* @param int case_id
+	* @return array informacion pre cargada en paso Pre - Carga de Datos
+	*/
+    public function getPreCargaDatos($case_id){
+        
+        $url = REST_SICP."/inspeccion/id/".$case_id;
+
+        $aux = $this->rest->callAPI("GET",$url);
+        $resp = json_decode($aux['data']);
+
+        log_message('DEBUG', "#TRAZA | #SICPOA | Inspecciones | getPreCargaDatos()  resp: >> " . json_encode($resp));
+
+        return $resp->inspeccion;
     }
 }
