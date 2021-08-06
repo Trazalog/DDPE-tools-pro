@@ -1,7 +1,7 @@
 <style>
-.frm-save{
+/* .frm-save{
     display: none;
-}
+} */
 </style>
 <!-- Modal CHOFER -->
 <div class="modal modal-fade" id="mdl-chofer">
@@ -129,7 +129,19 @@
             <div class="panel-subheading" style="text-align: right">
                 <label><?php echo $this->session->userdata['first_name'].' '.$this->session->userdata['last_name'].' - '.date('m/d/Y H:i:s')?></label>
             </div> 
-                <!-- Modal body -->
+            <!-- Modal body -->
+            <?php if(isset($escaneoInfoId)){ ?>
+                <div class="modal-body">
+                    <div class="row">
+                        <?php
+                            $formulario = getForm($escaneoInfoId); //instacio formulario si se cargo en el paso Escaneo Documentacion
+                            echo "<div id='formEscaneoDocu' data-form='11'>";
+                            echo $formulario;
+                            echo "</div>";
+                        ?>
+                    </div>
+                </div>
+            <?php }else{ ?>
                 <div class="modal-body">
                     <div class="row">
                         <div id="formEscaneoDocu" class="frm-new" data-form="11"></div>
@@ -144,7 +156,7 @@
                         onclick="frmGuardar($('.frm-new').find('form'))">Guardar</button>
                 </div>
             </div>
-
+            <?php } ?>
             <!-- ************************************************************ -->
         </div>
     </div>

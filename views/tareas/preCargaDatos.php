@@ -23,6 +23,9 @@
 .centrar{
     text-align: center;
 }
+.ocultar .has-feedback .form-control-feedback{
+    display: none !important;
+}
 </style>
 <!--_______ FORMULARIO PERMISO DE TRANSITO BOX 1______-->
 <form class="formPreCarga" id="formPreCarga">
@@ -122,13 +125,15 @@
                 <!-- <div class="box-body"> -->
 
                         <!--DNI Chofer-->
-                        <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
+                            <div class="form-group">
                                 <label for="doc_chofer">DNI Chofer(<strong style="color: #dd4b39">*</strong>):</label>
-                            <div class="input-group">
-                                <select class="form-control select2 select2-hidden-accesible choferes" name="chof_id" id="doc_chofer" required>
-                                    <option value="" disabled selected></option>
-                                </select>
-                                <span id="add_chofer" class="input-group-addon" data-toggle="modal" data-target="#mdl-chofer"><i class="fa fa-plus"></i></span>
+                                <div class="input-group">
+                                    <select class="form-control select2 select2-hidden-accesible choferes" name="chof_id" id="doc_chofer" required>
+                                        <option value="" disabled selected></option>
+                                    </select>
+                                    <span id="add_chofer" class="input-group-addon" data-toggle="modal" data-target="#mdl-chofer"><i class="fa fa-plus"></i></span>
+                                </div>
                             </div>
                         </div>
                         <!--________________-->
@@ -170,11 +175,11 @@
                         <!--________________-->
 
                         <!--Nombre Establecimiento-->
-                        <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
                             <div class="form-group">
                                 <label for="esta_nom">Establecimiento(<strong style="color: #dd4b39">*</strong>):</label>
                                 <div class="input-group">
-                                    <select class="form-control select2 select2-hidden-accesible empresa" name="esta_nom" id="esta_nom">
+                                    <select class="form-control select2 select2-hidden-accesible empresa" name="esta_nom" id="esta_nom" required>
                                         <option value="" disabled selected></option>
                                     </select>
                                     <span id="add_establecimiento" class="input-group-addon" data-toggle="modal" data-target="#mdl-empresa" onclick="$('#tipoEmpresa').val('Establecimiento')"><i class="fa fa-plus"></i></span>
@@ -222,11 +227,11 @@
                         </div>
                         <!--________________-->
                         <!--Transportista-->
-                        <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
                             <div class="form-group">
                                 <label for="transportista">Transportista(<strong style="color: #dd4b39">*</strong>):</label>
                                 <div class="input-group">
-                                    <select class="form-control select2 select2-hidden-accesible empresa" name="transportista" id="transportista">
+                                    <select class="form-control select2 select2-hidden-accesible empresa" name="transportista" id="transportista" required>
                                         <option value="" disabled selected></option>	
                                     </select>
                                     <span id="add_transportista" class="input-group-addon" data-toggle="modal" data-target="#mdl-empresa" onclick="$('#tipoEmpresa').val('Transportista')"><i class="fa fa-plus"></i></span>
@@ -463,9 +468,9 @@ $(document).on("keydown", ".choferes", function(e) {
 //Filtro para NUMEROS, "/ -" inputs
 //KeyCode: 111 = / , 109 = -
 $(document).on("keydown", ".limitedChars", function(e) {
-    if (e.which != 8 && e.which != 0 && e.which != 9 && e.which != 13 && e.which != 109 && e.which != 111 && (e.which < 48 || e.which > 57) && (e.which < 96 || e.which > 105) && (e.which < 37 || e.which > 40)) {
+    if (e.which != 8 && e.which != 0 && e.which != 9 && e.which != 13 && e.which != 109 && e.which != 111 && e.which != 188 && (e.which < 48 || e.which > 57) && (e.which < 96 || e.which > 105) && (e.which < 37 || e.which > 40)) {
         e.preventDefault();
-        alert("Caracteres válidos: 0-9, / y -");
+        alert("Caracteres válidos: 0-9, '/' , '-' y ','");
     }
 });
 //Filtro para PRECINTOS N° A-Z, /, - y flechas

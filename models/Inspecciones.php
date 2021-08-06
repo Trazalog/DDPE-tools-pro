@@ -229,4 +229,68 @@ class Inspecciones extends CI_Model {
         }
         log_message('DEBUG', "#TRAZA | #SICPOA | Inspecciones | agregarTermicos() ");
     }
+        /**
+	* Agregar una infraccion a la inspeccion
+	* @param array datos termicos
+	* @return 
+	*/
+    public function agregarInfraccion($data){
+
+        $data["usuario_app"] = userNick();
+
+        $post['_post_inspeccion_infraccion'] = $data;
+        $url = REST_SICP."/inspeccion/infraccion";
+
+        $aux = $this->rest->callAPI("POST",$url,$post);
+        
+        log_message('DEBUG', "#TRAZA | #SICPOA | Inspecciones | agregarInfraccion() ");
+    }
+    /**
+	* Baja de un permiso en una inspeccion
+	* @param array perm_id del permiso
+	* @return bool
+	*/
+    public function eliminarPermiso($data){
+        
+        $post['_delete_inspeccion_permiso'] = $data;
+        $url = REST_SICP."/inspeccion/permiso";
+
+        $aux = $this->rest->callAPI("DELETE",$url,$post);
+
+        log_message('DEBUG', "#TRAZA | #SICPOA | Inspecciones | eliminarPermiso()  resp: >> " . json_encode($aux));
+
+        return $aux;
+    }
+    /**
+	* Baja de una empresa en una inspeccion
+	* @param array datos del permiso
+	* @return bool
+	*/
+    public function eliminarEmpresa($data){
+        
+        $post['_delete_inspeccion_empresa'] = $data;
+        $url = REST_SICP."/inspeccion/empresa";
+
+        $aux = $this->rest->callAPI("DELETE",$url,$post);
+
+        log_message('DEBUG', "#TRAZA | #SICPOA | Inspecciones | eliminarEmpresa()  resp: >> " . json_encode($aux));
+
+        return $aux;
+    }
+    /**
+	* Baja de un termico en una inspeccion
+	* @param array datos del termico
+	* @return bool
+	*/
+    public function eliminarTermico($data){
+        
+        $post['_delete_inspeccion_termico'] = $data;
+        $url = REST_SICP."/inspeccion/termico";
+
+        $aux = $this->rest->callAPI("DELETE",$url,$post);
+
+        log_message('DEBUG', "#TRAZA | #SICPOA | Inspecciones | eliminarTermico()  resp: >> " . json_encode($aux));
+
+        return $aux;
+    }
 }

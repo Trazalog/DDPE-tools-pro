@@ -147,7 +147,7 @@ class Inspeccion extends CI_Controller
 		$data['bruto'] =  !empty($this->input->post('bruto'))? $this->input->post('bruto') : "";
 		$data['tara'] =  !empty($this->input->post('tara'))? $this->input->post('tara') : "";
 		$data['ticket'] =  !empty($this->input->post('ticket'))? $this->input->post('ticket') : "";
-		$data['resultado'] =  !empty($this->input->post('resultado'))? $this->input->post('resultado') : "";
+		$data['resultado'] =  !empty($this->input->post('inspValida'))? $this->input->post('inspValida') : "";
 		$data['cant_fajas'] =  !empty($this->input->post('cant_fajas'))? $this->input->post('cant_fajas') : "";
 		$data['bruto_reprecintado'] =  !empty($this->input->post('bruto_reprecintado'))? $this->input->post('bruto_reprecintado') : "";
 		$data['ticket_reprecintado'] =  !empty($this->input->post('ticket_reprecintado'))? $this->input->post('ticket_reprecintado') : "";
@@ -177,19 +177,35 @@ class Inspeccion extends CI_Controller
 		$permisos = $this->input->post('permisos');
         $empresas = $this->input->post('empresas');
 		$termicos = $this->input->post('termicos');
+		$infraccion = $this->input->post('infraccion');
 
 		//Agrego permisos
 		$rspPermisos = $this->Inspecciones->agregarPermisos($permisos);
+
 		//Agrego empresas
 		$respEmpresas = $this->Inspecciones->agregarEmpresas($empresas);
+
 		//Agrego termicos a la tabla termicos
 		$this->Inspecciones->agregarTermicos($termicos);
+
 		//Luego los agrego a tabla inspecciones_termicos
 		$respTermInspeccion = $this->Inspecciones->agregarTermicosInspeccion($termicos);
-        
+
+		//Puede o no tener una infraccion asociada
+		if(!empty($infraccion)){
+			$respInfraccion = $this->Inspecciones->agregarInfraccion($infraccion);
+		}
+		
+        //Armo mensajeria para reportar respuestas de los servicios
 		if ($respTermInspeccion['status'] && $rspPermisos['status'] && $respEmpresas['status']) {
 			$resp['status'] = true;
 			$resp['message'] = "Se agregaron permisos, empresas y termicos correctamente";
+
+			if($respInfraccion['status']){
+				$resp['msjInfraccion'] = "Se agrego la infraccion correctamente";
+			}else{
+				$resp['msjInfraccion'] = $respInfraccion['data'];
+			}
 			echo json_encode($resp);
 		} else {
 			$resp['status'] = false;
@@ -197,6 +213,98 @@ class Inspeccion extends CI_Controller
 			$resp['permisos'] = $rspPermisos['data'];
 			$resp['empresas'] = $respEmpresas['data'];
 			$resp['termicos'] = $respTermInspeccion['data'];
+
+			if($respInfraccion['status']){
+				$resp['msjInfraccion'] = "Se agrego la infraccion correctamente";
+			}else{
+				$resp['msjInfraccion'] = $respInfraccion['data'];
+			}
+			echo json_encode($resp);
+		}
+    }
+
+	/**
+	* Elimina permiso de la inspeccion
+	* @param array perm_id
+	* @return bool true o false segun resultado de servicio de borrado
+	*/
+    public function eliminarPermiso(){
+
+        $data = $this->input->post('data');
+        
+		$resp = $this->Inspecciones->eliminarPermiso($data);
+        
+		if ($resp['status']) {
+			echo json_encode($resp);
+		} else {
+			echo json_encode($resp);
+		}
+    }
+
+	/**
+	* Elimina empresa de la inspeccion
+	* @param array perm_id
+	* @return bool true o false segun resultado de servicio de borrado
+	*/
+    public function eliminarEmpresa(){
+
+        $data = $this->input->post('data');
+        
+		$resp = $this->Inspecciones->eliminarEmpresa($data);
+        
+		if ($resp['status']) {
+			echo json_encode($resp);
+		} else {
+			echo json_encode($resp);
+		}
+    }
+
+	/**
+	* Elimina termico de la inspeccion
+	* @param array perm_id
+	* @return bool true o false segun resultado de servicio de borrado
+	*/
+    public function eliminarTermico(){
+
+        $data = $this->input->post('data');
+        
+		$resp = $this->Inspecciones->eliminarTermico($data);
+        
+		if ($resp['status']) {
+			echo json_encode($resp);
+		} else {
+			echo json_encode($resp);
+		}
+    }
+	/**
+	* Limpia las tablas anexas a inspeccion
+	* @param array con permisos,empresas y termicos
+	* @return bool true o false segun resultado de servicio de borrado
+	*/
+    public function limpiarDataPreCargada(){
+		
+		$caseId = $this->input->post('caseId');
+
+		//Elimino permisos de inspeccion
+		$rspPermisos = $this->Inspecciones->eliminarPermiso($caseId);
+
+		//Elimino empresas de inspeccion
+		$respEmpresas = $this->Inspecciones->eliminarEmpresa($caseId);
+		
+		//Elimino termicos de inspeccion
+		$respTermicos = $this->Inspecciones->eliminarTermico($caseId);
+		
+        
+		if ($respTermicos['status'] && $rspPermisos['status'] && $respEmpresas['status']) {
+			$resp['status'] = true;
+			$resp['message'] = "Se limpiaron las tablas permisos_transito, inspecciones_empresas y inspecciones_termicos correctamente";
+			echo json_encode($resp);
+		} else {
+			$resp['status'] = false;
+			$resp['message'] = "Se produjo un error guardando los datos";
+			$resp['permisos'] = $rspPermisos['data'];
+			$resp['empresas'] = $respEmpresas['data'];
+			$resp['termicos'] = $respTermicos['data'];
 			echo json_encode($resp);
 		}
     }
