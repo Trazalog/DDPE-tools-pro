@@ -26,6 +26,9 @@
 .ocultar .has-feedback .form-control-feedback{
     display: none !important;
 }
+.frm-save{
+    display: none;
+}
 </style>
 <!--_______ FORMULARIO PERMISO DE TRANSITO BOX 1______-->
 <form class="formInspeccion" id="formInspeccion">
@@ -245,7 +248,7 @@
                     <div class="form-group">
                         <label for="transportista">Transportista(<strong style="color: #dd4b39">*</strong>):</label>
                         <div class="input-group">
-                            <select class="form-control select2 select2-hidden-accesible empresa" name="transportista" id="transportista" required>
+                            <select class="form-control select2 select2-hidden-accesible empresa" id="transportista" required>
                                 <option value="" disabled selected></option>
                             </select>
                             <span id="add_transportista" class="input-group-addon" data-toggle="modal" data-target="#mdl-empresa"><i class="fa fa-plus"></i></span>
@@ -257,7 +260,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                         <label for="producto">Producto/s(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input class="form-control" name="productos" id="producto" placeholder="Ingrese Producto..." value="<?php echo isset($preCargaDatos->productos) ? $preCargaDatos->productos : null; ?>" required/>
+                        <input class="form-control" name="productos" id="producto" placeholder="Ingrese producto..." value="<?php echo isset($preCargaDatos->productos) ? $preCargaDatos->productos : null; ?>" required/>
                     </div>                    
                 </div>
                 <!--________________-->
@@ -265,7 +268,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                         <label for="term_patente">Térmico Patente(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input class="form-control limited" id="term_patente" placeholder="Ingrese Térmico Patente..." />
+                        <input class="form-control limited" id="term_patente" placeholder="Ingrese térmico patente..." />
                     </div>                    
                 </div>
                 <!--________________-->
@@ -273,7 +276,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                         <label for="temperatura">Temperatura(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input type="number" class="form-control" id="temperatura" placeholder="Ingrese Temperatura..." />
+                        <input type="number" class="form-control" id="temperatura" placeholder="Ingrese temperatura..." />
                     </div>                    
                 </div>
                 <!--________________-->
@@ -281,7 +284,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                         <label for="precintos">Precintos N°(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input class="form-control limitedChars" id="precintos" placeholder="Ingrese Precintos..." />
+                        <input class="form-control limitedChars" id="precintos" placeholder="Ingrese precintos..." />
                     </div>                    
                 </div>
                 <!--________________-->
@@ -695,83 +698,9 @@ function validarCamposDestino(){
     }
     return valida;
 }
-//BORRAR NO LO VOY A USAR
-//Funciones para eliminar los registros en cada SECCION
-//Uso ajax en inspeccion, no es borrado en front unicamente.
-$("#sec_permisos").on("click"," .fa-trash",function(e) {
-    wo();
-    datos = JSON.parse($(e.target).closest('div').attr('data-json'));	
-    data = {"perm_id": datos.perm_id};
-    
-    $.ajax({
-        type: "POST",
-        url: "<?php echo SICP; ?>inspeccion/eliminarPermiso",
-        data: {data},
-        dataType: "JSON",
-        success: function (resp) {
-            wc();
-            if(resp.status){
-                alertify.success("Eliminado con éxito!");
-                $(e.target).closest('div').remove();
-            }else{
-                alertify.error("Se produjo un error al agregar!");
-            }
-        },
-        error: () => {
-            wc();
-            alertify.error("Se produjo un error al agregar!");
-        }
-    });
-});
-$("#sec_destinos").on("click",".fa-trash",function(e) {
-    wo();
-    datos = JSON.parse($(e.target).closest('div').attr('data-json'));	
-    data = {"rol": datos.rol,"empr_id": datos.cuit,"case_id": $("#caseId").val()};
-    
-    $.ajax({
-        type: "POST",
-        url: "<?php echo SICP; ?>inspeccion/eliminarEmpresa",
-        data: {data},
-        dataType: "JSON",
-        success: function (resp) {
-            wc();
-            if(resp.status){
-                alertify.success("Eliminado con éxito!");
-                $(e.target).closest('div').remove();
-            }else{
-                alertify.error("Se produjo un error al agregar!");
-            }
-        },
-        error: () => {
-            wc();
-            alertify.error("Se produjo un error al agregar!");
-        }
-    });
-});
-$("#sec_termicos").on("click",".fa-trash",function(e) {
-    wo();
-    datos = JSON.parse($(e.target).closest('div').attr('data-json'));	
-    data = {"case_id": $("#caseId").val(), "term_id": datos.patente};
-
-    $.ajax({
-        type: "POST",
-        url: "<?php echo SICP; ?>inspeccion/eliminarTermico",
-        data: {data},
-        dataType: "JSON",
-        success: function (resp) {
-            wc();
-            if(resp.status){
-                alertify.success("Eliminado con éxito!");
-                $(e.target).closest('div').remove();
-            }else{
-                alertify.error("Se produjo un error al agregar!");
-            }
-        },
-        error: () => {
-            wc();
-            alertify.error("Se produjo un error al agregar!");
-        }
-    });
+//Funcion para eliminar el registro en ambas SECCIONES
+$(document).on("click",".fa-trash",function(e) {
+    $(e.target).closest('div').remove();		
 });
 //
 //FIN Script's seccion destino
@@ -977,6 +906,8 @@ $(".neto").on("change", function () {
         }
     }
 });
+//Comienzo scripts preparacion y cierre tarea
+//Guardado de formulario y limpieza de datos en BD
 //Cierre formulario
 async function cerrarTareaform(){
 
@@ -1071,6 +1002,9 @@ async function cerrarTareaform(){
                     success: function(data) {
                         resp = JSON.parse(data);
                         if(resp.status){
+                            //Guardo formulario de escaneo documentacion, se valido en cerrarTarea()
+                            $('#formEscaneoDocu .frm-save').click();
+
                             console.log(resp.message);
                             resolve("Correcto");
                         }else{
@@ -1102,6 +1036,17 @@ function cerrarTarea() {
 				Swal.fire(
 					'Error..',
 					'Debes completar los campos obligatorios (*)',
+					'error'
+				);
+        return;
+    }
+    //
+    //Validacion Escaneo Documentacion
+    //
+    if($("#doc_impo").val() == "" || $("#cant_doc").val() == ""){
+				Swal.fire(
+					'Error..',
+					'Debes completar el formulario de escaneo documnetación (*)',
 					'error'
 				);
         return;
@@ -1143,9 +1088,10 @@ function cerrarTarea() {
     //Una vez validado el formulario, lo guardo
     cerrarTareaform().then((result) => {
         
-        //No uso formulario dinámico
         var dataForm = new FormData($('#formInspeccion')[0]);
+        var frm_info_id = $('#formEscaneoDocu .frm').attr('data-ninfoid');
 
+        dataForm.append('frm_info_id', frm_info_id);
         var id = $('#taskId').val();
 
         $.ajax({
@@ -1209,7 +1155,7 @@ async function limpiarDataPreCargada () {
 
     return await limpiadoCompleto;
 }
-//FIN Scripts SELECTS
+//FIN Scripts Cierre tarea
 /***************************************************** */
 /***************************************************** */
 //

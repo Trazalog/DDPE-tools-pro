@@ -23,20 +23,27 @@
 .centrar{
     text-align: center;
 }
+.ocultar .has-feedback .form-control-feedback{
+    display: none !important;
+}
+.frm-save{
+    display: none;
+}
 </style>
 <!--_______ FORMULARIO PERMISO DE TRANSITO BOX 1______-->
-<form class="formPreCarga" id="formPreCarga">
+<form class="formAlertaPCC" id="formAlertaPCC">
     <div class="row">
         <div class="col-md-6 col-sm-12 col-xs-12">
             <div class="caja" id="boxPermisoTransito">
                 <div class="box-tittle centrar">
                     <h3>Permiso de tránsito</h3>
                 </div>
+                <input type="text" class="form-control hidden" name="petr_id" id="petr_id" value="<?php echo $petr_id?>">
                 <!--Solicitud-->
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                         <label for="Solicitud">Solicitud N°(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input type="text" class="form-control requerido" name="soli_num" id="soli_num" placeholder="Ingrese número de solicitud..."/>
+                        <input type="text" class="form-control requerido limitedChars" id="soli_num" placeholder="Ingrese número de solicitud..."/>
                     </div>
                 </div>
                 <!--________________-->
@@ -45,7 +52,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                         <label for="emision">Lugar de emisión(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input type="text" class="form-control" name="emision" id="emision" placeholder="Ingrese lugar de emisión..."/>
+                        <input type="text" class="form-control limitedNumbers" id="emision" placeholder="Ingrese lugar de emisión..."/>
                     </div>
                 </div>
                 <!--________________-->
@@ -54,7 +61,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                     <label for="salida">Hora de Salida(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input type="time" class="form-control" name="salida" id="salida" placeholder="Ingrese hora de salida..."/>
+                        <input type="time" class="form-control" id="salida" placeholder="Ingrese hora de salida..."/>
                     </div>
                 </div>
                 <!--________________-->
@@ -63,7 +70,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                     <label for="fecha">Fecha(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input type="date" class="form-control" name="fecha" id="fecha" placeholder="Ingrese fecha..."/>
+                        <input type="date" class="form-control" id="fecha" placeholder="Ingrese fecha..."/>
                     </div>
                 </div>
                 <!--________________-->
@@ -76,8 +83,8 @@
                         <label class="form-check-label" for="">PT</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input type="radio" class='form-check-input' name="doc_sanitaria" value="PCR" />
-                        <label class="form-check-label" for="">PCR</label>
+                        <input type="radio" class='form-check-input' name="doc_sanitaria" value="PTR" />
+                        <label class="form-check-label" for="">PTR</label>
                     </div>
                 </div>
                 <!--________________-->
@@ -89,7 +96,23 @@
                 <!--__________________________________-->
                 <div class="col-md-12 col-sm-12 col-xs-12 centrar">
                     <h4>Permisos:</h4>
-                    <div id="sec_permisos"></div>
+                    <div id="sec_permisos">
+                        <?php 
+                        if(!empty($preCargaDatos->permisos_transito->permiso_transito)){
+                            foreach ($preCargaDatos->permisos_transito->permiso_transito as $key) {
+                        ?>
+                            <div class='form-group permTransito' data-json='<?php echo json_encode($key) ?>'>
+                                <span> 
+                                    <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i>
+                                    <i class='fa fa-fw fa-edit text-light-blue' style='cursor: pointer;' title='Editar'></i> 
+                                    <?php echo "| $key->perm_id - $key->tipo - $key->lugar_emision - $key->fecha_hora_salida" ?>
+                                </span>
+                            </div>
+                        <?php
+                            }
+                        }
+                        ?>
+                    </div>
                     <hr>
                 </div>
 
@@ -104,18 +127,11 @@
         <div class="col-md-6 col-sm-12 col-xs-12">
             <div class="caja" id="boxInspeccion">
                 <!--DNI Chofer-->
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                        <label for="doc_chofer">DNI Chofer(<strong style="color: #dd4b39">*</strong>):</label>
+                <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
+                    <label for="doc_chofer">DNI Chofer(<strong style="color: #dd4b39">*</strong>):</label>
                     <div class="input-group">
-                        <select class="form-control select2 select2-hidden-accesible" name="doc_chofer" id="doc_chofer" onChange="seChofer(this)" required>
+                        <select class="form-control select2 select2-hidden-accesible choferes" name="doc_id" id="doc_chofer" required>
                             <option value="" disabled selected>-Seleccionar-</option>	
-                            <?php
-                            if(!empty($choferes)){
-                                foreach ($choferes as $chof) {
-                                    echo "<option data-json='".json_encode($chof)."' value='".$chof->dni."'>".$chof->dni."</option>";
-                                }
-                            }
-                            ?>
                         </select>
                         <span id="add_chofer" class="input-group-addon" data-toggle="modal" data-target="#mdl-chofer"><i class="fa fa-plus"></i></span>
                     </div>
@@ -135,7 +151,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group has-feedback">
                     <label for="patenteTractor">Patente Tractor(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input class="form-control" name="patenteTractor" id="patenteTractor" placeholder="Ingrese Patente Tractor..." required/>
+                        <input class="form-control" name="patente_tractor" id="patenteTractor" placeholder="Ingrese Patente Tractor..." value="<?php echo isset($preCargaDatos->patente_tractor) ? $preCargaDatos->patente_tractor : null ?>" required/>
                     </div>
                 </div>
                 <!--________________-->
@@ -144,7 +160,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                     <label for="num_senasa">N° SENASA(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input class="form-control" name="num_senasa" id="num_senasa" placeholder="Ingrese N° SENASA..." required/>
+                        <input class="form-control limitedChars" name="nro_senasa" id="num_senasa" placeholder="Ingrese N° SENASA..." value="<?php echo isset($preCargaDatos->nro_senasa) ? $preCargaDatos->nro_senasa : null ?>" required/>
                     </div>
                 </div>
                 <!--________________-->
@@ -159,21 +175,14 @@
                 <!--________________-->
 
                 <!--Nombre Establecimiento-->
-                <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
                     <div class="form-group">
-                        <label for="esta_nom">Nombre Establecimiento(<strong style="color: #dd4b39">*</strong>):</label>
+                        <label for="esta_nom">Establecimiento(<strong style="color: #dd4b39">*</strong>):</label>
                         <div class="input-group">
-                            <select class="form-control select2 select2-hidden-accesible" name="esta_nom" id="esta_nom" onChange="seEstable(this)">
-                                <option value="" disabled selected>-Seleccionar-</option>	
-                                <?php
-                                if(!empty($establecimientos)){ 
-                                    foreach ($establecimientos as $esta) {
-                                        echo "<option data-json='".json_encode($esta)."' value='".$esta->id."'>".$esta->nombre."</option>";
-                                    }
-                                }
-                                ?>
+                            <select class="form-control select2 select2-hidden-accesible empresa" id="esta_nom" required>
+                                <option value="" disabled selected></option>
                             </select>
-                            <span id="add_establecimiento" class="input-group-addon" data-toggle="modal" data-target="#mdl-establecimiento"><i class="fa fa-plus"></i></span>
+                            <span id="add_establecimiento" class="input-group-addon" data-toggle="modal" data-target="#mdl-empresa"><i class="fa fa-plus"></i></span>
                         </div>
                     </div>
                 </div>
@@ -184,15 +193,8 @@
                     <div class="form-group">
                         <label for="empre_destino">Empresa Destino(<strong style="color: #dd4b39">*</strong>):</label>
                         <div class="input-group">
-                        <select class="form-control select2 select2-hidden-accesible" name="empre_destino" id="empre_destino" onChange="seEmpresa(this)">
-                            <option value="" disabled selected>-Seleccionar-</option>	
-                            <?php
-                            if(!empty($empresas)){ 
-                                foreach ($empresas as $emp) {
-                                    echo "<option data-json='".json_encode($emp)."' value='".$emp->cuit."'>".$emp->razon_social."</option>";
-                                }
-                            }
-                            ?>
+                        <select class="form-control select2 select2-hidden-accesible empresa" name="empre_destino" id="empre_destino">
+                            <option value="" disabled selected></option>
                         </select>
                             <span id="add_empresa" class="input-group-addon" data-toggle="modal" data-target="#mdl-empresa"><i class="fa fa-plus"></i></span>
                         </div>
@@ -206,14 +208,7 @@
                         <label for="depo_destino">Depósito Destino(<strong style="color: #dd4b39">*</strong>):</label>
                         <div class="input-group">
                         <select class="form-control select2 select2-hidden-accesible" name="depo_destino" id="depo_destino">
-                            <option value="" disabled selected>-Seleccionar-</option>	
-                            <?php
-                            if(!empty($depositos)){ 
-                                foreach ($depositos as $depo) {
-                                    echo "<option data-json='".json_encode($depo)."' value='".$depo->depo_id."'>".$depo->calle." - ".$depo->altura."</option>";
-                                }
-                            }
-                            ?>
+                            <option value="" disabled selected>-Seleccionar-</option>
                         </select>
                             <span id="add_deposito" class="input-group-addon" data-toggle="modal" data-target="#mdl-deposito"><i class="fa fa-plus"></i></span>
                         </div>
@@ -227,24 +222,32 @@
 
                 <div class="col-md-12 col-sm-12 col-xs-12 centrar">
                     <h4>Empresa Destino:</h4>
-                    <div id="sec_destinos"></div>
-                <hr>
+                    <div id="sec_destinos">
+                        <?php 
+                        if(!empty($destinos)){
+                            foreach ($destinos as $key) {
+                        ?>
+                            <div class='form-group empreDestino' data-json='<?php echo json_encode($key) ?>'>
+                                <span> 
+                                    <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i>
+                                    <?php echo "| $key->razon_social - $key->calle - $key->altura" ?>
+                                </span>
+                            </div>
+                        <?php
+                            }
+                        }
+                        ?>
+                    </div>
+                    <hr>
                 </div>
                 <!--________________-->
                 <!--Transportista-->
-                <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
                     <div class="form-group">
                         <label for="transportista">Transportista(<strong style="color: #dd4b39">*</strong>):</label>
                         <div class="input-group">
-                            <select class="form-control select2 select2-hidden-accesible" name="transportista" id="transportista">
-                                <option value="" disabled selected>-Seleccionar-</option>	
-                                <?php
-                                if(!empty($empresas)){ 
-                                    foreach ($empresas as $emp) {
-                                        echo "<option data-json='".json_encode($emp)."' value='".$emp->cuit."'>".$emp->razon_social."</option>";
-                                    }
-                                }
-                                ?>
+                            <select class="form-control select2 select2-hidden-accesible empresa" id="transportista" required>
+                                <option value="" disabled selected></option>
                             </select>
                             <span id="add_transportista" class="input-group-addon" data-toggle="modal" data-target="#mdl-transportista"><i class="fa fa-plus"></i></span>
                         </div>
@@ -255,7 +258,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                         <label for="producto">Producto/s(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input class="form-control" name="producto" id="producto" placeholder="Ingrese Producto..." />
+                        <input class="form-control" name="productos" id="producto" placeholder="Ingrese Producto..." value="<?php echo isset($preCargaDatos->productos) ? $preCargaDatos->productos : null; ?>" required/>
                     </div>                    
                 </div>
                 <!--________________-->
@@ -263,7 +266,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                         <label for="term_patente">Térmico Patente(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input class="form-control" name="term_patente" id="term_patente" placeholder="Ingrese Térmico Patente..." />
+                        <input class="form-control limited" id="term_patente" placeholder="Ingrese térmico patente..." />
                     </div>                    
                 </div>
                 <!--________________-->
@@ -271,7 +274,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                         <label for="temperatura">Temperatura(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input class="form-control" name="temperatura" id="temperatura" placeholder="Ingrese Temperatura..." />
+                        <input class="form-control" id="temperatura" placeholder="Ingrese Temperatura..." />
                     </div>                    
                 </div>
                 <!--________________-->
@@ -279,7 +282,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                         <label for="precintos">Precintos N°(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input class="form-control" name="precintos" id="precintos" placeholder="Ingrese Precintos..." />
+                        <input class="form-control limitedChars" id="precintos" placeholder="Ingrese Precintos..." />
                     </div>                    
                 </div>
                 <!--________________-->
@@ -290,7 +293,22 @@
                 <!--__________________________________-->
                 <div class="col-md-12 col-sm-12 col-xs-12 centrar">
                     <h4>Térmico:</h4>
-                    <div id="sec_termico"></div>
+                    <div id="sec_termicos">
+                        <?php 
+                        if(!empty($preCargaDatos->termicos->termico)){
+                            foreach ($preCargaDatos->termicos->termico as $key) {
+                        ?>
+                            <div class='form-group termicos' data-json='<?php echo json_encode($key) ?>'>
+                                <span> 
+                                    <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i>
+                                    <?php echo "| $key->patente - $key->temperatura - $key->precintos" ?>
+                                </span>
+                            </div>
+                        <?php
+                            }
+                        }
+                        ?>
+                    </div>
                 </div>
                 <!--________________-->
                 <!--Observaciones-->
@@ -304,11 +322,16 @@
                 <!--Acta Infraccion-->
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="form-group">
-                        <label for="infraccion">Acta infracción en calle:</label>
-                        <div class="">
-                            <?php echo "<img class='thumbnail documentacion' height='51' width='45' src='imgTEST/image_2.jpg' alt='' onclick='previewInfraccion(this)'>";?>
+                        <div class="input-group">
+                            <label>Acta infracción en calle:</label>
+                            <span id="add_acta" class="input-group-addon" data-toggle="modal" data-target="#mdl-actaInfraccion"><i class="fa fa-plus"></i></span>
                         </div>
-                    </div>                    
+                            <div class="col-sm-12 col-md-12 col-xl-12">
+                                <div class="contenedor">
+                                    <img id="imgActaInfraccion" class='thumbnail fotos' height='51' width='45' src='' alt='' style="display: none" onclick='preview(this)'>
+                                </div>
+                            </div>
+                    </div>
                 </div>
                 <!--________________-->
                 <!--Valida Inspeccion-->
@@ -316,11 +339,11 @@
                     <div class="form-group">
                         <label for="inspValida">¿Inspección correcta?:</label>
                         <div class="form-check form-check-inline">
-                            <input type="radio" class='form-check-input' name="inspValida" value="si" onchange="showValidar(this)"/>
+                            <input type="radio" class='form-check-input' name="inspValida" value="correcta" onchange="showValidar(this)"/>
                             <label class="form-check-label" for="">Sí</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input type="radio" class='form-check-input' name="inspValida" value="no" onchange="showValidar(this)"/>
+                            <input type="radio" class='form-check-input' name="inspValida" value="incorrecta" onchange="showValidar(this)"/>
                             <label class="form-check-label" for="">No</label>
                         </div>
                     </div>
@@ -328,15 +351,15 @@
                 <!--________________-->
                 <!--Bloque Validar-->
                 <div id="bloque_validar" style="display:none;">
-                    <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
                         <div class="form-group">
                             <label for="tpoInfraccion">Tipos Infracción(<strong style="color: #dd4b39">*</strong>):</label>
-                            <select class="form-control select2 select2-hidden-accesible" name="tpoInfraccion" id="tpoInfraccion">
-                                <option value="" disabled selected>-Seleccionar tipo infracción-</option>	
+                            <select class="form-control select2 select2-hidden-accesible" name="tpoInfraccion" id="tpoInfraccion" required>
+                                <option value="" disabled selected>-Seleccionar infracción-</option>	
                                 <?php
-                                if(!empty($tposInfracciones)){
-                                    foreach ($tposInfracciones as $tipos) {
-                                        echo "<option data-json='".json_encode($tipos)."' value='".$tipos->id."'>".$tipos->nombre."</option>";
+                                if(!empty($infracciones)){
+                                    foreach ($infracciones as $tipos) {
+                                        echo "<option data-json='".json_encode($tipos)."' value='".$tipos->tabl_id."'>".$tipos->descripcion."</option>";
                                     }
                                 }
                                 ?>
@@ -346,7 +369,7 @@
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <div class="form-group">
                             <label for="cant_fajas">Cantidad de fajas(<strong style="color: #dd4b39">*</strong>):</label>
-                            <input type="number" class="form-control" name="cant_fajas" id="cant_fajas" placeholder="Ingrese N° fajas..." />
+                            <input type="number" class="form-control" name="cant_fajas" id="cant_fajas" placeholder="Ingrese N° fajas..." required/>
                         </div>
                     </div>
                 </div>                    
@@ -363,8 +386,242 @@
 //
 $(document).ready(function() {
     $('.select2').select2();
-});
+    $('#doc_chofer').select2({
+        ajax: {
+            url: "<?php echo SICP; ?>inspeccion/buscaChoferes",
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+                return {
+                    patron: params.term, // parámetro búsqueda que recibe el controlador
+                    page: params.page
+                };
+            },
+            processResults: function (data, params) {
+                
+                params.page = params.page || 1;
+                
+                var results = [];
+                $.each(data, function(i, obj) {
+                    results.push({
+                        id: obj.dni,
+                        text: obj.nombre,
+                        fec_alta: obj.fec_alta
+                    });
+                });
+                return {
+                    results: results,
+                    pagination: {
+                        more: (params.page * 30) < results.length
+                    }
+                };
+            }
+        },
+        language: "es",
+        placeholder: 'Buscar chofer',
+        minimumInputLength: 3,
+        maximumInputLength: 8,
+        dropdownCssClass: "choferes",
+        templateResult: function (chofer) {
 
+            if (chofer.loading) {
+                return "Buscando choferes...";
+            }
+
+            var $container = $(
+                "<div class='select2-result-repository clearfix'>" +
+                "<div class='select2-result-repository__meta'>" +
+                    "<div class='select2-result-repository__title'></div>" +
+                    "<div class='select2-result-repository__description'></div>" +
+                "</div>" +
+                "</div>"
+            );
+
+            $container.find(".select2-result-repository__title").text(chofer.id);
+            $container.find(".select2-result-repository__description").text(chofer.text);
+
+            return $container;
+        },
+        templateSelection: function (chofer) {
+            return chofer.id || chofer.text;
+        },
+        language: {
+            noResults: function() {
+                return '<option>No hay coincidencias</option>';
+            },
+            inputTooShort: function () {
+                return 'Ingrese 3 o mas dígitos para comenzar la búsqueda'; 
+            },
+            inputTooLong: function () {
+                return 'Hasta 8 dígitos permitidos'; 
+            }
+        },
+        escapeMarkup: function(markup) {
+            return markup;
+        },
+    });
+    $('.empresa').select2({
+        ajax: {
+            url: "<?php echo SICP; ?>inspeccion/buscaEmpresas",
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+                return {
+                    patron: params.term, // parámetro búsqueda
+                    page: params.page
+                };
+            },
+            processResults: function (data, params) {
+    
+                params.page = params.page || 1;
+                
+                var results = [];
+                $.each(data, function(i, obj) {
+                    results.push({
+                        id: obj.cuit,
+                        text: obj.razon_social,
+                    });
+                });
+                return {
+                    results: results,
+                    pagination: {
+                        more: (params.page * 30) < results.length
+                    }
+                };
+            }
+        },
+        placeholder: 'Buscar empresa',
+        minimumInputLength: 3,
+        templateResult: function (empresa) {
+
+            if (empresa.loading) {
+                return "Buscando empresas...";
+            }
+
+            var $container = $(
+                "<div class='select2-result-repository clearfix'>" +
+                "<div class='select2-result-repository__meta'>" +
+                    "<div class='select2-result-repository__title'></div>" +
+                    "<div class='select2-result-repository__description'></div>" +
+                "</div>" +
+                "</div>"
+            );
+
+            $container.find(".select2-result-repository__title").text(empresa.id);
+            $container.find(".select2-result-repository__description").text(empresa.text);
+
+            return $container;
+        },
+        templateSelection: function (empresa) {
+            return empresa.text;
+        },
+        language: {
+            noResults: function() {
+                return '<option>No hay coincidencias</option>';
+            },
+            inputTooShort: function () {
+                return 'Ingrese 3 o mas dígitos para comenzar la búsqueda'; 
+            }
+        },
+        escapeMarkup: function(markup) {
+            return markup;
+        },
+    });
+    //Deshabilito los depositos destino hasta que se elija una empresa destino
+    $("#depo_destino").prop("disabled", true);
+
+    //Script para inicio de formulario 11
+    //Escaneo documentacion
+    detectarForm();
+    initForm();
+
+    //Selecciono opciones guardadas en los combo's
+    //DNI CHOFER
+    dni_chofer = "<?php echo isset($preCargaDatos->chof_id) ? $preCargaDatos->chof_id : null ?>";
+    chofer = "<?php echo isset($preCargaDatos->chofer) ? $preCargaDatos->chofer : null ?>";
+
+    dniOpc = new Option(chofer, dni_chofer, true, true);
+    opcion = {'id': dni_chofer, 'text': chofer};
+
+    $('#doc_chofer').append(dniOpc).trigger('change');
+    $('#doc_chofer').trigger({
+        type: 'select2:select',
+        params: {
+            data: opcion
+        }
+    });
+    //EMPRESA ORIGEN
+    empr_origen = "<?php echo isset($origen) ? $origen->cuit : null ?>";
+    empr_origen_nombre = "<?php echo isset($origen) ? $origen->razon_social : null ?>";
+
+    opcion = {'id': empr_origen, 'text': empr_origen_nombre};
+
+    emprOpc = new Option(empr_origen_nombre, empr_origen, true, true);
+
+    $('#esta_nom').append(emprOpc).trigger('change');
+    $('#esta_nom').trigger({
+        type: 'select2:select',
+        params: {
+            data: opcion
+        }
+    });
+
+    //EMPRESA TRANSPORTISTA
+    empr_trasnp = "<?php echo isset($transportista) ? $transportista->cuit : null ?>";
+    empr_trasnp_nombre = "<?php echo isset($transportista) ? $transportista->razon_social : null ?>";
+
+    transpOpc = new Option(empr_trasnp_nombre, empr_trasnp, true, true);
+    $('#transportista').append(transpOpc).trigger('change');
+
+});//FIN document.ready
+/******************************************************************************* */
+//
+//VALIDACIONES CARACTERES PERMITIDOS
+//
+//Limito cantidad de caracteres DNI chofer
+$('#doc_chofer').select2().on('select2:open', function() {
+    $('.select2-search__field').attr('maxlength', 8);
+});
+//Filtro para solo numero en combo box DNI Chofer
+//KeyCode: 8 = Borrar, 0 = Nada, 9 = Tab, 48-57 = N° izq, 96-105 = N° der, 37-40 = flechas
+$(document).on("keydown", ".choferes", function(e) {
+    if (e.which != 8 && e.which != 0 && e.which != 9 && e.which != 13 && (e.which < 48 || e.which > 57) && (e.which < 96 || e.which > 105) && (e.which < 37 || e.which > 40)) {
+        e.preventDefault();
+        alert("Ingrese dígitos únicamente");
+    }
+});
+//Filtro para NUMEROS, "/ -" inputs
+//KeyCode: 111 = / , 109 = -
+$(document).on("keydown", ".limitedChars", function(e) {
+    if (e.which != 8 && e.which != 0 && e.which != 9 && e.which != 13 && e.which != 109 && e.which != 111 && e.which != 188 && (e.which < 48 || e.which > 57) && (e.which < 96 || e.which > 105) && (e.which < 37 || e.which > 40)) {
+        e.preventDefault();
+        alert("Caracteres válidos: 0-9, '/' , '-' y ','");
+    }
+});
+//Filtro para PRECINTOS N° A-Z, /, - y flechas
+//KeyCode: 13 = Enter
+$(document).on("keydown", ".limited", function(e) {
+    if (e.which != 8 && e.which != 0 && e.which != 9 && e.which != 13 && e.which != 109 && (e.which < 48 || e.which > 57) && (e.which < 96 || e.which > 105) && (e.which < 37 || e.which > 40) && (e.which < 65 || e.which > 90)) {
+        e.preventDefault();
+        alert("Caracteres válidos: A-Z, 0-9 y -");
+    }
+});
+//Filtro para inputs A-Z, - y flechas
+//KeyCode: Ñ = 192
+$(document).on("keydown", ".limitedNumbers", function(e) {
+    if (e.which != 8 && e.which != 0 && e.which != 9 && e.which != 13 && e.which != 20 && e.which != 32 && e.which != 109 && e.which != 192 && (e.which < 37 || e.which > 40) && (e.which < 65 || e.which > 90)) {
+        e.preventDefault();
+        alert("Caracteres válidos: A-Z, -");
+    }
+});
+//Filtro para solo numeros
+//KeyCode: . = 110, . = 190
+$(document).on("keydown", ".onlyNumbers", function(e) {
+    if (e.which != 8 && e.which != 0 && e.which != 9 && e.which != 13 && e.which != 110 && e.which != 190 && (e.which < 48 || e.which > 57) && (e.which < 96 || e.which > 105) && (e.which < 37 || e.which > 40)) {
+        e.preventDefault();
+        alert("Caracteres validos: 0-9 y .");
+    }
+});
 //
 //Script's seccion destino
 //
@@ -373,13 +630,15 @@ function agregarDestino(){
     var reporte = validarCamposDestino();
                             
     if(reporte == ''){
-        var empre_destino = $("#empre_destino").val();
-        var depo_destino = $('#depo_destino').val();
+        var empre_destino = $('#empre_destino').find(':selected').text();
+        var depo_destino = $('#depo_destino').find(':selected').text();
 
         var datos = {};
-        datos.empre_destino = empre_destino;
-        datos.depo_destino = depo_destino;
-        var div = `<div class='form-group permTransito' data-json='${JSON.stringify(datos)}'>
+        datos.rol = "DESTINO";
+        datos.empr_id = $("#empre_destino").val();
+        datos.depo_id = $("#depo_destino").val();
+
+        var div = `<div class='form-group empreDestino' data-json='${JSON.stringify(datos)}'>
                         <span> 
                         <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i>
                         | ${empre_destino} - ${depo_destino}
@@ -387,8 +646,8 @@ function agregarDestino(){
                 </div>`;
         $('#sec_destinos').append(div);
         //Limpio luego de agregar
-        $("#empre_destino").val('');
-        $("#depo_destino").val('');
+        $('#empre_destino').val(null).trigger('change');
+        $('#depo_destino').val(null).trigger('change');
     }else{
         alert(reporte);
     }
@@ -417,170 +676,457 @@ $(document).on("click",".fa-trash",function(e) {
 //Scripts Permisos transito
 //
 var accion;
-    function agregarPermiso(){
-			//Informamos el campo vacio 
-			var reporte = validarCamposPermiso();
-									
-			if(reporte == ''){
-                // if(accion != 'editar'){
-                    var soli_num = $("#soli_num").val();
-                    // var descDepo = $("#depo_origen_id option:selected").text();
-                    var emision = $('#emision').val();
-                    var salida = $('#salida').val();
-                    var fecha = $("#fecha").val();
+function agregarPermiso(){
+    //Informamos el campo vacio 
+    var reporte = validarCamposPermiso();
+                            
+    if(reporte == ''){
+        
+        var soli_num = $("#soli_num").val();
+        // var descDepo = $("#depo_origen_id option:selected").text();
+        var emision = $('#emision').val();
+        var salida = $('#salida').val();
+        var fecha = $("#fecha").val();
+        var tipo = $('input[name=doc_sanitaria]:checked').val();
 
-                    var datos = {};
-                    datos.soli_num = soli_num;
-                    datos.emision = emision;
-                    datos.salida = salida;
-                    datos.fecha = fecha;
+        var datos = {};
+        datos.perm_id = soli_num;
+        datos.lugar_emision = emision;
+        datos.fecha_hora_salida = fecha +" "+salida;
+        datos.tipo = tipo;
 
-                    var div = `<div class='form-group permTransito' data-json='${JSON.stringify(datos)}'>
-                                    <span> 
-                                    <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i>
-                                    <i class='fa fa-fw fa-edit text-light-blue' style='cursor: pointer; margin-left: 12px;' title='Editar'></i> 
-                                    | ${soli_num} - ${emision} - ${salida} - ${fecha}
-                                    </span>
-                            </div>`;
-                    $('#sec_permisos').append(div);
-                    //Limpio luego de agregar
-                    $("#soli_num").val('');
-                    $("#emision").val('');
-                    $("#salida").val('');
-                    $("#fecha").val('');
-                // }else{
-                //     $('#sec_permisos').find()
-                // }
-			}else{
-					alert(reporte);
-			}
-	}
-    function validarCamposPermiso(){
-        var valida = '';
-        //Numero de solicitud
-		if($("#soli_num").val() == ""){
-			valida = "Complete Numero de solicitud!";
-		}
-        //Lugar de emision
-		if($("#emision").val() == ""){
-			valida = "Complete Lugar de emision!";
-		}
-        //Hora de salida
-		if($("#salida").val() == ""){
-			valida = "Seleccione una Hora de salida!";
-		}
-        //Fecha
-		if($("#fecha").val() == ""){
-			valida = "Seleccione una Fecha!";
-		}
-        //Documentacion sanitaria
-		// if($("#depo_id").attr() == null){
-		// 	valida = "Seleccione un tipo de Doc. sanitaria!";
-		// }
-		return valida;
+        var div = `<div class='form-group permTransito' data-json='${JSON.stringify(datos)}'>
+                        <span> 
+                        <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i>
+                        <i class='fa fa-fw fa-edit text-light-blue' style='cursor: pointer;' title='Editar'></i> 
+                        | ${soli_num} - ${tipo} - ${emision} - ${fecha} ${salida}
+                        </span>
+                </div>`;
+        $('#sec_permisos').append(div);
+        //Limpio luego de agregar
+        $("#soli_num").val('');
+        $("#emision").val('');
+        $("#salida").val('');
+        $("#fecha").val('');
+        $('input[name=doc_sanitaria]:checked').prop('checked',false);
+
+    }else{
+            alert(reporte);
     }
+}
+function validarCamposPermiso(){
+    var valida = '';
+    //Numero de solicitud
+    if($("#soli_num").val() == ""){
+        valida = "Complete Numero de solicitud!";
+    }
+    //Lugar de emision
+    if($("#emision").val() == ""){
+        valida = "Complete Lugar de emision!";
+    }
+    //Hora de salida
+    if($("#salida").val() == ""){
+        valida = "Seleccione una Hora de salida!";
+    }
+    //Fecha
+    if($("#fecha").val() == ""){
+        valida = "Seleccione una Fecha!";
+    }
+    //Documentacion sanitaria
+    if($("input[name='doc_sanitaria']:checked").val() == null){
+        valida = "Seleccione un tipo de Doc. sanitaria!";
+    }
+    return valida;
+}
 
-    $(document).on("click",".fa-edit",function(e) {
-        // accion = "editar";
-        var data =	JSON.parse($(e.target).closest('div').attr('data-json'));
-        $("#soli_num").val(data.soli_num);
-        $("#emision").val(data.emision);
-        $("#salida").val(data.salida);
-        $("#fecha").val(data.fecha);
-        $(e.target).closest('div').remove();
+$(document).on("click",".fa-edit",function(e) {
+    // accion = "editar";
+    var data =	JSON.parse($(e.target).closest('div').attr('data-json'));
+    $("#soli_num").val(data.perm_id);
+    $("#emision").val(data.lugar_emision);
+    aux = data.fecha_hora_salida.split(" ");
+    $("#salida").val(aux[1]);
+    $("#fecha").val(aux[0]);
+    $("input[name=doc_sanitaria][value='"+data.tipo+"']").prop("checked",true);
+    $(e.target).closest('div').remove();
 
-	});
+});
 //FIN Script's seccion permisos transito
 /***************************************************** */
 /***************************************************** */
 //
 //Scripts Termico
 //
-    function agregarTermico(){
-			//Informamos el campo vacio 
-			var reporte = validarCamposTermico();
-									
-			if(reporte == ''){
-                var term_patente = $("#term_patente").val();
-                // var descDepo = $("#depo_origen_id option:selected").text();
-                var temperatura = $('#temperatura').val();
-                var precintos = $('#precintos').val();
+function agregarTermico(){
+    //Informamos el campo vacio 
+    var reporte = validarCamposTermico();
+                            
+    if(reporte == ''){
+        var temperatura = $('#temperatura').val();
+        var precintos = $('#precintos').val();
+        var term_patente = $("#term_patente").val();
+        // var descDepo = $("#depo_origen_id option:selected").text();
 
-                var datos = {};
-                datos.term_patente = term_patente;
-                datos.temperatura = temperatura;
-                datos.precintos = precintos;
+        var datos = {};
+        datos.temperatura = temperatura;
+        datos.precintos = precintos;
+        datos.term_id = term_patente;
 
-                var div = `<div class='form-group permTransito' data-json='${JSON.stringify(datos)}'>
-                                <span> 
-                                <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i> 
-                                | ${term_patente} - ${temperatura} - ${precintos}
-                                </span>
-                        </div>`;
-                $('#sec_termico').append(div);
-                //Limpio luego de agregar
-                $("#term_patente").val('');
-                $("#temperatura").val('');
-                $("#precintos").val('');
-			}else{
-				alert(reporte);
-			}
-	}
-    function validarCamposTermico(){
-        var valida = '';
-        //Térmico Patente
-		if($("#term_patente").val() == ""){
-			valida = "Complete Térmico Patente!";
-		}
-        //Temperatura
-		if($("#temperatura").val() == ""){
-			valida = "Complete Temperatura!";
-		}
-        //Precintos
-		if($("#precintos").val() == ""){
-			valida = "Complete Precintos!";
-		}
-		return valida;
+        var div = `<div class='form-group termicos' data-json='${JSON.stringify(datos)}'>
+                        <span> 
+                        <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i> 
+                        | ${term_patente} - ${temperatura} - ${precintos}
+                        </span>
+                </div>`;
+        $('#sec_termicos').append(div);
+        //Limpio luego de agregar
+        $("#term_patente").val('');
+        $("#temperatura").val('');
+        $("#precintos").val('');
+    }else{
+        alert(reporte);
     }
+}
+function validarCamposTermico(){
+    var valida = '';
+    //Térmico Patente
+    if($("#term_patente").val() == ""){
+        valida = "Complete Térmico Patente!";
+    }
+    //Temperatura
+    if($("#temperatura").val() == ""){
+        valida = "Complete Temperatura!";
+    }
+    //Precintos
+    if($("#precintos").val() == ""){
+        valida = "Complete Precintos!";
+    }
+    return valida;
+}
 //FIN Script's seccion termico
 /***************************************************** */
 /***************************************************** */
 //
-//Scripts SELECTS
+//Scripts SELECTS que actualizan combos o inputs
 //
-//Acutalizo datos de chofer
-function seChofer(elem){
-    var nomChofer = JSON.parse($(elem).find(":selected").attr("data-json")).nombre;
-    $("#nom_chofer").val(nomChofer);
-}
-function seEstable(elem){
-    var nomChofer = JSON.parse($(elem).find(":selected").attr("data-json")).nombre;
-    $("#nom_chofer").val(nomChofer);
-}
-//Script apra inicio de formulario 11
-//Escaneo doucmentacion
-$(document).ready(function () {
-    
-detectarForm();
-initForm();
+//Actualizo nombre del chofer
+$('#doc_chofer').on('select2:select', function (e) {
+    var data = e.params.data;
+    $("#nom_chofer").val(data.text);
+});
+$('#esta_nom').on('select2:select', function (e) {
+    var data = e.params.data;
+    $("#esta_num").val(data.id);
+});
+//Cargo listado de depositos para empresa destino seleccionada
+$("#empre_destino").on('change', function(){
+    //asigno la empresa al modal para altas rapidas
+    $("#empr_id_destino").val($("#empre_destino").val());
+    //Habilito el combo box
+    $("#depo_destino").prop("disabled", false);
+    //limpio opciones del combo
+    $('#depo_destino').html('').select2({data: {id:null, text: null}});
+    //Cargo los depositos coincidientes con la empresa destino seleccionada
+    destino = {};
+    destino.empr_id = $("#empre_destino").val();
+
+    $.ajax({
+        type: 'POST',
+        data: {destino},
+        url: "<?php echo SICP; ?>inspeccion/getDepositos",
+        success: function(data) {
+            if(data != 'null'){
+                datos = JSON.parse(data);
+                
+                $.each(datos, function(i, obj) {
+                    depo_id = obj.depo_id;
+                    direccion = obj.calle + " - " + obj.altura;
+
+                    newOpc = new Option(direccion, depo_id, false, false);
+                    $('#depo_destino').append(newOpc);
+                });
+                $('#depo_destino').trigger('change');
+
+            }else{
+                console.log("Sin depositos relacionados a esta empresa destino");
+            }
+        },
+        error: function(data) {
+            alert("Error al obtener depositos");
+        }
+    });
 });
 //FIN Scripts SELECTS
 /***************************************************** */
+//Comienzo scripts preparacion y cierre tarea
+//Guardado de formulario y limpieza de datos en BD
+//Cierre formulario
+async function cerrarTareaform(){
+
+    //si no se completo el paso de preCarga, no limpio las tablas
+    var preDataCargada = "<?php echo ($preDataCargada) ? $preDataCargada : $preDataCargada ?>";
+
+    //obtengo el formulario de la inspeccion
+    var dataForm = new FormData($('#formAlertaPCC')[0]);
+    var frm_info_id = $('#formEscaneoDocu .frm').attr('data-ninfoid');
+
+    dataForm.append('case_id', $("#caseId").val());
+    dataForm.append('info_id_doc', frm_info_id);
+
+    //evaluo si se precargaron datos para limpiar o no las tablas antes de guardar
+    if(preDataCargada){
+        limpiarDataPreCargada().then((result) => {
+            console.log(result);
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+
+    //Guardo los datos del formulario para no perderlos en reload
+    //obtengo los permisos
+    permisos = [];
+    $('#sec_permisos div.permTransito').each(function(i, obj) {
+        var json = JSON.parse($(obj).attr('data-json'));
+        json.case_id = $("#caseId").val();
+        permisos[i] = json;
+    });
+
+    //obtengo los destinos
+    empresas = [];
+    $('#sec_destinos div.empreDestino').each(function(i, obj) {
+        var aux = $(obj).attr('data-json');
+        aux = aux.replace("cuit", "empr_id");
+        var json = JSON.parse(aux);
+        json.case_id = $("#caseId").val();
+        empresas[i] = json;
+    });
+    //obtengo origen
+    origen = {};
+    origen.rol = "ORIGEN";
+    origen.empr_id = $("#esta_nom").val();
+    origen.case_id = $("#caseId").val();
+    origen.depo_id = "";
+    empresas.push(origen);
+
+    //obtengo transportista
+    transp = {};
+    transp.rol = "TRANSPORTISTA";
+    transp.empr_id = $("#transportista").val();
+    transp.case_id = $("#caseId").val();
+    transp.depo_id = "";
+    empresas.push(transp);
+
+    //obtengo los termicos
+    // reemplazo el nombre patente que trae en la vuelta del service
+    termicos = [];
+    $('#sec_termicos div.termicos').each(function(i, obj) {
+        var aux = $(obj).attr('data-json');
+        aux = aux.replace("patente", "term_id");
+        var json = JSON.parse(aux);
+        json.case_id = $("#caseId").val();
+        termicos[i] = json;
+    });
+
+    //obtengo el tipo de infraccion
+    infraccion = {};
+    if($('#tpoInfraccion').val() != null){
+        infraccion.case_id = $("#caseId").val();
+        infraccion.tiin_id = $("#tpoInfraccion").val();
+    }
+
+    //Guardo la inspeccion
+    let guardadoCompleto = new Promise( function(resolve,reject){
+        $.ajax({
+        type: 'POST',
+        data: dataForm,
+        cache: false,
+        contentType: false,
+        processData: false,
+        url: "<?php echo SICP; ?>inspeccion/agregarInspeccion",
+        success: function(data) {
+            console.log("Se guardo el formulario de la inspección correctamente");
+            
+            //Guardo los permisos, empresas, termicos e infraccion si hubiese
+            $.ajax({
+                type: 'POST',
+                data: {permisos, empresas, termicos, infraccion},
+                url: "<?php echo SICP; ?>inspeccion/guardarDatosInspeccion",
+                success: function(data) {
+                    resp = JSON.parse(data);
+                    if(resp.status){
+                        //Guardo formulario de acta infraccion en calle
+                        $('#formActaInfraccion .frm-save').click();
+
+                        //Guardo formulario de escaneo documentacion, se valido en cerrarTarea()
+                        $('#formEscaneoDocu .frm-save').click();
+
+                        console.log(resp.message);
+                        resolve("Correcto");
+                    }else{
+                        console.log(resp.message);
+                        reject("Error");
+                    }
+                },
+                error: function(data) {
+                    alert("Error al guardar datos del formulario");
+                    reject("Error");
+                }
+            });
+
+        },
+        error: function(data) {
+            alert("Error al guardar formulario de la inspección");
+            reject("Error");
+        }
+        });
+    });
+    return await guardadoCompleto;
+}
+
+
+function cerrarTarea() {
+
+if(!frm_validar('#formAlertaPCC')){
+    console.log("Error al validar Formulario");
+            Swal.fire(
+                'Error..',
+                'Debes completar los campos obligatorios (*)',
+                'error'
+            );
+    return;
+}
+//
+//VALIDACION PERMISOS DE TRANSITO
+//
+if ( !$('#sec_permisos').children().length > 0 ) { 
+    Swal.fire(
+                'Error..',
+                'No se agregaron permisos de tránsito (*)',
+                'error'
+            );
+    return;
+}
+//
+//VALIDACION EMPRESAS DESTINO
+//
+if ( !$('#sec_destinos').children().length > 0 ) {
+    Swal.fire(
+                'Error..',
+                'No se agregaron empresas de destino (*)',
+                'error'
+            );
+    return;
+}
+//
+//VALIDACION TERMICOS
+//
+if ( !$('#sec_termicos').children().length > 0 ) {
+    
+    Swal.fire(
+                'Error..',
+                'No se agregaron térmicos (*)',
+                'error'
+            );
+    return;
+}
+//Una vez validado el formulario, lo guardo
+cerrarTareaform().then((result) => {
+    
+    var dataForm = new FormData($('#formAlertaPCC')[0]);
+    var frm_info_id = $('#formEscaneoDocu .frm').attr('data-ninfoid');
+        
+    dataForm.append('frm_info_id', frm_info_id);
+    var id = $('#taskId').val();
+
+    $.ajax({
+        type: 'POST',
+        data: dataForm,
+        cache: false,
+        contentType: false,
+        processData: false,
+        url: '<?php base_url() ?>index.php/<?php echo BPM ?>Proceso/cerrarTarea/' + id,
+        success: function(data) {
+            //wc();
+            //back();
+            linkTo('<?php echo BPM ?>Proceso/');
+            setTimeout(() => {
+            Swal.fire(
+                
+                    'Perfecto!',
+                    'Se finalizó la tarea correctamente!',
+                    'success'
+                )
+          }, 13000);
+
+        },
+        error: function(data) {
+            alert("Error al finalizar tarea");
+        }
+    });
+    
+}).catch((err) => {
+    console.log(err);
+    alert("Error al finalizar tarea");
+});
+}
+//
+// Limpio Informacion pre cargada para no tener errores con PK de las tablas
+async function limpiarDataPreCargada () {
+let limpiadoCompleto = new Promise( function(resolve,reject){
+    caseId = {"case_id" : $("#caseId").val()};
+    $.ajax({
+        type: 'POST',
+        data: {caseId},
+        cache: false,
+        dataType: "json",
+        url: "<?php echo SICP; ?>inspeccion/limpiarDataPreCargada",
+        success: function(data) { 
+
+            if(data.status){
+                console.log(data.message);
+                resolve("Se limpio la data pre - cargada correctamente");
+            }else{
+                console.log(data.message);
+                reject("Error al limpiar la data pre - cargada");
+            }
+             
+        },
+        error: function(data) {
+            reject("Error al limpiar la data pre - cargada");
+        }
+    });
+});
+
+return await limpiadoCompleto;
+}
+//FIN Scripts Cierre tarea
+/***************************************************** */
 /***************************************************** */
 //
-//Preview sin agregar clase select
+//Bloque para validar
 //
-function previewInfraccion(imgs) {
-  // Tomo el elemento para la vista previa
-  var expandImg = document.getElementById("expandedImg");
-  //Lo asigno a la src de la vista previa
-  expandImg.src = imgs.src;
-}
 function showValidar(tag){
-    if(tag.value == "si"){
+    if(tag.value == "correcta"){
         $("#bloque_validar").hide();
+        $('#tpoInfraccion').val(null).trigger('change');
     }else{
         $("#bloque_validar").show();
     }
 }
+/****************************************************** */
+//Show vista previa acta infraccion en calle
+$(document).on('change',"#acta_infraccion",function() {
+    if(this.files && this.files[0]){
+        var reader = new FileReader();
+
+        reader.addEventListener("load", function (e) {
+            console.log(e.target);
+            $('#imgActaInfraccion').attr('src', e.target.result);
+            $('#imgActaInfraccion').hide();
+            $('#imgActaInfraccion').fadeIn(850);   
+        }, false);
+
+        reader.readAsDataURL(this.files[0]);
+    }
+});
 </script>
