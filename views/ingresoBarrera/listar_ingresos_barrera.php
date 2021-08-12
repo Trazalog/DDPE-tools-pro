@@ -8,13 +8,10 @@
 				<table id="tbl-pedidos" class="table table-striped table-hover">
 					<thead>
 							<tr>
-									<th>Acciones</th>
-									<th>Número de Pedido</th>
-									<th>Cliente</th>
-									<th>Domicilio</th>
-									<th>Tipo de Trabajo</th>
-									<th>Fecha de Inicio</th>
-									<th width="10%">Estado</th>
+									<th class="text-center">Acciones</th>
+									<th class="text-center">Número de Pedido</th>
+									<th class="text-center">Fecha de Inicio</th>
+									<th class="text-center">Estado</th>
 							</tr>
 					</thead>
 					<tbody>
@@ -39,13 +36,18 @@
 								// echo '<i class="fa fa-print" style="cursor: pointer; margin: 3px;" title="Imprimir Comprobante"></i>';
 								echo '<i class="fa fa-search"  style="cursor: pointer;margin: 3px;" title="Ver Pedido" onclick="verPedido(this)"></i>';
 								echo "</td>";
-								echo '<td>'.$petr_id.'</td>';
-                                echo '<td>'.$nombre_cliente.'</td>';
-								echo '<td>'.$dir_entrega.'</td>';
-                                echo '<td>'.$tipo_trabajo.'</td>';
-								echo '<td>'.formatFechaPG($fec_inicio).'</td>';
-								
-								echo '<td>'.$estado.'</td>';
+								echo '<td class="text-center">'.$petr_id.'</td>';
+								echo '<td class="text-center">'.formatFechaPG($fec_inicio).'</td>';
+								switch ($estado) {
+                  case 'estados_procesosPROC_EN_CURSO':
+                    echo '<td class="text-center"><span data-toggle="tooltip" title="" class="badge bg-green">EN CURSO</span></td>';
+
+                    break;
+                  
+                  default:
+                    echo '<td class="text-center"><button type="button" class="btn btn-secondary">'.$estado.'</button></td>';
+                    break;
+                }
 								echo '</tr>';
 						}
 						?>

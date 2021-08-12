@@ -169,11 +169,33 @@ class Sicpoatareas extends CI_Model
                 $data['infracciones'] = $this->getInfracciones();
                 $data['preCargaDatos'] = $this->getPreCargaDatos($tareaData->case_id);
 
+                $empresas = $data['preCargaDatos']->empresas->empresa;
+
+                //Separo las empresas por su rol
+                if(!empty($empresas)){
+                    foreach($empresas as $key => $value){
+                        
+                        if($value->rol == "DESTINO"){
+                            $data['destinos'][$key] = $value;
+
+                        }elseif ($value->rol == "ORIGEN") {
+                            $data['origen'] = $value;
+
+                        }elseif($value->rol == "TRANSPORTISTA"){
+                            $data['transportista'] = $value;
+
+                        }
+                    }
+                    $data['preDataCargada'] = true;
+                }else{
+                    $data['preDataCargada'] = false;
+                }
+
                 //Es el info_id del formulario de escaneo documentacion
                 //que puede o no estar cargado a la hora de la inspeccion
                 $formulario = $this->Ingresosbarrera->getFormularios($tareaData->petr_id);
                 $escaneoInfoId = $formulario['data'][0]->forms->form[0]->info_id;
-                $data['escaneoInfoId'] = $escaneoInfoId;// Lo mando a la vista apra instaciar formulario en modal
+                $data['escaneoInfoId'] = $escaneoInfoId;// Lo mando a la vista para instaciar formulario en modal
 
                 if(isset($escaneoInfoId)){
                     $data['imgsEscaneo'] = $this->getImgsEscaneoDocu($escaneoInfoId);
@@ -184,11 +206,41 @@ class Sicpoatareas extends CI_Model
                 log_message('DEBUG', "#TRAZA | #SICPOA | Sicpoatareas | desplegarVista()  tarea->nombreTarea: >> " . $tarea->nombreTarea);
               
                 break;
-            //paso 2       
+
+            //paso 4       
             case 'Reprecintado':
-                $info_id = $this->getXCaseId($tarea)->info_id;
-                $data['docu_sanitaria'] = array('PT', 'PCR');
-                return $this->load->view(SICP . 'tareas/alertaPCC', $data, true);
+                $tareaData = $this->getXCaseId($tarea);
+
+                $data['petr_id'] = $tareaData->petr_id;
+                $data['inspeccion'] = $this->getPreCargaDatos($tareaData->case_id);
+                $empresas = $data['inspeccion']->empresas->empresa;
+
+                //Separo las empresas por su rol
+                if(!empty($empresas)){
+                    foreach($empresas as $key => $value){
+                        
+                        if($value->rol == "DESTINO"){
+                            $data['destinos'][$key] = $value;
+
+                        }elseif ($value->rol == "ORIGEN") {
+                            $data['origen'] = $value;
+
+                        }elseif($value->rol == "TRANSPORTISTA"){
+                            $data['transportista'] = $value;
+
+                        }
+                    }
+                }
+
+                $formulario = $this->Ingresosbarrera->getFormularios($tareaData->petr_id);
+                $escaneoInfoId = $formulario['data'][0]->forms->form[0]->info_id;
+                $data['escaneoInfoId'] = $escaneoInfoId;// Lo mando a la vista para instaciar formulario en modal
+
+                if(isset($escaneoInfoId)){
+                    $data['imgsEscaneo'] = $this->getImgsEscaneoDocu($escaneoInfoId);
+                }
+                
+                return $this->load->view(SICP . 'tareas/reprecintado', $data, true);
 
                 log_message('DEBUG', "#TRAZA | #SICPOA | Sicpoatareas | desplegarVista()  tarea->nombreTarea: >> " . $tarea->nombreTarea);
               
@@ -282,8 +334,12 @@ class Sicpoatareas extends CI_Model
                 );
                 
                 $rsp = $this->guardarForms($data);
-                
-                $contrato["erroresDocumentacion"]  = $rsp['status'];
+
+                if($form['doc_impositiva'] == 'Parcial'){
+                    $contrato["erroresDocumentacion"]  = false;
+                }else{
+                    $contrato["erroresDocumentacion"]  = true;
+                }
                 $contrato["petrId"]  = $form['petr_id'];
                 $contrato["reprecintado"]  = $form['reprecintado'];
                 $contrato["resultadoInspeccion"]  = $form['inspValida'];
@@ -302,17 +358,17 @@ class Sicpoatareas extends CI_Model
                 //Acta infraccion en calle
                 $data['_post_pedidotrabajo_tarea_form'] = array(
         
-                    "nom_tarea" => "$nom_tarea",
+                    "nom_tarea" => "$nom_tarea"." Acta infracción",
                     "task_id" => $task_id,
                     "usuario_app" => $user_app,
                     "case_id" => $case_id,
-                    "info_id" => $form['frm_info_id']
+                    "info_id" => $form['acta_info_id']
 
                 );
 
                 $resp = $this->guardarForms($data);
         
-                log_message('DEBUG', '#TRAZA | #SICPOA | Sicpoatareas | getContrato()  >> contrato '.json_encode($resp['status']));
+                log_message('DEBUG', '#TRAZA | #SICPOA | Sicpoatareas | getContrato() AlertaPCC  >> Acta infraccion status: '.json_encode($resp['status']));
 
                 //Escaneo Documentacion
                 $data['_post_pedidotrabajo_tarea_form'] = array(
@@ -327,9 +383,13 @@ class Sicpoatareas extends CI_Model
                 
                 $rsp = $this->guardarForms($data);
 
-                $contrato["erroresDocumentacion"]  = $rsp['status'];
+                if($form['doc_impositiva'] == 'Parcial'){
+                    $contrato["erroresDocumentacion"]  = false;
+                }else{
+                    $contrato["erroresDocumentacion"]  = true;
+                }
                 
-                log_message('DEBUG', '#TRAZA | #SICPOA | Sicpoatareas | getContrato()  >> contrato '.json_encode($contrato));
+                log_message('DEBUG', '#TRAZA | #SICPOA | Sicpoatareas | getContrato() AlertaPCC >> contrato '.json_encode($contrato));
 
                 return $contrato;
     

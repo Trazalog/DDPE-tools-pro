@@ -43,7 +43,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                         <label for="Solicitud">Solicitud N°(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input type="text" class="form-control requerido limitedChars" id="soli_num" placeholder="Ingrese número de solicitud..."/>
+                        <input type="text" class="form-control requerido limitedChars" id="soli_num" placeholder="Ingrese número de solicitud"/>
                     </div>
                 </div>
                 <!--________________-->
@@ -52,7 +52,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                         <label for="emision">Lugar de emisión(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input type="text" class="form-control limitedNumbers" id="emision" placeholder="Ingrese lugar de emisión..."/>
+                        <input type="text" class="form-control limitedNumbers" id="emision" placeholder="Ingrese lugar de emisión"/>
                     </div>
                 </div>
                 <!--________________-->
@@ -61,7 +61,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                     <label for="salida">Hora de Salida(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input type="time" class="form-control" id="salida" placeholder="Ingrese hora de salida..."/>
+                        <input type="time" class="form-control" id="salida" placeholder="Ingrese hora de salida"/>
                     </div>
                 </div>
                 <!--________________-->
@@ -70,7 +70,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                     <label for="fecha">Fecha(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input type="date" class="form-control" id="fecha" placeholder="Ingrese fecha..."/>
+                        <input type="date" class="form-control" id="fecha" placeholder="Ingrese fecha"/>
                     </div>
                 </div>
                 <!--________________-->
@@ -130,7 +130,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
                     <label for="doc_chofer">DNI Chofer(<strong style="color: #dd4b39">*</strong>):</label>
                     <div class="input-group">
-                        <select class="form-control select2 select2-hidden-accesible choferes" name="doc_id" id="doc_chofer" required>
+                        <select class="form-control select2 select2-hidden-accesible choferes" name="chof_id" id="doc_chofer" required>
                             <option value="" disabled selected>-Seleccionar-</option>	
                         </select>
                         <span id="add_chofer" class="input-group-addon" data-toggle="modal" data-target="#mdl-chofer"><i class="fa fa-plus"></i></span>
@@ -151,7 +151,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group has-feedback">
                     <label for="patenteTractor">Patente Tractor(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input class="form-control" name="patente_tractor" id="patenteTractor" placeholder="Ingrese Patente Tractor..." value="<?php echo isset($preCargaDatos->patente_tractor) ? $preCargaDatos->patente_tractor : null ?>" required/>
+                        <input class="form-control" name="patente_tractor" id="patenteTractor" placeholder="Ingrese patente tractor" value="<?php echo isset($preCargaDatos->patente_tractor) ? $preCargaDatos->patente_tractor : null ?>" required/>
                     </div>
                 </div>
                 <!--________________-->
@@ -160,7 +160,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                     <label for="num_senasa">N° SENASA(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input class="form-control limitedChars" name="nro_senasa" id="num_senasa" placeholder="Ingrese N° SENASA..." value="<?php echo isset($preCargaDatos->nro_senasa) ? $preCargaDatos->nro_senasa : null ?>" required/>
+                        <input class="form-control limitedChars" name="nro_senasa" id="num_senasa" placeholder="Ingrese N° SENASA" value="<?php echo isset($preCargaDatos->nro_senasa) ? $preCargaDatos->nro_senasa : null ?>" required/>
                     </div>
                 </div>
                 <!--________________-->
@@ -169,7 +169,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                     <label for="esta_num">Establecimiento N°(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input class="form-control" name="esta_num" id="esta_num" placeholder="Ingrese Establecimiento N°..." readonly/>
+                        <input class="form-control" name="esta_num" id="esta_num" placeholder="Establecimiento N°" readonly/>
                     </div>
                 </div>
                 <!--________________-->
@@ -258,7 +258,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                         <label for="producto">Producto/s(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input class="form-control" name="productos" id="producto" placeholder="Ingrese Producto..." value="<?php echo isset($preCargaDatos->productos) ? $preCargaDatos->productos : null; ?>" required/>
+                        <input class="form-control" name="productos" id="producto" placeholder="Ingrese producto" value="<?php echo isset($preCargaDatos->productos) ? $preCargaDatos->productos : null; ?>" required/>
                     </div>                    
                 </div>
                 <!--________________-->
@@ -266,7 +266,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                         <label for="term_patente">Térmico Patente(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input class="form-control limited" id="term_patente" placeholder="Ingrese térmico patente..." />
+                        <input class="form-control limited" id="term_patente" placeholder="Ingrese térmico patente" />
                     </div>                    
                 </div>
                 <!--________________-->
@@ -274,7 +274,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                         <label for="temperatura">Temperatura(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input class="form-control" id="temperatura" placeholder="Ingrese Temperatura..." />
+                        <input class="form-control" id="temperatura" placeholder="Ingrese temperatura" />
                     </div>                    
                 </div>
                 <!--________________-->
@@ -282,7 +282,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                         <label for="precintos">Precintos N°(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input class="form-control limitedChars" id="precintos" placeholder="Ingrese Precintos..." />
+                        <input class="form-control limitedChars" id="precintos" placeholder="Ingrese precintos" />
                     </div>                    
                 </div>
                 <!--________________-->
@@ -315,7 +315,7 @@
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="form-group">
                         <label for="observaciones">Observaciones:</label>
-                        <textarea class="form-control" row="3" name="observaciones" id="observaciones" placeholder="Observaciones..." ></textarea>
+                        <textarea class="form-control" row="3" name="observaciones" id="observaciones" placeholder="Observaciones" ></textarea>
                     </div>                    
                 </div>
                 <!--________________-->
@@ -369,7 +369,7 @@
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <div class="form-group">
                             <label for="cant_fajas">Cantidad de fajas(<strong style="color: #dd4b39">*</strong>):</label>
-                            <input type="number" class="form-control" name="cant_fajas" id="cant_fajas" placeholder="Ingrese N° fajas..." required/>
+                            <input type="number" class="form-control" name="cant_fajas" id="cant_fajas" placeholder="Ingrese N° fajas" required/>
                         </div>
                     </div>
                 </div>                    
@@ -675,7 +675,7 @@ $(document).on("click",".fa-trash",function(e) {
 //
 //Scripts Permisos transito
 //
-var accion;
+var editando = false;// Utilizo para que no se pierdan los permisos al editar
 function agregarPermiso(){
     //Informamos el campo vacio 
     var reporte = validarCamposPermiso();
@@ -740,16 +740,19 @@ function validarCamposPermiso(){
 }
 
 $(document).on("click",".fa-edit",function(e) {
-    // accion = "editar";
-    var data =	JSON.parse($(e.target).closest('div').attr('data-json'));
-    $("#soli_num").val(data.perm_id);
-    $("#emision").val(data.lugar_emision);
-    aux = data.fecha_hora_salida.split(" ");
-    $("#salida").val(aux[1]);
-    $("#fecha").val(aux[0]);
-    $("input[name=doc_sanitaria][value='"+data.tipo+"']").prop("checked",true);
-    $(e.target).closest('div').remove();
-
+    if(!editando){
+        var data =	JSON.parse($(e.target).closest('div').attr('data-json'));
+        $("#soli_num").val(data.perm_id);
+        $("#emision").val(data.lugar_emision);
+        aux = data.fecha_hora_salida.split(" ");
+        $("#salida").val(aux[1]);
+        $("#fecha").val(aux[0]);
+        $("input[name=doc_sanitaria][value='"+data.tipo+"']").prop("checked",true);
+        $(e.target).closest('div').remove();
+        editando = true;
+    }else{
+        alert("Ya se esta editando un permiso!");
+    }
 });
 //FIN Script's seccion permisos transito
 /***************************************************** */
@@ -954,11 +957,20 @@ async function cerrarTareaform(){
                 success: function(data) {
                     resp = JSON.parse(data);
                     if(resp.status){
-                        //Guardo formulario de acta infraccion en calle
-                        $('#formActaInfraccion .frm-save').click();
 
                         //Guardo formulario de escaneo documentacion, se valido en cerrarTarea()
                         $('#formEscaneoDocu .frm-save').click();
+
+                        //al inicializar 2 formularios dinamicos, se inicializan con el mismo info-id
+                        //debo incrementarlo antes de guardar para evitar errores
+                        idViejo = $('#formActaInfraccion .frm').attr('id').split('-');
+                        idViejo[1]++;
+                        nuevoId = idViejo[0] + "-" + idViejo[1];
+                        $('#formActaInfraccion .frm').attr('id', nuevoId);
+                        $('#formActaInfraccion .frm').attr('data-ninfoid', idViejo[1]);
+
+                        //Guardo formulario de acta infraccion en calle
+                        $('#formActaInfraccion .frm-save').click();
 
                         console.log(resp.message);
                         resolve("Correcto");
@@ -991,6 +1003,17 @@ if(!frm_validar('#formAlertaPCC')){
             Swal.fire(
                 'Error..',
                 'Debes completar los campos obligatorios (*)',
+                'error'
+            );
+    return;
+}
+//
+//Validacion Escaneo Documentacion
+//
+if($("select[name=doc_impo]").val() == "" || $("#cant_doc").val() == ""){
+            Swal.fire(
+                'Error..',
+                'Debes completar el formulario de escaneo documentación (*)',
                 'error'
             );
     return;
@@ -1034,8 +1057,12 @@ cerrarTareaform().then((result) => {
     
     var dataForm = new FormData($('#formAlertaPCC')[0]);
     var frm_info_id = $('#formEscaneoDocu .frm').attr('data-ninfoid');
-        
+    var acta_info_id = $('#formActaInfraccion .frm').attr('data-ninfoid');
+      
     dataForm.append('frm_info_id', frm_info_id);
+    dataForm.append('acta_info_id', acta_info_id);
+    dataForm.append('doc_impositiva', $("select[name=doc_impo]").val());
+
     var id = $('#taskId').val();
 
     $.ajax({
@@ -1063,7 +1090,7 @@ cerrarTareaform().then((result) => {
             alert("Error al finalizar tarea");
         }
     });
-    
+    console.log("Se cerro la tarea perrito malvado");
 }).catch((err) => {
     console.log(err);
     alert("Error al finalizar tarea");
@@ -1120,7 +1147,6 @@ $(document).on('change',"#acta_infraccion",function() {
         var reader = new FileReader();
 
         reader.addEventListener("load", function (e) {
-            console.log(e.target);
             $('#imgActaInfraccion').attr('src', e.target.result);
             $('#imgActaInfraccion').hide();
             $('#imgActaInfraccion').fadeIn(850);   

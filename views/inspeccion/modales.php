@@ -275,7 +275,11 @@
                     }
 
                 }else{
-                    alertify.error("Se produjo un error al agregar!");
+                    if(resp.data.includes("already exists")){
+                        alertify.error("Este registro ya fue ingresado!");
+                    }else{
+                        alertify.error("Se produjo un error al agregar!");
+                    }
                 }
             },
             error: function(result){
