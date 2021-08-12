@@ -43,7 +43,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                         <label for="Solicitud">Solicitud N°(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input type="text" class="form-control requerido limitedChars" id="soli_num" placeholder="Ingrese número de solicitud..."/>
+                        <input type="text" class="form-control requerido limitedChars" id="soli_num" placeholder="Ingrese número de solicitud"/>
                     </div>
                 </div>
                 <!--________________-->
@@ -52,7 +52,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                         <label for="emision">Lugar de emisión(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input type="text" class="form-control limitedNumbers" id="emision" placeholder="Ingrese lugar de emisión..."/>
+                        <input type="text" class="form-control limitedNumbers" id="emision" placeholder="Ingrese lugar de emisión"/>
                     </div>
                 </div>
                 <!--________________-->
@@ -61,7 +61,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                     <label for="salida">Hora de Salida(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input type="time" class="form-control" id="salida" placeholder="Ingrese hora de salida..."/>
+                        <input type="time" class="form-control" id="salida" placeholder="Ingrese hora de salida"/>
                     </div>
                 </div>
                 <!--________________-->
@@ -70,7 +70,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                     <label for="fecha">Fecha(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input type="date" class="form-control" id="fecha" placeholder="Ingrese fecha..."/>
+                        <input type="date" class="form-control" id="fecha" placeholder="Ingrese fecha"/>
                     </div>
                 </div>
                 <!--________________-->
@@ -153,7 +153,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group has-feedback">
                         <label for="patenteTractor">Patente Tractor(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input class="form-control" name="patente_tractor" id="patenteTractor" placeholder="Ingrese Patente Tractor..." value="<?php echo isset($preCargaDatos->patente_tractor) ? $preCargaDatos->patente_tractor : null ?>" required/>
+                        <input class="form-control" name="patente_tractor" id="patenteTractor" placeholder="Ingrese Patente Tractor" value="<?php echo isset($preCargaDatos->patente_tractor) ? $preCargaDatos->patente_tractor : null ?>" required/>
                     </div>
                 </div>
                 <!--________________-->
@@ -162,7 +162,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                         <label for="num_senasa">N° SENASA(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input class="form-control limitedChars" name="nro_senasa" id="num_senasa" placeholder="Ingrese N° SENASA..." value="<?php echo isset($preCargaDatos->nro_senasa) ? $preCargaDatos->nro_senasa : null ?>" required/>
+                        <input class="form-control limitedChars" name="nro_senasa" id="num_senasa" placeholder="Ingrese N° SENASA" value="<?php echo isset($preCargaDatos->nro_senasa) ? $preCargaDatos->nro_senasa : null ?>" required/>
                     </div>
                 </div>
                 <!--________________-->
@@ -171,7 +171,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                         <label for="esta_num">Establecimiento N°(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input class="form-control" name="esta_num" id="esta_num" placeholder="Establecimiento N°..." readonly/>
+                        <input class="form-control" name="esta_num" id="esta_num" placeholder="Establecimiento N°" readonly/>
                     </div>
                 </div>
                 <!--________________-->
@@ -260,7 +260,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                         <label for="producto">Producto/s(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input class="form-control" name="productos" id="producto" placeholder="Ingrese producto..." value="<?php echo isset($preCargaDatos->productos) ? $preCargaDatos->productos : null; ?>" required/>
+                        <input class="form-control" name="productos" id="producto" placeholder="Ingrese producto" value="<?php echo isset($preCargaDatos->productos) ? $preCargaDatos->productos : null; ?>" required/>
                     </div>                    
                 </div>
                 <!--________________-->
@@ -268,7 +268,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                         <label for="term_patente">Térmico Patente(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input class="form-control limited" id="term_patente" placeholder="Ingrese térmico patente..." />
+                        <input class="form-control limited" id="term_patente" placeholder="Ingrese térmico patente" />
                     </div>                    
                 </div>
                 <!--________________-->
@@ -276,7 +276,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                         <label for="temperatura">Temperatura(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input type="number" class="form-control" id="temperatura" placeholder="Ingrese temperatura..." />
+                        <input type="number" class="form-control" id="temperatura" placeholder="Ingrese temperatura" />
                     </div>                    
                 </div>
                 <!--________________-->
@@ -284,7 +284,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                         <label for="precintos">Precintos N°(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input class="form-control limitedChars" id="precintos" placeholder="Ingrese precintos..." />
+                        <input class="form-control limitedChars" id="precintos" placeholder="Ingrese precintos" />
                     </div>                    
                 </div>
                 <!--________________-->
@@ -317,7 +317,7 @@
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="form-group">
                         <label for="observaciones">Observaciones:</label>
-                        <textarea class="form-control" row="3" name="observaciones" id="observaciones" placeholder="Observaciones..."><?php echo isset($preCargaDatos->observaciones) ? $preCargaDatos->observaciones : null; ?></textarea>
+                        <textarea class="form-control" row="3" name="observaciones" id="observaciones" placeholder="Observaciones"><?php echo isset($preCargaDatos->observaciones) ? $preCargaDatos->observaciones : null; ?></textarea>
                     </div>                    
                 </div>
                 <!--________________-->
@@ -340,7 +340,7 @@
                 <div class="col-md-4 col-sm-6 col-xs-6">
                     <div class="form-group">
                         <label for="bruto">Bruto:</label>
-                        <input class="form-control neto onlyNumbers" name="bruto" id="bruto" placeholder="Bruto..." />
+                        <input class="form-control neto onlyNumbers" name="bruto" id="bruto" placeholder="Bruto" />
                     </div>                    
                 </div>
                 <!--________________-->
@@ -348,7 +348,7 @@
                 <div class="col-md-4 col-sm-6 col-xs-6">
                     <div class="form-group">
                         <label for="tara">Tara:</label>
-                        <input class="form-control neto onlyNumbers" name="tara" id="tara" placeholder="Tara..." />
+                        <input class="form-control neto onlyNumbers" name="tara" id="tara" placeholder="Tara" />
                     </div>                    
                 </div>
                 <!--________________-->
@@ -356,7 +356,7 @@
                 <div class="col-md-4 col-sm-6 col-xs-6">
                     <div class="form-group">
                         <label for="neto">Neto:</label>
-                        <input class="form-control" id="neto" placeholder="Neto..." readonly/>
+                        <input class="form-control" id="neto" placeholder="Neto" readonly/>
                     </div>                    
                 </div>
                 <!--________________-->
@@ -364,7 +364,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-6">
                     <div class="form-group">
                         <label for="ticket">Ticket:</label>
-                        <input class="form-control" name="ticket" id="ticket" placeholder="Ingrese Ticket..." />
+                        <input class="form-control" name="ticket" id="ticket" placeholder="Ingrese ticket" />
                     </div>                    
                 </div>
                 <!--________________-->
@@ -403,7 +403,7 @@
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <div class="form-group">
                             <label for="cant_fajas">Cantidad de fajas(<strong style="color: #dd4b39">*</strong>):</label>
-                            <input type="number" class="form-control" name="cant_fajas" id="cant_fajas" placeholder="Ingrese N° fajas..." required/>
+                            <input type="number" class="form-control" name="cant_fajas" id="cant_fajas" placeholder="Ingrese N° fajas" required/>
                         </div>
                     </div>
                 </div>                    
@@ -709,7 +709,7 @@ $(document).on("click",".fa-trash",function(e) {
 //
 //Scripts Permisos transito
 //
-var accion;
+var editando = false;// Utilizo para que no se pierdan los permisos al editar
 function agregarPermiso(){
     //Informamos el campo vacio 
     var reporte = validarCamposPermiso();
@@ -774,16 +774,19 @@ function validarCamposPermiso(){
 }
 
 $(document).on("click",".fa-edit",function(e) {
-    // accion = "editar";
-    var data =	JSON.parse($(e.target).closest('div').attr('data-json'));
-    $("#soli_num").val(data.perm_id);
-    $("#emision").val(data.lugar_emision);
-    aux = data.fecha_hora_salida.split(" ");
-    $("#salida").val(aux[1]);
-    $("#fecha").val(aux[0]);
-    $("input[name=doc_sanitaria][value='"+data.tipo+"']").prop("checked",true);
-    $(e.target).closest('div').remove();
-
+    if(!editando){
+        var data =	JSON.parse($(e.target).closest('div').attr('data-json'));
+        $("#soli_num").val(data.perm_id);
+        $("#emision").val(data.lugar_emision);
+        aux = data.fecha_hora_salida.split(" ");
+        $("#salida").val(aux[1]);
+        $("#fecha").val(aux[0]);
+        $("input[name=doc_sanitaria][value='"+data.tipo+"']").prop("checked",true);
+        $(e.target).closest('div').remove();
+        editando = true;
+    }else{
+        alert("Ya se esta editando un permiso!");
+    }
 });
 //FIN Script's seccion permisos transito
 /***************************************************** */
@@ -1043,10 +1046,10 @@ function cerrarTarea() {
     //
     //Validacion Escaneo Documentacion
     //
-    if($("#doc_impo").val() == "" || $("#cant_doc").val() == ""){
+    if($("select[name=doc_impo]").val() == "" || $("#cant_doc").val() == ""){
 				Swal.fire(
 					'Error..',
-					'Debes completar el formulario de escaneo documnetación (*)',
+					'Debes completar el formulario de escaneo documentación (*)',
 					'error'
 				);
         return;
@@ -1092,6 +1095,8 @@ function cerrarTarea() {
         var frm_info_id = $('#formEscaneoDocu .frm').attr('data-ninfoid');
 
         dataForm.append('frm_info_id', frm_info_id);
+        dataForm.append('doc_impositiva', $("select[name=doc_impo]").val());
+        
         var id = $('#taskId').val();
 
         $.ajax({

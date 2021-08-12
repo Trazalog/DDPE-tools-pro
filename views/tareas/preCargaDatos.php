@@ -42,7 +42,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                         <label for="Solicitud">Solicitud N°(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input type="text" class="form-control requerido limitedChars" id="soli_num" placeholder="Ingrese número de solicitud..."/>
+                        <input type="text" class="form-control requerido limitedChars" id="soli_num" placeholder="Ingrese número de solicitud"/>
                     </div>
                 </div>
                 <!--________________-->
@@ -51,7 +51,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                         <label for="emision">Lugar de emisión(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input type="text" class="form-control limitedNumbers" id="emision" placeholder="Ingrese lugar de emisión..."/>
+                        <input type="text" class="form-control limitedNumbers" id="emision" placeholder="Ingrese lugar de emisión"/>
                     </div>
                 </div>
                 <!--________________-->
@@ -60,7 +60,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                     <label for="salida">Hora de Salida(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input type="time" class="form-control" id="salida" placeholder="Ingrese hora de salida..."/>
+                        <input type="time" class="form-control" id="salida" placeholder="Ingrese hora de salida"/>
                     </div>
                 </div>
                 <!--________________-->
@@ -69,7 +69,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                     <label for="fecha">Fecha(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input type="date" class="form-control" id="fecha" placeholder="Ingrese fecha..."/>
+                        <input type="date" class="form-control" id="fecha" placeholder="Ingrese fecha"/>
                     </div>
                 </div>
                 <!--________________-->
@@ -151,7 +151,7 @@
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <div class="form-group has-feedback">
                             <label for="patenteTractor">Patente Tractor(<strong style="color: #dd4b39">*</strong>):</label>
-                                <input class="form-control limited" name="patente_tractor" id="patenteTractor" placeholder="Ingrese Patente Tractor..." required/>
+                                <input class="form-control limited" name="patente_tractor" id="patenteTractor" placeholder="Ingrese Patente Tractor" required/>
                             </div>
                         </div>
                         <!--________________-->
@@ -160,7 +160,7 @@
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <div class="form-group">
                             <label for="num_senasa">N° SENASA(<strong style="color: #dd4b39">*</strong>):</label>
-                                <input type="text" class="form-control limitedChars" name="nro_senasa" id="num_senasa" placeholder="Ingrese N° SENASA..." required/>
+                                <input type="text" class="form-control limitedChars" name="nro_senasa" id="num_senasa" placeholder="Ingrese N° SENASA" required/>
                             </div>
                         </div>
                         <!--________________-->
@@ -169,7 +169,7 @@
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <div class="form-group">
                             <label for="esta_num">Establecimiento N°(<strong style="color: #dd4b39">*</strong>):</label>
-                                <input class="form-control" name="esta_num" id="esta_num" placeholder="Ingrese Establecimiento N°..." readonly/>
+                                <input class="form-control" name="esta_num" id="esta_num" placeholder="Ingrese Establecimiento N°" readonly/>
                             </div>
                         </div>
                         <!--________________-->
@@ -243,7 +243,7 @@
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <div class="form-group">
                                 <label for="producto">Producto/s(<strong style="color: #dd4b39">*</strong>):</label>
-                                <input class="form-control" name="productos" id="producto" placeholder="Ingrese Producto..." required/>
+                                <input class="form-control" name="productos" id="producto" placeholder="Ingrese producto" required/>
                             </div>                    
                         </div>
                         <!--________________-->
@@ -251,7 +251,7 @@
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <div class="form-group">
                                 <label for="term_patente">Térmico Patente(<strong style="color: #dd4b39">*</strong>):</label>
-                                <input class="form-control limited" id="term_patente" placeholder="Ingrese Térmico Patente..." />
+                                <input class="form-control limited" id="term_patente" placeholder="Ingrese térmico patente" />
                             </div>                    
                         </div>
                         <!--________________-->
@@ -259,7 +259,7 @@
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <div class="form-group">
                                 <label for="temperatura">Temperatura(<strong style="color: #dd4b39">*</strong>):</label>
-                                <input type="number" class="form-control" id="temperatura" placeholder="Ingrese Temperatura..." />
+                                <input type="number" class="form-control" id="temperatura" placeholder="Ingrese temperatura" />
                             </div>                    
                         </div>
                         <!--________________-->
@@ -267,7 +267,7 @@
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <div class="form-group">
                                 <label for="precintos">Precintos N°(<strong style="color: #dd4b39">*</strong>):</label>
-                                <input class="form-control limitedChars" id="precintos" placeholder="Ingrese Precintos..." />
+                                <input class="form-control limitedChars" id="precintos" placeholder="Ingrese precintos" />
                             </div>                    
                         </div>
                         <!--________________-->
@@ -285,7 +285,7 @@
                         <div class="col-md-12 col-sm-12 col-xs-12">
                             <div class="form-group">
                                 <label for="observaciones">Observaciones:</label>
-                                <textarea class="form-control" row="3" name="observaciones" id="observaciones" placeholder="Observaciones..." ></textarea>
+                                <textarea class="form-control" row="3" name="observaciones" id="observaciones" placeholder="Observaciones" ></textarea>
                             </div>                    
                         </div>
                         <!--________________-->
@@ -543,7 +543,7 @@ $(document).on("click",".fa-trash",function(e) {
 //
 //Scripts Permisos transito
 //
-var accion;
+var editando = false;// Utilizo para que no se pierdan los permisos al editar
     function agregarPermiso(){
 			//Informamos el campo vacio 
 			var reporte = validarCamposPermiso();
@@ -578,7 +578,7 @@ var accion;
                 $("#salida").val('');
                 $("#fecha").val('');
                 $('input[name=doc_sanitaria]:checked').prop('checked',false);
-
+                editando = false;
 			}else{
 					alert(reporte);
 			}
@@ -609,16 +609,19 @@ var accion;
     }
 
     $(document).on("click",".fa-edit",function(e) {
-        // accion = "editar";
-        var data =	JSON.parse($(e.target).closest('div').attr('data-json'));
-        $("#soli_num").val(data.perm_id);
-        $("#emision").val(data.lugar_emision);
-        aux = data.fecha_hora_salida.split(" ");
-        $("#salida").val(aux[1]);
-        $("#fecha").val(aux[0]);
-        $("input[name=doc_sanitaria][value='"+data.tipo+"']").prop("checked",true);
-        $(e.target).closest('div').remove();
-
+        if(!editando){
+            var data =	JSON.parse($(e.target).closest('div').attr('data-json'));
+            $("#soli_num").val(data.perm_id);
+            $("#emision").val(data.lugar_emision);
+            aux = data.fecha_hora_salida.split(" ");
+            $("#salida").val(aux[1]);
+            $("#fecha").val(aux[0]);
+            $("input[name=doc_sanitaria][value='"+data.tipo+"']").prop("checked",true);
+            $(e.target).closest('div').remove();
+            editando = true;
+        }else{
+            alert("Ya se esta editando un permiso!");
+        }
 	});
 //FIN Script's seccion permisos transito
 /***************************************************** */
