@@ -395,58 +395,15 @@ class Sicpoatareas extends CI_Model
     
             break;
 
-        //paso 6
-        case 'Pintado y acabado final':
-
-            log_message('DEBUG', 'YUDI Reparacion view-Pintado y acabado final->' . $tarea->nombreTarea);
-    
-            if ($form['result'] == 'ok') {
-
-                log_message('DEBUG', 'YUDI Reparacion -Pintado y acabado final contrato', json_encode($form['result'],true) );
-
-                $contrato["retornaAPaso"]  = $form['result'];
-                    
-                            
-                        return $contrato;
+        //paso 4
+        case 'Reprecintado':       
         
-                break;
-
-
-            }else {
-
-                
-                $data['_post_pedidotrabajo_tarea_form'] = array(
-    
-                    "nom_tarea" => "$nom_tarea",
-                    "task_id" => $task_id,
-                    "usuario_app" => $user_app,
-                    "case_id" => $case_id,
-                    "info_id" => $form['frm_info_id']
-                    
+            $contrato["erroresDocumentacion"]  = true;
             
-                );
-            
-            
-                // $rsp = $this->Yudiproctareas->guardarForms($data);
-            
-                if (!$rsp) {
-            
-                    log_message('ERROR', '#TRAZA | #BPM >> guardarForms  >> ERROR AL GUARDAR FORM - Pintado y acabado final');
-            
-                } else {
-                    log_message('DEBUG', '#TRAZA | #BPM >> guardarForms  >> GUARDADO OK FORM - Pintado y acabado final');
-            
-                }
-
-                log_message('DEBUG', 'YUDI Reparacion -Pintado y acabado final contrato', json_encode($form['result'],true) );
-
-                $contrato["retornaAPaso"]  = $form['result'];
-                    
-                            
-                        return $contrato;
+            log_message('DEBUG', '#TRAZA | #SICPOA | Sicpoatareas | getContrato()  >> contrato '.json_encode($contrato));
+            return $contrato;
         
-                break;
-            }
+        break;
 
             default:
                 # code...
@@ -573,7 +530,7 @@ class Sicpoatareas extends CI_Model
         $aux = $this->rest->callAPI("GET",$url);
         $resp = json_decode($aux['data']);
 
-        log_message('DEBUG', "#TRAZA | #SICPOA | Inspecciones | getPreCargaDatos()  resp: >> " . json_encode($resp));
+        log_message('DEBUG', "#TRAZA | #SICPOA | Inspecciones | getPreCargaDatos() >> ");
 
         return $resp->inspeccion;
     }
