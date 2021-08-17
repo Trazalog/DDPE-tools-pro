@@ -248,10 +248,8 @@ class Sicpoatareas extends CI_Model
                 break;             
             //default           
             default:
-            
-            //return $this->load->view(YUDIPROC . 'tareas/pedido_reparacion_neumaticos/view_aprueba_reparacion', $data, true);
                                              
-            log_message('DEBUG', 'YUDI Default view-Default- Nombre de tarea>' . $tarea->nombreTarea);
+            log_message('DEBUG', '#TRAZA | #SICPOA | Sicpoatareas | desplegarVista() DEFAULT  tarea->nombreTarea: >> ' . $tarea->nombreTarea);
 
                 break;
         }

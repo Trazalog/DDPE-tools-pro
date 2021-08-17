@@ -158,7 +158,7 @@ class Inspeccion extends CI_Controller
 		$data['observaciones'] =  !empty($this->input->post('observaciones'))? $this->input->post('observaciones') : "";
 		$data['info_id_doc'] =  !empty($this->input->post('info_id_doc'))? $this->input->post('info_id_doc') : "";
 
-		// $resp = $this->Inspecciones->agregarInspeccion($data);
+		$resp = $this->Inspecciones->agregarInspeccion($data);
         
 		if ($resp['status']) {
 			

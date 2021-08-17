@@ -489,7 +489,6 @@ function cerrarTarea() {
                 alert("Error al finalizar tarea");
             }
         });
-        console.log("Se imprimio el acta perrito malvado");
     }).catch((err) => {
         console.log(err);
         alert("Error al finalizar tarea");
