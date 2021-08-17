@@ -160,6 +160,17 @@
       <result outputType="json">{&#xd;   "detalles_documento":{&#xd;      "detalle_documento":[&#xd;         {&#xd;            "dedo_id":"$dedo_id",&#xd;            "cantidad":"$cantidad",&#xd;            "tipo_producto_id":"$tipo_producto_id",&#xd;            "tipo_producto":"$tipo_producto",&#xd;            "unidad_medida_id":"$unidad_medida_id",&#xd;            "unidad_medida":"$unidad_medida",&#xd;            "descuento":"$descuento",&#xd;            "precio_unitario":"$precio_unitario",&#xd;            "monto":"$monto"&#xd;         }&#xd;      ]&#xd;   }&#xd;}</result>
       <param name="docu_id" sqlType="STRING"/>
    </query>
+   <query id="getImagenesPorFecha" useConfig="SICPOADataSource">
+      <sql>select&#xd;   d.case_id &#xd;   ,d.imag_id &#xd;   ,if2.valor4_base64 imagen&#xd;from&#xd;	sicpoa.documentos d &#xd;	left join frm.instancias_formularios if2 on if2.inst_id = d.imag_id &#xd;where&#xd;	d.fec_alta between to_date(:fec_desde,'YYYY-MM-DD') and TO_DATE(:fec_hasta,'YYYY-MM-DD')</sql>
+      <result outputType="json">{&#xd;   "imagenes_documentos":{&#xd;      "imagenes_documento":[&#xd;         {&#xd;            "imag_id":"$imag_id",&#xd;            "imagen":"$imagen",&#xd;            "case_id":"$case_id"&#xd;         }&#xd;      ]&#xd;   }&#xd;}</result>
+      <param name="fec_desde" sqlType="STRING"/>
+      <param name="fec_hasta" sqlType="STRING"/>
+   </query>
+   <query id="deleteImgFormsPorFecha" useConfig="SICPOADataSource">
+      <sql>delete from frm.instancias_formularios where info_id in &#xd;(select&#xd;   distinct(if2.info_id) &#xd;from&#xd;	sicpoa.documentos d &#xd;    join frm.instancias_formularios if2 on if2.inst_id = d.imag_id &#xd;where&#xd;	d.fec_alta between to_date(:fec_desde,'YYYY-MM-DD') and TO_DATE(:fec_hasta,'YYYY-MM-DD'))</sql>
+      <param name="fec_desde" sqlType="STRING"/>
+      <param name="fec_hasta" sqlType="STRING"/>
+   </query>
    <resource method="POST" path="/inspeccion">
       <call-query href="setInspeccion">
          <with-param name="case_id" query-param="case_id"/>
@@ -297,4 +308,17 @@
          <with-param name="fec_hasta" query-param="fec_hasta"/>
       </call-query>
    </resource>
+   <resource method="GET" path="/documentos/imagenes/fec_desde/{fec_desde}/fec_hasta/{fec_hasta}">
+      <call-query href="getImagenesPorFecha">
+         <with-param name="fec_desde" query-param="fec_desde"/>
+         <with-param name="fec_hasta" query-param="fec_hasta"/>
+      </call-query>
+   </resource>
+   <resource method="DELETE" path="/documentos/imagenes">
+      <call-query href="deleteImgFormsPorFecha">
+         <with-param name="fec_desde" query-param="fec_desde"/>
+         <with-param name="fec_hasta" query-param="fec_hasta"/>
+      </call-query>
+   </resource>
 </data>
+
