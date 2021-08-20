@@ -111,7 +111,7 @@ class Sicpoatareas extends CI_Model
                          
             break;
 
-            //paso 3
+            //paso 3 // cambiado este por 4
             case 'Inspección en PCC':
                 $tareaData = $this->getXCaseId($tarea);
 
@@ -239,7 +239,7 @@ class Sicpoatareas extends CI_Model
                 if(isset($escaneoInfoId)){
                     $data['imgsEscaneo'] = $this->getImgsEscaneoDocu($escaneoInfoId);
                 }
-                
+
                 return $this->load->view(SICP . 'tareas/reprecintado', $data, true);
 
                 log_message('DEBUG', "#TRAZA | #SICPOA | Sicpoatareas | desplegarVista()  tarea->nombreTarea: >> " . $tarea->nombreTarea);
@@ -501,12 +501,12 @@ class Sicpoatareas extends CI_Model
 		
     }
     /**
-	* Listado tipo de infracciones 
-	* @param  
+	* Listado tipo de infracciones
+	* @param
 	* @return array listado con tipos de infracciones
 	*/
     public function getInfracciones(){
-        
+
         $url = REST_CORE."/tabla/tipos_infraccion/empresa/";
 
         $aux = $this->rest->callAPI("GET",$url);
@@ -517,12 +517,12 @@ class Sicpoatareas extends CI_Model
         return $resp->tablas->tabla;
     }
     /**
-	* Obtengo la informacion de la inspeccion precargada 
+	* Obtengo la informacion de la inspeccion precargada
 	* @param int case_id
 	* @return array informacion pre cargada en paso Pre - Carga de Datos
 	*/
     public function getPreCargaDatos($case_id){
-        
+
         $url = REST_SICP."/inspeccion/id/".$case_id;
 
         $aux = $this->rest->callAPI("GET",$url);
