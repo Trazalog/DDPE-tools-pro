@@ -15,7 +15,6 @@
 .permTransito{
     min-height: 20px;
     text-align: center;
-    font-size: 20px;
 }
 .caja{
     margin-top: 15px;
@@ -131,7 +130,7 @@
                     <div class="form-group">
                         <label for="doc_chofer">DNI Chofer(<strong style="color: #dd4b39">*</strong>):</label>
                         <div class="input-group">
-                            <select class="form-control select2 select2-hidden-accesible choferes" name="chof_id" id="doc_chofer" required>
+                            <select class="form-control select2 select2-hidden-accesible choferes" name="chof_id" id="doc_chofer" data-bv-notempty data-bv-notempty-message="Campo Obligatorio *">
                                 <option value="" disabled selected></option>	
                             </select>
                             <span id="add_chofer" class="input-group-addon" data-toggle="modal" data-target="#mdl-chofer"><i class="fa fa-plus"></i></span>

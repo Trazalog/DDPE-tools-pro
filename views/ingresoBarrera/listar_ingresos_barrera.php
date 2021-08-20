@@ -43,7 +43,32 @@
                     echo '<td class="text-center"><span data-toggle="tooltip" title="" class="badge bg-green">EN CURSO</span></td>';
 
                     break;
-                  
+
+                  case 'estados_sicpoaINGRESADO':
+                    echo '<td class="text-center"><span data-toggle="tooltip" title="" class="badge bg-blue">INGRESADO</span></td>';
+
+                    break;
+
+                  case 'estados_sicpoaREPRECINTADO':
+                    echo '<td class="text-center"><span data-toggle="tooltip" title="" class="badge bg-yellow">REPRECINTADO</span></td>';
+
+                    break;
+
+                  case 'estados_sicpoaCORRECTO':
+                    echo '<td class="text-center"><span data-toggle="tooltip" title="" class="badge bg-green">CORRECTO</span></td>';
+
+                    break;
+
+                  case 'estados_sicpoaINFRACCION':
+                    echo '<td class="text-center"><span data-toggle="tooltip" title="" class="badge bg-red">INFRACCION</span></td>';
+
+                    break;
+
+                  case 'estados_sicpoaINFRACCION_CALLE':
+                    echo '<td class="text-center"><span data-toggle="tooltip" title="" class="badge bg-red">INFRACCION EN CALLE</span></td>';
+
+                    break;
+
                   default:
                     echo '<td class="text-center"><button type="button" class="btn btn-secondary">'.$estado.'</button></td>';
                     break;
