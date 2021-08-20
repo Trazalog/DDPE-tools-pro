@@ -303,23 +303,26 @@
     data.processId = "6077057098910977968";
     data.caseId = "13041";
     data.taskId = "240563";
+    
+    $("#modalBodyDetalle").load("<?php echo base_url(REST_SICP); ?>/reportes/detaReporte", data);
 
-    $.ajax({
-        type: 'POST',
-        data:{ data },
-        url:  "<?php echo SICP; ?>reportes/detaReporte",
-        success: function(result) {
-              // if(result == ''){
+      // $.ajax({
+      //     type: 'POST',
+      //     data:{ data },
+      //     url:  "<?php //echo SICP; ?>reportes/detaReporte",
+      //     success: function(result) {
 
-              // }
-        },
-        error: function(result){
-                  
-        },
-        complete: function(){
-                  
-        }
-    });
+      //           // levanto modal con img de Codigo
+      //           $("#modalDetalle").modal('show');
+
+      //     },
+      //     error: function(result){
+                    
+      //     },
+      //     complete: function(){
+
+      //     }
+      // });
   }
 
 
@@ -353,3 +356,22 @@
   }
 
 </script>
+
+
+<div class='modal fade' id='modalDetalle' tabindex='-1' role='dialog' aria-labelledby='myModalLabel'>
+  <div class='modal-dialog' role='document'>
+    <div class='modal-content'>
+      <div class='modal-header'>
+        <button type='button' class='close' onclick='' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+        <h4 class='modal-title' id='myModalLabel'>Impresión de Etiqueta</h4>
+      </div>
+      <div class='modal-body modalBodyDetalle' id='modalBodyDetalle'>
+
+      </div>
+      <div class='modal-footer'>
+        <button type='button' class='btn btn-default' onclick=''>Cancelar</button>
+        <button type='button' class='btn btn-primary' onclick=''>Imprimir</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -41,7 +41,7 @@ class Opcionesfiltros extends CI_Model
 
     $url = '/inspecciones/fec_desde/'.$desde.'/fec_hasta/'.$hasta;
     $aux = $this->rest->callAPI("GET",REST_SICP.$url);
-//TODO:MAPEAR RESPUESTA ANTES DE ENVIAR
+    //TODO:MAPEAR RESPUESTA ANTES DE ENVIAR
     $aux =json_decode($aux["data"]);
     return $aux->inspecciones->inspeccion;
   }
