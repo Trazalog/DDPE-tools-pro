@@ -15,7 +15,6 @@
 .permTransito{
     min-height: 20px;
     text-align: center;
-    font-size: 15px;
 }
 .caja{
     margin-top: 15px;

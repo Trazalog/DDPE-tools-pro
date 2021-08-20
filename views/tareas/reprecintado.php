@@ -15,7 +15,6 @@
 .dataTemporal{
     min-height: 20px;
     text-align: center;
-    font-size: 20px;
 }
 .caja{
     margin-top: 15px;

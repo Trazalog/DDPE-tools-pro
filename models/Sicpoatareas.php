@@ -245,7 +245,57 @@ class Sicpoatareas extends CI_Model
                 log_message('DEBUG', "#TRAZA | #SICPOA | Sicpoatareas | desplegarVista()  tarea->nombreTarea: >> " . $tarea->nombreTarea);
               
 
-                break;             
+                break;
+            //paso 5
+            case 'Carga de Documentación':
+
+                $tareaData = $this->getXCaseId($tarea);
+
+                $data['imgsBarrera'] = $this->getImgsBarrera($tareaData->info_id);
+                $data['petr_id'] = $tareaData->petr_id;
+                $data['facturas'] = $this->getTiposFacturas();
+                $data['productos'] = $this->getProductos();
+                $data['un_medidas'] = $this->getMedidas();
+                $data['preCargaDatos'] = $this->getPreCargaDatos($tareaData->case_id);
+                
+                $empresas = $data['preCargaDatos']->empresas->empresa;
+
+                //Separo las empresas por su rol
+                if(!empty($empresas)){
+                    foreach($empresas as $key => $value){
+                        
+                        if($value->rol == "DESTINO"){
+                            $data['destinos'][$key] = $value;
+
+                        }elseif ($value->rol == "ORIGEN") {
+                            $data['origen'] = $value;
+
+                        }elseif($value->rol == "TRANSPORTISTA"){
+                            $data['transportista'] = $value;
+
+                        }
+                    }
+                    $data['preDataCargada'] = true;
+                }else{
+                    $data['preDataCargada'] = false;
+                }
+                
+                //Es el info_id del formulario de escaneo documentacion
+                //que puede o no estar cargado a la hora de la inspeccion
+                $formulario = $this->Ingresosbarrera->getFormularios($tareaData->petr_id);
+                $escaneoInfoId = $formulario['data'][0]->forms->form[0]->info_id;
+                $data['escaneoInfoId'] = $escaneoInfoId;// Lo mando a la vista apra instaciar formulario en modal
+
+                if(isset($escaneoInfoId)){
+                    $data['imgsEscaneo'] = $this->getImgsEscaneoDocu($escaneoInfoId);
+                }
+                
+                return $this->load->view(SICP . 'tareas/cargaDocumentacion', $data, true);
+                // return $this->load->view(SICP . 'documentacion/nuevoDocumento', $data, true);
+
+                log_message('DEBUG', "#TRAZA | #SICPOA | Sicpoatareas | desplegarVista()  tarea->nombreTarea: >> " . $tarea->nombreTarea);
+              
+            break;
             //default           
             default:
                                              
@@ -531,5 +581,53 @@ class Sicpoatareas extends CI_Model
         log_message('DEBUG', "#TRAZA | #SICPOA | Inspecciones | getPreCargaDatos() >> ");
 
         return $resp->inspeccion;
+    }
+    /**
+	* Listado tipos de facturas 
+	* @param  
+	* @return array listado con tipos de facturas
+	*/
+    public function getTiposFacturas(){
+        
+        $url = REST_CORE."/tabla/888-tipos_documento/empresa/";
+
+        $aux = $this->rest->callAPI("GET",$url);
+        $resp = json_decode($aux['data']);
+
+        log_message('DEBUG', "#TRAZA | #SICPOA | Inspecciones | getTiposFacturas()  resp: >> " . json_encode($resp));
+
+        return $resp->tablas->tabla;
+    }
+    /**
+	* Listado productos 
+	* @param  
+	* @return array listado con productos
+	*/
+    public function getProductos(){
+        
+        $url = REST_CORE."/tabla/888-tipos_producto/empresa/";
+
+        $aux = $this->rest->callAPI("GET",$url);
+        $resp = json_decode($aux['data']);
+
+        log_message('DEBUG', "#TRAZA | #SICPOA | Inspecciones | getTiposFacturas()  resp: >> " . json_encode($resp));
+
+        return $resp->tablas->tabla;
+    }
+    /**
+	* Listado unidades de medida 
+	* @param  
+	* @return array listado con unidades de medida
+	*/
+    public function getMedidas(){
+        
+        $url = REST_CORE."/tabla/888-unidades_medida/empresa/";
+
+        $aux = $this->rest->callAPI("GET",$url);
+        $resp = json_decode($aux['data']);
+
+        log_message('DEBUG', "#TRAZA | #SICPOA | Inspecciones | getTiposFacturas()  resp: >> " . json_encode($resp));
+
+        return $resp->tablas->tabla;
     }
 }
