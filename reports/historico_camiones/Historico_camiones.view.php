@@ -2,6 +2,16 @@
   use \koolreport\widgets\koolphp\Table;
   use \koolreport\widgets\google\ColumnChart;
 ?>
+<style>
+  .input-group-addon:hover{
+    cursor: pointer;
+    background-color: #04d61d !important;
+  }
+  .input-group-addon{
+      background-color: #05b513 !important;
+      color: white !important;
+  }
+</style>
 
 <div id="reportContent" class="report-content">
   <div class="box box-primary">
@@ -30,7 +40,7 @@
                 </div>
               </div>
 
-              <div class="col-md-4 col-md-6 mb-4 mb-lg-0">
+              <!-- <div class="col-md-4 col-md-6 mb-4 mb-lg-0">
                 <label style="padding-left: 20%;">Fecha Hasta <strong class="text-danger">*</strong> :</label>
                 <div class="input-group date">
                   <a class="input-group-addon" id="daterange-btn" title="Más fechas">
@@ -39,7 +49,18 @@
                   </a>
                   <input type="date" class="form-control pull-right" id="datepickerHasta" name="datepickerHasta" placeholder="Hasta">
                 </div>
+              </div> -->
+
+              <div class="col-md-4 col-md-6 mb-4 mb-lg-0">
+                <label for="datepickerHasta">Fecha hasta:</label>
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <i class="fa fa-calendar"></i>
+                    </div>
+                    <input type="text" class="form-control pull-right datepicker" id="datepickerHasta" name="datepickerHasta" placeholder="Seleccione fecha">
+                </div>
               </div>
+
 
             </div>
 
@@ -133,37 +154,40 @@
             // "showHeader" => false,
 
             "columns" => array(
-              "referencia" => array(
-                "label" => "Acciones"
-                ),
-                "inspeccion" => array(
+                "case_id" => array(
                   "label" => "Nº Insp"
                 ),
-                "codigo" => array(
-                  "label" => "F. Barrera"
+                array(
+                  "label" => "F. Barrera",
+                  "value" => function($row) {
+                    $aux = explode("T",$row["fec_alta"]);
+                    $row["fec_alta"] = date("d-m-Y",strtotime($aux[0]));
+                    return $row["fec_alta"];
+                  },
+                  "type" => "date"
                 ),
-                "peso" => array(
+                "neto" => array(
                   "label" => "Peso"
                 ),
-                "descripcion" => array(
+                "nombre" => array(
                   "label" => "Chofer"
                 ),
-                "lote" => array(
+                "termicos" => array(
                   "label" => "Térmicos"
                 ),
-                "cantidad" => array(
+                "razon_social_origen" => array(
                   "label" => "Orígen"
                 ),
-                "stock_actual" => array(
+                "destinos" => array(
                   "label" => "Destino"
                 ),
-                "deposito" => array(
+                "razon_social_transporte" => array(
                   "label" => "Transportista"
                 ),
-                "deposito" => array(
+                "tipos_productos" => array(
                   "label" => "T. Producto"
                 ),
-                "deposito" => array(
+                "resultado" => array(
                   "label" => "Resultado"
                 )
             ),
@@ -192,86 +216,83 @@
 </div>
 
 <script>
-// llena selects empresas
-  $('.empresa').select2({
-      ajax: {
-          url: "<?php echo SICP; ?>inspeccion/buscaEmpresas",
-          dataType: 'json',
-          delay: 250,
-          data: function (params) {
-              return {
-                  patron: params.term, // parámetro búsqueda
-                  page: params.page
-              };
-          },
-          processResults: function (data, params) {
+  // llena selects empresas
+  // $('.empresa').select2({
+  //     ajax: {
+  //         url: "<?php //echo SICP; ?>inspeccion/buscaEmpresas",
+  //         dataType: 'json',
+  //         delay: 250,
+  //         data: function (params) {
+  //             return {
+  //                 patron: params.term, // parámetro búsqueda
+  //                 page: params.page
+  //             };
+  //         },
+  //         processResults: function (data, params) {
 
-              params.page = params.page || 1;
+  //             params.page = params.page || 1;
               
-              var results = [];
-              $.each(data, function(i, obj) {
-                  results.push({
-                      id: obj.cuit,
-                      text: obj.razon_social,
-                  });
-              });
-              return {
-                  results: results,
-                  pagination: {
-                      more: (params.page * 30) < results.length
-                  }
-              };
-          }
-      },
-      placeholder: 'Buscar empresa',
-      minimumInputLength: 3,
-      templateResult: function (empresa) {
+  //             var results = [];
+  //             $.each(data, function(i, obj) {
+  //                 results.push({
+  //                     id: obj.cuit,
+  //                     text: obj.razon_social,
+  //                 });
+  //             });
+  //             return {
+  //                 results: results,
+  //                 pagination: {
+  //                     more: (params.page * 30) < results.length
+  //                 }
+  //             };
+  //         }
+  //     },
+  //     placeholder: 'Buscar empresa',
+  //     minimumInputLength: 3,
+  //     templateResult: function (empresa) {
 
-          if (empresa.loading) {
-              return "Buscando empresas...";
-          }
+  //         if (empresa.loading) {
+  //             return "Buscando empresas...";
+  //         }
 
-          var $container = $(
-              "<div class='select2-result-repository clearfix'>" +
-              "<div class='select2-result-repository__meta'>" +
-                  "<div class='select2-result-repository__title'></div>" +
-                  "<div class='select2-result-repository__description'></div>" +
-              "</div>" +
-              "</div>"
-          );
+  //         var $container = $(
+  //             "<div class='select2-result-repository clearfix'>" +
+  //             "<div class='select2-result-repository__meta'>" +
+  //                 "<div class='select2-result-repository__title'></div>" +
+  //                 "<div class='select2-result-repository__description'></div>" +
+  //             "</div>" +
+  //             "</div>"
+  //         );
 
-          $container.find(".select2-result-repository__title").text(empresa.id);
-          $container.find(".select2-result-repository__description").text(empresa.text);
+  //         $container.find(".select2-result-repository__title").text(empresa.id);
+  //         $container.find(".select2-result-repository__description").text(empresa.text);
 
-          return $container;
-      },
-      templateSelection: function (empresa) {
-          return empresa.text + ' ' + empresa.id + '';
-      },
-      language: {
-          noResults: function() {
-              return '<option>No hay coincidencias</option>';
-          },
-          inputTooShort: function () {
-              return 'Ingrese 3 o mas dígitos para comenzar la búsqueda'; 
-          }
-      },
-      escapeMarkup: function(markup) {
-          return markup;
-      },
-  });
+  //         return $container;
+  //     },
+  //     templateSelection: function (empresa) {
+  //         return empresa.text + ' ' + empresa.id + '';
+  //     },
+  //     language: {
+  //         noResults: function() {
+  //             return '<option>No hay coincidencias</option>';
+  //         },
+  //         inputTooShort: function () {
+  //             return 'Ingrese 3 o mas dígitos para comenzar la búsqueda'; 
+  //         }
+  //     },
+  //     escapeMarkup: function(markup) {
+  //         return markup;
+  //     },
+  // });
 
+  // llena tabla con la informacion filtrada
   function filtrar() {
-    var data = {};
-    data.desde = $("#datepickerDesde").val();
-    data.hasta = $("#datepickerHasta").val();
-    data.origen = $("#origen").val();
-    data.destino = $("#destino").val();
-    data.transportista = $("#transportista").val();
-    data.resultado = $("#resultado>option:selected").val();
-    data.producto = $("#producto>option:selected").val();
-    //data.producto = $("#resultado>option:selected").val();
 
+    var data = buscaDatos();
+    if (!data) {
+      alert('Seleccione fechas por favor...');
+      return;
+    }
     $.ajax({
         type: 'POST',
         data:{data},
@@ -288,89 +309,95 @@
     });
   }
 
-  function detaReporte() {
+  function buscaDatos() {
 
+    desde = $("#datepickerDesde").val();
+    hasta = $("#datepickerHasta").val();
+    if (desde == "" || hasta == "") {
+      return false;
+    }
+    origen = $("#origen").val();
+    //if (origen == null) {
+      origen = 'TODOS';
+    //}
+    destino = $("#destino").val();
+    //if (destino == null) {
+      destino = 'TODOS';
+    //}
+    transportista = $("#transportista").val();
+    //if (transportista == null) {
+      transportista = 'TODOS';
+    //}
+    resultado = $("#resultado>option:selected").val();
+    if (resultado == 0) {
+      resultado = 'TODOS';
+    }
+    producto = $("#producto>option:selected").val();
+    if (producto == 0) {
+      producto = 'TODOS';
+    }
     var data = {};
-    data.prioridad = "normal";
-    data.fec_asignacion = "2021-08-20 13:23:13.451";
-    data.idUsuarioAsignado = "802";
-    data.usuarioAsignado = "Nombre Apellido";
-    data.fec_vencimiento = "";
-    data.descripcion = "-";
-    data.color = "#00A65A";
-    data.nombreProceso = "SICPOA";
-    data.nombreTarea = "Reprecintado";
-    data.processId = "6077057098910977968";
-    data.caseId = "13041";
-    data.taskId = "240563";
-    
-    $("#modalBodyDetalle").load("<?php echo base_url(REST_SICP); ?>/reportes/detaReporte", data);
+    data.fec_desde = desde;
+    data.fec_hasta = hasta;
+    data.cuit_origen = origen;
+    data.cuit_destino = destino;
+    data.cuit_transporte = transportista;
+    data.resultado = resultado;
+    data.tipo_producto = producto;
 
-      // $.ajax({
-      //     type: 'POST',
-      //     data:{ data },
-      //     url:  "<?php //echo SICP; ?>reportes/detaReporte",
-      //     success: function(result) {
-
-      //           // levanto modal con img de Codigo
-      //           $("#modalDetalle").modal('show');
-
-      //     },
-      //     error: function(result){
-                    
-      //     },
-      //     complete: function(){
-
-      //     }
-      // });
+    return data;
   }
 
-
-//Exporta a Excel
-  function exportarExcel(){
-
-    window.open("<?php echo base_url(ALM); ?>Reportes/excelTest?fec1="+fec1+"&fec2="+fec2+"&depo="+depo+"&arti="+arti+"&tpoArt="+tpoArt+"&estado="+estado);
+  fechaMagic();
+  // levanta modal detalle de reporte
+  function detaReporte() {
+    //FIXME: QUITAR CONFIGURACION EN CODIGO JEJE
+    var data = {};
+    data.caseId = "13077";
+    $("#modalBodyDetalle").load("<?php echo base_url(SICP); ?>reportes/detaReporte", data);
+    $("#modalDetalle").modal('show');
   }
 
-  //Exporta a PDF ppara imprimir
-  function exportarPDF(){
-      $(function(){
-          $('').printThis({
-              debug: false,
-              importCSS: true,
-              importStyle: true,
-              loadCSS: "<?php echo base_url('lib/bower_components/bootstrap/dist/css/bootstrap.min.css')?>",
-              // loadCSS: "lib/bower_components/bootstrap/dist/css/bootstrap.min.css",
-              copyTagClasses: true,
-              pageTitle : "TRAZALOG TOOLS",
-              header: "<h1 style='text-align: center;'>Reporte Camiones</h1>",
-              footer: $("#reportContent").clone().children().find('table').css('display','block').get(0),
-              beforePrint: function(){
-                $("table.dataTable thead .sorting:after").attr('display','none');
-              },
-              afterPrint: function(){
-                $("table.dataTable thead .sorting:after").attr('display','block');
-              }
-          });
-      });
+  //Exporta a Excel
+    // function exportarExcel(){
+
+      //window.open("<?php echo base_url(ALM); ?>Reportes/excelTest?fec1="+fec1+"&fec2="+fec2+"&depo="+depo+"&arti="+arti+"&tpoArt="+tpoArt+"&estado="+estado);
+    // }
+
+  //Imprimir ACTA
+  function imprimirActa(){
+    var base = "<?php echo base_url()?>";
+    $('#actaInfraccion').printThis({
+        debug: false,
+        importCSS: true,
+        importStyle: true,
+        loadCSS: "",
+        base: base,
+        pageTitle : "TRAZALOG TOOLS",
+    });
+  }
+
+  // cierra modal detalle de reporte
+  function cerrarModal(){
+    $("#modalDetalle").modal('hide');
   }
 
 </script>
 
 
-<div class='modal fade' id='modalDetalle' tabindex='-1' role='dialog' aria-labelledby='myModalLabel'>
-  <div class='modal-dialog' role='document'>
+<div class='modal fade bs-example-modal-lg' id='modalDetalle' tabindex='-1' role='dialog' aria-labelledby='myLargeModalLabel'>
+  <div class='modal-dialog modal-lg' role='document'>
     <div class='modal-content'>
       <div class='modal-header'>
-        <button type='button' class='close' onclick='' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
-        <h4 class='modal-title' id='myModalLabel'>Impresión de Etiqueta</h4>
+        <button type='button' class='close' onclick='cerrarModal()' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+        <h4 class='modal-title' id='myModalLabel'>Detalle Inspección</h4>
       </div>
       <div class='modal-body modalBodyDetalle' id='modalBodyDetalle'>
 
       </div>
       <div class='modal-footer'>
-        <button type='button' class='btn btn-default' onclick=''>Cancelar</button>
-        <button type='button' class='btn btn-primary' onclick=''>Imprimir</button>
+        <button type='button' class='btn btn-default' onclick='cerrarModal()'>Cancelar</button>
+        <button type='button' class='btn btn-primary' onclick='imprimirActa()'>Imprimir</button>
       </div>
     </div>
   </div>

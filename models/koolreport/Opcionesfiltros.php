@@ -36,12 +36,13 @@ class Opcionesfiltros extends CI_Model
   function getHistoricoCamiones($data)
   {
     log_message('DEBUG','#TRAZA|TRAZ-COMP-ALMACENES|OPCIONESFILTROS|getHistoricoArticulos($data)| $data: >> '.json_encode($data));
-    $desde = date("Y-m-d", strtotime($data["desde"]));
-    $hasta = date("Y-m-d", strtotime($data["hasta"]));
+    $fec_desde = date("Y-m-d", strtotime($data["fec_desde"]));
+    $fec_hasta = date("Y-m-d", strtotime($data["fec_hasta"]));
 
-    $url = '/inspecciones/fec_desde/'.$desde.'/fec_hasta/'.$hasta;
+    $url = '/inspecciones/avanzado/desde/'.$fec_desde.'/hasta/'.$fec_hasta.'/origen/'.$data['cuit_origen'].'/destino/'.$data['cuit_destino'].'/transporte/'.$data['cuit_transporte'].'/resultado/'.$data['resultado'].'/producto/'.$data['tipo_producto'];
+
     $aux = $this->rest->callAPI("GET",REST_SICP.$url);
-    //TODO:MAPEAR RESPUESTA ANTES DE ENVIAR
+
     $aux =json_decode($aux["data"]);
     return $aux->inspecciones->inspeccion;
   }

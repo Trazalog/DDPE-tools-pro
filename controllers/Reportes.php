@@ -56,11 +56,12 @@ class Reportes extends CI_Controller
   */
   function detaReporte()
   {
-    $tarea = $this->input->post('data');
-    $tareaData = $this->getXCaseId($tarea);
+    $caseId = $this->input->post('caseId');
+    $tareaData = $this->getXCaseId($caseId);
 
     $data['petr_id'] = $tareaData->petr_id;
-    $data['inspeccion'] = $this->getPreCargaDatos($tareaData->case_id);
+    $data['inspeccion'] = $this->getPreCargaDatos($caseId);
+    // $data['inspeccion'] = $this->getPreCargaDatos($tareaData->case_id);
     $empresas = $data['inspeccion']->empresas->empresa;
 
     //Separo las empresas por su rol
@@ -86,12 +87,17 @@ class Reportes extends CI_Controller
         $data['imgsEscaneo'] = $this->getImgsEscaneoDocu($escaneoInfoId);
     }
 
-    return $this->load->view(SICP . 'tareas/reprecintado', $data, true);
+    return $this->load->view(SICP . 'tareas/reprecintado', $data);
   }
 
-  public function getXCaseId($tarea)
+  /**
+  * Devuelve info de Pedido trabajo
+  * @param string case_id
+  * @return
+  */
+  public function getXCaseId($case_id)
   {
-    $case_id = $tarea->caseId;
+    //$case_id = $tarea->caseId;
 
     $aux = $this->rest->callAPI("GET",REST_PRO."/pedidoTrabajo/xcaseid/".$case_id);
     $data_generico = json_decode($aux["data"]);
@@ -138,6 +144,30 @@ class Reportes extends CI_Controller
     return $imagenes;
   }
 
+  /**
+	* Funcion para obtener la extension del archivo codificado
+	* @param array nombre archivo con su extension
+	* @return array cabecera para la url lsito para usar en atributo src
+	*/
+  function obtenerExtension($archivo){
+    $ext = explode('.',$archivo);
+        switch(strtolower($ext[1])){
+            case 'jpg': $ext = 'data:image/jpg;base64,';break;
+            case 'png': $ext = 'data:image/png;base64,';break;
+            case 'jpeg': $ext = 'data:image/jpeg;base64,';break;
+            case 'pjpeg': $ext = 'data:image/pjpeg;base64,';break;
+            case 'wbmp': $ext = 'data:image/vnd.wap.wbmp;base64,';break;
+            case 'webp': $ext = 'data:image/webp;base64,';break;
+            case 'pdf': $ext = 'data:application/pdf;base64,';break;
+            case 'doc': $ext = 'data:application/msword;base64,';break;
+            case 'xls': $ext = 'data:application/vnd.ms-excel;base64,';break;
+            case 'docx': $ext = 'data:application/vnd.openxmlformats-officedocument.wordprocessingml.document;base64,';break;
+            case 'txt': $ext = 'data:text/plain;base64,';break;
+            case 'csv': $ext = 'data:text/csv;base64,';break;
+            default: $ext = "";
+        }
+    return $ext;
+  }
 
   /**
   * - Genera Archivo Excel con la data filtrada en la vista
@@ -157,7 +187,7 @@ class Reportes extends CI_Controller
     $data['lote_id'] = $this->input->get('lote');
 
     $json = $this->Opcionesfiltros->getHistoricoArticulos($data);
-    
+
     $spreadsheet = new Spreadsheet(); // Creo la instancia de Spreadsheet
     $sheet = $spreadsheet->getActiveSheet(); // Me posiciono en la hoja activa
 
@@ -168,7 +198,7 @@ class Reportes extends CI_Controller
     $sheet->getStyle('A1')->getFont()->setBold(true);
     $sheet->getStyle('A1:C1')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB('B4C6E7');
 
-    
+
     //Formateo Headers tabla y rellenado
     $sheet->getStyle('A3:I3')->getFont()->setBold(true);
     $sheet->setCellValue('A3', "Referencia");
@@ -197,27 +227,27 @@ class Reportes extends CI_Controller
 
       $aux = explode("T",$value->fec_alta);
       $fecha = date("d-m-Y",strtotime($aux[0]));
-      
+
       $sheet->setCellValue('A'.$i, $value->referencia);
       $sheet->setCellValue('B'.$i, $value->codigo);
       $sheet->setCellValue('C'.$i, $value->descripcion);
       $sheet->setCellValue('D'.$i, $value->lote);
       $sheet->setCellValue('E'.$i, $value->cantidad);
       $sheet->setCellValue('F'.$i, $value->stock_actual);
-      $sheet->setCellValue('G'.$i, $value->deposito);  
+      $sheet->setCellValue('G'.$i, $value->deposito);
       $sheet->setCellValue('H'.$i, $fecha);
       $sheet->setCellValue('I'.$i, $value->tipo_mov);
-      $i++; 
+      $i++;
     }
-        
+
     $writer = new Xlsx($spreadsheet); // instancio Xlsx
- 
+
     $filename = 'Reporte_Histórico_Artículos'; // Nombre del archivo con el cual sera descargado
- 
+
     header('Content-Type: application/vnd.ms-excel'); // generamos las cabeceras para que el navegador interprete de que tipo de archivo se trata
-    header('Content-Disposition: attachment;filename="'. $filename."_". date('d-m-Y') .'.xlsx"'); 
+    header('Content-Disposition: attachment;filename="'. $filename."_". date('d-m-Y') .'.xlsx"');
     header('Cache-Control: max-age=0');
-        
+
     $writer->save('php://output');	// descargamos el excel generado
   }
 }
