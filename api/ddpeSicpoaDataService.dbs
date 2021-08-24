@@ -24,7 +24,7 @@
       <param name="info_id_doc" sqlType="STRING"/>
    </query>
    <query id="getInspeccion" useConfig="SICPOADataSource">
-      <sql>select &#xd;case_id&#xd;,patente_tractor&#xd;,nro_senasa&#xd;,productos&#xd;,reprecintado&#xd;,bruto&#xd;,tara&#xd;,ticket&#xd;,resultado&#xd;,cant_fajas&#xd;,bruto_reprecintado&#xd;,ticket_reprecintado&#xd;,to_char( i.fec_alta, 'YYYY-MM-DD HH24:MI') fec_alta&#xd;,i.usuario&#xd;,i.usuario_app&#xd;,petr_id&#xd;,chof_id&#xd;,c.nombre chofer&#xd;,inca_id&#xd;,inf.valor4_base64 foto_infraccion_calle&#xd;,observaciones&#xd;,info_id_doc&#xd;from sicpoa.inspecciones i&#xd;left join frm.instancias_formularios inf on inf.inst_id = i.inca_id &#xd;, sicpoa.choferes c&#xd;where i.case_id = cast(:case_id as integer)&#xd;and i.chof_id = c.dni</sql>
+      <sql>select &#xd;case_id&#xd;,patente_tractor&#xd;,nro_senasa&#xd;,productos&#xd;,reprecintado&#xd;,bruto&#xd;,tara&#xd;,ticket&#xd;,resultado&#xd;,cant_fajas&#xd;,bruto_reprecintado&#xd;,ticket_reprecintado&#xd;,to_char( i.fec_alta, 'YYYY-MM-DD HH24:MI') fec_alta&#xd;,i.usuario&#xd;,i.usuario_app&#xd;,petr_id&#xd;,chof_id&#xd;,c.nombre chofer&#xd;,inca_id&#xd;,inf.valor4_base64 foto_infraccion_calle&#xd;,observaciones&#xd;,info_id_doc&#xd;from sicpoa.inspecciones i&#xd;left join frm.instancias_formularios inf on inf.inst_id = i.inca_id &#xd;, sicpoa.choferes c&#xd;where i.case_id = cast(:case_id as integer)&#xd;and i.chof_id = c.dni&#xd;and i.eliminado = false</sql>
       <result outputType="json">{&#xd;   "inspeccion":{&#xd;      "case_id":"$case_id",&#xd;      "patente_tractor":"$patente_tractor",&#xd;      "nro_senasa":"$nro_senasa",&#xd;      "productos":"$productos",&#xd;      "reprecintado":"$reprecintado",&#xd;      "bruto":"$bruto",&#xd;      "tara":"$tara",&#xd;      "ticket":"$ticket",&#xd;      "resultado":"$resultado",&#xd;      "cant_fajas":"$cant_fajas",&#xd;      "bruto_reprecintado":"$bruto_reprecintado",&#xd;      "ticket_reprecintado":"$ticket_reprecintado",&#xd;      "fec_alta":"$fec_alta",&#xd;      "usuario":"$usuario",&#xd;      "usuario_app":"$usuario_app",&#xd;      "petr_id":"$petr_id",&#xd;      "chof_id":"$chof_id",&#xd;      "chofer":"$chofer",&#xd;      "inca_id":"$inca_id",&#xd;      "foto_infraccion_calle":"$foto_infraccion_calle",&#xd;      "observaciones":"$observaciones",&#xd;      "info_id_doc":"$info_id_doc",&#xd;      "@getPermisosTransito":"$case_id-&gt;case_id",      &#xd;      "@getInfracciones":"$case_id-&gt;case_id",&#xd;      "@getEmpresasInspeccion":"$case_id-&gt;case_id",&#xd;      "@getTermicosInspeccion":"$case_id-&gt;case_id",&#xd;      "@getDocumentosInspeccion":"$case_id-&gt;case_id"&#xd;   }&#xd;}</result>
       <param name="case_id" sqlType="STRING"/>
    </query>
@@ -151,14 +151,88 @@
       <param name="fec_hasta" sqlType="STRING"/>
    </query>
    <query id="getDocumentosInspeccion" useConfig="SICPOADataSource">
-      <sql>select&#xd;	d.num_documento,&#xd;	e.cuit ,&#xd;	e.razon_social,&#xd;	d.fec_emision,&#xd;	sum((dd.precio_unitario * dd.cantidad)-(dd.precio_unitario * dd.cantidad * dd.descuento )) monto&#xd;from&#xd;	sicpoa.documentos d ,&#xd;	sicpoa.empresas e ,&#xd;	sicpoa.empresas e2 ,&#xd;	sicpoa.detalles_documento dd&#xd;where&#xd;	d.case_id = cast(:case_id as integer)&#xd;	and d.empr_id_destino = e.cuit&#xd;	and d.empr_id_emisor = e2.cuit&#xd;	and dd.docu_id = d.num_documento&#xd;	and dd.tido_id = d.tido_id&#xd;group by&#xd;	1,&#xd;	2,&#xd;	3,&#xd;	4</sql>
+      <sql>select&#xd;	d.num_documento,&#xd;	e.cuit ,&#xd;	e.razon_social,&#xd;	d.fec_emision,&#xd;	sum((dd.precio_unitario * dd.cantidad)-(dd.precio_unitario * dd.cantidad * dd.descuento )) monto&#xd;from&#xd;	sicpoa.documentos d ,&#xd;	sicpoa.empresas e ,&#xd;	sicpoa.empresas e2 ,&#xd;	sicpoa.detalles_documento dd&#xd;where&#xd;	d.case_id = cast(:case_id as integer)&#xd;	and d.empr_id_destino = e.cuit&#xd;	and d.empr_id_emisor = e2.cuit&#xd;	and dd.docu_id = d.num_documento&#xd;	and dd.tido_id = d.tido_id&#xd;        and d.eliminado = false&#xd;group by&#xd;	1,&#xd;	2,&#xd;	3,&#xd;	4</sql>
       <result outputType="json">{&#xd;   "documentos":{&#xd;      "documento":[&#xd;         {&#xd;            "num_documento":"$num_documento",&#xd;            "cuit":"$cuit",&#xd;            "razon_social":"$razon_social",&#xd;            "fec_emision":"$fec_emision",&#xd;            "monto":"$monto",&#xd;            "@getDetallesDocumento":"$docu_id-&gt;num_documento"&#xd;         }&#xd;      ]&#xd;   }&#xd;}</result>
       <param name="case_id" sqlType="STRING"/>
    </query>
    <query id="getDetallesDocumento" useConfig="SICPOADataSource">
-      <sql>select&#xd;	dd.dedo_id ,&#xd;	dd.cantidad,&#xd;	t2.valor tipo_producto_id,&#xd;	t2.descripcion tipo_producto,&#xd;	t.valor unidad_medida_id,&#xd;	t.descripcion unidad_medida,&#xd;	dd.descuento ,&#xd;	dd.precio_unitario ,&#xd;	((dd.cantidad * dd.precio_unitario )-(dd.cantidad * dd.precio_unitario * dd.descuento )) monto&#xd;from&#xd;	sicpoa.detalles_documento dd ,&#xd;	core.tablas t ,&#xd;	core.tablas t2&#xd;where&#xd;	dd.docu_id = :docu_id&#xd;	and t.tabl_id = dd.unme_id&#xd;	and t2.tabl_id = dd.tipr_id</sql>
+      <sql>select&#xd;	dd.dedo_id ,&#xd;	dd.cantidad,&#xd;	t2.valor tipo_producto_id,&#xd;	t2.descripcion tipo_producto,&#xd;	t.valor unidad_medida_id,&#xd;	t.descripcion unidad_medida,&#xd;	dd.descuento ,&#xd;	dd.precio_unitario ,&#xd;	((dd.cantidad * dd.precio_unitario )-(dd.cantidad * dd.precio_unitario * dd.descuento )) monto&#xd;from&#xd;	sicpoa.detalles_documento dd ,&#xd;	core.tablas t ,&#xd;	core.tablas t2&#xd;where&#xd;	dd.docu_id = :docu_id&#xd;	and t.tabl_id = dd.unme_id&#xd;	and t2.tabl_id = dd.tipr_id&#xd;        and dd.eliminado = false</sql>
       <result outputType="json">{&#xd;   "detalles_documento":{&#xd;      "detalle_documento":[&#xd;         {&#xd;            "dedo_id":"$dedo_id",&#xd;            "cantidad":"$cantidad",&#xd;            "tipo_producto_id":"$tipo_producto_id",&#xd;            "tipo_producto":"$tipo_producto",&#xd;            "unidad_medida_id":"$unidad_medida_id",&#xd;            "unidad_medida":"$unidad_medida",&#xd;            "descuento":"$descuento",&#xd;            "precio_unitario":"$precio_unitario",&#xd;            "monto":"$monto"&#xd;         }&#xd;      ]&#xd;   }&#xd;}</result>
       <param name="docu_id" sqlType="STRING"/>
+   </query>
+   <query id="getImagenesPorFecha" useConfig="SICPOADataSource">
+      <sql>select&#xd;   d.case_id &#xd;   ,d.imag_id &#xd;   ,if2.valor4_base64 imagen&#xd;from&#xd;	sicpoa.documentos d &#xd;	left join frm.instancias_formularios if2 on if2.inst_id = d.imag_id &#xd;where&#xd;	d.fec_alta between to_date(:fec_desde,'YYYY-MM-DD') and TO_DATE(:fec_hasta,'YYYY-MM-DD')</sql>
+      <result outputType="json">{&#xd;   "imagenes_documentos":{&#xd;      "imagenes_documento":[&#xd;         {&#xd;            "imag_id":"$imag_id",&#xd;            "imagen":"$imagen",&#xd;            "case_id":"$case_id"&#xd;         }&#xd;      ]&#xd;   }&#xd;}</result>
+      <param name="fec_desde" sqlType="STRING"/>
+      <param name="fec_hasta" sqlType="STRING"/>
+   </query>
+   <query id="deleteImgFormsPorFecha" useConfig="SICPOADataSource">
+      <sql>delete from frm.instancias_formularios where info_id in &#xd;(select&#xd;   distinct(if2.info_id) &#xd;from&#xd;	sicpoa.documentos d &#xd;    join frm.instancias_formularios if2 on if2.inst_id = d.imag_id &#xd;where&#xd;	d.fec_alta between to_date(:fec_desde,'YYYY-MM-DD') and TO_DATE(:fec_hasta,'YYYY-MM-DD'))</sql>
+      <param name="fec_desde" sqlType="STRING"/>
+      <param name="fec_hasta" sqlType="STRING"/>
+   </query>
+   <query id="setDocumento" useConfig="SICPOADataSource">
+      <sql>insert&#xd;	into&#xd;	sicpoa.documentos (num_documento,&#xd;	fec_emision,&#xd;	usuario_app,&#xd;	tido_id,&#xd;	imag_id,&#xd;	empr_id_emisor,&#xd;	empr_id_destino,&#xd;	case_id)&#xd;values(:num_documento,&#xd;	to_timestamp(:fec_emision,'YYYY-MM-DD'),&#xd;	:usuario_app,&#xd;	:tido_id,&#xd;	cast(:imag_id as integer),&#xd;	:empr_id_emisor,&#xd;	:empr_id_destino,&#xd;	cast(:case_id as integer));</sql>
+      <param name="num_documento" sqlType="STRING"/>
+      <param name="fec_emision" sqlType="STRING"/>
+      <param name="usuario_app" sqlType="STRING"/>
+      <param name="tido_id" sqlType="STRING"/>
+      <param name="imag_id" sqlType="STRING"/>
+      <param name="empr_id_emisor" sqlType="STRING"/>
+      <param name="empr_id_destino" sqlType="STRING"/>
+      <param name="case_id" sqlType="STRING"/>
+   </query>
+   <query id="setDetalleDocumento" useConfig="SICPOADataSource">
+      <sql>insert&#xd;	into&#xd;	sicpoa.detalles_documento (cantidad,&#xd;	precio_unitario,&#xd;	descuento,&#xd;	usuario_app,&#xd;	docu_id,&#xd;	tido_id,&#xd;	tipr_id,&#xd;	unme_id)&#xd;values(cast (:cantidad as float),&#xd;	cast (:precio_unitario as float),&#xd;	cast (:descuento as float),&#xd;	:usuario_app,&#xd;	:docu_id,&#xd;	:tido_id,&#xd;	:tipr_id,&#xd;	:unme_id)&#xd;returning dedo_id;</sql>
+      <result outputType="json">{"respuesta":{"dedo_id":"$dedo_id"}}</result>
+      <param name="cantidad" sqlType="STRING"/>
+      <param name="precio_unitario" sqlType="STRING"/>
+      <param name="descuento" sqlType="STRING"/>
+      <param name="usuario_app" sqlType="STRING"/>
+      <param name="docu_id" sqlType="STRING"/>
+      <param name="tido_id" sqlType="STRING"/>
+      <param name="tipr_id" sqlType="STRING"/>
+      <param name="unme_id" sqlType="STRING"/>
+   </query>
+   <query id="updateDocumento" useConfig="SICPOADataSource">
+      <sql>update&#xd;	sicpoa.documentos&#xd;set&#xd;	fec_emision = to_timestamp(:fec_emision,'YYYY-MM-DD') ,&#xd;	usuario_app = :usuario_app,&#xd;	imag_id = cast(:imag_id as integer),&#xd;	empr_id_emisor = cast(:empr_id_emisor as integer),&#xd;	empr_id_destino = cast(:empr_id_destino as integer)&#xd;where&#xd;	num_documento = :num_documento &#xd;	and tido_id = :tido_id ;</sql>
+      <param name="fec_emision" sqlType="STRING"/>
+      <param name="usuario_app" sqlType="STRING"/>
+      <param name="imag_id" sqlType="STRING"/>
+      <param name="empr_id_emisor" sqlType="STRING"/>
+      <param name="empr_id_destino" sqlType="STRING"/>
+      <param name="num_documento" sqlType="STRING"/>
+      <param name="tido_id" sqlType="STRING"/>
+   </query>
+   <query id="updateDetalleDocumento" useConfig="SICPOADataSource">
+      <sql>update&#xd;	sicpoa.detalles_documento&#xd;set&#xd;	cantidad = cast(:cantidad as float),&#xd;	precio_unitario =cast(:precio_unitario as float),&#xd;	descuento = cast(:descuento as float),&#xd;	usuario_app = :usuario_app ,&#xd;	tipr_id = :tipr_id,&#xd;	unme_id = :unme_id&#xd;where&#xd;	dedo_id = cast(:dedo_id as integer)</sql>
+      <param name="cantidad" sqlType="STRING"/>
+      <param name="precio_unitario" sqlType="STRING"/>
+      <param name="descuento" sqlType="STRING"/>
+      <param name="usuario_app" sqlType="STRING"/>
+      <param name="tipr_id" sqlType="STRING"/>
+      <param name="unme_id" sqlType="STRING"/>
+      <param name="dedo_id" sqlType="STRING"/>
+   </query>
+   <query id="deleteDocumento" useConfig="SICPOADataSource">
+      <sql>update&#xd;	sicpoa.documentos&#xd;set eliminado = true&#xd;where&#xd;	num_documento = :num_documento &#xd;	and tido_id = :tido_id ;</sql>
+      <param name="num_documento" sqlType="STRING"/>
+      <param name="tido_id" sqlType="STRING"/>
+   </query>
+   <query id="deleteDetalleDocumento" useConfig="SICPOADataSource">
+      <sql>update&#xd;	sicpoa.detalles_documento&#xd;set eliminado = true&#xd;where&#xd;	dedo_id = cast(:dedo_id as integer)</sql>
+      <param name="dedo_id" sqlType="STRING"/>
+   </query>
+   <query id="getInspeccionAvanzada" useConfig="SICPOADataSource">
+      <sql>select&#xd;	i.case_id ,&#xd;	I.fec_alta ,&#xd;	(I.bruto - I.tara) as neto ,&#xd;	CH.nombre ,&#xd;	(&#xd;		select&#xd;			string_agg(T.patente, ', ')&#xd;		from&#xd;			sicpoa.inspecciones_termicos IT,&#xd;			sicpoa.termicos T&#xd;		where&#xd;			I.case_id = IT.case_id&#xd;			and IT.term_id = T.patente) termicos,&#xd;	I.resultado ,&#xd;	ieo.empr_id as cuit_origen,&#xd;	eo.razon_social razon_social_origen,&#xd;	(&#xd;		select&#xd;			string_agg(concat(&#xd;                  e.razon_social,&#xd;                  ' (', ied.empr_id, ')'&#xd;			           , case&#xd;                    when ied.depo_id is not null&#xd;                    then concat(' - '&#xd;                                , d.calle , ' '&#xd;                                , d.altura , ' '&#xd;                                , t.valor)&#xd;			              else ''&#xd;                  end)&#xd;			            , ', ')&#xd;		from&#xd;			sicpoa.inspecciones_empresas ied&#xd;		left join sicpoa.depositos d on	d.depo_id = ied.depo_id&#xd;		left join core.tablas t on tabl_id = d.depa_id ,&#xd;			sicpoa.empresas e&#xd;		where&#xd;			ied.case_id = i.case_id&#xd;			and ied.rol = 'DESTINO'&#xd;			and ied.empr_id = e.cuit) as destinos,&#xd;	iet.empr_id as cuit_transpote,&#xd;	et.razon_social razon_social_transporte,&#xd;	( select string_agg( t.descripcion ,', ')&#xd;	  from sicpoa.documentos d&#xd;	  ,sicpoa.detalles_documento dd &#xd;	  ,core.tablas t&#xd;	  where dd.docu_id = d.num_documento &#xd;	  and dd.tido_id = d.tido_id&#xd;	  and t.tabl_id = dd.tipr_id&#xd;	  and d.case_id =i.case_id ) tipos_productos&#xd;from&#xd;	sicpoa.inspecciones I&#xd;left join sicpoa.inspecciones_empresas ieo on&#xd;	ieo.case_id = i.case_id&#xd;	and ieo.rol = 'ORIGEN'	&#xd;left join sicpoa.empresas eo on&#xd;	eo.cuit = ieo.empr_id&#xd;left join sicpoa.inspecciones_empresas iet on&#xd;	iet.case_id = i.case_id&#xd;	and iet.rol = 'TRANSPORTISTA'	&#xd;left join sicpoa.empresas et on&#xd;	et.cuit = iet.empr_id ,&#xd;	sicpoa.choferes CH&#xd;  , (select :cuit_origen cuit_origen, :cuit_destino cuit_destino, :cuit_transporte cuit_transporte, :resultado resultado, :tipo_producto tipo_producto ) param&#xd;where&#xd;	I.chof_id = CH.dni&#xd;	and i.fec_alta between to_date(:fec_desde,'YYYY-MM-DD') and to_date(:fec_hasta,'YYYY-MM-DD')&#xd;	and (param.resultado = 'TODOS' or param.resultado = i.resultado)&#xd;  and (param.tipo_producto = 'TODOS' or param.tipo_producto in (select dd.tipr_id&#xd;                                                                  from sicpoa.documentos d&#xd;                                                                  ,sicpoa.detalles_documento dd&#xd;                                                                  where dd.docu_id = d.num_documento&#xd;                                                                  and dd.tido_id = d.tido_id ))&#xd;	and (param.cuit_origen = 'TODOS' or param.cuit_origen = ieo.empr_id)&#xd;	and (param.cuit_destino = 'TODOS' or param.cuit_destino in (select ie.empr_id&#xd;                                                                from sicpoa.inspecciones_empresas ie&#xd;                                                                where ie.case_id = i.case_id&#xd;                                                                and ie.rol='DESTINO'))&#xd;	and (param.cuit_transporte = 'TODOS' or param.cuit_transporte = iet.empr_id )</sql>
+      <result outputType="json">{&#xd;  "inspecciones": {&#xd;      "inspeccion": [&#xd;          {&#xd;          "case_id": "$case_id",&#xd;          "fec_alta": "$fec_alta",&#xd;          "neto": "$neto",&#xd;          "nombre": "$nombre",&#xd;          "termicos": "$termicos",&#xd;          "resultado": "$resultado",&#xd;          "cuit_origen": "$cuit_origen",&#xd;          "razon_social_origen": "$razon_social_origen",&#xd;          "destinos": "$destinos",&#xd;          "cuit_transpote": "$cuit_transpote",&#xd;          "razon_social_transporte": "$razon_social_transporte",&#xd;          "tipos_productos": "$tipos_productos"&#xd;          }&#xd;      ]&#xd;      }&#xd;}</result>
+      <param name="cuit_origen" sqlType="STRING"/>
+      <param name="cuit_destino" sqlType="STRING"/>
+      <param name="cuit_transporte" sqlType="STRING"/>
+      <param name="resultado" sqlType="STRING"/>
+      <param name="tipo_producto" sqlType="STRING"/>
+      <param name="fec_desde" sqlType="STRING"/>
+      <param name="fec_hasta" sqlType="STRING"/>
    </query>
    <resource method="POST" path="/inspeccion">
       <call-query href="setInspeccion">
@@ -293,6 +367,108 @@
    </resource>
    <resource method="GET" path="/inspecciones/fec_desde/{fec_desde}/fec_hasta/{fec_hasta}">
       <call-query href="getInspeccionesXFecha">
+         <with-param name="fec_desde" query-param="fec_desde"/>
+         <with-param name="fec_hasta" query-param="fec_hasta"/>
+      </call-query>
+   </resource>
+   <resource method="GET" path="/documentos/imagenes/fec_desde/{fec_desde}/fec_hasta/{fec_hasta}">
+      <call-query href="getImagenesPorFecha">
+         <with-param name="fec_desde" query-param="fec_desde"/>
+         <with-param name="fec_hasta" query-param="fec_hasta"/>
+      </call-query>
+   </resource>
+   <resource method="DELETE" path="/documentos/imagenes">
+      <call-query href="deleteImgFormsPorFecha">
+         <with-param name="fec_desde" query-param="fec_desde"/>
+         <with-param name="fec_hasta" query-param="fec_hasta"/>
+      </call-query>
+   </resource>
+   <resource method="POST" path="/documento">
+      <call-query href="setDocumento">
+         <with-param name="num_documento" query-param="num_documento"/>
+         <with-param name="fec_emision" query-param="fec_emision"/>
+         <with-param name="usuario_app" query-param="usuario_app"/>
+         <with-param name="tido_id" query-param="tido_id"/>
+         <with-param name="imag_id" query-param="imag_id"/>
+         <with-param name="empr_id_emisor" query-param="empr_id_emisor"/>
+         <with-param name="empr_id_destino" query-param="empr_id_destino"/>
+         <with-param name="case_id" query-param="case_id"/>
+      </call-query>
+   </resource>
+   <resource method="POST" path="/documento/detalle">
+      <call-query href="setDetalleDocumento">
+         <with-param name="cantidad" query-param="cantidad"/>
+         <with-param name="precio_unitario" query-param="precio_unitario"/>
+         <with-param name="descuento" query-param="descuento"/>
+         <with-param name="usuario_app" query-param="usuario_app"/>
+         <with-param name="docu_id" query-param="docu_id"/>
+         <with-param name="tido_id" query-param="tido_id"/>
+         <with-param name="tipr_id" query-param="tipr_id"/>
+         <with-param name="unme_id" query-param="unme_id"/>
+      </call-query>
+   </resource>
+   <resource method="PUT" path="/documento">
+      <call-query href="updateDocumento">
+         <with-param name="fec_emision" query-param="fec_emision"/>
+         <with-param name="usuario_app" query-param="usuario_app"/>
+         <with-param name="imag_id" query-param="imag_id"/>
+         <with-param name="empr_id_emisor" query-param="empr_id_emisor"/>
+         <with-param name="empr_id_destino" query-param="empr_id_destino"/>
+         <with-param name="num_documento" query-param="num_documento"/>
+         <with-param name="tido_id" query-param="tido_id"/>
+      </call-query>
+   </resource>
+   <resource method="PUT" path="/documento/detalle">
+      <call-query href="updateDetalleDocumento">
+         <with-param name="cantidad" query-param="cantidad"/>
+         <with-param name="precio_unitario" query-param="precio_unitario"/>
+         <with-param name="descuento" query-param="descuento"/>
+         <with-param name="usuario_app" query-param="usuario_app"/>
+         <with-param name="tipr_id" query-param="tipr_id"/>
+         <with-param name="unme_id" query-param="unme_id"/>
+         <with-param name="dedo_id" query-param="dedo_id"/>
+      </call-query>
+   </resource>
+   <resource method="DELETE" path="/documento">
+      <call-query href="deleteDocumento">
+         <with-param name="num_documento" query-param="num_documento"/>
+         <with-param name="tido_id" query-param="tido_id"/>
+      </call-query>
+   </resource>
+   <resource method="DELETE" path="/documento/detalle">
+      <call-query href="deleteDetalleDocumento">
+         <with-param name="dedo_id" query-param="dedo_id"/>
+      </call-query>
+   </resource>
+   <resource method="GET" path="/inspecciones/avanzado/desde/{fec_desde}/hasta/{fec_hasta}/origen/{cuit_origen}/destino/{cuit_destino}/resultado/{resultado}/producto/{tipo_producto}">
+      <call-query href="getInspeccionAvanzada">
+         <with-param name="cuit_origen" query-param="cuit_origen"/>
+         <with-param name="cuit_destino" query-param="cuit_destino"/>
+         <with-param name="cuit_transporte" query-param="cuit_transporte"/>
+         <with-param name="resultado" query-param="resultado"/>
+         <with-param name="tipo_producto" query-param="tipo_producto"/>
+         <with-param name="fec_desde" query-param="fec_desde"/>
+         <with-param name="fec_hasta" query-param="fec_hasta"/>
+      </call-query>
+   </resource>
+   <resource method="GET" path="/inspecciones/avanzado/desde/{fec_desde}/hasta/{fec_hasta}/origen/{cuit_origen}/destino/{cuit_destino}/transporte/{cuit_transporte}/resultado/resultado/producto/tipo_producto">
+      <call-query href="getInspeccionAvanzada">
+         <with-param name="cuit_origen" query-param="cuit_origen"/>
+         <with-param name="cuit_destino" query-param="cuit_destino"/>
+         <with-param name="cuit_transporte" query-param="cuit_transporte"/>
+         <with-param name="resultado" query-param="resultado"/>
+         <with-param name="tipo_producto" query-param="tipo_producto"/>
+         <with-param name="fec_desde" query-param="fec_desde"/>
+         <with-param name="fec_hasta" query-param="fec_hasta"/>
+      </call-query>
+   </resource>
+   <resource method="GET" path="/inspecciones/avanzado/desde/{fec_desde}/hasta/{fec_hasta}/origen/{cuit_origen}/destino/{cuit_destino}/transporte/{cuit_transporte}/resultado/{resultado}/producto/{tipo_producto}">
+      <call-query href="getInspeccionAvanzada">
+         <with-param name="cuit_origen" query-param="cuit_origen"/>
+         <with-param name="cuit_destino" query-param="cuit_destino"/>
+         <with-param name="cuit_transporte" query-param="cuit_transporte"/>
+         <with-param name="resultado" query-param="resultado"/>
+         <with-param name="tipo_producto" query-param="tipo_producto"/>
          <with-param name="fec_desde" query-param="fec_desde"/>
          <with-param name="fec_hasta" query-param="fec_hasta"/>
       </call-query>
