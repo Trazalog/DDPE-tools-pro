@@ -22,18 +22,9 @@
                 </div> -->
                 <input type="text" class="form-control hidden" name="petr_id" id="petr_id" value="<?php echo $petr_id?>">
 
-                <!-- Mosaico de miniaturas sin vista expandida -->
-                <?php $this->load->view(SICP.'inspeccion/mosaicoBarrera.php') ?>
-                <hr>
-                <div class="col-sm-12 col-md-12 col-xl-12">
-                    <div class="contenedor">
+                <!-- Mosaico de miniaturas con vista expandida y inst_id -->
+                <?php $this->load->view(SICP.'documentacion/mosaicoDocumentacion.php') ?>
 
-                    <!-- Visor imagen expandido -->
-                    <img src="lib\imageForms\preview.png" id="expandedImg" style="">
-
-                    </div>
-                </div>
-                <!--________________-->
             </div><!--FIN col-md-->
             <!--_______ Fin 1° COLUMNA ______-->
 
@@ -44,7 +35,7 @@
                     <div class="form-group has-feedback">
                         <label for="tipo_documento">Tipo:</label>
                         <div class="input-group" style="width: 100%">
-                            <select class="form-control select2 select2-hidden-accesible tipo_documento" name="tipo_documento" id="tipo_documento" style="width: 100%" data-bv-notempty data-bv-notempty-message="Campo Obligatorio *">
+                            <select class="form-control select2 select2-hidden-accesible tipo_documento" name="tido_id" id="tipo_documento" style="width: 100%" data-bv-notempty data-bv-notempty-message="Campo Obligatorio *">
                                 <option value="" disabled selected>- Seleccionar -</option>
                                 <?php
                                     if(!empty($facturas)){ 
@@ -63,7 +54,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group has-feedback">
                         <label for="numero">Número:</label>
-                        <input class="form-control limitedChars" name="numero" id="numero" placeholder="Ingrese numero" data-bv-notempty data-bv-notempty-message="Campo Obligatorio *"/>
+                        <input class="form-control limitedChars" name="num_documento" id="numero" placeholder="Ingrese numero" data-bv-notempty data-bv-notempty-message="Campo Obligatorio *"/>
                     </div>
                 </div>
                 <!--________________-->
@@ -73,7 +64,7 @@
                     <div class="form-group has-feedback">
                         <label for="emisor">Emisor:</label>
                         <div class="input-group">
-                            <select class="form-control select2 select2-hidden-accesible empresa" name="emisor" id="emisor" style="width: 100%" data-bv-notempty data-bv-notempty-message="Campo Obligatorio *">
+                            <select class="form-control select2 select2-hidden-accesible empresa" name="empr_id_emisor" id="emisor" style="width: 100%" data-bv-notempty data-bv-notempty-message="Campo Obligatorio *">
                                 <option value="" disabled selected>- Seleccionar -</option>	
                             </select>
                             <span id="add_emisor" class="input-group-addon" data-toggle="modal" data-target="#mdl-empresa"><i class="fa fa-plus"></i></span>
@@ -87,7 +78,7 @@
                     <div class="form-group has-feedback">
                         <label for="destino">Destino:</label>
                         <div class="input-group">
-                            <select class="form-control select2 select2-hidden-accesible empresa" name="destino" id="destino" style="width: 100%" data-bv-notempty data-bv-notempty-message="Campo Obligatorio *">
+                            <select class="form-control select2 select2-hidden-accesible empresa" name="empr_id_destino" id="destino" style="width: 100%" data-bv-notempty data-bv-notempty-message="Campo Obligatorio *">
                                 <option value="" disabled selected>- Seleccionar -</option>	
                             </select>
                             <span id="add_destino" class="input-group-addon" data-toggle="modal" data-target="#mdl-empresa"><i class="fa fa-plus"></i></span>
@@ -101,7 +92,7 @@
                     <div class="form-group">
                         <label for="producto">Producto:</label>
                         <div class="input-group" style="width: 100%">
-                            <select class="form-control select2 select2-hidden-accesible producto" name="producto" id="producto" style="width: 100%">
+                            <select class="form-control select2 select2-hidden-accesible producto" name="tipr_id" id="producto" style="width: 100%">
                                 <option value="" disabled selected>- Seleccionar -</option>
                                 <?php
                                     if(!empty($productos)){ 
@@ -121,7 +112,7 @@
                     <div class="form-group">
                         <label for="medida">U. Medida:</label>
                         <div class="input-group" style="width: 100%">
-                            <select class="form-control select2 select2-hidden-accesible medidas" name="medidas" id="medidas" style="width: 100%">
+                            <select class="form-control select2 select2-hidden-accesible medidas" name="unme_id" id="medidas" style="width: 100%">
                                 <option value="" disabled selected>- Seleccionar -</option>
                                 <?php
                                     if(!empty($un_medidas)){ 
@@ -319,7 +310,8 @@ $(document).on("keydown", ".onlyNumbers", function(e) {
         alert("Caracteres validos: 0-9 y .");
     }
 });
-//Scripts para agregar a la tabla intermedia
+//Scripts para manipular data en tabla intermedia
+//
 //Agregar la informacion a la tabla
 function agregarProducto(){
    //Informamos el campo vacio 
@@ -332,8 +324,8 @@ function agregarProducto(){
         producto = $('#producto').find(':selected').text();
         medida = $('#medidas').find(':selected').text();
 
-        var tabla = $('#tabla_productos');    
-        $(tabla).find('tbody').html('');
+        tabla = $('#tabla_productos').DataTable();    
+        // $(tabla).find('tbody').html('');
 
         precio_total = data.precio_unitario * data.unidades;
         //Puede poseer o no descuento
@@ -341,9 +333,8 @@ function agregarProducto(){
             precio_total -= data.descuento;
         }
 
-        $(tabla).append(
-            '<tr data-json= '+ JSON.stringify(data) +'>' +
-                '<td><button  type="button" title="Editar"  class="btn btn-primary btn-circle btnEditar" data-toggle="modal" data-target="#modaleditar" id="btnEditar"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>&nbsp<button type="button" title="Eliminar" class="btn btn-primary btn-circle btnEliminar" id="btnBorrar"  ><span class="glyphicon glyphicon-trash" aria-hidden="true" ></span></button>&nbsp' +
+        fila = '<tr data-json= '+ JSON.stringify(data) +'>' +
+                '<td><button  type="button" title="Editar"  class="btn btn-primary btn-circle btnEditar" data-toggle="modal" data-target="#modaleditar"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>&nbsp<button type="button" title="Eliminar" class="btn btn-primary btn-circle btnEliminar"><span class="glyphicon glyphicon-trash" aria-hidden="true" ></span></button>&nbsp' +
                 '<td>' + producto + '</td>' +
                 '<td>' + medida + '</td>' +
                 '<td>' + data.cantidad + '</td>' +
@@ -351,8 +342,16 @@ function agregarProducto(){
                 '<td>' + data.precio_unitario + '</td>' +
                 '<td>' + data.descuento + '</td>' +
                 '<td>' + precio_total + '</td>' +
-            '</tr>'
-        );
+            '</tr>';
+        tabla.row.add($(fila)).draw();
+
+        //Limpio los inputs y combos
+        $('#producto').val(null).trigger('change');
+        $('#medidas').val(null).trigger('change');
+        $('#cantidad').val('');
+        $('#unidades').val('');
+        $('#precio_unitario').val('');
+        $('#descuento').val('');
     }else{
         alert(reporte);
     }             
@@ -382,6 +381,44 @@ function validarCampos(){
 		return valida;
     }
 //Fin scripts para agregar en tabla intermedia
+//
+//Eliminar registro tabla intermedia
+//
+$(document).on('click','.btnEliminar', function () {
+    tabla = $('#tabla_productos').DataTable();
+    tabla.row( $(this).parents('tr') ).remove().draw(); 
+    alertify.success("Registro eliminado con exito!");
+});
+//
+//Editar registro tabla intermedia
+//
+$(document).on('click','.btnEditar', function () {
+    //Obtengo la fila
+    tabla = $('#tabla_productos').DataTable();
+    row = $(this).parents('tr');
+
+    //Data parseada en json
+    nodo = tabla.row(row).node();
+    data = JSON.parse($(nodo).attr('data-json'));
+
+    // le paso la data a los inputs
+    $('#cantidad').val(data.cantidad);
+    $('#unidades').val(data.unidades);
+    $('#precio_unitario').val(data.precio_unitario);
+    $('#descuento').val(data.descuento);
+    
+    //Selecciono producto
+    $('#producto').val(data.producto).trigger('change');
+    //Selecciono Unidad de medida
+    $('#medidas').val(data.medidas).trigger('change');
+
+    //elimino la row
+    tabla.row( $(this).parents('tr') ).remove().draw(); 
+    
+});
+//
+//Fin scripts para manipular data en tabla intermedia
+//
 $("#tipo_documento").on('change', function () {
     if(this.value == '888-tipos_documentoREMITO'){
         $("#precio_unitario").prop("readonly", 'readonly');
@@ -393,6 +430,7 @@ $("#tipo_documento").on('change', function () {
 });
 //Permite moverme entre la pnatalla principal y la de agregar/editar
 function cerrarDetalle(){
+    
     $('#formAgregarDoc').hide();
     $("#tablaDocumentosBox").show();
 
@@ -403,8 +441,97 @@ function cerrarDetalle(){
 }
 
 function guardarDetalle(){
+
+    //valido el formulario
+    if(!frm_validar('#formDocumentacion')){
+        console.log("Error al validar Formulario");
+				Swal.fire(
+					'Error..',
+					'Debes completar los campos obligatorios (*)',
+					'error'
+				);
+        return;
+    }
+
+    if(accion == "nuevo"){
+        agregarDocumento().then((result) => {
+            console.log(result);
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+}
+//
+// Guardo la documentacion cargada
+async function agregarDocumento () {
+
+    tabla = $('#tabla_productos').DataTable();
+
+    //tomo el formulario
     form = $('#formDocumentacion')[0];
     datos = new FormData(form);
-    frm_validar('#formDocumentacion');
+
+    let documento = new Promise( function(resolve,reject){
+        
+        $.ajax({
+            type: 'POST',
+            data: form,
+            dataType: "json",
+            url: "<?php echo SICP; ?>inspeccion/agregarDocumento",
+            success: function(data) { 
+                console.log("Se agrego el documento correctamente");
+                
+                //Si es correcto, guardo los detalles de los documentos
+                if(data.status){
+
+                    //Loopeo sobre las filas de la tabla
+                    detalles = [];
+                    tabla.rows().every( function ( rowIdx, tableLoop, rowLoop ) {
+                        var datos = this.data();
+                        this.node();
+                        // ... do something with data(), or this.node(), etc
+                        var json = JSON.parse($(obj).attr('data-json'));
+                        termicos[i] = json;//ACA
+                        //Data parseada en json
+                        nodo = tabla.row(row).node();
+                        data = JSON.parse($(nodo).attr('data-json'));
+                    });
+
+                    $.ajax({
+                        type: 'POST',
+                        data: {detalles},
+                        url: "<?php echo SICP; ?>inspeccion/guardarDetallesDocumentos",
+                        success: function(data) {
+                            resp = JSON.parse(data);
+                            if(resp.status){
+                                console.log(resp.message);
+                                resolve("Correcto");
+                            }else{
+                                console.log(resp.message);
+                                reject("Error");
+                            }
+                        },
+                        error: function(data) {
+                            alert("Error al agregar los detalles del documento");
+                            reject("Error");
+                        }
+                    });
+                         
+
+                    resolve("Se agrego el documento correctamente");
+
+                }else{
+                    console.log(data.message);
+                    reject("Error al agregar el documento");
+                }
+                 
+            },
+            error: function(data) {
+                reject("Error al agregar el documento");
+            }
+        });
+    });
+
+    return await documento;
 }
 </script>

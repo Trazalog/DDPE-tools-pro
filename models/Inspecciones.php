@@ -293,4 +293,20 @@ class Inspecciones extends CI_Model {
 
         return $aux;
     }
+    /**
+	* Alta de documento
+	* @param array datos del documento
+	* @return bool
+	*/
+    public function agregarDocumento($data){
+        
+        $post['_post_documento'] = $data;
+        $url = REST_SICP."/documento";
+
+        $aux = $this->rest->callAPI("POST",$url,$post);
+
+        log_message('DEBUG', "#TRAZA | #SICPOA | Inspecciones | agregarDocumento()  resp: >> " . json_encode($aux));
+
+        return $aux;
+    }
 }

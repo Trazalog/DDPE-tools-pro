@@ -308,4 +308,27 @@ class Inspeccion extends CI_Controller
 			echo json_encode($resp);
 		}
     }
+	/**
+	* Alta de un documento
+	* @param array datos documento
+	* @return bool true o false segun resultado de servicio de guardado
+	*/
+    public function agregarDocumento(){
+		
+        $data['case_id'] = $this->input->post('case_id');
+		$data['num_documento'] =  !empty($this->input->post('num_documento'))? $this->input->post('num_documento') : "";
+        $data['usuario_app'] = userNick();
+		$data['tido_id'] =  !empty($this->input->post('tido_id'))? $this->input->post('tido_id') : "";
+		$data['imag_id'] =  !empty($this->input->post('imag_id'))? $this->input->post('imag_id') : "";
+		$data['empre_id_emisor'] =  !empty($this->input->post('empre_id_emisor'))? $this->input->post('empre_id_emisor') : "";
+		$data['empr_id_destinno'] =  !empty($this->input->post('empr_id_destinno'))? $this->input->post('empr_id_destinno') : "";
+
+		$resp = $this->Inspecciones->agregarDocumento($data);
+        
+		if ($resp['status']) {
+			echo json_encode($resp);
+		} else {
+			echo json_encode($resp);
+		}
+    }
 }
