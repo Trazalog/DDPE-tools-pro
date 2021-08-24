@@ -442,7 +442,7 @@ async function cerrarTareaform(){
     });
     return await guardadoCompleto;
 }
-    
+
 
 function cerrarTarea() {
 
@@ -512,8 +512,8 @@ function showValidar(tag){
 //Scripts Imprimir ACTA
 //
 $(document).on('click', '.btnNotifEstandar.btn-success' ,function () {
-    
-    var base = "<?php echo base_url()?>";   
+
+    var base = "<?php echo base_url()?>";
     $('#actaInfraccion').printThis({
         debug: false,
         importCSS: true,
@@ -522,6 +522,6 @@ $(document).on('click', '.btnNotifEstandar.btn-success' ,function () {
         base: base,
         pageTitle : "TRAZALOG TOOLS",
     });
-    
+
 });
 </script>

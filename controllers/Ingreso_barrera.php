@@ -92,7 +92,7 @@ class Ingreso_barrera extends CI_Controller
             'proc_id' =>  $proccessname,
             'empr_id' => $empr_id,
             'clie_id' => "6",
-            'tipt_id' => "tipos_pedidos_trabajoneumaticos", 
+            'tipt_id' => "tipos_pedidos_trabajoneumaticos",
 
         );
 

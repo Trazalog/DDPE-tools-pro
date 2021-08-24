@@ -223,6 +223,17 @@
       <sql>update&#xd;	sicpoa.detalles_documento&#xd;set eliminado = true&#xd;where&#xd;	dedo_id = cast(:dedo_id as integer)</sql>
       <param name="dedo_id" sqlType="STRING"/>
    </query>
+   <query id="getInspeccionAvanzada" useConfig="SICPOADataSource">
+      <sql>select&#xd;	i.case_id ,&#xd;	I.fec_alta ,&#xd;	(I.bruto - I.tara) as neto ,&#xd;	CH.nombre ,&#xd;	(&#xd;		select&#xd;			string_agg(T.patente, ', ')&#xd;		from&#xd;			sicpoa.inspecciones_termicos IT,&#xd;			sicpoa.termicos T&#xd;		where&#xd;			I.case_id = IT.case_id&#xd;			and IT.term_id = T.patente) termicos,&#xd;	I.resultado ,&#xd;	ieo.empr_id as cuit_origen,&#xd;	eo.razon_social razon_social_origen,&#xd;	(&#xd;		select&#xd;			string_agg(concat(&#xd;                  e.razon_social,&#xd;                  ' (', ied.empr_id, ')'&#xd;			           , case&#xd;                    when ied.depo_id is not null&#xd;                    then concat(' - '&#xd;                                , d.calle , ' '&#xd;                                , d.altura , ' '&#xd;                                , t.valor)&#xd;			              else ''&#xd;                  end)&#xd;			            , ', ')&#xd;		from&#xd;			sicpoa.inspecciones_empresas ied&#xd;		left join sicpoa.depositos d on	d.depo_id = ied.depo_id&#xd;		left join core.tablas t on tabl_id = d.depa_id ,&#xd;			sicpoa.empresas e&#xd;		where&#xd;			ied.case_id = i.case_id&#xd;			and ied.rol = 'DESTINO'&#xd;			and ied.empr_id = e.cuit) as destinos,&#xd;	iet.empr_id as cuit_transpote,&#xd;	et.razon_social razon_social_transporte,&#xd;	( select string_agg( t.descripcion ,', ')&#xd;	  from sicpoa.documentos d&#xd;	  ,sicpoa.detalles_documento dd &#xd;	  ,core.tablas t&#xd;	  where dd.docu_id = d.num_documento &#xd;	  and dd.tido_id = d.tido_id&#xd;	  and t.tabl_id = dd.tipr_id&#xd;	  and d.case_id =i.case_id ) tipos_productos&#xd;from&#xd;	sicpoa.inspecciones I&#xd;left join sicpoa.inspecciones_empresas ieo on&#xd;	ieo.case_id = i.case_id&#xd;	and ieo.rol = 'ORIGEN'	&#xd;left join sicpoa.empresas eo on&#xd;	eo.cuit = ieo.empr_id&#xd;left join sicpoa.inspecciones_empresas iet on&#xd;	iet.case_id = i.case_id&#xd;	and iet.rol = 'TRANSPORTISTA'	&#xd;left join sicpoa.empresas et on&#xd;	et.cuit = iet.empr_id ,&#xd;	sicpoa.choferes CH&#xd;  , (select :cuit_origen cuit_origen, :cuit_destino cuit_destino, :cuit_transporte cuit_transporte, :resultado resultado, :tipo_producto tipo_producto ) param&#xd;where&#xd;	I.chof_id = CH.dni&#xd;	and i.fec_alta between to_date(:fec_desde,'YYYY-MM-DD') and to_date(:fec_hasta,'YYYY-MM-DD')&#xd;	and (param.resultado = 'TODOS' or param.resultado = i.resultado)&#xd;  and (param.tipo_producto = 'TODOS' or param.tipo_producto in (select dd.tipr_id&#xd;                                                                  from sicpoa.documentos d&#xd;                                                                  ,sicpoa.detalles_documento dd&#xd;                                                                  where dd.docu_id = d.num_documento&#xd;                                                                  and dd.tido_id = d.tido_id ))&#xd;	and (param.cuit_origen = 'TODOS' or param.cuit_origen = ieo.empr_id)&#xd;	and (param.cuit_destino = 'TODOS' or param.cuit_destino in (select ie.empr_id&#xd;                                                                from sicpoa.inspecciones_empresas ie&#xd;                                                                where ie.case_id = i.case_id&#xd;                                                                and ie.rol='DESTINO'))&#xd;	and (param.cuit_transporte = 'TODOS' or param.cuit_transporte = iet.empr_id )</sql>
+      <result outputType="json">{&#xd;  "inspecciones": {&#xd;      "inspeccion": [&#xd;          {&#xd;          "case_id": "$case_id",&#xd;          "fec_alta": "$fec_alta",&#xd;          "neto": "$neto",&#xd;          "nombre": "$nombre",&#xd;          "termicos": "$termicos",&#xd;          "resultado": "$resultado",&#xd;          "cuit_origen": "$cuit_origen",&#xd;          "razon_social_origen": "$razon_social_origen",&#xd;          "destinos": "$destinos",&#xd;          "cuit_transpote": "$cuit_transpote",&#xd;          "razon_social_transporte": "$razon_social_transporte",&#xd;          "tipos_productos": "$tipos_productos"&#xd;          }&#xd;      ]&#xd;      }&#xd;}</result>
+      <param name="cuit_origen" sqlType="STRING"/>
+      <param name="cuit_destino" sqlType="STRING"/>
+      <param name="cuit_transporte" sqlType="STRING"/>
+      <param name="resultado" sqlType="STRING"/>
+      <param name="tipo_producto" sqlType="STRING"/>
+      <param name="fec_desde" sqlType="STRING"/>
+      <param name="fec_hasta" sqlType="STRING"/>
+   </query>
    <resource method="POST" path="/inspeccion">
       <call-query href="setInspeccion">
          <with-param name="case_id" query-param="case_id"/>
@@ -427,6 +438,39 @@
    <resource method="DELETE" path="/documento/detalle">
       <call-query href="deleteDetalleDocumento">
          <with-param name="dedo_id" query-param="dedo_id"/>
+      </call-query>
+   </resource>
+   <resource method="GET" path="/inspecciones/avanzado/desde/{fec_desde}/hasta/{fec_hasta}/origen/{cuit_origen}/destino/{cuit_destino}/resultado/{resultado}/producto/{tipo_producto}">
+      <call-query href="getInspeccionAvanzada">
+         <with-param name="cuit_origen" query-param="cuit_origen"/>
+         <with-param name="cuit_destino" query-param="cuit_destino"/>
+         <with-param name="cuit_transporte" query-param="cuit_transporte"/>
+         <with-param name="resultado" query-param="resultado"/>
+         <with-param name="tipo_producto" query-param="tipo_producto"/>
+         <with-param name="fec_desde" query-param="fec_desde"/>
+         <with-param name="fec_hasta" query-param="fec_hasta"/>
+      </call-query>
+   </resource>
+   <resource method="GET" path="/inspecciones/avanzado/desde/{fec_desde}/hasta/{fec_hasta}/origen/{cuit_origen}/destino/{cuit_destino}/transporte/{cuit_transporte}/resultado/resultado/producto/tipo_producto">
+      <call-query href="getInspeccionAvanzada">
+         <with-param name="cuit_origen" query-param="cuit_origen"/>
+         <with-param name="cuit_destino" query-param="cuit_destino"/>
+         <with-param name="cuit_transporte" query-param="cuit_transporte"/>
+         <with-param name="resultado" query-param="resultado"/>
+         <with-param name="tipo_producto" query-param="tipo_producto"/>
+         <with-param name="fec_desde" query-param="fec_desde"/>
+         <with-param name="fec_hasta" query-param="fec_hasta"/>
+      </call-query>
+   </resource>
+   <resource method="GET" path="/inspecciones/avanzado/desde/{fec_desde}/hasta/{fec_hasta}/origen/{cuit_origen}/destino/{cuit_destino}/transporte/{cuit_transporte}/resultado/{resultado}/producto/{tipo_producto}">
+      <call-query href="getInspeccionAvanzada">
+         <with-param name="cuit_origen" query-param="cuit_origen"/>
+         <with-param name="cuit_destino" query-param="cuit_destino"/>
+         <with-param name="cuit_transporte" query-param="cuit_transporte"/>
+         <with-param name="resultado" query-param="resultado"/>
+         <with-param name="tipo_producto" query-param="tipo_producto"/>
+         <with-param name="fec_desde" query-param="fec_desde"/>
+         <with-param name="fec_hasta" query-param="fec_hasta"/>
       </call-query>
    </resource>
 </data>
