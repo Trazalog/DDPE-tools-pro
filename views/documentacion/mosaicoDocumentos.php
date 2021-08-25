@@ -59,7 +59,7 @@
 <!-- FIN CSS -->
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
-        <label>Seleccione una foto</label>
+        <label>Seleccione una foto (<strong style="color: #dd4b39">*</strong>)</label>
     </div>
     <div class="col-md-12 col-sm-12 col-xs-12">
         <input type="hidden" name="imag_id" id="imag_id">

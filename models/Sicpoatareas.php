@@ -256,9 +256,9 @@ class Sicpoatareas extends CI_Model
                 $data['facturas'] = $this->getTiposFacturas();
                 $data['productos'] = $this->getProductos();
                 $data['un_medidas'] = $this->getMedidas();
-                $data['preCargaDatos'] = $this->getPreCargaDatos($tareaData->case_id);
+                $data['inspeccion'] = $this->getPreCargaDatos($tareaData->case_id);
                 
-                $empresas = $data['preCargaDatos']->empresas->empresa;
+                $empresas = $data['inspeccion']->empresas->empresa;
 
                 //Separo las empresas por su rol
                 if(!empty($empresas)){

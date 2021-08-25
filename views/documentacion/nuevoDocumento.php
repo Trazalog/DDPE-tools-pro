@@ -23,7 +23,7 @@
                 <input type="text" class="form-control hidden" name="petr_id" id="petr_id" value="<?php echo $petr_id?>">
 
                 <!-- Mosaico de miniaturas con vista expandida y inst_id -->
-                <?php $this->load->view(SICP.'documentacion/mosaicoDocumentacion.php') ?>
+                <?php $this->load->view(SICP.'documentacion/mosaicoDocumentos.php') ?>
 
             </div><!--FIN col-md-->
             <!--_______ Fin 1° COLUMNA ______-->
@@ -33,7 +33,7 @@
                 <!--Tipo-->
                 <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
                     <div class="form-group has-feedback">
-                        <label for="tipo_documento">Tipo:</label>
+                        <label for="tipo_documento">Tipo(<strong style="color: #dd4b39">*</strong>):</label>
                         <div class="input-group" style="width: 100%">
                             <select class="form-control select2 select2-hidden-accesible tipo_documento" name="tido_id" id="tipo_documento" style="width: 100%" data-bv-notempty data-bv-notempty-message="Campo Obligatorio *">
                                 <option value="" disabled selected>- Seleccionar -</option>
@@ -53,7 +53,7 @@
                 <!--Número-->
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group has-feedback">
-                        <label for="numero">Número:</label>
+                        <label for="numero">Número(<strong style="color: #dd4b39">*</strong>):</label>
                         <input class="form-control limitedChars" name="num_documento" id="numero" placeholder="Ingrese numero" data-bv-notempty data-bv-notempty-message="Campo Obligatorio *"/>
                     </div>
                 </div>
@@ -62,7 +62,7 @@
                 <!--Emisor-->
                 <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
                     <div class="form-group has-feedback">
-                        <label for="emisor">Emisor:</label>
+                        <label for="emisor">Emisor(<strong style="color: #dd4b39">*</strong>):</label>
                         <div class="input-group">
                             <select class="form-control select2 select2-hidden-accesible empresa" name="empr_id_emisor" id="emisor" style="width: 100%" data-bv-notempty data-bv-notempty-message="Campo Obligatorio *">
                                 <option value="" disabled selected>- Seleccionar -</option>	
@@ -76,7 +76,7 @@
                 <!--Destino-->
                 <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
                     <div class="form-group has-feedback">
-                        <label for="destino">Destino:</label>
+                        <label for="destino">Destino(<strong style="color: #dd4b39">*</strong>):</label>
                         <div class="input-group">
                             <select class="form-control select2 select2-hidden-accesible empresa" name="empr_id_destino" id="destino" style="width: 100%" data-bv-notempty data-bv-notempty-message="Campo Obligatorio *">
                                 <option value="" disabled selected>- Seleccionar -</option>	
@@ -321,19 +321,23 @@ function agregarProducto(){
         form = $('#formDocumentacion')[0];
         datos = new FormData(form);
         data = formToObject(datos);
+
+        //Armo JSON para la fila
         producto = $('#producto').find(':selected').text();
         medida = $('#medidas').find(':selected').text();
 
-        tabla = $('#tabla_productos').DataTable();    
-        // $(tabla).find('tbody').html('');
+        tabla = $('#tabla_productos').DataTable();
 
-        precio_total = data.precio_unitario * data.unidades;
-        //Puede poseer o no descuento
-        if(data.descuento){
-            precio_total -= data.descuento;
+        //Caso remito no los tengo en cuenta
+        if($("#tipo_documento") != '888-tipos_documentoREMITO'){
+            
+            precio_total = data.precio_unitario * data.unidades;
+            //Puede poseer o no descuento
+            if(data.descuento){
+                precio_total -= data.descuento;
+            }   
         }
-
-        fila = '<tr data-json= '+ JSON.stringify(data) +'>' +
+        fila = "<tr data-json= '"+ JSON.stringify(data) +"'>" +
                 '<td><button  type="button" title="Editar"  class="btn btn-primary btn-circle btnEditar" data-toggle="modal" data-target="#modaleditar"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>&nbsp<button type="button" title="Eliminar" class="btn btn-primary btn-circle btnEliminar"><span class="glyphicon glyphicon-trash" aria-hidden="true" ></span></button>&nbsp' +
                 '<td>' + producto + '</td>' +
                 '<td>' + medida + '</td>' +
@@ -352,8 +356,14 @@ function agregarProducto(){
         $('#unidades').val('');
         $('#precio_unitario').val('');
         $('#descuento').val('');
+        
+        alertify.success(`Se agrego ${producto} correctamente!`);
     }else{
-        alert(reporte);
+        Swal.fire(
+            'Error..',
+            reporte,
+            'error'
+        );
     }             
 }
 function validarCampos(){
@@ -366,18 +376,28 @@ function validarCampos(){
 		if($("#medidas").val() == null){
 			valida = "Seleccione unidad de medida!";
 		}
+        //Tipo Documento
+		if($("#tipo_documento").val() == null){
+			valida = "Seleccione tipo de documento!";
+		}
+        //Numero documento
+		if($("#numero").val() == ""){
+			valida = "Seleccione número de documento!";
+		}
         //Cantidad
 		if($("#cantidad").val() == ""){
-			valida = "Complete Precintos!";
+			valida = "Complete cantidad!";
 		}
         //Unidades
 		if($("#unidades").val() == ""){
 			valida = "Complete unidades!";
 		}
-        //Precio Unitario
-		if($("#precio_unitario").val() == ""){
-			valida = "Complete precio unitario!";
-		}
+        if($("#tipo_documento") == '888-tipos_documentoREMITO'){
+            //Precio Unitario
+            if($("#precio_unitario").val() == ""){
+                valida = "Complete precio unitario!";
+            }
+        }
 		return valida;
     }
 //Fin scripts para agregar en tabla intermedia
@@ -408,9 +428,9 @@ $(document).on('click','.btnEditar', function () {
     $('#descuento').val(data.descuento);
     
     //Selecciono producto
-    $('#producto').val(data.producto).trigger('change');
+    $('#producto').val(data.tipr_id).trigger('change');
     //Selecciono Unidad de medida
-    $('#medidas').val(data.medidas).trigger('change');
+    $('#medidas').val(data.unme_id).trigger('change');
 
     //elimino la row
     tabla.row( $(this).parents('tr') ).remove().draw(); 
@@ -423,6 +443,8 @@ $("#tipo_documento").on('change', function () {
     if(this.value == '888-tipos_documentoREMITO'){
         $("#precio_unitario").prop("readonly", 'readonly');
         $("#descuento").prop("readonly", 'readonly');
+        $("#precio_unitario").val("");
+        $("#descuento").val("");
     }else{
         $("#precio_unitario").prop("readonly", false);
         $("#descuento").prop("readonly", false);
@@ -434,6 +456,18 @@ function cerrarDetalle(){
     $('#formAgregarDoc').hide();
     $("#tablaDocumentosBox").show();
 
+    //Limpio formularios y tabla
+    $('#tabla_productos').DataTable().clear().draw();// Tabla
+    $('#formDocumentacion').trigger("reset");//input's
+    //selects
+    $('#producto').val(null).trigger('change');
+    $('#medidas').val(null).trigger('change');
+    $('#tipo_documento').val(null).trigger('change');
+    $('.fotos').removeClass("selected");
+
+    //Actualizo la tabla de la vista principal
+    actualizaTablaDocumentos();
+
     //Reemplazo los botones standard de la notificacion
     $(".btn-success.btnNotifEstandar").text("Hecho");
     $(".btn-success.btnNotifEstandar").attr("onclick","existFunction('cerrarTarea')");
@@ -441,87 +475,105 @@ function cerrarDetalle(){
 }
 
 function guardarDetalle(){
-
+    //VALIDACIONES
     //valido el formulario
     if(!frm_validar('#formDocumentacion')){
-        console.log("Error al validar Formulario");
-				Swal.fire(
-					'Error..',
-					'Debes completar los campos obligatorios (*)',
-					'error'
-				);
+        Swal.fire(
+            'Error..',
+            'Debes completar los campos obligatorios (*)',
+            'error'
+        );
         return;
     }
-
+    //Valido seleccion de foto
+    if(!$('.fotos').hasClass("selected")){
+        Swal.fire(
+            'Error..',
+            'Debe seleccionar una foto!',
+            'error'
+        );
+        return;
+    }
+    //valído tabla no vacia
+    tabla = $('#tabla_productos').DataTable(); 
+    if ( ! tabla.data().any() ) {
+        Swal.fire(
+            'Error..',
+            'No se cargaron datos en la tabla!',
+            'error'
+        );
+        return;
+    }
+    //Luego de validar, guardo los formularios
+    //Accion discrimina si guarda todo junto o solo edita detalles
     if(accion == "nuevo"){
         agregarDocumento().then((result) => {
-            console.log(result);
+
+            alertify.success(`Se cargo la documentacion correctamente!`);
+            cerrarDetalle();
+
         }).catch((err) => {
             console.log(err);
         });
     }
+    //Luego de guardar cierro el detalle del documento
+    //Vuelvo a la pantalla principal de la tarea
+    
 }
 //
-// Guardo la documentacion cargada
+// Guardo la documentacion cargada y su respectivo detalle
 async function agregarDocumento () {
 
     tabla = $('#tabla_productos').DataTable();
 
     //tomo el formulario
-    form = $('#formDocumentacion')[0];
-    datos = new FormData(form);
+    datos = new FormData($('#formDocumentacion')[0]);
+    datos.append('case_id', $("#caseId").val());
 
     let documento = new Promise( function(resolve,reject){
         
         $.ajax({
             type: 'POST',
-            data: form,
-            dataType: "json",
+            data: datos,
+            cache: false,
+            contentType: false,
+            processData: false,
             url: "<?php echo SICP; ?>inspeccion/agregarDocumento",
             success: function(data) { 
                 console.log("Se agrego el documento correctamente");
-                
+                rsp = JSON.parse(data);
                 //Si es correcto, guardo los detalles de los documentos
-                if(data.status){
+                if(rsp.status){
 
                     //Loopeo sobre las filas de la tabla
                     detalles = [];
                     tabla.rows().every( function ( rowIdx, tableLoop, rowLoop ) {
                         var datos = this.data();
-                        this.node();
-                        // ... do something with data(), or this.node(), etc
-                        var json = JSON.parse($(obj).attr('data-json'));
-                        termicos[i] = json;//ACA
-                        //Data parseada en json
-                        nodo = tabla.row(row).node();
-                        data = JSON.parse($(nodo).attr('data-json'));
+                        nodo = this.node();
+                        
+                        var json = JSON.parse($(nodo).attr('data-json'));
+                  
+                        detalles[rowIdx] = json;
                     });
 
                     $.ajax({
                         type: 'POST',
                         data: {detalles},
+                        dataType: "json",
                         url: "<?php echo SICP; ?>inspeccion/guardarDetallesDocumentos",
-                        success: function(data) {
-                            resp = JSON.parse(data);
-                            if(resp.status){
-                                console.log(resp.message);
-                                resolve("Correcto");
-                            }else{
-                                console.log(resp.message);
-                                reject("Error");
-                            }
+                        success: function(resp) {
+                            
+                            resolve("Se agrego el documento y su detalle correctamente");
+                        
                         },
                         error: function(data) {
                             alert("Error al agregar los detalles del documento");
                             reject("Error");
                         }
                     });
-                         
-
-                    resolve("Se agrego el documento correctamente");
 
                 }else{
-                    console.log(data.message);
+                    console.log(rsp.message);
                     reject("Error al agregar el documento");
                 }
                  
