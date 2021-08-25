@@ -251,14 +251,14 @@ class Sicpoatareas extends CI_Model
 
                 $tareaData = $this->getXCaseId($tarea);
 
-                $data['imgsBarrera'] = $this->getImgsBarrera($tareaData->info_id);
+                $data['imgsDocumentacion'] = $this->getImgsDocumentacion($tareaData->info_id);
                 $data['petr_id'] = $tareaData->petr_id;
                 $data['facturas'] = $this->getTiposFacturas();
                 $data['productos'] = $this->getProductos();
                 $data['un_medidas'] = $this->getMedidas();
-                $data['preCargaDatos'] = $this->getPreCargaDatos($tareaData->case_id);
+                $data['inspeccion'] = $this->getPreCargaDatos($tareaData->case_id);
                 
-                $empresas = $data['preCargaDatos']->empresas->empresa;
+                $empresas = $data['inspeccion']->empresas->empresa;
 
                 //Separo las empresas por su rol
                 if(!empty($empresas)){
@@ -629,5 +629,29 @@ class Sicpoatareas extends CI_Model
         log_message('DEBUG', "#TRAZA | #SICPOA | Inspecciones | getTiposFacturas()  resp: >> " . json_encode($resp));
 
         return $resp->tablas->tabla;
+    }
+    /**
+	* Obtengo las imagenes cargadas en el escaneo de documentacion guardadas en instancias_formularios
+	* @param array info_id
+	* @return array Imagenes relacionadas con el info_id
+	*/
+    function getImgsDocumentacion($info_id){
+        if($info_id){
+            $documentacion = array();
+            $this->load->model(FRM . 'Forms');
+            $res = $this->Forms->obtener($info_id);
+
+            foreach ($res->items as $key => $dato) {
+                if(isset($dato->valor4_base64)){
+                    $rec = stream_get_contents($dato->valor4_base64);
+                    $ext = $this->obtenerExtension($dato->valor);
+                    
+                    $documentacion[$key]['inst_id'] = $dato->inst_id;
+                    $documentacion[$key]['imagen'] = $ext.$rec;
+                    // array_push($documentacion, $ext.$rec);
+                }
+            }
+        }
+        return $documentacion;
     }
 }
