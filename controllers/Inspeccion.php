@@ -374,7 +374,40 @@ class Inspeccion extends CI_Controller
 		
 		$documento = $this->input->post('documento');
 
-		// $resp = $this->Inspecciones->eliminarDocumento($documento);
+		$resp = $this->Inspecciones->eliminarDocumento($documento);
+        
+		if ($resp['status']) {
+			echo json_encode($resp);
+		} else {
+			echo json_encode($resp);
+		}
+    }
+	/**
+	* Edicion del detalle para un documento
+	* @param array datos a editar del detalle de un documento
+	* @return bool true o false segun resultado de servicio
+	*/
+    public function editarDetalleDocumento(){
+		$detalle = $this->input->post('data');
+
+		$resp = $this->Inspecciones->editarDetalleDocumento($detalle);
+
+		if ($resp['status']) {
+			echo json_encode($resp);
+		} else {
+			echo json_encode($resp);
+		}
+    }
+	/**
+	* Eliminar documento
+	* @param array con permisos,empresas y termicos
+	* @return bool true o false segun resultado de servicio de borrado
+	*/
+    public function eliminarDetalleDocumento(){
+		
+		$dedo_id = $this->input->post('dedo_id');
+
+		$resp = $this->Inspecciones->eliminarDetalleDocumento($dedo_id);
         
 		if ($resp['status']) {
 			echo json_encode($resp);

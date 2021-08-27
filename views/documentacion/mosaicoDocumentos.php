@@ -44,6 +44,9 @@
 .selected{
     opacity : 0.2 !important;
 } 
+.used{
+    opacity : 0.2 !important;
+}
 .fotos{
     float: left;
     margin-right: 10px;
@@ -55,6 +58,26 @@
   display: block;
   max-width: 60%;
 }
+.iconoBorde{
+  display: inline-flex;
+}
+.delete {
+  position: relative;
+  vertical-align: middle;
+  display: inline-block;
+}
+    
+.delete::after {
+  font-family: "FontAwesome";
+  content: "\f058";
+  position:absolute;
+  top: -5px;
+  right:5px;
+  height: 20px;
+  width: 20px;
+  color: #05b513;
+  font-weight: 900;
+}
 </style>
 <!-- FIN CSS -->
 <div class="row">
@@ -65,10 +88,13 @@
         <input type="hidden" name="imag_id" id="imag_id">
 
         <div class="fotos">
-            <?php foreach ($imgsDocumentacion as $key => $value) {
-                $inst_id = array('inst_id' => $value['inst_id']);
-                echo "<img class='thumbnail fotos documentacion' height='51' width='45' data-json='".json_encode($inst_id)."' src='".$value['imagen']."' alt='' onclick='preview(this)'>";
-            } ?>
+          <?php foreach ($imgsDocumentacion as $key => $value) {
+              $inst_id = array('inst_id' => $value['inst_id']);
+              echo "<div class='iconoBorde'>";
+              echo "<img class='thumbnail fotos documentacion  ". (in_array($value['inst_id'],$imag_ids) ? "selected used" : null) ."' height='51' width='45' data-json='".json_encode($inst_id)."' src='".$value['imagen']."' alt='' onclick='preview(this)'>";
+              echo (in_array($value['inst_id'],$imag_ids) ? "<span class='delete'></span>" : null);
+              echo "</div>";
+          } ?>
         </div>
     </div>
 </div>
@@ -85,20 +111,24 @@
 <!-- FUNCIONES -->
 <script>
 function preview(imgs) {
-    //Quito clase selected
-    $('.fotos').removeClass("selected");
+    if(!$(imgs).hasClass("used")){
+      //Quito clase selected
+      $('.fotos').removeClass("selected");
 
-    //Marco la foto seleccionada
-    $(imgs).toggleClass("selected");
+      //Marco la foto seleccionada
+      $(imgs).toggleClass("selected");
 
-    // Tomo el elemento para la vista previa
-    var expandImg = document.getElementById("expandedImg");
+      // Tomo el elemento para la vista previa
+      var expandImg = document.getElementById("expandedImg");
 
-    // Le asigno la misma src al elemento de la vista previa
-    expandImg.src = imgs.src;
-    
-    //Asigno el inst_id de la imagen seleccionada
-    data = JSON.parse($(".fotos .selected").attr('data-json'));
-    $("#imag_id").val(data.inst_id);
+      // Le asigno la misma src al elemento de la vista previa
+      expandImg.src = imgs.src;
+      
+      //Asigno el inst_id de la imagen seleccionada
+      data = JSON.parse($(".fotos .selected").attr('data-json'));
+      $("#imag_id").val(data.inst_id);
+    }else{
+      alertify.error("Esta foto ya fue transcripta!");
+    }
 }
 </script>

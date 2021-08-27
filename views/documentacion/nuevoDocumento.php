@@ -90,7 +90,7 @@
                 <!--Producto-->
                 <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
                     <div class="form-group">
-                        <label for="producto">Producto:</label>
+                        <label for="producto">Producto(<strong style="color: #dd4b39">*</strong>):</label>
                         <div class="input-group" style="width: 100%">
                             <select class="form-control select2 select2-hidden-accesible producto" name="tipr_id" id="producto" style="width: 100%">
                                 <option value="" disabled selected>- Seleccionar -</option>
@@ -110,7 +110,7 @@
                 <!--U. Medida-->
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
-                        <label for="medida">U. Medida:</label>
+                        <label for="medida">U. Medida(<strong style="color: #dd4b39">*</strong>):</label>
                         <div class="input-group" style="width: 100%">
                             <select class="form-control select2 select2-hidden-accesible medidas" name="unme_id" id="medidas" style="width: 100%">
                                 <option value="" disabled selected>- Seleccionar -</option>
@@ -130,7 +130,7 @@
                 <!--Cantidad-->
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
-                        <label for="cantidad">Cantidad:</label>
+                        <label for="cantidad">Cantidad(<strong style="color: #dd4b39">*</strong>):</label>
                         <input class="form-control onlyNumbers" name="cantidad" id="cantidad" placeholder="Ingrese cantidad"/>
                     </div>
                 </div>
@@ -140,7 +140,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                         <label for="unidades">Unidades:</label>
-                        <input class="form-control onlyNumbers" name="unidades" id="unidades" placeholder="Ingrese unidades"/>
+                        <input class="form-control" name="unidades" id="unidades" placeholder="Ingrese unidades"/>
                     </div>
                 </div>
                 <!--________________-->
@@ -148,8 +148,8 @@
                 <!--Precio Unitario-->
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
-                        <label for="num_senasa">Precio Unitario:</label>
-                        <input type="text" class="form-control limitedChars" name="precio_unitario" id="precio_unitario" placeholder="Ingrese precio unitario"/>
+                        <label for="precio_unitario">Precio Unitario(<strong style="color: #dd4b39">*</strong>):</label>
+                        <input type="text" class="form-control" name="precio_unitario" id="precio_unitario" placeholder="Ingrese precio unitario"/>
                     </div>
                 </div>
                 <!--________________-->
@@ -157,12 +157,16 @@
                 <!--Descuento-->
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
-                        <label for="descuento">Descuento:</label>
-                        <input class="form-control onlyNumbers" name="descuento" id="descuento" placeholder="Ingrese descuento"/>
+                        <label for="descuento">Descuento(<strong style="color: #dd4b39">*</strong>):</label>
+                        <input class="form-control" name="descuento" id="descuento" placeholder="Ingrese descuento"/>
                     </div>
                 </div>
                 <!--________________-->
-                
+
+                <!--Detalle Documento ID-->
+                <input type="hidden" name="dedo_id" id="dedo_id">
+                <!--________________-->
+
                 <!--_________________ Agregar_________________-->
                 <div class="form-group text-right">
                     <button type="button" class="btn btn-outline-dark" onclick="agregarProducto()" >Agregar</button>
@@ -179,7 +183,7 @@
                     <!-- ______ TABLA PRODUCTOS ______ -->
                     <table id="tabla_productos" class="table table-bordered table-striped">
                         <thead class="thead-dark" bgcolor="#eeeeee">
-                            <th>Acciones</th>
+                            <th style="width: 10%">Acciones</th>
                             <th>Producto</th>
                             <th>Medida</th>
                             <th>Cantidad</th>
@@ -289,27 +293,13 @@ $(document).ready(function () {
             data: opcion
         }
     });
+    //Mascaras de los inputs
+    $("#descuento").inputmask("percentage");
+    $("#cantidad").inputmask("numeric");
+    $("#unidades").inputmask("numeric");
+    $("#precio_unitario").inputmask({alias: "numeric" ,prefix: "$ "});
 });
 /******************************************************************************* */
-//
-//VALIDACIONES CARACTERES PERMITIDOS
-//
-//Filtro para NUMEROS, "/ -" inputs
-//KeyCode: 111 = / , 109 = -
-$(document).on("keydown", ".limitedChars", function(e) {
-    if (e.which != 8 && e.which != 0 && e.which != 9 && e.which != 13 && e.which != 109 && e.which != 111 && e.which != 188 && (e.which < 48 || e.which > 57) && (e.which < 96 || e.which > 105) && (e.which < 37 || e.which > 40)) {
-        e.preventDefault();
-        alert("Caracteres válidos: 0-9, '/' , '-' y ','");
-    }
-});
-//Filtro para solo numeros
-//KeyCode: . = 110, . = 190
-$(document).on("keydown", ".onlyNumbers", function(e) {
-    if (e.which != 8 && e.which != 0 && e.which != 9 && e.which != 13 && e.which != 110 && e.which != 190 && (e.which < 48 || e.which > 57) && (e.which < 96 || e.which > 105) && (e.which < 37 || e.which > 40)) {
-        e.preventDefault();
-        alert("Caracteres validos: 0-9 y .");
-    }
-});
 //Scripts para manipular data en tabla intermedia
 //
 //Agregar la informacion a la tabla
@@ -329,12 +319,17 @@ function agregarProducto(){
         tabla = $('#tabla_productos').DataTable();
 
         //Caso remito no los tengo en cuenta
-        if($("#tipo_documento") != '888-tipos_documentoREMITO'){
+        precio_total = "";
+        if($("#tipo_documento").val() != '888-tipos_documentoREMITO'){
+
+            precio_unitario = data.precio_unitario.split(" ");
+            precio_total = precio_unitario[1] * data.cantidad;
             
-            precio_total = data.precio_unitario * data.unidades;
             //Puede poseer o no descuento
             if(data.descuento){
-                precio_total -= data.descuento;
+                aux = data.descuento.split(" ");
+                descuento =  precio_total * (aux[0] / 100);
+                precio_total -= descuento;
             }   
         }
         fila = "<tr data-json= '"+ JSON.stringify(data) +"'>" +
@@ -347,6 +342,39 @@ function agregarProducto(){
                 '<td>' + data.descuento + '</td>' +
                 '<td>' + precio_total + '</td>' +
             '</tr>';
+
+        //Si la accion es editar, puedo editar directamente el detalle del documento
+        if(accion == "editar"){
+
+            descuento = data.descuento.split(" ");
+            descuento = descuento[0] / 100 ;
+
+            precio_unitario = data.precio_unitario.split(" ");
+            precio_unitario = precio_unitario[1];
+
+            data.precio_unitario = precio_unitario;
+            data.descuento = descuento;
+
+            $.ajax({
+                type: 'POST',
+                data: {data},
+                dataType: "json",
+                url: "<?php echo SICP; ?>inspeccion/editarDetalleDocumento",
+                success: function(resp) {
+
+                    if(resp.status){
+                        alertify.success("Se edito el detalle correctamente");
+                    }else{
+                        alertify.error("Error al agregar detalle");
+                    }
+                
+                },
+                error: function(data) {
+                    alertify.error("Error al agregar detalle");
+                }
+            });
+        }
+
         tabla.row.add($(fila)).draw();
 
         //Limpio los inputs y combos
@@ -389,10 +417,10 @@ function validarCampos(){
 			valida = "Complete cantidad!";
 		}
         //Unidades
-		if($("#unidades").val() == ""){
-			valida = "Complete unidades!";
-		}
-        if($("#tipo_documento") == '888-tipos_documentoREMITO'){
+		// if($("#unidades").val() == ""){
+		// 	valida = "Complete unidades!";
+		// }
+        if($("#tipo_documento").val() != '888-tipos_documentoREMITO'){
             //Precio Unitario
             if($("#precio_unitario").val() == ""){
                 valida = "Complete precio unitario!";
@@ -426,11 +454,20 @@ $(document).on('click','.btnEditar', function () {
     $('#unidades').val(data.unidades);
     $('#precio_unitario').val(data.precio_unitario);
     $('#descuento').val(data.descuento);
-    
+    $('#dedo_id').val(data.dedo_id);
+
     //Selecciono producto
     $('#producto').val(data.tipr_id).trigger('change');
     //Selecciono Unidad de medida
     $('#medidas').val(data.unme_id).trigger('change');
+
+    //Los nombres de los atributos del objeto son diferentes en la accion agregar y editar
+    if(accion == "editar"){//TODO
+        //Selecciono producto
+        $('#producto').val(data.tipo_producto_id).trigger('change');
+        //Selecciono Unidad de medida
+        $('#medidas').val(data.unme_id).trigger('change');
+    }
 
     //elimino la row
     tabla.row( $(this).parents('tr') ).remove().draw(); 
@@ -470,6 +507,7 @@ function cerrarDetalle(){
 
     //Reemplazo los botones standard de la notificacion
     $(".btn-success.btnNotifEstandar").text("Hecho");
+    $(".btn-primary.btnNotifEstandar").text("Cerrar");
     $(".btn-success.btnNotifEstandar").attr("onclick","existFunction('cerrarTarea')");
     $(".btn-primary.btnNotifEstandar").attr("onclick","cerrar()");
 }
@@ -546,13 +584,23 @@ async function agregarDocumento () {
                 if(rsp.status){
 
                     //Loopeo sobre las filas de la tabla
+                    //Formateo precio_unitario y descuento porque tiene los prefijos
                     detalles = [];
                     tabla.rows().every( function ( rowIdx, tableLoop, rowLoop ) {
                         var datos = this.data();
                         nodo = this.node();
                         
                         var json = JSON.parse($(nodo).attr('data-json'));
-                  
+
+                        descuento = json.descuento.split(" ");
+                        descuento = descuento[0] / 100 ;
+
+                        precio_unitario = json.precio_unitario.split(" ");
+                        precio_unitario = precio_unitario[1];
+
+                        json.precio_unitario = precio_unitario;
+                        json.descuento = descuento;
+
                         detalles[rowIdx] = json;
                     });
 
