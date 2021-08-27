@@ -279,17 +279,15 @@ class Sicpoatareas extends CI_Model
                 }else{
                     $data['preDataCargada'] = false;
                 }
-                
-                //Es el info_id del formulario de escaneo documentacion
-                //que puede o no estar cargado a la hora de la inspeccion
-                $formulario = $this->Ingresosbarrera->getFormularios($tareaData->petr_id);
-                $escaneoInfoId = $formulario['data'][0]->forms->form[0]->info_id;
-                $data['escaneoInfoId'] = $escaneoInfoId;// Lo mando a la vista apra instaciar formulario en modal
 
-                if(isset($escaneoInfoId)){
-                    $data['imgsEscaneo'] = $this->getImgsEscaneoDocu($escaneoInfoId);
+                //Obtengo un array con los ID's de las imagenes seleccionadas
+                $aux = $data['inspeccion']->documentos->documento;
+                $data['imag_ids'] = array();
+
+                foreach ($aux as $key => $value) {
+                    array_push($data['imag_ids'], $value->imag_id);
                 }
-                
+
                 return $this->load->view(SICP . 'tareas/cargaDocumentacion', $data, true);
                 // return $this->load->view(SICP . 'documentacion/nuevoDocumento', $data, true);
 
