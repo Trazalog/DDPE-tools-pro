@@ -133,6 +133,23 @@ class Inspeccion extends CI_Controller
 		}
     }
 	/**
+	* Obtiene inspeccion por case_id
+	* @param string case_id
+	* @return array informacion cargada para un inspeccion
+	*/
+    public function getInspeccion(){
+
+        $caseId = $this->input->post('caseId');
+        
+		$resp = $this->Inspecciones->getInspeccion($caseId['case_id']);
+        
+		if ($resp) {
+			echo json_encode($resp);
+		} else {
+			echo json_encode($resp);
+		}
+    }
+	/**
 	* Alta de una inspeccion
 	* @param array datos inspeccion
 	* @return bool true o false segun resultado de servicio de guardado
@@ -305,6 +322,96 @@ class Inspeccion extends CI_Controller
 			$resp['permisos'] = $rspPermisos['data'];
 			$resp['empresas'] = $respEmpresas['data'];
 			$resp['termicos'] = $respTermicos['data'];
+			echo json_encode($resp);
+		}
+    }
+	/**
+	* Alta de un documento
+	* @param array datos documento
+	* @return bool true o false segun resultado de servicio de guardado
+	*/
+    public function agregarDocumento(){
+		
+		$data['fec_emision'] = date('Y-m-d');
+		$data['num_documento'] =  !empty($this->input->post('num_documento'))? $this->input->post('num_documento') : "";
+        $data['usuario_app'] = userNick();
+		$data['tido_id'] =  !empty($this->input->post('tido_id'))? $this->input->post('tido_id') : "";
+		$data['imag_id'] =  !empty($this->input->post('imag_id'))? $this->input->post('imag_id') : "";
+		$data['empr_id_emisor'] =  !empty($this->input->post('empr_id_emisor'))? $this->input->post('empr_id_emisor') : "";
+		$data['empr_id_destino'] =  !empty($this->input->post('empr_id_destino'))? $this->input->post('empr_id_destino') : "";
+        $data['case_id'] = $this->input->post('case_id');
+
+		$resp = $this->Inspecciones->agregarDocumento($data);
+        
+		if ($resp['status']) {
+			echo json_encode($resp);
+		} else {
+			echo json_encode($resp);
+		}
+    }
+	/**
+	* Alta de detalle para un documento
+	* @param array datos del detalle del documento
+	* @return bool true o false segun resultado de servicio de guardado
+	*/
+    public function guardarDetallesDocumentos(){
+		$detalles = $this->input->post('detalles');
+
+		$resp = $this->Inspecciones->guardarDetallesDocumentos($detalles);
+
+		if ($resp['status']) {
+			echo json_encode($resp);
+		} else {
+			echo json_encode($resp);
+		}
+    }
+	/**
+	* Eliminar documento
+	* @param array con permisos,empresas y termicos
+	* @return bool true o false segun resultado de servicio de borrado
+	*/
+    public function eliminarDocumento(){
+		
+		$documento = $this->input->post('documento');
+
+		$resp = $this->Inspecciones->eliminarDocumento($documento);
+        
+		if ($resp['status']) {
+			echo json_encode($resp);
+		} else {
+			echo json_encode($resp);
+		}
+    }
+	/**
+	* Edicion del detalle para un documento
+	* @param array datos a editar del detalle de un documento
+	* @return bool true o false segun resultado de servicio
+	*/
+    public function editarDetalleDocumento(){
+		$detalle = $this->input->post('data');
+
+		$resp = $this->Inspecciones->editarDetalleDocumento($detalle);
+
+		if ($resp['status']) {
+			echo json_encode($resp);
+		} else {
+			echo json_encode($resp);
+		}
+    }
+	/**
+	* Eliminar documento
+	* @param array con permisos,empresas y termicos
+	* @return bool true o false segun resultado de servicio de borrado
+	*/
+    public function eliminarDetalleDocumento(){
+		
+		$dedo_id = $this->input->post('dedo_id');
+
+		$resp = $this->Inspecciones->eliminarDetalleDocumento($dedo_id);
+        
+		if ($resp['status']) {
+			echo json_encode($resp);
+		} else {
 			echo json_encode($resp);
 		}
     }

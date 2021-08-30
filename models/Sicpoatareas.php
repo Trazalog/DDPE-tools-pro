@@ -251,14 +251,14 @@ class Sicpoatareas extends CI_Model
 
                 $tareaData = $this->getXCaseId($tarea);
 
-                $data['imgsBarrera'] = $this->getImgsBarrera($tareaData->info_id);
+                $data['imgsDocumentacion'] = $this->getImgsDocumentacion($tareaData->info_id);
                 $data['petr_id'] = $tareaData->petr_id;
                 $data['facturas'] = $this->getTiposFacturas();
                 $data['productos'] = $this->getProductos();
                 $data['un_medidas'] = $this->getMedidas();
-                $data['preCargaDatos'] = $this->getPreCargaDatos($tareaData->case_id);
+                $data['inspeccion'] = $this->getPreCargaDatos($tareaData->case_id);
                 
-                $empresas = $data['preCargaDatos']->empresas->empresa;
+                $empresas = $data['inspeccion']->empresas->empresa;
 
                 //Separo las empresas por su rol
                 if(!empty($empresas)){
@@ -279,17 +279,15 @@ class Sicpoatareas extends CI_Model
                 }else{
                     $data['preDataCargada'] = false;
                 }
-                
-                //Es el info_id del formulario de escaneo documentacion
-                //que puede o no estar cargado a la hora de la inspeccion
-                $formulario = $this->Ingresosbarrera->getFormularios($tareaData->petr_id);
-                $escaneoInfoId = $formulario['data'][0]->forms->form[0]->info_id;
-                $data['escaneoInfoId'] = $escaneoInfoId;// Lo mando a la vista apra instaciar formulario en modal
 
-                if(isset($escaneoInfoId)){
-                    $data['imgsEscaneo'] = $this->getImgsEscaneoDocu($escaneoInfoId);
+                //Obtengo un array con los ID's de las imagenes seleccionadas
+                $aux = $data['inspeccion']->documentos->documento;
+                $data['imag_ids'] = array();
+
+                foreach ($aux as $key => $value) {
+                    array_push($data['imag_ids'], $value->imag_id);
                 }
-                
+
                 return $this->load->view(SICP . 'tareas/cargaDocumentacion', $data, true);
                 // return $this->load->view(SICP . 'documentacion/nuevoDocumento', $data, true);
 
@@ -629,5 +627,29 @@ class Sicpoatareas extends CI_Model
         log_message('DEBUG', "#TRAZA | #SICPOA | Inspecciones | getTiposFacturas()  resp: >> " . json_encode($resp));
 
         return $resp->tablas->tabla;
+    }
+    /**
+	* Obtengo las imagenes cargadas en el escaneo de documentacion guardadas en instancias_formularios
+	* @param array info_id
+	* @return array Imagenes relacionadas con el info_id
+	*/
+    function getImgsDocumentacion($info_id){
+        if($info_id){
+            $documentacion = array();
+            $this->load->model(FRM . 'Forms');
+            $res = $this->Forms->obtener($info_id);
+
+            foreach ($res->items as $key => $dato) {
+                if(isset($dato->valor4_base64)){
+                    $rec = stream_get_contents($dato->valor4_base64);
+                    $ext = $this->obtenerExtension($dato->valor);
+                    
+                    $documentacion[$key]['inst_id'] = $dato->inst_id;
+                    $documentacion[$key]['imagen'] = $ext.$rec;
+                    // array_push($documentacion, $ext.$rec);
+                }
+            }
+        }
+        return $documentacion;
     }
 }
