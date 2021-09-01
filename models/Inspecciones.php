@@ -9,13 +9,7 @@ class Inspecciones extends CI_Model {
     public function __construct()
     {
         parent::__construct();
-        // si esta vencida la sesion redirige al login
-		$data = $this->session->userdata();
-		// log_message('DEBUG','#Main/login | '.json_encode($data));
-		if(!$data['email']){
-			log_message('DEBUG','#TRAZA|DASH|CONSTRUCT|ERROR  >> Sesion Expirada!!!');
-			redirect(DNATO.'main/login');
-		}
+        
     }
     
     /**
@@ -310,13 +304,14 @@ class Inspecciones extends CI_Model {
         return $aux;
     }
     /**
-	* Alta de documento
-	* @param array datos del documento
+	* Alta de los detalles de documento
+	* @param array datos de los detalles del documento
 	* @return bool
 	*/
     public function guardarDetallesDocumentos($data){
         
-        $url = REST_SICP."/documento/detalle";
+        $url = REST_SICP."/_post_documento_detalle_batch_req";
+        $batch_req = [];
 
         foreach ($data as $key) {
             $aux['cantidad'] = $key['cantidad'];
@@ -329,12 +324,13 @@ class Inspecciones extends CI_Model {
             $aux['tipr_id'] = $key['tipr_id'];
             $aux['unme_id'] = $key['unme_id'];
 
+            $batch_req['_post_documento_detalle_batch_req']['_post_documento_detalle'][] = $aux;
 
-            $post['_post_documento_detalle'] = $aux;
-            $this->rest->callApi('POST', $url, $post);
         }
+        //$post['_post_documento_detalle'] = $aux;
+        $rsp = $this->rest->callApi('POST', $url, $batch_req);
 
-        log_message('DEBUG', "#TRAZA | #SICPOA | Inspecciones | guardarDetallesDocumentos() ");
+        log_message('DEBUG', "#TRAZA | #SICPOA | Inspecciones | guardarDetallesDocumentos() ".json_encode($rsp));
     }
     /**
 	* Obtengo la informacion de la inspeccion cargada
@@ -369,6 +365,30 @@ class Inspecciones extends CI_Model {
         return $aux;
     }
     /**
+	* Edicion de documento
+	* @param array datos del documento a editar
+	* @return bool
+	*/
+    public function editarDocumento($data){
+        
+        $url = REST_SICP."/documento";
+
+            $aux['num_documento'] = $data['num_documento'];
+            $aux['fec_emision'] =  $data['fec_emision'];
+            $aux['usuario_app'] = userNick();
+            $aux['tido_id'] = $data['tido_id'];
+            $aux['imag_id'] = $data['imag_id'];
+            $aux['empr_id_emisor'] = $data['empr_id_emisor'];
+            $aux['empr_id_destino'] = $data['empr_id_destino'];
+
+            $post['_put_documento'] = $aux;
+            $rsp = $this->rest->callApi('PUT', $url, $post);
+        
+
+        log_message('DEBUG', "#TRAZA | #SICPOA | Inspecciones | editarDocumento() ".json_encode($rsp));
+        return $rsp;
+    }
+    /**
 	* Edicion del detalle de un documento
 	* @param array datos del documento
 	* @return bool
@@ -379,18 +399,61 @@ class Inspecciones extends CI_Model {
 
             $aux['cantidad'] = $detalle['cantidad'];
             $aux['precio_unitario'] =  $detalle['precio_unitario'];
-            $aux['unidades'] =  $detalle['unidades'];
             $aux['descuento'] =  $detalle['descuento'];
             $aux['usuario_app'] = userNick();
             $aux['tipr_id'] = $detalle['tipr_id'];
             $aux['unme_id'] = $detalle['unme_id'];
             $aux['dedo_id'] = $detalle['dedo_id'];
+            $aux['unidades'] =  $detalle['unidades'];
 
 
             $post['_put_documento_detalle'] = $aux;
-            $this->rest->callApi('POST', $url, $post);
+            $rsp = $this->rest->callApi('PUT', $url, $post);
         
 
         log_message('DEBUG', "#TRAZA | #SICPOA | Inspecciones | editarDetalleDocumento() ");
+        return $rsp;
+    }
+    /**
+	* Alta de documento
+	* @param array datos del documento
+	* @return bool
+	*/
+    public function agregarDetalleDocumento($data){
+        
+        $url = REST_SICP."/documento/detalle";
+
+        $aux['cantidad'] = $data['cantidad'];
+        $aux['precio_unitario'] =  $data['precio_unitario'];
+        $aux['unidades'] =  $data['unidades'];
+        $aux['descuento'] =  $data['descuento'];
+        $aux['usuario_app'] = userNick();
+        $aux['docu_id'] = $data['num_documento'];
+        $aux['tido_id'] = $data['tido_id'];
+        $aux['tipr_id'] = $data['tipr_id'];
+        $aux['unme_id'] = $data['unme_id'];
+
+
+        $post['_post_documento_detalle'] = $aux;
+        $rsp = $this->rest->callApi('POST', $url, $post);
+
+        log_message('DEBUG', "#TRAZA | #SICPOA | Inspecciones | agregarDetalleDocumento() >>".json_encode($rsp));
+        return $rsp;
+    }
+    /**
+	* Baja de un detalle de documento en una inspeccion
+	* @param array dedo_id
+	* @return bool true or false 
+	*/
+    public function eliminarDetalleDocumento($data){
+        
+        $post['_delete_documento_detalle'] = $data;
+        $url = REST_SICP."/documento/detalle";
+
+        $aux = $this->rest->callAPI("DELETE",$url,$post);
+
+        log_message('DEBUG', "#TRAZA | #SICPOA | Inspecciones | eliminarDocumento()  resp: >> " . json_encode($aux));
+
+        return $aux;
     }
 }

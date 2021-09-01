@@ -520,6 +520,8 @@ class Sicpoatareas extends CI_Model
                 case 'docx': $ext = 'data:application/vnd.openxmlformats-officedocument.wordprocessingml.document;base64,';break;
                 case 'txt': $ext = 'data:text/plain;base64,';break;
                 case 'csv': $ext = 'data:text/csv;base64,';break;
+                case 'gif': $ext = 'data:image/gif;base64,';break;
+                case 'jfif': $ext = 'data:image/gif;base64,';break;
                 default: $ext = "";
             }
         return $ext;
@@ -531,21 +533,14 @@ class Sicpoatareas extends CI_Model
 	*/
     public function getDepartamentos(){
         
-        $this->db->select('A.*');
-		$this->db->from('core.tablas A');
-		// $this->db->where('A.empr_id', empresa());
-        $this->db->where('eliminado', false);
-		$this->db->where('tabla', 'departamentos_sanjuan');
-		$this->db->order_by('valor');
+        $url = REST_CORE."/tabla/departamentos_sanjuan/empresa/";
 
+        $aux = $this->rest->callAPI("GET",$url);
+        $resp = json_decode($aux['data']);
 
-		$query = $this->db->get();
+        log_message('DEBUG', "#TRAZA | #SICPOA | Inspecciones | getDepartamentos()  resp: >> " . json_encode($resp));
 
-		if ($query && $query->num_rows() > 0) {
-			return $query->result();
-		} else {
-			return array();
-		}
+        return $resp->tablas->tabla;
 		
     }
     /**
@@ -646,7 +641,6 @@ class Sicpoatareas extends CI_Model
                     
                     $documentacion[$key]['inst_id'] = $dato->inst_id;
                     $documentacion[$key]['imagen'] = $ext.$rec;
-                    // array_push($documentacion, $ext.$rec);
                 }
             }
         }
