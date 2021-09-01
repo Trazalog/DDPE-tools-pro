@@ -91,8 +91,8 @@
           <?php foreach ($imgsDocumentacion as $key => $value) {
               $inst_id = array('inst_id' => $value['inst_id']);
               echo "<div class='iconoBorde'>";
-              echo "<img class='thumbnail fotos documentacion  ". (in_array($value['inst_id'],$imag_ids) ? "selected used" : null) ."' height='51' width='45' data-json='".json_encode($inst_id)."' src='".$value['imagen']."' alt='' onclick='preview(this)'>";
-              echo (in_array($value['inst_id'],$imag_ids) ? "<span class='delete'></span>" : null);
+              echo "<img class='thumbnail fotos documentacion ". (in_array($value['inst_id'],$imag_ids) ? "selected used" : null) ."' height='51' width='45' data-json='".json_encode($inst_id)."' src='".$value['imagen']."' alt='' onclick='preview(this)'>";
+              echo "<span style='display:none' id='".$value['inst_id']."' class='delete iconoDocs'></span>";
               echo "</div>";
           } ?>
         </div>

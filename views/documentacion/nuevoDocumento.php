@@ -183,7 +183,7 @@
                     <!-- ______ TABLA PRODUCTOS ______ -->
                     <table id="tabla_productos" class="table table-bordered table-striped">
                         <thead class="thead-dark" bgcolor="#eeeeee">
-                            <th style="width: 10%">Acciones</th>
+                            <th style="width: 10% !important">Acciones</th>
                             <th>Producto</th>
                             <th>Medida</th>
                             <th>Cantidad</th>
@@ -308,9 +308,16 @@ function agregarProducto(){
    var reporte = validarCampos();
                                 
     if(reporte == ''){
+        //Pantalla cargando
+        wo();
+
+        //Tomo los datos
         form = $('#formDocumentacion')[0];
         datos = new FormData(form);
         data = formToObject(datos);
+        //Si la operacion es agregar en la edicion, el service responde con el dedo_id
+        //se lo agrego al json que se asigna al data-json en la tabla
+        dedo_id = "";
 
         //Armo JSON para la fila
         producto = $('#producto').find(':selected').text();
@@ -343,49 +350,113 @@ function agregarProducto(){
                 '<td>' + precio_total + '</td>' +
             '</tr>';
 
-        //Si la accion es editar, puedo editar directamente el detalle del documento
+        //Si la accion es editar y posee dedo_id, puedo editar directamente el detalle del documento
+        //Si no posee dedo_id y es accion editar, agrego el detalle del documento
+        //Remuevo los simbolos agregados por el INPUTMASK
+        //DESCUENTO
+        descuento = data.descuento.split(" ");
+        descuento = descuento[0] / 100 ;
+
+        //PRECIO UNITARIO
+        precio_unitario = data.precio_unitario.split(" ");
+        precio_unitario = precio_unitario[1];
+
+        data.precio_unitario = precio_unitario;
+        data.descuento = descuento;
+
         if(accion == "editar"){
 
-            descuento = data.descuento.split(" ");
-            descuento = descuento[0] / 100 ;
+            if(data.dedo_id != ""){
+                $.ajax({
+                    type: 'POST',
+                    data: {data},
+                    dataType: "json",
+                    url: "<?php echo SICP; ?>inspeccion/editarDetalleDocumento",
+                    success: function(resp) {
 
-            precio_unitario = data.precio_unitario.split(" ");
-            precio_unitario = precio_unitario[1];
+                        if(resp.status){
+                            //Agrego la fila a la tabla
+                            tabla.row.add($(fila)).draw();
 
-            data.precio_unitario = precio_unitario;
-            data.descuento = descuento;
-
-            $.ajax({
-                type: 'POST',
-                data: {data},
-                dataType: "json",
-                url: "<?php echo SICP; ?>inspeccion/editarDetalleDocumento",
-                success: function(resp) {
-
-                    if(resp.status){
-                        alertify.success("Se edito el detalle correctamente");
-                    }else{
+                            //Limpio los inputs y combos
+                            $('#producto').val(null).trigger('change');
+                            $('#medidas').val(null).trigger('change');
+                            $('#cantidad').val('');
+                            $('#unidades').val('');
+                            $('#precio_unitario').val('');
+                            $('#descuento').val('');
+                            alertify.success("Se editó el detalle correctamente");
+                        }else{
+                            alertify.error("Error al agregar detalle");
+                        }
+                        //Cierro pantalla carga
+                        wc();
+                    },
+                    error: function(data) {
+                        //Cierro pantalla carga
+                        wc();
                         alertify.error("Error al agregar detalle");
                     }
-                
-                },
-                error: function(data) {
-                    alertify.error("Error al agregar detalle");
-                }
-            });
+                });
+
+            }else{
+
+                $.ajax({
+                    type: 'POST',
+                    data: {data},
+                    dataType: "json",
+                    url: "<?php echo SICP; ?>inspeccion/agregarDetalleDocumento",
+                    success: function(resp) {
+
+                        if(resp.status){
+
+                            jsonDataResp = JSON.parse(resp.data);
+                            data.dedo_id = jsonDataResp.respuesta.dedo_id;
+
+                            //Agrego la fila a la tabla
+                            tabla.row.add($(fila)).draw();
+
+                            //Limpio los inputs y combos
+                            $('#producto').val(null).trigger('change');
+                            $('#medidas').val(null).trigger('change');
+                            $('#cantidad').val('');
+                            $('#unidades').val('');
+                            $('#precio_unitario').val('');
+                            $('#descuento').val('');
+
+                            alertify.success("Se editó el detalle correctamente");
+                        }else{
+                            alertify.error("Error al agregar detalle");
+                        }
+
+                        //Cierro pantalla carga
+                        wc();
+                    },
+                    error: function(data) {
+                        //Cierro pantalla carga
+                        wc();
+                        alertify.error("Error al agregar detalle");
+                    }
+                });
+            }
+        }else{
+
+            //Agrego la fila a la tabla
+            tabla.row.add($(fila)).draw();
+
+            //Limpio los inputs y combos
+            $('#producto').val(null).trigger('change');
+            $('#medidas').val(null).trigger('change');
+            $('#cantidad').val('');
+            $('#unidades').val('');
+            $('#precio_unitario').val('');
+            $('#descuento').val('');
+
+            //Cierro pantalla carga
+            wc();
+            alertify.success(`Se agrego ${producto} correctamente!`);
         }
 
-        tabla.row.add($(fila)).draw();
-
-        //Limpio los inputs y combos
-        $('#producto').val(null).trigger('change');
-        $('#medidas').val(null).trigger('change');
-        $('#cantidad').val('');
-        $('#unidades').val('');
-        $('#precio_unitario').val('');
-        $('#descuento').val('');
-        
-        alertify.success(`Se agrego ${producto} correctamente!`);
     }else{
         Swal.fire(
             'Error..',
@@ -433,9 +504,41 @@ function validarCampos(){
 //Eliminar registro tabla intermedia
 //
 $(document).on('click','.btnEliminar', function () {
+
     tabla = $('#tabla_productos').DataTable();
-    tabla.row( $(this).parents('tr') ).remove().draw(); 
-    alertify.success("Registro eliminado con exito!");
+
+    if(accion == "editar"){
+        
+        datos = JSON.parse($(this).parents('tr').attr('data-json'));
+        filaEliminar = this;
+        dedo_id = {"dedo_id" : datos.dedo_id};
+        
+        $.ajax({
+                type: 'POST',
+                data: {dedo_id},
+                dataType: "json",
+                url: "<?php echo SICP; ?>inspeccion/eliminarDetalleDocumento",
+                success: function(resp) {
+
+                    if(resp.status){
+
+                        tabla.row( $(filaEliminar).parents('tr') ).remove().draw(); 
+                        alertify.success("Registro eliminado correctamente!");
+
+                    }else{
+                        alertify.error("Error al eliminar detalle");
+                    }
+                
+                },
+                error: function(data) {
+                    alertify.error("Error al eliminar detalle");
+                }
+            });
+    }else{
+
+        tabla.row( $(this).parents('tr') ).remove().draw(); 
+        alertify.success("Registro eliminado correctamente!");
+    }
 });
 //
 //Editar registro tabla intermedia
@@ -462,11 +565,11 @@ $(document).on('click','.btnEditar', function () {
     $('#medidas').val(data.unme_id).trigger('change');
 
     //Los nombres de los atributos del objeto son diferentes en la accion agregar y editar
-    if(accion == "editar"){//TODO
+    if(accion == "editar"){
         //Selecciono producto
         $('#producto').val(data.tipo_producto_id).trigger('change');
         //Selecciono Unidad de medida
-        $('#medidas').val(data.unme_id).trigger('change');
+        $('#medidas').val(data.unidad_medida_id).trigger('change');
     }
 
     //elimino la row
@@ -501,6 +604,7 @@ function cerrarDetalle(){
     $('#medidas').val(null).trigger('change');
     $('#tipo_documento').val(null).trigger('change');
     $('.fotos').removeClass("selected");
+    $('.iconoDocs').hide();//oculta el icono de seleccionada
 
     //Actualizo la tabla de la vista principal
     actualizaTablaDocumentos();
@@ -547,10 +651,19 @@ function guardarDetalle(){
     if(accion == "nuevo"){
         agregarDocumento().then((result) => {
 
-            alertify.success(`Se cargo la documentacion correctamente!`);
+            alertify.success(result);
             cerrarDetalle();
 
         }).catch((err) => {
+            console.log(err);
+        });
+    }else{
+        editarDocumento().then((result) => {
+            alertify.success(result);
+            cerrarDetalle();
+
+        }).catch((err) => {
+            alertify.error(result);
             console.log(err);
         });
     }
@@ -578,7 +691,7 @@ async function agregarDocumento () {
             processData: false,
             url: "<?php echo SICP; ?>inspeccion/agregarDocumento",
             success: function(data) { 
-                console.log("Se agrego el documento correctamente");
+                
                 rsp = JSON.parse(data);
                 //Si es correcto, guardo los detalles de los documentos
                 if(rsp.status){
@@ -633,5 +746,44 @@ async function agregarDocumento () {
     });
 
     return await documento;
+}
+// Editar la documentacion cargada
+async function editarDocumento () {
+
+    tabla = $('#tabla_productos').DataTable();
+
+    //tomo el formulario
+    datos = new FormData($('#formDocumentacion')[0]);
+    datos.append('case_id', $("#caseId").val());
+
+    let docEdit = new Promise( function(resolve,reject){
+        
+        $.ajax({
+            type: 'POST',
+            data: datos,
+            cache: false,
+            contentType: false,
+            processData: false,
+            url: "<?php echo SICP; ?>inspeccion/editarDocumento",
+            success: function(data) { 
+                
+                rsp = JSON.parse(data);
+
+                if(rsp.status){
+    
+                    resolve("Se editó el documento correctamente");
+                        
+                }else{
+                    reject("Error al agregar el documento");
+                }
+                
+            },
+            error: function(data) {
+                reject("Error al agregar el documento");
+            }
+        });
+    });
+
+    return await docEdit;
 }
 </script>

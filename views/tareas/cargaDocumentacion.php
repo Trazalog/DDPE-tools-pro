@@ -1,4 +1,4 @@
-<?php $this->load->view(SICP."inspeccion/modales.php"); ?>
+<?php $this->load->view(SICP."documentacion/modalDocumentos.php"); ?>
 <?php $this->load->view(SICP."documentacion/nuevoDocumento.php"); ?>
 <div id="tablaDocumentosBox">
     <div class="row">
@@ -36,7 +36,7 @@
                                 echo '<td>'.$docu->tipo_documento.'</td>';
                                 echo '<td>'.$fec_emision.'</td>';
                                 echo '<td>'.$docu->monto.'</td>';
-                                echo '<td>'.'</td>';
+                                echo '<td><button type="button" title="Info" class="btn btn-primary btn-circle modalDocs" data-toggle="modal" data-target="#mdl-documentos"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></button></td>';
                                 echo '</tr>';
                             }
                         }
@@ -53,6 +53,10 @@ DataTable($('#tabla_documentos'));
 //Determina la accion en la pantalla de carga
 var accion = '';
 
+$(document).ready(function () {
+    imag_ids = <?php echo json_encode($imag_ids); ?>;
+    
+});
 
 function actualizaTablaDocumentos(){
     wo();
@@ -88,6 +92,7 @@ function actualizaTablaDocumentos(){
                     }else{
                         monto = value.monto;
                     }
+
                     fila = "<tr data-json= '"+ JSON.stringify(value) +"'>" +
                             '<td><button  type="button" title="Editar"  class="btn btn-primary btn-circle btnEditarDocu"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>&nbsp<button type="button" title="Eliminar" class="btn btn-primary btn-circle btnEliminarDocu"><span class="glyphicon glyphicon-trash" aria-hidden="true" ></span></button>&nbsp' +
                             '<td>' + value.num_documento + '</td>' +
@@ -96,7 +101,7 @@ function actualizaTablaDocumentos(){
                             '<td>' + value.tipo_documento + '</td>' +
                             '<td>' + fec_emision + '</td>' +
                             '<td>' + monto + '</td>' +
-                            '<td>' + '</td>' +
+                            '<td><button type="button" title="Info" class="btn btn-primary btn-circle modalDocs" data-toggle="modal" data-target="#mdl-documentos"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></button></td>' +
                         '</tr>';
                     tabla.row.add($(fila)).draw();
                 });
@@ -142,6 +147,11 @@ $(document).on('click','.btnEditarDocu', function () {
     //Asigno los valores a los inputs y combos
     $('#numero').val(datos.num_documento);
     $('#tipo_documento').val(datos.tido_id).trigger('change');
+    $('#imag_id').val(datos.imag_id);
+
+    //Muestro el incono de imagen seleccionada
+    //en el mosaico de documentos en la vista de agregar/editar
+    $('#'+datos.imag_id).show();
 
     //Selecciono opciones guardadas en los combo's
     //EMPRESA ORIGEN
@@ -200,7 +210,7 @@ $(document).on('click','.btnEditarDocu', function () {
                     '<td>' + value.cantidad + '</td>' +
                     '<td>' + value.unidades + '</td>' +
                     '<td>$ ' + value.precio_unitario + '</td>' +
-                    '<td>% ' + value.descuento + '</td>' +
+                    '<td>' + value.descuento + ' %</td>' +
                     '<td>' + precio_total + '</td>' +
                 '</tr>';
             tabla.row.add($(fila)).draw();
@@ -212,7 +222,7 @@ $(document).on('click','.btnEditarDocu', function () {
     //Reemplazo los botones standard de la notificacion
     $(".btn-success.btnNotifEstandar").text("Editar");
     $(".btn-primary.btnNotifEstandar").text("Volver");
-    $(".btn-success.btnNotifEstandar").attr("onclick","editarDetalle()");
+    $(".btn-success.btnNotifEstandar").attr("onclick","guardarDetalle()");
     $(".btn-primary.btnNotifEstandar").attr("onclick","cerrarDetalle()");
 });
 //

@@ -116,7 +116,7 @@ class Ingreso_barrera extends CI_Controller
                 echo json_encode($rsp);
 
             } else {
-                log_message('DEBUG', '#TRAZA | #SICPOA | Ingreso_barrera | >> guardarPedidoTrabajo   >> lanzar_bpm viene false');
+                log_message('ERROR', '#TRAZA | #SICPOA | Ingreso_barrera | >> guardarPedidoTrabajo   >> lanzar_bpm viene false');
             }
 
         } elseif ($status == false) {
@@ -129,7 +129,7 @@ class Ingreso_barrera extends CI_Controller
 
         } else {
 
-            log_message('DEBUG', '#TRAZA | #SICPOA | Ingreso_barrera | >> guardarPedidoTrabajo  >> ERROR TREMENDO');
+            log_message('ERROR', '#TRAZA | #SICPOA | Ingreso_barrera | >> guardarPedidoTrabajo  >> ERROR TREMENDO');
 
             $this->eliminarPedidoTrabajo($petr_id);
 

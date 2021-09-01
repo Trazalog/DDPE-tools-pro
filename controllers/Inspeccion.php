@@ -6,11 +6,14 @@ class Inspeccion extends CI_Controller
     {
         parent::__construct();
         $this->load->model('Inspecciones');
-    }
-
-    public function index()
-    {
-      $this->load->view('test');
+		
+		// si esta vencida la sesion redirige al login
+		$data = $this->session->userdata();
+		// log_message('DEBUG','#Main/login | '.json_encode($data));
+		if(!$data['email']){
+			log_message('DEBUG','#TRAZA|DASH|CONSTRUCT|ERROR  >> Sesion Expirada!!!');
+			redirect(DNATO.'main/login');
+		}
     }
 
 	/**
@@ -19,21 +22,18 @@ class Inspeccion extends CI_Controller
 	* @return bool
 	*/
     public function ingresoBarrera(){
+
+		log_message('INFO', "#TRAZA | #SICPOA | Inspeccion | ingresoBarrera()");
         $this->load->view('barrera/barrera');
     }
-
-    /* COMPONENTE INSPECCION */
-    public function inspecciones(){
-
-        $this->load->view('inspeccion/inspeccion',$data);
-    }
-    /* FIN COMPONENTE INSPECCION */
     /**
 	* Guarda Chofer
 	* @param array datos chofer
-	* @return bool true o false segun resultado de servicio de guardadobuscarChoferes
+	* @return bool true o false segun resultado de servicio de guardado
 	*/
     public function agregarChofer(){
+
+		log_message('INFO', "#TRAZA | #SICPOA | Inspeccion | agregarChofer()");
 
         $data = $this->input->post('data');
         $data['usuario_app'] = userNick();
@@ -52,6 +52,7 @@ class Inspeccion extends CI_Controller
 	* @return array listado de choferes coincidentes con el criterio de busqueda
 	*/
     public function buscaChoferes(){
+		log_message('INFO', "#TRAZA | #SICPOA | Inspeccion | buscaChoferes()");
 
         $dato = $this->input->get('patron');
         
@@ -69,6 +70,7 @@ class Inspeccion extends CI_Controller
 	* @return bool true o false segun resultado de servicio de guardado
 	*/
     public function agregarEmpresa(){
+		log_message('INFO', "#TRAZA | #SICPOA | Inspeccion | agregarEmpresa()");
 
         $data = $this->input->post('data');
         $data['usuario_app'] = userNick();
@@ -87,6 +89,7 @@ class Inspeccion extends CI_Controller
 	* @return array listado de empresas coincidentes con patron
 	*/
     public function buscaEmpresas(){
+		log_message('INFO', "#TRAZA | #SICPOA | Inspeccion | buscaEmpresas()");
 
         $dato = $this->input->get('patron');
         
@@ -104,6 +107,7 @@ class Inspeccion extends CI_Controller
 	* @return bool true o false segun resultado de servicio de guardado
 	*/
     public function agregarDeposito(){
+		log_message('INFO', "#TRAZA | #SICPOA | Inspeccion | agregarDeposito()");
 
         $data = $this->input->post('data');
         
@@ -121,6 +125,7 @@ class Inspeccion extends CI_Controller
 	* @return array listado de depositos coincidentes con id
 	*/
     public function getDepositos(){
+		log_message('INFO', "#TRAZA | #SICPOA | Inspeccion | getDepositos()");
 
         $dato = $this->input->post('destino');
         
@@ -138,6 +143,7 @@ class Inspeccion extends CI_Controller
 	* @return array informacion cargada para un inspeccion
 	*/
     public function getInspeccion(){
+		log_message('INFO', "#TRAZA | #SICPOA | Inspeccion | getInspeccion()");
 
         $caseId = $this->input->post('caseId');
         
@@ -155,6 +161,7 @@ class Inspeccion extends CI_Controller
 	* @return bool true o false segun resultado de servicio de guardado
 	*/
     public function agregarInspeccion(){
+		log_message('INFO', "#TRAZA | #SICPOA | Inspeccion | agregarInspeccion()");
 		
         $data['case_id'] = $this->input->post('case_id');
 		$data['patente_tractor'] =  !empty($this->input->post('patente_tractor'))? $this->input->post('patente_tractor') : "";
@@ -190,6 +197,7 @@ class Inspeccion extends CI_Controller
 	* @return bool true o false segun resultado de servicio de guardado
 	*/
     public function guardarDatosInspeccion(){
+		log_message('INFO', "#TRAZA | #SICPOA | Inspeccion | guardarDatosInspeccion()");
 		
 		$permisos = $this->input->post('permisos');
         $empresas = $this->input->post('empresas');
@@ -246,6 +254,7 @@ class Inspeccion extends CI_Controller
 	* @return bool true o false segun resultado de servicio de borrado
 	*/
     public function eliminarPermiso(){
+		log_message('INFO', "#TRAZA | #SICPOA | Inspeccion | eliminarPermiso()");
 
         $data = $this->input->post('data');
         
@@ -264,6 +273,7 @@ class Inspeccion extends CI_Controller
 	* @return bool true o false segun resultado de servicio de borrado
 	*/
     public function eliminarEmpresa(){
+		log_message('INFO', "#TRAZA | #SICPOA | Inspeccion | eliminarEmpresa()");
 
         $data = $this->input->post('data');
         
@@ -282,6 +292,7 @@ class Inspeccion extends CI_Controller
 	* @return bool true o false segun resultado de servicio de borrado
 	*/
     public function eliminarTermico(){
+		log_message('INFO', "#TRAZA | #SICPOA | Inspeccion | eliminarTermico()");
 
         $data = $this->input->post('data');
         
@@ -299,6 +310,7 @@ class Inspeccion extends CI_Controller
 	* @return bool true o false segun resultado de servicio de borrado
 	*/
     public function limpiarDataPreCargada(){
+		log_message('INFO', "#TRAZA | #SICPOA | Inspeccion | limpiarDataPreCargada()");
 		
 		$caseId = $this->input->post('caseId');
 
@@ -331,6 +343,7 @@ class Inspeccion extends CI_Controller
 	* @return bool true o false segun resultado de servicio de guardado
 	*/
     public function agregarDocumento(){
+		log_message('INFO', "#TRAZA | #SICPOA | Inspeccion | agregarDocumento()");
 		
 		$data['fec_emision'] = date('Y-m-d');
 		$data['num_documento'] =  !empty($this->input->post('num_documento'))? $this->input->post('num_documento') : "";
@@ -355,6 +368,7 @@ class Inspeccion extends CI_Controller
 	* @return bool true o false segun resultado de servicio de guardado
 	*/
     public function guardarDetallesDocumentos(){
+		log_message('INFO', "#TRAZA | #SICPOA | Inspeccion | guardarDetallesDocumentos()");
 		$detalles = $this->input->post('detalles');
 
 		$resp = $this->Inspecciones->guardarDetallesDocumentos($detalles);
@@ -371,6 +385,7 @@ class Inspeccion extends CI_Controller
 	* @return bool true o false segun resultado de servicio de borrado
 	*/
     public function eliminarDocumento(){
+		log_message('INFO', "#TRAZA | #SICPOA | Inspeccion | eliminarDocumento()");
 		
 		$documento = $this->input->post('documento');
 
@@ -388,6 +403,7 @@ class Inspeccion extends CI_Controller
 	* @return bool true o false segun resultado de servicio
 	*/
     public function editarDetalleDocumento(){
+		log_message('INFO', "#TRAZA | #SICPOA | Inspeccion | editarDetalleDocumento()");
 		$detalle = $this->input->post('data');
 
 		$resp = $this->Inspecciones->editarDetalleDocumento($detalle);
@@ -404,11 +420,53 @@ class Inspeccion extends CI_Controller
 	* @return bool true o false segun resultado de servicio de borrado
 	*/
     public function eliminarDetalleDocumento(){
+		log_message('INFO', "#TRAZA | #SICPOA | Inspeccion | eliminarDetalleDocumento()");
 		
 		$dedo_id = $this->input->post('dedo_id');
 
 		$resp = $this->Inspecciones->eliminarDetalleDocumento($dedo_id);
         
+		if ($resp['status']) {
+			echo json_encode($resp);
+		} else {
+			echo json_encode($resp);
+		}
+    }
+	/**
+	* Alta del detalle para un documento
+	* @param array con datos para agregar al documento
+	* @return bool true o false segun resultado de servicio
+	*/
+    public function agregarDetalleDocumento(){
+		log_message('INFO', "#TRAZA | #SICPOA | Inspeccion | agregarDetalleDocumento()");
+		$detalle = $this->input->post('data');
+
+		$resp = $this->Inspecciones->agregarDetalleDocumento($detalle);
+
+		if ($resp['status']) {
+			echo json_encode($resp);
+		} else {
+			echo json_encode($resp);
+		}
+    }
+	/**
+	* Edicion del detalle para un documento
+	* @param array datos a editar del detalle de un documento
+	* @return bool true o false segun resultado de servicio
+	*/
+    public function editarDocumento(){
+		log_message('INFO', "#TRAZA | #SICPOA | Inspeccion | editarDocumento()");
+
+		$data['fec_emision'] = date('Y-m-d');
+		$data['num_documento'] =  !empty($this->input->post('num_documento'))? $this->input->post('num_documento') : "";
+        $data['usuario_app'] = userNick();
+		$data['tido_id'] =  !empty($this->input->post('tido_id'))? $this->input->post('tido_id') : "";
+		$data['imag_id'] =  !empty($this->input->post('imag_id'))? $this->input->post('imag_id') : "";
+		$data['empr_id_emisor'] =  !empty($this->input->post('empr_id_emisor'))? $this->input->post('empr_id_emisor') : "";
+		$data['empr_id_destino'] =  !empty($this->input->post('empr_id_destino'))? $this->input->post('empr_id_destino') : "";
+
+		$resp = $this->Inspecciones->editarDocumento($data);
+
 		if ($resp['status']) {
 			echo json_encode($resp);
 		} else {
