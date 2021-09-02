@@ -192,6 +192,70 @@
     </div>
 </div>
 <!-- FIN MODAL Acta infraccion en calle -->
+<!-- Modal ZOOM PREVIEW -->
+<div class="modal modal-fade" id="mdl-zoomPreview">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Vista Previa</h4>
+            </div>
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div id="zoomPreviewContainer" style="text-align:center">
+
+                                <img src="lib\imageForms\preview.png" height="368" id="zoomPreview">
+                            </div>
+                        </div>
+                        <div class="col-md-12" style="text-align:center; margin-top: 10px">
+                            <button type="button" onclick="acercar()" title="Acercar">
+                                <i class="fa fa-plus"></i>
+                            </button>
+                            
+                            <button type="button" onclick="alejar()" title="Alejar">
+                                <i class="fa fa-minus"></i>
+                            </button>
+
+                        </div>    
+
+                        </div>
+                    </div>
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn" data-dismiss="modal">Cerrar</button>
+                </div>
+        </div>
+    </div>
+</div>
+<!-- FIN MODAL ZOOM PREVIEW -->
+<script>
+    //SCRIPTS MODAL ZOOM VISTA PREVIA
+    //Scripts para hacer zoom en la imagen seleccionada
+    function acercar() {
+        var zoomPreview = document.getElementById("zoomPreview");
+        var container = document.getElementById("zoomPreviewContainer");
+
+        //Chequeamos que no exceda el ancho del contenedor
+        if(container.clientWidth > (zoomPreview.clientWidth + 80)){
+
+            zoomPreview.style.height = (zoomPreview.clientHeight + 40) + "px";
+        }
+    }
+    function alejar() {
+        var zoomPreview = document.getElementById("zoomPreview");
+        var currHeight = zoomPreview.clientHeight;
+        
+        zoomPreview.style.height = (currHeight - 40) + "px";
+    }
+    //RESETEO A ALTURA ESTANDAR
+    $('#mdl-zoomPreview').on('hidden.bs.modal', function (e) {
+        $("#zoomPreview").height(368);
+    });
+</script>
+<!-- FIN MODAL ZOOM PREVIEW -->
 
 <script>
 //Script para altas rapidas de todos los modales

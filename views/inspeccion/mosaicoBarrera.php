@@ -19,26 +19,7 @@
 
  /* The expanding image container (positioning is needed to position the close button and the text) */ 
 .contenedor {
-  display: block;
-}
-
- /* Expanding image text */ 
-#imgtext {
-  position: absolute;
-  bottom: 15px;
-  left: 15px;
-  color: white;
-  font-size: 20px;
-}
-
- /* Closable button inside the image */ 
-.closebtn {
-  position: absolute;
-  left: 2%;
-  color: white;
-  font-size: 35px;
-  display: flex;
-  cursor: pointer;
+  display: inline-flex;
 }
 /* THUMBNAIL */
 .selected{
@@ -75,15 +56,16 @@
 function preview(imgs) {
   //La marco porque fue seleccionada
   $(imgs).toggleClass("selected");
+  
+  //Reseteo los valores del ancho del modal
+
   // Tomo el elemento para la vista previa
   var expandImg = document.getElementById("expandedImg");
-  // En caso de tener texto
-  // var imgText = document.getElementById("imgtext");
-  // Le asigno la misma src al elemento de la vista previa
+
+  //Tomo el elemento del modal
+  var zoomImg = document.getElementById("zoomPreview");
+  // Le asigno la misma src al elemento de la vista previa y al zoom
   expandImg.src = imgs.src;
-  //Uso el valor del atributo alt de la imagen
-  // imgText.innerHTML = imgs.alt;
-  // (Se puede ocultar con CSS, cambiar .contenedor{display:none})
-  // expandImg.parentElement.style.display = "block";
+  zoomImg.src = imgs.src;//VISTA PREVIA ZOOM MODAL
 }
 </script>

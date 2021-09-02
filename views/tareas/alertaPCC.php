@@ -29,6 +29,9 @@
 .frm-save{
     display: none;
 }
+.btnZoom {
+  height: 40px;
+}
 </style>
 <!--_______ FORMULARIO PERMISO DE TRANSITO BOX 1______-->
 <form class="formAlertaPCC" id="formAlertaPCC">
