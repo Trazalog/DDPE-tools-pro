@@ -25,6 +25,9 @@
 .ocultar .has-feedback .form-control-feedback{
     display: none !important;
 }
+.btnZoom {
+  height: 40px;
+}
 </style>
 <!--_______ FORMULARIO PERMISO DE TRANSITO BOX 1______-->
 <form class="formPreCarga" id="formPreCarga">
@@ -103,14 +106,11 @@
                 <!-- The expanding image container -->
                 <div class="col-sm-12 col-md-12 col-xl-12">
                     <div class="contenedor">
-                    <!-- Boton para ocultar imagen -->
-                    <!-- <span onclick="this.parentElement.style.display='none'" class="closebtn">&times;</span> -->
+                        <!-- Expanded image -->
+                        <img src="lib\imageForms\preview.png" id="expandedImg" style="">
 
-                    <!-- Expanded image -->
-                    <img src="lib\imageForms\preview.png" id="expandedImg" style="">
-
-                    <!-- Image text -->
-                    <!-- <div id="imgtext"></div> -->
+                        <!-- Zoom Modal Button -->
+                        <button type="button" class="btn btn-outline-dark btnZoom" data-toggle="modal" data-target="#mdl-zoomPreview" title="Zoom"><i class="fa fa-search"></i></button>
                     </div>
                 </div>
             <!--</div> FIN box-body -->

@@ -43,7 +43,7 @@
   clear: both;
 }
 .contenedor {
-  display: block;
+  display: inline-flex;
 }
 #imgtext {
   position: absolute;
@@ -76,6 +76,9 @@
   max-width: 60%;
 }
 /* FIN ESTILOS VISTA PREVIA */
+.btnZoom {
+  height: 40px;
+}
 #add_docu{
     display: none;
 }

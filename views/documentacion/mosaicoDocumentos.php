@@ -19,7 +19,7 @@
 
  /* The expanding image container (positioning is needed to position the close button and the text) */ 
 .contenedor {
-  display: block;
+  display: inline-flex;
 }
 
  /* Expanding image text */ 
@@ -78,6 +78,9 @@
   color: #05b513;
   font-weight: 900;
 }
+.btnZoom {
+  height: 40px;
+}
 </style>
 <!-- FIN CSS -->
 <div class="row">
@@ -101,10 +104,11 @@
 <hr>
 <div class="col-sm-12 col-md-12 col-xl-12">
     <div class="contenedor">
-
-    <!-- Visor imagen expandido -->
-    <img src="lib\imageForms\preview.png" id="expandedImg" style="">
-
+      <!-- Visor imagen expandido -->
+      <img src="lib\imageForms\preview.png" id="expandedImg" style="">
+      
+      <!-- Zoom Modal Button -->
+      <button type="button" class="btn btn-outline-dark btnZoom" data-toggle="modal" data-target="#mdl-zoomPreview" title="Zoom"><i class="fa fa-search"></i></button>
     </div>
 </div>
 <!--________________-->
@@ -121,9 +125,13 @@ function preview(imgs) {
       // Tomo el elemento para la vista previa
       var expandImg = document.getElementById("expandedImg");
 
-      // Le asigno la misma src al elemento de la vista previa
-      expandImg.src = imgs.src;
+      //Tomo el elemento del modal
+      var zoomImg = document.getElementById("zoomPreview");
       
+      // Le asigno la misma src al elemento de la vista previa y al zoom
+      expandImg.src = imgs.src;
+      zoomImg.src = imgs.src;//VISTA PREVIA ZOOM MODAL
+
       //Asigno el inst_id de la imagen seleccionada
       data = JSON.parse($(".fotos .selected").attr('data-json'));
       $("#imag_id").val(data.inst_id);
