@@ -54,7 +54,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group has-feedback">
                         <label for="numero">Número(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input class="form-control limitedChars" name="num_documento" id="numero" placeholder="Ingrese numero" data-bv-notempty data-bv-notempty-message="Campo Obligatorio *"/>
+                        <input class="form-control" name="num_documento" id="numero" placeholder="Ingrese numero" data-bv-notempty data-bv-notempty-message="Campo Obligatorio *"/>
                     </div>
                 </div>
                 <!--________________-->
