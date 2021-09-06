@@ -1,6 +1,6 @@
 <!-- Modal Documentos cargados en fotos -->
 <div class="modal modal-fade" id="mdl-documentos">
-    <div class="modal-dialog modal-xl">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <!-- Modal Header -->
             <div class="modal-header">
@@ -22,7 +22,7 @@
                         </div>
                     </div>
                     <hr>
-                    <div class="col-sm-12 col-md-12 col-xl-12">
+                    <div class="col-sm-12 col-md-12 col-xl-12" style="text-align:center">
                         <div class="contenedor">
 
                             <!-- Visor imagen expandido -->

@@ -265,4 +265,37 @@ $(document).on('click','.btnEliminarDocu', function () {
 });
 //
 //FIN SCRIPTS MANIPULACION TABLA
+//SCRIPT CIERRE TAREA
+function cerrarTarea() {
+
+    var dataForm = new FormData();
+
+    var id = $('#taskId').val();
+    
+    $.ajax({
+        type: 'POST',
+        data: dataForm,
+        cache: false,
+        contentType: false,
+        processData: false,
+        url: '<?php base_url() ?>index.php/<?php echo BPM ?>Proceso/cerrarTarea/' + id,
+        success: function(data) {
+            //wc();
+            //back();
+            linkTo('<?php echo BPM ?>Proceso/');
+            setTimeout(() => {
+            Swal.fire(
+                
+                    'Perfecto!',
+                    'Se finalizó la tarea correctamente!',
+                    'success'
+                )
+          }, 13000);
+
+        },
+        error: function(data) {
+            alert("Error al finalizar tarea");
+        }
+    });
+}
 </script>

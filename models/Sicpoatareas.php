@@ -289,7 +289,46 @@ class Sicpoatareas extends CI_Model
                 }
 
                 return $this->load->view(SICP . 'tareas/cargaDocumentacion', $data, true);
-                // return $this->load->view(SICP . 'documentacion/nuevoDocumento', $data, true);
+
+                log_message('DEBUG', "#TRAZA | #SICPOA | Sicpoatareas | desplegarVista()  tarea->nombreTarea: >> " . $tarea->nombreTarea);
+              
+            break;
+
+            //paso 6
+            case 'Notificar Infracción en PCC':
+
+                $tareaData = $this->getXCaseId($tarea);
+
+                $data['imgsDocumentacion'] = $this->getImgsDocumentacion($tareaData->info_id);
+                $data['petr_id'] = $tareaData->petr_id;
+                $data['facturas'] = $this->getTiposFacturas();
+                $data['productos'] = $this->getProductos();
+                $data['un_medidas'] = $this->getMedidas();
+                $data['inspeccion'] = $this->getPreCargaDatos($tareaData->case_id);
+                
+                $empresas = $data['inspeccion']->empresas->empresa;
+
+                //Separo las empresas por su rol
+                if(!empty($empresas)){
+                    foreach($empresas as $key => $value){
+                        
+                        if($value->rol == "DESTINO"){
+                            $data['destinos'][$key] = $value;
+
+                        }elseif ($value->rol == "ORIGEN") {
+                            $data['origen'] = $value;
+
+                        }elseif($value->rol == "TRANSPORTISTA"){
+                            $data['transportista'] = $value;
+
+                        }
+                    }
+                    $data['preDataCargada'] = true;
+                }else{
+                    $data['preDataCargada'] = false;
+                }
+
+                return $this->load->view(SICP . 'tareas/cargaDocumentacion', $data, true);
 
                 log_message('DEBUG', "#TRAZA | #SICPOA | Sicpoatareas | desplegarVista()  tarea->nombreTarea: >> " . $tarea->nombreTarea);
               
@@ -381,7 +420,7 @@ class Sicpoatareas extends CI_Model
                 
                 $rsp = $this->guardarForms($data);
 
-                if($form['doc_impositiva'] == 'Parcial'){
+                if($form['doc_impositiva'] == 'Total'){
                     $contrato["erroresDocumentacion"]  = false;
                 }else{
                     $contrato["erroresDocumentacion"]  = true;
@@ -451,8 +490,19 @@ class Sicpoatareas extends CI_Model
         
         break;
 
+        //paso 5
+        case 'Carga de Documentación':       
+        
+            $contrato["erroresDocumentacion"]  = true;
+            
+            log_message('DEBUG', '#TRAZA | #SICPOA | Sicpoatareas | getContrato()  >> contrato '.json_encode($contrato));
+
+            return $contrato;
+        
+        break;
+
             default:
-                # code...
+               log_message('DEBUG', '#TRAZA | #SICPOA | Sicpoatareas | getContrato()  >> NO ESPECIFICASTE BIEN EL CASE ');
             break;
             }
         }
