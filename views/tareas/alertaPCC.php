@@ -55,7 +55,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                         <label for="emision">Lugar de emisión(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input type="text" class="form-control limitedNumbers" id="emision" placeholder="Ingrese lugar de emisión"/>
+                        <input type="text" class="form-control" id="emision" placeholder="Ingrese lugar de emisión"/>
                     </div>
                 </div>
                 <!--________________-->
@@ -576,6 +576,9 @@ $(document).ready(function() {
     transpOpc = new Option(empr_trasnp_nombre, empr_trasnp, true, true);
     $('#transportista').append(transpOpc).trigger('change');
 
+    //MASCARAS
+    $("#emision").inputmask({ regex: "[a-zA-Z ]*" });
+
 });//FIN document.ready
 /******************************************************************************* */
 //
@@ -950,7 +953,7 @@ async function cerrarTareaform(){
         processData: false,
         url: "<?php echo SICP; ?>inspeccion/agregarInspeccion",
         success: function(data) {
-            console.log("Se guardo el formulario de la inspección correctamente");
+            console.log("Se guardo el formulario de alerta PCC correctamente");
             
             //Guardo los permisos, empresas, termicos e infraccion si hubiese
             $.ajax({
@@ -1093,7 +1096,7 @@ cerrarTareaform().then((result) => {
             alert("Error al finalizar tarea");
         }
     });
-    console.log("Se cerro la tarea perrito malvado");
+    
 }).catch((err) => {
     console.log(err);
     alert("Error al finalizar tarea");

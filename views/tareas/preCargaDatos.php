@@ -53,7 +53,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                         <label for="emision">Lugar de emisión(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input type="text" class="form-control limitedNumbers" id="emision" placeholder="Ingrese lugar de emisión"/>
+                        <input type="text" class="form-control" id="emision" placeholder="Ingrese lugar de emisión"/>
                     </div>
                 </div>
                 <!--________________-->
@@ -447,6 +447,10 @@ $(document).ready(function() {
     });
     //Deshabilito los depositos destino hasta que se elija una empresa destino
     $("#depo_destino").prop("disabled", true);
+
+    //MASCARAS
+    $("#emision").inputmask({ regex: "[a-zA-Z ]*" });
+
 });//FIN document.ready
 /******************************************************************************* */
 //
