@@ -54,7 +54,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                         <label for="emision">Lugar de emisión(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input type="text" class="form-control limitedNumbers" id="emision" placeholder="Ingrese lugar de emisión"/>
+                        <input type="text" class="form-control" id="emision" placeholder="Ingrese lugar de emisión"/>
                     </div>
                 </div>
                 <!--________________-->
@@ -608,6 +608,9 @@ $(document).ready(function() {
 
     transpOpc = new Option(empr_trasnp_nombre, empr_trasnp, true, true);
     $('#transportista').append(transpOpc).trigger('change');
+
+    //MASCARAS
+    $("#emision").inputmask({ regex: "[a-zA-Z ]*" });
 
 });//FIN document.ready
 /******************************************************************************* */
