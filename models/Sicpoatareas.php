@@ -152,7 +152,7 @@ class Sicpoatareas extends CI_Model
                 if(isset($escaneoInfoId)){
                     $data['imgsEscaneo'] = $this->getImgsEscaneoDocu($escaneoInfoId);
                 }
-                
+
                 return $this->load->view(SICP . 'tareas/inspeccionPCC', $data, true);
 
                 log_message('DEBUG', "#TRAZA | #SICPOA | Sicpoatareas | desplegarVista()  tarea->nombreTarea: >> " . $tarea->nombreTarea);
@@ -299,12 +299,9 @@ class Sicpoatareas extends CI_Model
 
                 $tareaData = $this->getXCaseId($tarea);
 
-                $data['imgsDocumentacion'] = $this->getImgsDocumentacion($tareaData->info_id);
                 $data['petr_id'] = $tareaData->petr_id;
-                $data['facturas'] = $this->getTiposFacturas();
-                $data['productos'] = $this->getProductos();
-                $data['un_medidas'] = $this->getMedidas();
                 $data['inspeccion'] = $this->getPreCargaDatos($tareaData->case_id);
+                $data['imgsBarrera'] = $this->getImgsBarrera($tareaData->info_id);
                 
                 $empresas = $data['inspeccion']->empresas->empresa;
 
@@ -323,16 +320,73 @@ class Sicpoatareas extends CI_Model
 
                         }
                     }
-                    $data['preDataCargada'] = true;
-                }else{
-                    $data['preDataCargada'] = false;
                 }
 
-                return $this->load->view(SICP . 'tareas/cargaDocumentacion', $data, true);
+                $formulario = $this->Ingresosbarrera->getFormularios($tareaData->petr_id);
+                $escaneoInfoId = $formulario['data'][0]->forms->form[0]->info_id;
+                $data['escaneoInfoId'] = $escaneoInfoId;// Lo mando a la vista para instaciar formulario en modal
+
+                if(isset($escaneoInfoId)){
+                    $formEscaneo =  $this->getFormEscaneoDocu($escaneoInfoId);
+                    $data['imgsEscaneo'] = $formEscaneo['imagenes'];
+                    $data['datosEscaneo'] = $formEscaneo['datos'];
+                }
+
+                //Obtengo la imagen del Acta Infraccion
+                $actaInfraccionInfoId = $formulario['data'][0]->forms->form[1]->info_id;
+
+                if(isset($actaInfraccionInfoId)){
+                    $data['imgInfraccion'] = $this->getImgInfraccion($actaInfraccionInfoId);
+                }
+
+                return $this->load->view(SICP . 'tareas/infraccionPCC', $data, true);
 
                 log_message('DEBUG', "#TRAZA | #SICPOA | Sicpoatareas | desplegarVista()  tarea->nombreTarea: >> " . $tarea->nombreTarea);
-              
+
             break;
+            
+            //paso 6
+            case 'Notificar Infracción en Calle':
+
+                $tareaData = $this->getXCaseId($tarea);
+
+                $data['petr_id'] = $tareaData->petr_id;
+                $data['inspeccion'] = $this->getPreCargaDatos($tareaData->case_id);
+                $data['imgsBarrera'] = $this->getImgsBarrera($tareaData->info_id);
+
+                $empresas = $data['inspeccion']->empresas->empresa;
+
+                //Separo las empresas por su rol
+                if(!empty($empresas)){
+                    foreach($empresas as $key => $value){
+                        
+                        if($value->rol == "DESTINO"){
+                            $data['destinos'][$key] = $value;
+
+                        }elseif ($value->rol == "ORIGEN") {
+                            $data['origen'] = $value;
+
+                        }elseif($value->rol == "TRANSPORTISTA"){
+                            $data['transportista'] = $value;
+
+                        }
+                    }
+                }
+
+                $formulario = $this->Ingresosbarrera->getFormularios($tareaData->petr_id);
+                $escaneoInfoId = $formulario['data'][0]->forms->form[0]->info_id;
+                $data['escaneoInfoId'] = $escaneoInfoId;// Lo mando a la vista para instaciar formulario en modal
+
+                if(isset($escaneoInfoId)){
+                    $data['imgsEscaneo'] = $this->getImgsEscaneoDocu($escaneoInfoId);
+                }
+
+                return $this->load->view(SICP . 'tareas/infraccionPCC', $data, true);
+
+                log_message('DEBUG', "#TRAZA | #SICPOA | Sicpoatareas | desplegarVista()  tarea->nombreTarea: >> " . $tarea->nombreTarea);
+
+            break;
+
             //default           
             default:
                                              
@@ -486,12 +540,24 @@ class Sicpoatareas extends CI_Model
             $contrato["erroresDocumentacion"]  = true;
             
             log_message('DEBUG', '#TRAZA | #SICPOA | Sicpoatareas | getContrato()  >> contrato '.json_encode($contrato));
+            
             return $contrato;
         
         break;
 
         //paso 5
         case 'Carga de Documentación':       
+        
+            $contrato["erroresDocumentacion"]  = true;
+            
+            log_message('DEBUG', '#TRAZA | #SICPOA | Sicpoatareas | getContrato()  >> contrato '.json_encode($contrato));
+
+            return $contrato;
+        
+        break;
+
+        //paso 6
+        case 'Notificar Infracción en PCC':       
         
             $contrato["erroresDocumentacion"]  = true;
             
@@ -621,7 +687,7 @@ class Sicpoatareas extends CI_Model
         $aux = $this->rest->callAPI("GET",$url);
         $resp = json_decode($aux['data']);
 
-        log_message('DEBUG', "#TRAZA | #SICPOA | Inspecciones | getPreCargaDatos() >> ");
+        log_message('DEBUG', "#TRAZA | #SICPOA | Inspecciones | getPreCargaDatos() ");
 
         return $resp->inspeccion;
     }
@@ -695,5 +761,52 @@ class Sicpoatareas extends CI_Model
             }
         }
         return $documentacion;
+    }
+    /**
+	* Obtengo la imagen cargada en el acta de infraccion en calle guardada en instancias_formularios
+	* @param array info_id
+	* @return array Imagen acta infraccion en calle
+	*/
+    function getImgInfraccion($info_id){
+        if($info_id){
+            $infraccion = array();
+            $this->load->model(FRM . 'Forms');
+            $res = $this->Forms->obtener($info_id);
+
+            foreach ($res->items as $key => $dato) {
+                if(isset($dato->valor4_base64)){
+                    $rec = stream_get_contents($dato->valor4_base64);
+                    $ext = $this->obtenerExtension($dato->valor);
+                    
+                    array_push($infraccion, $ext.$rec);
+                }
+            }
+        }
+        return $infraccion;
+    }
+    /**
+	* Obtengo los datos cargadas en el escaneo de documentacion guardados en instancias_formularios
+	* @param array info_id
+	* @return array datos relacionadas con el info_id
+	*/
+    function getFormEscaneoDocu($info_id){
+        if($info_id){
+            $formEscaneo = array();
+            $this->load->model(FRM . 'Forms');
+            $res = $this->Forms->obtener($info_id);
+
+            foreach ($res->items as $key => $dato) {
+                if(isset($dato->valor4_base64)){
+                    $rec = stream_get_contents($dato->valor4_base64);
+                    $ext = $this->obtenerExtension($dato->valor);
+                    
+                    $formEscaneo['imagenes'][$key] = $ext.$rec;
+                }else{
+
+                    $formEscaneo['datos'][$dato->name] = $dato->valor;
+                }
+            }
+        }
+        return $formEscaneo;
     }
 }

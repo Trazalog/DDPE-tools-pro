@@ -381,7 +381,7 @@
 
   // Imprimir ACTA
     function imprimirActa(){
-      var base = "<?php// echo base_url()?>";
+      var base = "<?php echo base_url(); ?>";
       $('#actaInfraccion').printThis({
           debug: false,
           importCSS: true,
