@@ -361,13 +361,20 @@ $(document).ready(function() {
     //Seccion de trigger para los cambios
     //Mustra bloque validar si es correcta
     $('input[name=inspValida]:checked').trigger('change');
+    
     //Calcula neto anterior
     $(".neto").trigger('change');
+
     //Script para inicio de formulario 11
     //Escaneo documentacion
     detectarForm();
     initForm();
     $('.btnNotifEstandar.btn-success').text('Impirmir acta');
+
+    //MÁSCARAS
+    //Bruto y Tara
+    $(".onlyNumbers").inputmask({ regex: "[0-9.,]*" });
+
 });//FIN document.ready
 //Actualizo neto cuando se cargue Bruto y Tara
 $(".neto").on("change", function () {
@@ -399,15 +406,6 @@ $(".netoRepre").on("change", function () {
             $("#tara").val('');
             alert("El peso bruto es menor al peso tara");
         }
-    }
-});
-//FILTROS
-//Filtro para solo numeros
-//KeyCode: . = 110, . = 190
-$(document).on("keydown", ".onlyNumbers", function(e) {
-    if (e.which != 8 && e.which != 0 && e.which != 9 && e.which != 13 && e.which != 110 && e.which != 190 && (e.which < 48 || e.which > 57) && (e.which < 96 || e.which > 105) && (e.which < 37 || e.which > 40)) {
-        e.preventDefault();
-        alert("Caracteres validos: 0-9 y .");
     }
 });
 //

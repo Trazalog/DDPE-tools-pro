@@ -266,7 +266,7 @@
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <div class="form-group">
                                 <label for="precintos">Precintos N°(<strong style="color: #dd4b39">*</strong>):</label>
-                                <input class="form-control limitedChars" id="precintos" placeholder="Ingrese precintos" />
+                                <input class="form-control limited" id="precintos" placeholder="Ingrese precintos" />
                             </div>                    
                         </div>
                         <!--________________-->
@@ -448,8 +448,13 @@ $(document).ready(function() {
     //Deshabilito los depositos destino hasta que se elija una empresa destino
     $("#depo_destino").prop("disabled", true);
 
-    //MASCARAS
-    $("#emision").inputmask({ regex: "[a-zA-Z ]*" });
+    //MÁSCARAS
+    //Lugar de Emision A-Z, 0-9 y space
+    $("#emision").inputmask({ regex: "[a-zA-Z0-9 ]*" });
+    //Solicitud N° y N° SENASA: 0-9, /, ',' y -
+    $(".limitedChars").inputmask({ regex: "[0-9/,-]*" });
+    //PRECINTOS y Patentes: 0-9, A-Z, space, / y -
+    $(".limited").inputmask({ regex: "[0-9/a-zA-Z -]*" });
 
 });//FIN document.ready
 /******************************************************************************* */
@@ -466,30 +471,6 @@ $(document).on("keydown", ".choferes", function(e) {
     if (e.which != 8 && e.which != 0 && e.which != 9 && e.which != 13 && (e.which < 48 || e.which > 57) && (e.which < 96 || e.which > 105) && (e.which < 37 || e.which > 40)) {
         e.preventDefault();
         alert("Ingrese dígitos únicamente");
-    }
-});
-//Filtro para NUMEROS, "/ -" inputs
-//KeyCode: 111 = / , 109 = -
-$(document).on("keydown", ".limitedChars", function(e) {
-    if (e.which != 8 && e.which != 0 && e.which != 9 && e.which != 13 && e.which != 109 && e.which != 111 && e.which != 188 && (e.which < 48 || e.which > 57) && (e.which < 96 || e.which > 105) && (e.which < 37 || e.which > 40)) {
-        e.preventDefault();
-        alert("Caracteres válidos: 0-9, '/' , '-' y ','");
-    }
-});
-//Filtro para PRECINTOS N° A-Z, /, - y flechas
-//KeyCode: 13 = Enter
-$(document).on("keydown", ".limited", function(e) {
-    if (e.which != 8 && e.which != 0 && e.which != 9 && e.which != 13 && e.which != 109 && (e.which < 48 || e.which > 57) && (e.which < 96 || e.which > 105) && (e.which < 37 || e.which > 40) && (e.which < 65 || e.which > 90)) {
-        e.preventDefault();
-        alert("Caracteres válidos: A-Z, 0-9 y -");
-    }
-});
-//Filtro para inputs A-Z, - y flechas
-//KeyCode: Ñ = 192, Espacio = 32, Bloq. Mayús = 20
-$(document).on("keydown", ".limitedNumbers", function(e) {
-    if (e.which != 8 && e.which != 0 && e.which != 9 && e.which != 13 && e.which != 20 && e.which != 32 && e.which != 109 && e.which != 192 && (e.which < 37 || e.which > 40) && (e.which < 65 || e.which > 90)) {
-        e.preventDefault();
-        alert("Caracteres válidos: A-Z y -");
     }
 });
 //

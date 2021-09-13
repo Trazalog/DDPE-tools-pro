@@ -155,7 +155,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group has-feedback">
                         <label for="patenteTractor">Patente Tractor(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input class="form-control" name="patente_tractor" id="patenteTractor" placeholder="Ingrese Patente Tractor" value="<?php echo isset($preCargaDatos->patente_tractor) ? $preCargaDatos->patente_tractor : null ?>" required/>
+                        <input class="form-control limited" name="patente_tractor" id="patenteTractor" placeholder="Ingrese Patente Tractor" value="<?php echo isset($preCargaDatos->patente_tractor) ? $preCargaDatos->patente_tractor : null ?>" required/>
                     </div>
                 </div>
                 <!--________________-->
@@ -286,7 +286,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                         <label for="precintos">Precintos N°(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input class="form-control limitedChars" id="precintos" placeholder="Ingrese precintos" />
+                        <input class="form-control limited" id="precintos" placeholder="Ingrese precintos" />
                     </div>                    
                 </div>
                 <!--________________-->
@@ -609,8 +609,15 @@ $(document).ready(function() {
     transpOpc = new Option(empr_trasnp_nombre, empr_trasnp, true, true);
     $('#transportista').append(transpOpc).trigger('change');
 
-    //MASCARAS
-    $("#emision").inputmask({ regex: "[a-zA-Z ]*" });
+    //MÁSCARAS
+    //Lugar de Emision A-Z, 0-9 y space
+    $("#emision").inputmask({ regex: "[a-zA-Z0-9 ]*" });
+    //Solicitud N° y N° SENASA: 0-9, /, ',' y -
+    $(".limitedChars").inputmask({ regex: "[0-9/,-]*" });
+    //PRECINTOS y Patentes: 0-9, A-Z, space, / y -
+    $(".limited").inputmask({ regex: "[0-9/a-zA-Z -]*" });
+    //Bruto y Tara
+    $(".onlyNumbers").inputmask({ regex: "[0-9.,]*" });
 
 });//FIN document.ready
 /******************************************************************************* */
@@ -627,38 +634,6 @@ $(document).on("keydown", ".choferes", function(e) {
     if (e.which != 8 && e.which != 0 && e.which != 9 && e.which != 13 && (e.which < 48 || e.which > 57) && (e.which < 96 || e.which > 105) && (e.which < 37 || e.which > 40)) {
         e.preventDefault();
         alert("Ingrese dígitos únicamente");
-    }
-});
-//Filtro para NUMEROS, "/ -" inputs
-//KeyCode: 111 = / , 109 = -
-$(document).on("keydown", ".limitedChars", function(e) {
-    if (e.which != 8 && e.which != 0 && e.which != 9 && e.which != 13 && e.which != 109 && e.which != 111 && e.which != 188 && (e.which < 48 || e.which > 57) && (e.which < 96 || e.which > 105) && (e.which < 37 || e.which > 40)) {
-        e.preventDefault();
-        alert("Caracteres válidos: 0-9, '/' , '-' y ','");
-    }
-});
-//Filtro para PRECINTOS N° A-Z, /, - y flechas
-//KeyCode: 13 = Enter
-$(document).on("keydown", ".limited", function(e) {
-    if (e.which != 8 && e.which != 0 && e.which != 9 && e.which != 13 && e.which != 109 && (e.which < 48 || e.which > 57) && (e.which < 96 || e.which > 105) && (e.which < 37 || e.which > 40) && (e.which < 65 || e.which > 90)) {
-        e.preventDefault();
-        alert("Caracteres válidos: A-Z, 0-9 y -");
-    }
-});
-//Filtro para inputs A-Z, - y flechas
-//KeyCode: Ñ = 192
-$(document).on("keydown", ".limitedNumbers", function(e) {
-    if (e.which != 8 && e.which != 0 && e.which != 9 && e.which != 13 && e.which != 20 && e.which != 32 && e.which != 109 && e.which != 192 && (e.which < 37 || e.which > 40) && (e.which < 65 || e.which > 90)) {
-        e.preventDefault();
-        alert("Caracteres válidos: A-Z, -");
-    }
-});
-//Filtro para solo numeros
-//KeyCode: . = 110, . = 190
-$(document).on("keydown", ".onlyNumbers", function(e) {
-    if (e.which != 8 && e.which != 0 && e.which != 9 && e.which != 13 && e.which != 110 && e.which != 190 && (e.which < 48 || e.which > 57) && (e.which < 96 || e.which > 105) && (e.which < 37 || e.which > 40)) {
-        e.preventDefault();
-        alert("Caracteres validos: 0-9 y .");
     }
 });
 //
