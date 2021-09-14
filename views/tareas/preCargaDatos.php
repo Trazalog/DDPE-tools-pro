@@ -500,6 +500,7 @@ function agregarDestino(){
         //Limpio luego de agregar
         $('#empre_destino').val(null).trigger('change');
         $('#depo_destino').val(null).trigger('change');
+        alertify.success("Destino agregado correctamente!");
     }else{
         alert(reporte);
     }
@@ -518,7 +519,9 @@ function validarCamposDestino(){
 }
 //Funcion para eliminar el registro en ambas SECCIONES
 $(document).on("click",".fa-trash",function(e) {
-    $(e.target).closest('div').remove();		
+    if (confirm('¿Desea borrar el registro?')) {
+        $(e.target).closest('div').remove();		
+    }
 });
 //
 //FIN Script's seccion destino
@@ -563,6 +566,7 @@ var editando = false;// Utilizo para que no se pierdan los permisos al editar
                 $("#fecha").val('');
                 $('input[name=doc_sanitaria]:checked').prop('checked',false);
                 editando = false;
+                alertify.success("Permiso de tránsito agregado correctamente!");
 			}else{
 					alert(reporte);
 			}
@@ -640,6 +644,7 @@ var editando = false;// Utilizo para que no se pierdan los permisos al editar
             $("#term_patente").val('');
             $("#temperatura").val('');
             $("#precintos").val('');
+            alertify.success("Térmico agregado correctamente!");
         }else{
             alert(reporte);
         }

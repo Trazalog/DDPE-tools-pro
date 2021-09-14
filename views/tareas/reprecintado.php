@@ -311,11 +311,11 @@
                                 <div class="form-group">
                                     <label for="inspValida">¿Inspección correcta?:</label>
                                     <div class="form-check form-check-inline">
-                                        <input type="radio" class='form-check-input' name="inspValida" value="correcta" <?php echo isset($inspeccion->resultado) && ($inspeccion->resultado == "correcta")  ? "checked" : ""; ?> onchange="showValidar(this)"/>
+                                        <input type="radio" class='form-check-input' name="inspValida" value="correcta" <?php echo isset($inspeccion->resultado) && ($inspeccion->resultado == "correcta")  ? "checked" : ""; ?> onchange="showValidar(this)" disabled/>
                                         <label class="form-check-label" for="">Sí</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input type="radio" class='form-check-input' name="inspValida" value="incorrecta" <?php echo isset($inspeccion->resultado) && ($inspeccion->resultado == "incorrecta") ? "checked" : ""; ?> onchange="showValidar(this)"/>
+                                        <input type="radio" class='form-check-input' name="inspValida" value="incorrecta" <?php echo isset($inspeccion->resultado) && ($inspeccion->resultado == "incorrecta") ? "checked" : ""; ?> onchange="showValidar(this)" disabled/>
                                         <label class="form-check-label" for="">No</label>
                                     </div>
                                 </div>

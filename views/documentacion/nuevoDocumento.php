@@ -505,39 +505,42 @@ function validarCampos(){
 //
 $(document).on('click','.btnEliminar', function () {
 
-    tabla = $('#tabla_productos').DataTable();
+    if (confirm('¿Desea borrar el registro?')) {
 
-    if(accion == "editar"){
-        
-        datos = JSON.parse($(this).parents('tr').attr('data-json'));
-        filaEliminar = this;
-        dedo_id = {"dedo_id" : datos.dedo_id};
-        
-        $.ajax({
-                type: 'POST',
-                data: {dedo_id},
-                dataType: "json",
-                url: "<?php echo SICP; ?>inspeccion/eliminarDetalleDocumento",
-                success: function(resp) {
+        tabla = $('#tabla_productos').DataTable();
 
-                    if(resp.status){
+        if(accion == "editar"){
+            
+            datos = JSON.parse($(this).parents('tr').attr('data-json'));
+            filaEliminar = this;
+            dedo_id = {"dedo_id" : datos.dedo_id};
+            
+            $.ajax({
+                    type: 'POST',
+                    data: {dedo_id},
+                    dataType: "json",
+                    url: "<?php echo SICP; ?>inspeccion/eliminarDetalleDocumento",
+                    success: function(resp) {
 
-                        tabla.row( $(filaEliminar).parents('tr') ).remove().draw(); 
-                        alertify.success("Registro eliminado correctamente!");
+                        if(resp.status){
 
-                    }else{
+                            tabla.row( $(filaEliminar).parents('tr') ).remove().draw(); 
+                            alertify.success("Registro eliminado correctamente!");
+
+                        }else{
+                            alertify.error("Error al eliminar detalle");
+                        }
+                    
+                    },
+                    error: function(data) {
                         alertify.error("Error al eliminar detalle");
                     }
-                
-                },
-                error: function(data) {
-                    alertify.error("Error al eliminar detalle");
-                }
-            });
-    }else{
+                });
+        }else{
 
-        tabla.row( $(this).parents('tr') ).remove().draw(); 
-        alertify.success("Registro eliminado correctamente!");
+            tabla.row( $(this).parents('tr') ).remove().draw(); 
+            alertify.success("Registro eliminado correctamente!");
+        }
     }
 });
 //
