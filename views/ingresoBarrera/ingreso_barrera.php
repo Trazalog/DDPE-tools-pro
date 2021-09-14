@@ -5,6 +5,12 @@
 .panel-subheading{
     text-align: right;
 }
+.correcto{
+    border: 6px solid #9cdd9b !important;
+}
+.incorrecto{
+    border: 6px solid #ff8989 !important;
+}
 </style>
 <div class="panel panel-default">
     <div class="panel-heading">
@@ -24,8 +30,7 @@
                 <div class="col-md-6 col-sm-12 col-md-offset-6" style="text-align:right;margin-top: 20px;">
                     <button type="button" class="btn btn-danger" onclick="cerrarModal()">Cerrar</button>
 
-                    <button type="button" id="btn-accion" class="btn btn-primary btn-guardar"
-                        onclick="frmGuardar($('.frm-new').find('form'),guardarPedidoTrabajo)">Guardar</button>
+                    <button type="button" id="btn-accion" class="btn btn-primary btn-guardar" onclick="cierraPedidoTrabajo()">Guardar</button>
                 </div>
             </div>
 
@@ -37,21 +42,9 @@
 
 <script>
 
-
-$("#clie_id").change(function() {
-    debugger;
-    nuevaDireccion = $(this).children(':selected').data('dir');
-    console.log(nuevaDireccion);
-
-    $(this).next('input').focus().val(nuevaDireccion);
-    $('#dir_entrega').val(nuevaDireccion);
-});
-
-
-
 function cerrarModal() {
 
- $('#mdl-ingreso').modal('hide');
+    $('#mdl-ingreso').modal('hide');
 
 }
 
@@ -93,7 +86,7 @@ var guardarPedidoTrabajo = function() {
                     'Guardado!',
                     'El formulario de ingreso por barrera se guardo correctamente',
                     'success'
-                )
+                );
                 $('#'+idForm)[0].reset();
                 linkTo('<?php echo BPM ?>Proceso/');
 
@@ -111,7 +104,7 @@ var guardarPedidoTrabajo = function() {
             console.log(rsp); 
             var result = rsp.status.toString(); 
         
-        console.log('status esta en saliendo por error:' + result);
+            console.log('status esta en saliendo por error:' + result);
 
             console.log("Error al guardar formulario");
             Swal.fire(
@@ -124,5 +117,75 @@ var guardarPedidoTrabajo = function() {
             wc();
         }
     });
+}
+//Primero recorro el formulario colocando las clases de correcto e incorrecto
+//Luego reporto el error
+function cierraPedidoTrabajo(){
+    $('.imgConte').each(function(i, obj) {
+        imgPreview = $(obj).find('.imgPreview');
+    
+        $(imgPreview).removeClass('incorrecto');
+        $(imgPreview).removeClass('correcto');
+
+        input = $(obj).find('input');
+
+        if(input.val() == '' && ($(input).attr("data-bv-notempty-message") != undefined && $(input).attr("data-bv-notempty-message") != false)){
+            $(imgPreview).toggleClass('incorrecto');
+        }else{
+            $(imgPreview).toggleClass('correcto');
+        }
+    });
+
+    //Validaciones CAMPOS OBLIGATORIOS Formulario 
+    if($("#perm_transito").val() == ''){
+        Swal.fire(
+            'Oops...',
+            'Debe cargar la foto del permiso de tránsito (*)',
+            'error'
+        );
+        return;
+    }
+    if($("#pat_tractor").val() == ''){
+        Swal.fire(
+            'Oops...',
+            'Debe cargar la foto de la patente del tractor (*)',
+            'error'
+        );
+        return;
+    }
+    if($("#pat_termico").val() == ''){
+        Swal.fire(
+            'Oops...',
+            'Debe cargar la foto de la patente del térmico (*)',
+            'error'
+        )
+        return;
+    }
+    if($("#temperatura").val() == ''){
+        Swal.fire(
+            'Oops...',
+            'Debe cargar la foto de la temperatura (*)',
+            'error'
+        )
+        return;
+    }
+    if($("#precinto_1").val() == ''){
+        Swal.fire(
+            'Oops...',
+            'Debe cargar la foto del precinto 1 (*)',
+            'error'
+        )
+        return;
+    }
+    if($("#docu_firmado").val() == ''){
+        Swal.fire(
+            'Oops...',
+            'Debe cargar la foto del documento firmado (*)',
+            'error'
+        )
+        return;
+    }
+
+    frmGuardar($('.frm-new').find('form'),guardarPedidoTrabajo);
 }
 </script>

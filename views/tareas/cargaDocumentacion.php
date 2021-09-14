@@ -229,39 +229,43 @@ $(document).on('click','.btnEditarDocu', function () {
 //Eliminar registro tabla intermedia
 //
 $(document).on('click','.btnEliminarDocu', function () {
-    tabla = $('#tabla_documentos').DataTable();
-    //Obtengo la fila
-    row = $(this).parents('tr');
 
-    //Data parseada en json
-    nodo = tabla.row(row).node();
-    data = JSON.parse($(nodo).attr('data-json'));
+    if (confirm('¿Desea borrar el registro?')) {
+        
+        tabla = $('#tabla_documentos').DataTable();
+        //Obtengo la fila
+        row = $(this).parents('tr');
 
-    //JSON con data a eliminar
-    documento = {"num_documento" : data.num_documento, "tido_id" : data.tido_id};
+        //Data parseada en json
+        nodo = tabla.row(row).node();
+        data = JSON.parse($(nodo).attr('data-json'));
 
-    $.ajax({
-        type: 'POST',
-        data: {documento},
-        cache: false,
-        dataType: "json",
-        url: "<?php echo SICP; ?>inspeccion/eliminarDocumento",
-        success: function(data) { 
+        //JSON con data a eliminar
+        documento = {"num_documento" : data.num_documento, "tido_id" : data.tido_id};
 
-            if(data.status){
-                
-                tabla.row( $(this).parents('tr') ).remove().draw(); 
-                alertify.success("Registro eliminado con exito!");
-                console.log("Actualizando tabla con documentos cargados");
+        $.ajax({
+            type: 'POST',
+            data: {documento},
+            cache: false,
+            dataType: "json",
+            url: "<?php echo SICP; ?>inspeccion/eliminarDocumento",
+            success: function(data) { 
 
-            }else{
+                if(data.status){
+                    
+                    tabla.row( $(this).parents('tr') ).remove().draw(); 
+                    alertify.success("Registro eliminado con exito!");
+                    console.log("Actualizando tabla con documentos cargados");
+
+                }else{
+                    alertify.error("Error al eliminar registro");
+                } 
+            },
+            error: function(data) {
                 alertify.error("Error al eliminar registro");
-            } 
-        },
-        error: function(data) {
-            alertify.error("Error al eliminar registro");
-        }
-    });
+            }
+        });
+    }
 });
 //
 //FIN SCRIPTS MANIPULACION TABLA
