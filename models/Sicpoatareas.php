@@ -79,6 +79,7 @@ class Sicpoatareas extends CI_Model
 
     public function desplegarCabecera($tarea)
     {
+        $tarea->inspeccion = $this->getPreCargaDatos($tarea->caseId);
         $resp = infoproceso($tarea);
         return $resp;
     }
@@ -284,10 +285,11 @@ class Sicpoatareas extends CI_Model
                 $aux = $data['inspeccion']->documentos->documento;
                 $data['imag_ids'] = array();
 
-                foreach ($aux as $key => $value) {
-                    array_push($data['imag_ids'], $value->imag_id);
+                if(!empty($aux)){
+                    foreach ($aux as $key => $value) {
+                        array_push($data['imag_ids'], $value->imag_id);
+                    }
                 }
-
                 return $this->load->view(SICP . 'tareas/cargaDocumentacion', $data, true);
 
                 log_message('DEBUG', "#TRAZA | #SICPOA | Sicpoatareas | desplegarVista()  tarea->nombreTarea: >> " . $tarea->nombreTarea);
