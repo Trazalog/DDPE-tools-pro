@@ -23,7 +23,7 @@
                 </thead>
                 <tbody >
                     <?php
-                        if(!empty($inspeccion->documentos)){ 
+                        if(!empty($inspeccion->documentos->documento)){ 
                             foreach ($inspeccion->documentos->documento as $docu) {
                                 $aux = explode("+",$docu->fec_emision);
                                 $fec_emision = date("d-m-Y",strtotime($aux[0]));
