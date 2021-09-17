@@ -194,6 +194,51 @@ class Ingreso_barrera extends CI_Controller
         $data = $this->Ingresosbarrera->eliminarPedidoTrabajo($data);
 
     }
+    /**
+    * Elimina el pedido de trabajo y el case en bonita
+    * @param $petr_id y $case_id
+    * @return bool
+	*/
+    public function eliminarIngresoBarreraLanzado()
+    {
+        $petr_id = $this->input->post('petr_id');
+        $case_id = $this->input->post('case_id');
+
+        //Id del proceso desde la tabla pro.procesos
+        $processId = $this->Ingresosbarrera->procesos()->proceso->nombre_bpm;
+
+        $data['_delete_pedidotrabajo'] = array(
+            'petr_id' => $petr_id,
+        );
+
+        $respPetr = $this->Ingresosbarrera->eliminarPedidoTrabajo($data);
+
+        if ($respPetr['status']) {
+
+           log_message('DEBUG', '#TRAZA | #SICPOA | Sicpoatareas | eliminarPedidoTrabajo() >> Ingreso por barrera eliminado correctamente');
+
+           //una vez que cerramos el ingreso en barrera(pedido de trabajo) procedemos a cerrar el Case si este esta abierto
+           $respCaso = $this->bpm->eliminarCaso($processId, $case_id);
+
+           if ($respCaso['status']) {
+
+               log_message('DEBUG', '#TRAZA | #SICPOA | Sicpoatareas | eliminarCaso() >> Caso e Ingreso por barrera eliminados correctamente');
+               
+               echo json_encode($respCaso);
+
+            } else {
+                
+                log_message('ERROR', '#TRAZA | #SICPOA | Sicpoatareas | eliminarCaso()  >> Error al eliminar CASE en BONITA');
+
+                echo json_encode($respCaso);
+           }
+        } else {
+            
+            log_message('ERROR', '#TRAZA | #SICPOA | Sicpoatareas | eliminarPedidoTrabajo() >> Error al eliminar Ingreso por barrera');
+
+            echo json_encode($respPetr);
+        }
+    }
 		/**
 		* Levanta pantalla Planificacion de Pedido de Trabajo
 		* @param
@@ -252,5 +297,66 @@ class Ingreso_barrera extends CI_Controller
         $post  = $this->input->post();
         $rsp = $this->Ingresosbarrera->cambiarEstado($post['petrId'], $post['estado']);
         echo json_encode($rsp);
+    }
+    /**
+	* Trae comentarios segun Case_id
+	*@param case_id (metodo GET)
+    *@return view componete comentarios
+	*/
+public function cargar_detalle_comentario(){
+
+    $case_id = $_GET['case_id'];    
+    
+    $data_aux = ['case_id' => $case_id, 'comentarios' => $this->bpm->ObtenerComentarios($case_id)];
+    
+    $data['comentarios'] = $this->load->view(BPM.'tareas/componentes/comentarios', $data_aux, true);
+    
+    echo $data['comentarios'];
+    }
+    
+    
+    /**
+        * Trae trazabilidad de un pedido segun case_id
+        *@param case_id ,processId. (metodo GET)
+        *@return array componete BPM trazabilidad
+        */
+    //HARCODECHUKA processId
+    public function cargar_detalle_linetiempo(){
+    
+        $case_id = $_GET['case_id'];               
+            
+        //    $processId = BPM_PROCESS_ID_REPARACION_NEUMATICOS;
+        //Id del proceso desde la tabla pro.procesos
+        $processId = $this->Ingresosbarrera->procesos()->proceso->nombre_bpm;
+    
+        //LINEA DE TIEMPO
+        $data['timeline'] =$this->bpm->ObtenerLineaTiempo($processId, $case_id);
+    
+        echo timeline($data['timeline']);
+     
+    }
+    
+    
+    /**
+        * Trae formularios asociados al pedido de trabajo segun petr_id
+        *@param case_id ,petr_id, processId. (metodo GET)
+        *@return array forularios
+        */
+    //HARCODECHUKA processId
+    public function cargar_detalle_formulario(){
+    
+            $case_id = $_GET['case_id'];        
+            
+            $petr_id = $_GET['petr_id'];
+            
+    //    $processId = BPM_PROCESS_ID_REPARACION_NEUMATICOS;
+        //Id del proceso desde la tabla pro.procesos
+        $processId = $this->Ingresosbarrera->procesos()->proceso->nombre_bpm;
+
+        $data['formularios'] = $this->Ingresosbarrera->getFormularios($petr_id)['data'];
+        
+        $this->load->view(BPM.'pedidos_trabajo/tbl_formularios_pedido', $data);
+       
+    
     }
 }

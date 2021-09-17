@@ -32,7 +32,7 @@
 								echo "<tr id='$petr_id' data-json='" . json_encode($rsp) . "'>";
 
 								echo "<td class='text-center text-light-blue'>";
-								echo '<i class="fa fa-trash-o" style="cursor: pointer;margin: 3px;" title="Eliminar" onclick="EliminarPedido()"></i>';
+								echo '<i class="fa fa-trash-o" style="cursor: pointer;margin: 3px;" title="Eliminar ingreso por barrera" onclick="confirmaEliminar(this)"></i>';
 								// echo '<i class="fa fa-print" style="cursor: pointer; margin: 3px;" title="Imprimir Comprobante"></i>';
 								echo '<i class="fa fa-search"  style="cursor: pointer;margin: 3px;" title="Ver Pedido" onclick="verPedido(this)"></i>';
 								echo "</td>";
@@ -102,81 +102,114 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="xmodal-body">
-                <?php 
-                
-                   $this->load->view(BPM.'notificacion_estandar', $data);
-                ?>
+                <?php $this->load->view(SICP.'ingresoBarrera/mdl_ingreso_detalle', $data); ?>
             </div>
-            <!-- <div class="modal-footer">
-                <button type="button" class="btn" data-dismiss="modal">Cancelar</button>
-                <button type="button" id="btn-accion" class="btn btn-primary btn-guardar" onclick="guardarTodo()">Guardar</button>
-            </div> -->
         </div>
     </div>
 </div>
-
-
-
-<?php
-
-$this->load->view('ingresoBarrera/mdl_ingresos_barrera');
-?>
-
+<!-- MODAL AGREGAR INGRESO POR BARRERA -->
+<?php $this->load->view('ingresoBarrera/mdl_ingresos_barrera'); ?>
+<!-- FIN MODAL AGREGAR INGRESO POR BARRERA -->
 <script>
 
 $('#tbl-pedidos').DataTable({
         "order": [[ 0, "desc" ]]
 	});
 
+function verPedido(tag) {
 
-    function verPedido(e) {
-				selected = $(e).closest('tr').attr('id');
+  dataJson = JSON.parse($(tag).closest('tr').attr('data-json'));
 
-				console.log('trae pedido N°: '+ selected)
+  comments = "<?php echo base_url(SICP); ?>Ingreso_barrera/cargar_detalle_comentario?petr_id=" + dataJson.petr_id + "&case_id=" + dataJson.case_id;
+  timeline = "<?php echo base_url(SICP); ?>Ingreso_barrera/cargar_detalle_linetiempo?case_id=" + dataJson.case_id;
 
-            $('#mdl-vista').modal('show');       
+  wo();
+
+  $("#cargar_comentario").empty();
+  $("#cargar_comentario").load(comments);
+
+  $("#cargar_trazabilidad").empty();
+  $("#cargar_trazabilidad").load(timeline,function () {
+    $('#mdl-vista').modal('show');
+    wc();
+  });
+
 	} 
-	
+//
+//Confirmación con SWAL2 para eliminar el ingreso por barrera
+//
+function confirmaEliminar(tag){
 
-function EliminarPedido(){
+  dataJson = JSON.parse($(tag).closest('tr').attr('data-json'));
 
-    const swalWithBootstrapButtons = Swal.mixin({
-  customClass: {
-    confirmButton: 'btn btn-success',
-    cancelButton: 'btn btn-danger'
-  },
-  buttonsStyling: false
-})
+  datosIngreso = {"petr_id" : dataJson.petr_id, "case_id" : dataJson.case_id} ;
 
-swalWithBootstrapButtons.fire({
-  title: 'Estas Seguro?',
-  text: "Esta accion no puede ser revertida!",
-  icon: 'warning',
-  showCancelButton: true,
-  confirmButtonText: 'Si, Eliminar!',
-  cancelButtonText: 'No, cancelar!',
-  reverseButtons: true
-}).then((result) => {
-  if (result.isConfirmed) {
-    swalWithBootstrapButtons.fire(
-      'Eliminado!',
-      'Pedido de trabajo eliminado con Exioto.',
-      'success'
-    )
-  } else if (
-    /* Read more about handling dismissals below */
-    result.dismiss === Swal.DismissReason.cancel
-  ) {
-    swalWithBootstrapButtons.fire(
-      'Cancelado',
-      '',
-      'error'
-    )
-  }
-})
+  const swalWithBootstrapButtons = Swal.mixin({
+          customClass: {
+            confirmButton: 'btn btn-success',
+            cancelButton: 'btn btn-danger'
+          },
+          buttonsStyling: false
+        });
+
+  swalWithBootstrapButtons.fire({
+    title: 'Confirmación',
+    text: "Esta acción no puede ser revertida!",
+    type: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Eliminar',
+    cancelButtonText: 'Cancelar',
+    reverseButtons: true
+  }).then((result) => {
+    
+    if (result.value) {
+      eliminarIngreso(datosIngreso);
+    } else if ( result.dismiss === Swal.DismissReason.cancel ) {
+      //acción si se cancela la confimación
+    }
+  });
 
 }
-   
+//
+//Elimina el Ingreso por barrera, es lo mismo que pedido de trabajo
+//
+function eliminarIngreso(datosIngreso) {
+
+  $.ajax({
+    type: 'POST',
+    data: datosIngreso,
+    url: '<?php echo SICP ?>Ingreso_barrera/eliminarIngresoBarreraLanzado',
+    success: function(rsp) {
+
+      resp = JSON.parse(rsp);
+      
+      if(resp.status){
+
+        linkTo('<?php  echo SICP ?>/Ingreso_barrera?proccessname=DDPE-SICPOA/');
+        setTimeout(() => {
+            Swal.fire(
+                'Perfecto!',
+                'Se elimino el ingreso por barrera correctamente!',
+                'success'
+            )
+        }, 5000);
+      }else{
+        Swal.fire(
+            'Error!',
+            'Se produjo un error al eliminar ingreso por barrera',
+            'error'
+        )
+      }
+    },
+    error: function(rsp) {
+      Swal.fire(
+          'Error!',
+          'Se produjo un error al eliminar ingreso por barrera',
+          'error'
+      )
+    }
+  });
+}
 </script>
 
 
