@@ -30,27 +30,14 @@
             <div class="form-group">
 
               <div class="col-md-4 col-md-6 mb-4 mb-lg-0">
-                <label style="padding-left: 20%;">Fecha Desde <strong class="text-danger">*</strong> :</label>
-                <div class="input-group date">
-                  <a class="input-group-addon" id="daterange-btn" title="Más fechas">
-                    <i class="fa fa-magic"></i>
-                    <span></span>
-                  </a>
-                  <input type="date" class="form-control pull-right" id="datepickerDesde" name="datepickerDesde" placeholder="Desde">
-                </div>
+                <label style="">Fecha Desde <strong class="text-danger">*</strong> :</label>
+                <input type="date" class="form-control" id="datepickerDesde" name="datepickerDesde" placeholder="Desde">
               </div>
 
               <div class="col-md-4 col-md-6 mb-4 mb-lg-0">
-                <label style="padding-left: 20%;">Fecha Hasta <strong class="text-danger">*</strong> :</label>
-                <div class="input-group date">
-                  <a class="input-group-addon" id="daterange-btn" title="Más fechas">
-                    <i class="fa fa-magic"></i>
-                    <span></span>
-                  </a>
-                  <input type="date" class="form-control pull-right" id="datepickerHasta" name="datepickerHasta" placeholder="Hasta">
-                </div>
+                <label style="">Fecha Hasta <strong class="text-danger">*</strong> :</label>
+                <input type="date" class="form-control" id="datepickerHasta" name="datepickerHasta" placeholder="Hasta">
               </div>
-
             </div>
 
         </div>
