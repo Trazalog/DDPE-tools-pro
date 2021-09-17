@@ -21,10 +21,12 @@ class Ingresosbarrera extends CI_Model
         $url = REST_CORE . $resource;
         return wso2($url);                                
     }
-
-    //Obtiene los formularios asociados a un pedido de trabajo por petr_id
-    // parametro petr_id
-    //
+    
+    /**
+	* Obtiene los formularios asociados a un pedido de trabajo por petr_id
+	* @param array $data petr_id
+	* @return array data formularios asociados
+	*/
     public function getFormularios($petr_id){
         $resource = "/pedidoTrabajo/petr_id/$petr_id";
         $url = REST_PRO . $resource;
@@ -42,7 +44,11 @@ class Ingresosbarrera extends CI_Model
         $rsp = $this->rest->callApi('POST', $url, $data);
         return $rsp;
     }
-
+    /**
+	* Elimino el ingreso por barrera(pedido de trabajo)
+	* @param array $petr_id
+	* @return array petr_id
+	*/
     public function eliminarPedidoTrabajo($data)
     {
         $url = REST_PRO . "/pedidoTrabajo";
@@ -61,7 +67,11 @@ class Ingresosbarrera extends CI_Model
         return $rsp;
     }
 
-    // lanzar proceso
+    /**
+	* Obtengo la informacion relacionada al proceso guardada en pro.procesos
+	* @param $processname (se obtiene de la data del usuario processname que se le carga desde el menú)
+	* @return array datos del proceso asociado
+	*/
     public function procesos(){
         $proccessname = $this->session->userdata('proccessname');
 
