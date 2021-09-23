@@ -280,7 +280,8 @@
       wo();
       var data = buscaDatos();
       if (!data) {
-        alert('Seleccione fechas por favor...');
+        alertify.error('Seleccione fechas por favor...');
+        wc();
         return;
       }
       $.ajax({
@@ -293,7 +294,7 @@
                 wc();
           },
           error: function(result){
-                    
+            wc();
           },
           complete: function(){
                     
