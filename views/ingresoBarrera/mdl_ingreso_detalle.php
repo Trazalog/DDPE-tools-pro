@@ -1,11 +1,3 @@
-<style>
-.modal-dialog,.modal-dialog img { 
-    width:50%;
-    height:75%;
-    margin:2 auto;
-}
-
-</style>
 <input id="tarea" data-info="" class="hidden">
 <input type="text" class="form-control hidden" id="asignado" value="">
 <input type="text" class="form-control hidden" id="taskId" value="">
