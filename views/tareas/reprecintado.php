@@ -369,7 +369,7 @@ $(document).ready(function() {
     //Escaneo documentacion
     detectarForm();
     initForm();
-    $('.btnNotifEstandar.btn-success').text('Impirmir acta');
+    $('.btnNotifEstandar.btn-success').text('Imprimir acta');
 
     //MÁSCARAS
     //Bruto y Tara
@@ -446,14 +446,14 @@ async function cerrarTareaform(){
 
 
 function cerrarTarea() {
-
+    wo();
     if(!frm_validar('#formReprecintado')){
-        console.log("Error al validar Formulario");
-				Swal.fire(
-					'Error..',
-					'Debes completar los campos obligatorios (*)',
-					'error'
-				);
+        Swal.fire(
+            'Error..',
+            'Debes completar los campos obligatorios (*)',
+            'error'
+        );
+        wc();
         return;
     }
 
@@ -482,7 +482,7 @@ function cerrarTarea() {
                         'Se finalizó la tarea correctamente!',
                         'success'
                     )
-        	  }, 13000);
+        	  }, 7000);
 
             },
             error: function(data) {
@@ -490,6 +490,7 @@ function cerrarTarea() {
             }
         });
     }).catch((err) => {
+        wc();
         console.log(err);
         alert("Error al finalizar tarea");
     });
