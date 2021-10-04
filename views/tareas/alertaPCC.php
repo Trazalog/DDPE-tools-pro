@@ -968,6 +968,7 @@ async function cerrarTareaform(){
                     }
                 },
                 error: function(data) {
+                    wc();
                     alert("Error al guardar datos del formulario");
                     reject("Error");
                 }
@@ -975,6 +976,7 @@ async function cerrarTareaform(){
 
         },
         error: function(data) {
+            wc();
             alert("Error al guardar formulario de la inspección");
             reject("Error");
         }
@@ -985,104 +987,110 @@ async function cerrarTareaform(){
 
 
 function cerrarTarea() {
+    wo();
+    if(!frm_validar('#formAlertaPCC')){
+        Swal.fire(
+            'Error..',
+            'Debes completar los campos obligatorios (*)',
+            'error'
+        );
+        wc();
+        return;
+    }
+    //
+    //Validacion Escaneo Documentacion
+    //
+    if($("select[name=doc_impo]").val() == "" || $("#cant_doc").val() == ""){
+        Swal.fire(
+            'Error..',
+            'Debes completar el formulario de escaneo documentación (*)',
+            'error'
+        );
+        wc();
+        return;
+    }
+    //
+    //VALIDACION PERMISOS DE TRANSITO
+    //
+    if ( !$('#sec_permisos').children().length > 0 ) { 
+        Swal.fire(
+            'Error..',
+            'No se agregaron permisos de tránsito (*)',
+            'error'
+        );
+        wc();
+        return;
+    }
+    //
+    //VALIDACION EMPRESAS DESTINO
+    //
+    if ( !$('#sec_destinos').children().length > 0 ) {
+        Swal.fire(
+            'Error..',
+            'No se agregaron empresas de destino (*)',
+            'error'
+        );
+        wc();
+        return;
+    }
+    //
+    //VALIDACION TERMICOS
+    //
+    if ( !$('#sec_termicos').children().length > 0 ) {
+        
+        Swal.fire(
+            'Error..',
+            'No se agregaron térmicos (*)',
+            'error'
+        );
+        wc();
+        return;
+    }
+    //Una vez validado el formulario, lo guardo
+    cerrarTareaform().then((result) => {
+        
+        var dataForm = new FormData($('#formAlertaPCC')[0]);
+        var frm_info_id = $('#formEscaneoDocu .frm').attr('data-ninfoid');
+        var acta_info_id = $('#formActaInfraccion .frm').attr('data-ninfoid');
+        
+        dataForm.append('frm_info_id', frm_info_id);
+        dataForm.append('acta_info_id', acta_info_id);
+        dataForm.append('doc_impositiva', $("select[name=doc_impo]").val());
 
-if(!frm_validar('#formAlertaPCC')){
-    console.log("Error al validar Formulario");
-            Swal.fire(
-                'Error..',
-                'Debes completar los campos obligatorios (*)',
-                'error'
-            );
-    return;
-}
-//
-//Validacion Escaneo Documentacion
-//
-if($("select[name=doc_impo]").val() == "" || $("#cant_doc").val() == ""){
-            Swal.fire(
-                'Error..',
-                'Debes completar el formulario de escaneo documentación (*)',
-                'error'
-            );
-    return;
-}
-//
-//VALIDACION PERMISOS DE TRANSITO
-//
-if ( !$('#sec_permisos').children().length > 0 ) { 
-    Swal.fire(
-                'Error..',
-                'No se agregaron permisos de tránsito (*)',
-                'error'
-            );
-    return;
-}
-//
-//VALIDACION EMPRESAS DESTINO
-//
-if ( !$('#sec_destinos').children().length > 0 ) {
-    Swal.fire(
-                'Error..',
-                'No se agregaron empresas de destino (*)',
-                'error'
-            );
-    return;
-}
-//
-//VALIDACION TERMICOS
-//
-if ( !$('#sec_termicos').children().length > 0 ) {
-    
-    Swal.fire(
-                'Error..',
-                'No se agregaron térmicos (*)',
-                'error'
-            );
-    return;
-}
-//Una vez validado el formulario, lo guardo
-cerrarTareaform().then((result) => {
-    
-    var dataForm = new FormData($('#formAlertaPCC')[0]);
-    var frm_info_id = $('#formEscaneoDocu .frm').attr('data-ninfoid');
-    var acta_info_id = $('#formActaInfraccion .frm').attr('data-ninfoid');
-      
-    dataForm.append('frm_info_id', frm_info_id);
-    dataForm.append('acta_info_id', acta_info_id);
-    dataForm.append('doc_impositiva', $("select[name=doc_impo]").val());
+        var id = $('#taskId').val();
 
-    var id = $('#taskId').val();
+        $.ajax({
+            type: 'POST',
+            data: dataForm,
+            cache: false,
+            contentType: false,
+            processData: false,
+            url: '<?php base_url() ?>index.php/<?php echo BPM ?>Proceso/cerrarTarea/' + id,
+            success: function(data) {
+                //wc();
+                //back();
+                linkTo('<?php echo BPM ?>Proceso/');
+                setTimeout(() => {
+                Swal.fire(
+                    
+                        'Perfecto!',
+                        'Se finalizó la tarea correctamente!',
+                        'success'
+                    )
+            }, 7000);
 
-    $.ajax({
-        type: 'POST',
-        data: dataForm,
-        cache: false,
-        contentType: false,
-        processData: false,
-        url: '<?php base_url() ?>index.php/<?php echo BPM ?>Proceso/cerrarTarea/' + id,
-        success: function(data) {
-            //wc();
-            //back();
-            linkTo('<?php echo BPM ?>Proceso/');
-            setTimeout(() => {
-            Swal.fire(
-                
-                    'Perfecto!',
-                    'Se finalizó la tarea correctamente!',
-                    'success'
-                )
-          }, 13000);
-
-        },
-        error: function(data) {
-            alert("Error al finalizar tarea");
-        }
+            },
+            error: function(data) {
+                wc();
+                alert("Error al finalizar tarea");
+            }
+        });
+        
+    }).catch((err) => {
+        wc();
+        console.log(err);
+        alert("Error al finalizar tarea");
     });
-    
-}).catch((err) => {
-    console.log(err);
-    alert("Error al finalizar tarea");
-});
 }
 //
 // Limpio Informacion pre cargada para no tener errores con PK de las tablas

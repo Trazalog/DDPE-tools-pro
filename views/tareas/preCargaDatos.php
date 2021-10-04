@@ -178,7 +178,7 @@
                             <div class="form-group">
                                 <label for="esta_nom">Establecimiento(<strong style="color: #dd4b39">*</strong>):</label>
                                 <div class="input-group">
-                                    <select class="form-control select2 select2-hidden-accesible empresa" name="esta_nom" id="esta_nom" required>
+                                    <select class="form-control select2 select2-hidden-accesible empresa" name="esta_nom" id="esta_nom">
                                         <option value="" disabled selected></option>
                                     </select>
                                     <span id="add_establecimiento" class="input-group-addon" data-toggle="modal" data-target="#mdl-empresa" onclick="$('#tipoEmpresa').val('Establecimiento')"><i class="fa fa-plus"></i></span>
@@ -721,7 +721,7 @@ $("#empre_destino").on('change', function(){
 
 //Cierre formulario
 async function cerrarTareaform(){
-    debugger;
+    
     //obtengo el formulario de la inspeccion
     var dataForm = new FormData($('#formPreCarga')[0]);
     dataForm.append('case_id', $("#caseId").val());
@@ -792,6 +792,7 @@ async function cerrarTareaform(){
                         }
                     },
                     error: function(data) {
+                        wc();
                         alert("Error al guardar datos del formulario");
                         reject("Error");
                     }
@@ -799,6 +800,7 @@ async function cerrarTareaform(){
 
             },
             error: function(data) {
+                wc();
                 alert("Error al guardar formulario de PreCarga");
                 reject("Error");
             }
@@ -809,14 +811,14 @@ async function cerrarTareaform(){
     
 
 function cerrarTarea() {
-
+    wo();
     if(!frm_validar('#formPreCarga')){
-        console.log("Error al validar Formulario");
-				Swal.fire(
-					'Error..',
-					'Debes completar los campos obligatorios (*)',
-					'error'
-				);
+        Swal.fire(
+            'Error..',
+            'Debes completar los campos obligatorios (*)',
+            'error'
+        );
+        wc();
         return;
     }
     //
@@ -824,10 +826,11 @@ function cerrarTarea() {
     //
     if ( !$('#sec_permisos').children().length > 0 ) { 
         Swal.fire(
-					'Error..',
-					'No se agregaron permisos de tránsito (*)',
-					'error'
-				);
+            'Error..',
+            'No se agregaron permisos de tránsito (*)',
+            'error'
+        );
+        wc();
         return;
     }
     //
@@ -835,22 +838,23 @@ function cerrarTarea() {
     //
     if ( !$('#sec_destinos').children().length > 0 ) {
         Swal.fire(
-					'Error..',
-					'No se agregaron empresas de destino (*)',
-					'error'
-				);
+            'Error..',
+            'No se agregaron empresas de destino (*)',
+            'error'
+        );
+        wc();
         return;
     }
     //
     //VALIDACION TERMICOS
     //
     if ( !$('#sec_termicos').children().length > 0 ) {
-        
         Swal.fire(
-					'Error..',
-					'No se agregaron térmicos (*)',
-					'error'
-				);
+            'Error..',
+            'No se agregaron térmicos (*)',
+            'error'
+        );
+        wc();
         return;
     }
     //Una vez validado el formulario, lo guardo
@@ -879,15 +883,17 @@ function cerrarTarea() {
                         'Se finalizó la tarea correctamente!',
                         'success'
                     )
-        	  }, 13000);
+        	  }, 7000);
 
             },
             error: function(data) {
+                wc();
                 alert("Error al finalizar tarea");
             }
         });
         
     }).catch((err) => {
+        wc();
         console.log(err);
         alert("Error al finalizar tarea");
     });
