@@ -310,14 +310,7 @@
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 <div class="form-group">
                                     <label for="inspValida">¿Inspección correcta?:</label>
-                                    <div class="form-check form-check-inline">
-                                        <input type="radio" class='form-check-input' name="inspValida" value="correcta" <?php echo isset($inspeccion->resultado) && ($inspeccion->resultado == "correcta")  ? "checked" : ""; ?> onchange="showValidar(this)" disabled/>
-                                        <label class="form-check-label" for="">Sí</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input type="radio" class='form-check-input' name="inspValida" value="incorrecta" <?php echo isset($inspeccion->resultado) && ($inspeccion->resultado == "incorrecta") ? "checked" : ""; ?> onchange="showValidar(this)" disabled/>
-                                        <label class="form-check-label" for="">No</label>
-                                    </div>
+                                    <input class="form-control" name="inspValida" id="resultado" value="<?php echo isset($inspeccion->resultado) ? $inspeccion->resultado : null; ?>" readonly/>
                                 </div>
                             </div>
                             <!--________________-->
@@ -360,7 +353,7 @@
 $(document).ready(function() {
     //Seccion de trigger para los cambios
     //Mustra bloque validar si es correcta
-    $('input[name=inspValida]:checked').trigger('change');
+    showValidar($('#resultado').val());
     
     //Calcula neto anterior
     $(".neto").trigger('change');
@@ -501,10 +494,9 @@ function cerrarTarea() {
 //
 //Bloques para validar
 //
-function showValidar(tag){
-    if(tag.value == "correcta"){
+function showValidar(resultado){
+    if(resultado == "correcta"){
         $("#bloque_validar").hide();
-        $('#tpoInfraccion').val(null).trigger('change');
     }else{
         $("#bloque_validar").show();
     }
