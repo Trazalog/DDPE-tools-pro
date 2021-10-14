@@ -23,7 +23,7 @@ class Inspeccion extends CI_Controller
 	*/
     public function ingresoBarrera(){
 
-		log_message('INFO', "#TRAZA | #SICPOA | Inspeccion | ingresoBarrera()");
+		log_message('DEBUG', "#TRAZA | #SICPOA | Inspeccion | ingresoBarrera()");
         $this->load->view('barrera/barrera');
     }
     /**
@@ -33,7 +33,7 @@ class Inspeccion extends CI_Controller
 	*/
     public function agregarChofer(){
 
-		log_message('INFO', "#TRAZA | #SICPOA | Inspeccion | agregarChofer()");
+		log_message('DEBUG', "#TRAZA | #SICPOA | Inspeccion | agregarChofer()");
 
         $data = $this->input->post('data');
         $data['usuario_app'] = userNick();
@@ -52,7 +52,7 @@ class Inspeccion extends CI_Controller
 	* @return array listado de choferes coincidentes con el criterio de busqueda
 	*/
     public function buscaChoferes(){
-		log_message('INFO', "#TRAZA | #SICPOA | Inspeccion | buscaChoferes()");
+		log_message('DEBUG', "#TRAZA | #SICPOA | Inspeccion | buscaChoferes()");
 
         $dato = $this->input->get('patron');
         
@@ -70,7 +70,7 @@ class Inspeccion extends CI_Controller
 	* @return bool true o false segun resultado de servicio de guardado
 	*/
     public function agregarEmpresa(){
-		log_message('INFO', "#TRAZA | #SICPOA | Inspeccion | agregarEmpresa()");
+		log_message('DEBUG', "#TRAZA | #SICPOA | Inspeccion | agregarEmpresa()");
 
         $data = $this->input->post('data');
         $data['usuario_app'] = userNick();
@@ -89,7 +89,7 @@ class Inspeccion extends CI_Controller
 	* @return array listado de empresas coincidentes con patron
 	*/
     public function buscaEmpresas(){
-		log_message('INFO', "#TRAZA | #SICPOA | Inspeccion | buscaEmpresas()");
+		log_message('DEBUG', "#TRAZA | #SICPOA | Inspeccion | buscaEmpresas()");
 
         $dato = $this->input->get('patron');
         
@@ -107,7 +107,7 @@ class Inspeccion extends CI_Controller
 	* @return bool true o false segun resultado de servicio de guardado
 	*/
     public function agregarDeposito(){
-		log_message('INFO', "#TRAZA | #SICPOA | Inspeccion | agregarDeposito()");
+		log_message('DEBUG', "#TRAZA | #SICPOA | Inspeccion | agregarDeposito()");
 
         $data = $this->input->post('data');
         
@@ -125,7 +125,7 @@ class Inspeccion extends CI_Controller
 	* @return array listado de depositos coincidentes con id
 	*/
     public function getDepositos(){
-		log_message('INFO', "#TRAZA | #SICPOA | Inspeccion | getDepositos()");
+		log_message('DEBUG', "#TRAZA | #SICPOA | Inspeccion | getDepositos()");
 
         $dato = $this->input->post('destino');
         
@@ -143,7 +143,7 @@ class Inspeccion extends CI_Controller
 	* @return array informacion cargada para un inspeccion
 	*/
     public function getInspeccion(){
-		log_message('INFO', "#TRAZA | #SICPOA | Inspeccion | getInspeccion()");
+		log_message('DEBUG', "#TRAZA | #SICPOA | Inspeccion | getInspeccion()");
 
         $caseId = $this->input->post('caseId');
         
@@ -161,7 +161,7 @@ class Inspeccion extends CI_Controller
 	* @return bool true o false segun resultado de servicio de guardado
 	*/
     public function agregarInspeccion(){
-		log_message('INFO', "#TRAZA | #SICPOA | Inspeccion | agregarInspeccion()");
+		log_message('DEBUG', "#TRAZA | #SICPOA | Inspeccion | agregarInspeccion()");
 		
         $data['case_id'] = $this->input->post('case_id');
 		$data['patente_tractor'] =  !empty($this->input->post('patente_tractor'))? $this->input->post('patente_tractor') : "";
@@ -197,7 +197,7 @@ class Inspeccion extends CI_Controller
 	* @return bool true o false segun resultado de servicio de guardado
 	*/
     public function guardarDatosInspeccion(){
-		log_message('INFO', "#TRAZA | #SICPOA | Inspeccion | guardarDatosInspeccion()");
+		log_message('DEBUG', "#TRAZA | #SICPOA | Inspeccion | guardarDatosInspeccion()");
 		
 		$permisos = $this->input->post('permisos');
         $empresas = $this->input->post('empresas');
@@ -254,7 +254,7 @@ class Inspeccion extends CI_Controller
 	* @return bool true o false segun resultado de servicio de borrado
 	*/
     public function eliminarPermiso(){
-		log_message('INFO', "#TRAZA | #SICPOA | Inspeccion | eliminarPermiso()");
+		log_message('DEBUG', "#TRAZA | #SICPOA | Inspeccion | eliminarPermiso()");
 
         $data = $this->input->post('data');
         
@@ -273,7 +273,7 @@ class Inspeccion extends CI_Controller
 	* @return bool true o false segun resultado de servicio de borrado
 	*/
     public function eliminarEmpresa(){
-		log_message('INFO', "#TRAZA | #SICPOA | Inspeccion | eliminarEmpresa()");
+		log_message('DEBUG', "#TRAZA | #SICPOA | Inspeccion | eliminarEmpresa()");
 
         $data = $this->input->post('data');
         
@@ -292,7 +292,7 @@ class Inspeccion extends CI_Controller
 	* @return bool true o false segun resultado de servicio de borrado
 	*/
     public function eliminarTermico(){
-		log_message('INFO', "#TRAZA | #SICPOA | Inspeccion | eliminarTermico()");
+		log_message('DEBUG', "#TRAZA | #SICPOA | Inspeccion | eliminarTermico()");
 
         $data = $this->input->post('data');
         
@@ -310,7 +310,7 @@ class Inspeccion extends CI_Controller
 	* @return bool true o false segun resultado de servicio de borrado
 	*/
     public function limpiarDataPreCargada(){
-		log_message('INFO', "#TRAZA | #SICPOA | Inspeccion | limpiarDataPreCargada()");
+		log_message('DEBUG', "#TRAZA | #SICPOA | Inspeccion | limpiarDataPreCargada()");
 		
 		$caseId = $this->input->post('caseId');
 
@@ -343,7 +343,7 @@ class Inspeccion extends CI_Controller
 	* @return bool true o false segun resultado de servicio de guardado
 	*/
     public function agregarDocumento(){
-		log_message('INFO', "#TRAZA | #SICPOA | Inspeccion | agregarDocumento()");
+		log_message('DEBUG', "#TRAZA | #SICPOA | Inspeccion | agregarDocumento()");
 		
 		$data['fec_emision'] = date('Y-m-d');
 		$data['num_documento'] =  !empty($this->input->post('num_documento'))? $this->input->post('num_documento') : "";
@@ -368,7 +368,7 @@ class Inspeccion extends CI_Controller
 	* @return bool true o false segun resultado de servicio de guardado
 	*/
     public function guardarDetallesDocumentos(){
-		log_message('INFO', "#TRAZA | #SICPOA | Inspeccion | guardarDetallesDocumentos()");
+		log_message('DEBUG', "#TRAZA | #SICPOA | Inspeccion | guardarDetallesDocumentos()");
 		$detalles = $this->input->post('detalles');
 
 		$resp = $this->Inspecciones->guardarDetallesDocumentos($detalles);
@@ -385,7 +385,7 @@ class Inspeccion extends CI_Controller
 	* @return bool true o false segun resultado de servicio de borrado
 	*/
     public function eliminarDocumento(){
-		log_message('INFO', "#TRAZA | #SICPOA | Inspeccion | eliminarDocumento()");
+		log_message('DEBUG', "#TRAZA | #SICPOA | Inspeccion | eliminarDocumento()");
 		
 		$documento = $this->input->post('documento');
 
@@ -403,7 +403,7 @@ class Inspeccion extends CI_Controller
 	* @return bool true o false segun resultado de servicio
 	*/
     public function editarDetalleDocumento(){
-		log_message('INFO', "#TRAZA | #SICPOA | Inspeccion | editarDetalleDocumento()");
+		log_message('DEBUG', "#TRAZA | #SICPOA | Inspeccion | editarDetalleDocumento()");
 		$detalle = $this->input->post('data');
 
 		$resp = $this->Inspecciones->editarDetalleDocumento($detalle);
@@ -420,7 +420,7 @@ class Inspeccion extends CI_Controller
 	* @return bool true o false segun resultado de servicio de borrado
 	*/
     public function eliminarDetalleDocumento(){
-		log_message('INFO', "#TRAZA | #SICPOA | Inspeccion | eliminarDetalleDocumento()");
+		log_message('DEBUG', "#TRAZA | #SICPOA | Inspeccion | eliminarDetalleDocumento()");
 		
 		$dedo_id = $this->input->post('dedo_id');
 
@@ -438,7 +438,7 @@ class Inspeccion extends CI_Controller
 	* @return bool true o false segun resultado de servicio
 	*/
     public function agregarDetalleDocumento(){
-		log_message('INFO', "#TRAZA | #SICPOA | Inspeccion | agregarDetalleDocumento()");
+		log_message('DEBUG', "#TRAZA | #SICPOA | Inspeccion | agregarDetalleDocumento()");
 		$detalle = $this->input->post('data');
 
 		$resp = $this->Inspecciones->agregarDetalleDocumento($detalle);
@@ -455,7 +455,7 @@ class Inspeccion extends CI_Controller
 	* @return bool true o false segun resultado de servicio
 	*/
     public function editarDocumento(){
-		log_message('INFO', "#TRAZA | #SICPOA | Inspeccion | editarDocumento()");
+		log_message('DEBUG', "#TRAZA | #SICPOA | Inspeccion | editarDocumento()");
 
 		$data['fec_emision'] = date('Y-m-d');
 		$data['num_documento'] =  !empty($this->input->post('num_documento'))? $this->input->post('num_documento') : "";

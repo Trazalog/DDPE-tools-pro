@@ -33,355 +33,372 @@
   height: 40px;
 }
 </style>
-<!--_______ FORMULARIO PERMISO DE TRANSITO BOX 1______-->
-<form class="formAlertaPCC" id="formAlertaPCC">
-    <div class="row">
-        <div class="col-md-6 col-sm-12 col-xs-12">
-            <div class="caja" id="boxPermisoTransito">
-                <div class="box-tittle centrar">
-                    <h3>Permiso de tránsito</h3>
-                </div>
-                <input type="text" class="form-control hidden" name="petr_id" id="petr_id" value="<?php echo $petr_id?>">
-                <!--Solicitud-->
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="Solicitud">Solicitud N°(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input type="text" class="form-control requerido limitedChars" id="soli_num" placeholder="Ingrese número de solicitud"/>
-                    </div>
-                </div>
-                <!--________________-->
-
-                <!-- Lugar de Emisión -->
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="emision">Lugar de emisión(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input type="text" class="form-control" id="emision" placeholder="Ingrese lugar de emisión"/>
-                    </div>
-                </div>
-                <!--________________-->
-
-                <!--Hora de Salida-->
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    <div class="form-group">
-                    <label for="salida">Hora de Salida(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input type="time" class="form-control" id="salida" placeholder="Ingrese hora de salida"/>
-                    </div>
-                </div>
-                <!--________________-->
-
-                <!--Fecha-->
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    <div class="form-group">
-                    <label for="fecha">Fecha(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input type="date" class="form-control" id="fecha" placeholder="Ingrese fecha"/>
-                    </div>
-                </div>
-                <!--________________-->
-
-                <!--DOC. Sanitaria Tipo-->
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                        <label for="doc_sanitaria">Doc. Sanitaria Tipo(<strong style="color: #dd4b39">*</strong>):</label>
-                    <div class="form-check form-check-inline">
-                        <input type="radio" class='form-check-input' name="doc_sanitaria" value="PT" />
-                        <label class="form-check-label" for="">PT</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input type="radio" class='form-check-input' name="doc_sanitaria" value="PTR" />
-                        <label class="form-check-label" for="">PTR</label>
-                    </div>
-                </div>
-                <!--________________-->
-
-                <!--_________________ Agregar_________________-->
-                    <div class="form-group text-right">
-                        <button type="button" class="btn btn-outline-dark" onclick="agregarPermiso()" >Agregar</button>
-                    </div>                
-                <!--__________________________________-->
-                <div class="col-md-12 col-sm-12 col-xs-12 centrar">
-                    <h4>Permisos:</h4>
-                    <div id="sec_permisos">
-                        <?php 
-                        if(!empty($preCargaDatos->permisos_transito->permiso_transito)){
-                            foreach ($preCargaDatos->permisos_transito->permiso_transito as $key) {
-                        ?>
-                            <div class='form-group permTransito' data-json='<?php echo json_encode($key) ?>'>
-                                <span> 
-                                    <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i>
-                                    <i class='fa fa-fw fa-edit text-light-blue' style='cursor: pointer;' title='Editar'></i> 
-                                    <?php echo "| $key->perm_id - $key->tipo - $key->lugar_emision - $key->fecha_hora_salida" ?>
-                                </span>
+<div class="nav-tabs-custom ">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#formReprecintado_tab" data-toggle="tab" aria-expanded="false">Formulario</a></li>
+        <li class="privado"><a href="#actaInfraccion_tab" data-toggle="tab" aria-expanded="false">Acta de Infracción</a></li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane active" id="formReprecintado_tab">
+            <!--_______ FORMULARIO PERMISO DE TRANSITO BOX 1______-->
+            <form class="formAlertaPCC" id="formAlertaPCC">
+                <div class="row">
+                    <div class="col-md-6 col-sm-12 col-xs-12">
+                        <div class="caja" id="boxPermisoTransito">
+                            <div class="box-tittle centrar">
+                                <h3>Permiso de tránsito</h3>
                             </div>
-                        <?php
-                            }
-                        }
-                        ?>
-                    </div>
-                    <hr>
-                </div>
-
-                <?php $this->load->view(SICP.'inspeccion/mosaicoBarrera.php') ?>
-                <hr>
-                <?php $this->load->view(SICP.'inspeccion/mosaicoDocumentacion.php') ?>
-            </div><!-- FIN box-primary -->
-        </div>
-        <!--_______ FIN FORMULARIO PERMISO DE TRANSITO BOX 1 ______-->
-
-        <!--_______ FORMULARIO INSPECCION BOX 2______-->
-        <div class="col-md-6 col-sm-12 col-xs-12">
-            <div class="caja" id="boxInspeccion">
-                <!--DNI Chofer-->
-                <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
-                    <label for="doc_chofer">DNI Chofer(<strong style="color: #dd4b39">*</strong>):</label>
-                    <div class="input-group">
-                        <select class="form-control select2 select2-hidden-accesible choferes" name="chof_id" id="doc_chofer" required>
-                            <option value="" disabled selected>-Seleccionar-</option>	
-                        </select>
-                        <span id="add_chofer" class="input-group-addon" data-toggle="modal" data-target="#mdl-chofer"><i class="fa fa-plus"></i></span>
-                    </div>
-                </div>
-                <!--________________-->
-
-                <!-- Nombre CHOFER -->
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="nom_chofer">Nombre Chofer(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input type="text" class="form-control" name="nom_chofer" id="nom_chofer" placeholder="" readonly/>
-                    </div>
-                </div>
-                <!--________________-->
-
-                <!--Patente Tractor-->
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    <div class="form-group has-feedback">
-                    <label for="patenteTractor">Patente Tractor(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input class="form-control limited" name="patente_tractor" id="patenteTractor" placeholder="Ingrese patente tractor" value="<?php echo isset($preCargaDatos->patente_tractor) ? $preCargaDatos->patente_tractor : null ?>" required/>
-                    </div>
-                </div>
-                <!--________________-->
-
-                <!--N° SENASA-->
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    <div class="form-group">
-                    <label for="num_senasa">N° SENASA(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input class="form-control limitedChars" name="nro_senasa" id="num_senasa" placeholder="Ingrese N° SENASA" value="<?php echo isset($preCargaDatos->nro_senasa) ? $preCargaDatos->nro_senasa : null ?>" required/>
-                    </div>
-                </div>
-                <!--________________-->
-                
-                <!--Establecimiento N°-->
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    <div class="form-group">
-                    <label for="esta_num">Establecimiento N°(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input class="form-control" name="esta_num" id="esta_num" placeholder="Establecimiento N°" readonly/>
-                    </div>
-                </div>
-                <!--________________-->
-
-                <!--Nombre Establecimiento-->
-                <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
-                    <div class="form-group">
-                        <label for="esta_nom">Establecimiento(<strong style="color: #dd4b39">*</strong>):</label>
-                        <div class="input-group">
-                            <select class="form-control select2 select2-hidden-accesible empresa" id="esta_nom" required>
-                                <option value="" disabled selected></option>
-                            </select>
-                            <span id="add_establecimiento" class="input-group-addon" data-toggle="modal" data-target="#mdl-empresa"><i class="fa fa-plus"></i></span>
-                        </div>
-                    </div>
-                </div>
-                <!--________________-->
-
-                <!--Empresa Destino-->
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="empre_destino">Empresa Destino(<strong style="color: #dd4b39">*</strong>):</label>
-                        <div class="input-group">
-                        <select class="form-control select2 select2-hidden-accesible empresa" name="empre_destino" id="empre_destino">
-                            <option value="" disabled selected></option>
-                        </select>
-                            <span id="add_empresa" class="input-group-addon" data-toggle="modal" data-target="#mdl-empresa"><i class="fa fa-plus"></i></span>
-                        </div>
-                    </div>                    
-                </div>
-                <!--________________-->
-
-                <!--Depósito Destino-->
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="depo_destino">Depósito Destino(<strong style="color: #dd4b39">*</strong>):</label>
-                        <div class="input-group">
-                        <select class="form-control select2 select2-hidden-accesible" name="depo_destino" id="depo_destino">
-                            <option value="" disabled selected>-Seleccionar-</option>
-                        </select>
-                            <span id="add_deposito" class="input-group-addon" data-toggle="modal" data-target="#mdl-deposito"><i class="fa fa-plus"></i></span>
-                        </div>
-                    </div>                    
-                </div>
-                <!--_________________ Agregar_________________-->
-                <div class="form-group text-right">
-                    <button type="button" class="btn btn-outline-dark" onclick="agregarDestino()" >Agregar</button>
-                </div>                
-                <!--__________________________________-->
-
-                <div class="col-md-12 col-sm-12 col-xs-12 centrar">
-                    <h4>Empresa Destino:</h4>
-                    <div id="sec_destinos">
-                        <?php 
-                        if(!empty($destinos)){
-                            foreach ($destinos as $key) {
-                        ?>
-                            <div class='form-group empreDestino' data-json='<?php echo json_encode($key) ?>'>
-                                <span> 
-                                    <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i>
-                                    <?php echo "| $key->razon_social - $key->calle - $key->altura" ?>
-                                </span>
-                            </div>
-                        <?php
-                            }
-                        }
-                        ?>
-                    </div>
-                    <hr>
-                </div>
-                <!--________________-->
-                <!--Transportista-->
-                <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
-                    <div class="form-group">
-                        <label for="transportista">Transportista(<strong style="color: #dd4b39">*</strong>):</label>
-                        <div class="input-group">
-                            <select class="form-control select2 select2-hidden-accesible empresa" id="transportista" required>
-                                <option value="" disabled selected></option>
-                            </select>
-                            <span id="add_transportista" class="input-group-addon" data-toggle="modal" data-target="#mdl-transportista"><i class="fa fa-plus"></i></span>
-                        </div>
-                    </div>                    
-                </div>
-                <!--________________-->
-                <!--Producto-->
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="producto">Producto/s(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input class="form-control" name="productos" id="producto" placeholder="Ingrese producto" value="<?php echo isset($preCargaDatos->productos) ? $preCargaDatos->productos : null; ?>" required/>
-                    </div>                    
-                </div>
-                <!--________________-->
-                <!--Termico Patente-->
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="term_patente">Térmico Patente(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input class="form-control limited" id="term_patente" placeholder="Ingrese térmico patente" />
-                    </div>                    
-                </div>
-                <!--________________-->
-                <!--Temperatura-->
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="temperatura">Temperatura(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input class="form-control" id="temperatura" placeholder="Ingrese temperatura" />
-                    </div>                    
-                </div>
-                <!--________________-->
-                <!--Precintos-->
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="precintos">Precintos N°(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input class="form-control limited" id="precintos" placeholder="Ingrese precintos" />
-                    </div>                    
-                </div>
-                <!--________________-->
-                <!--_________________ Agregar_________________-->
-                <div class="form-group text-right">
-                    <button type="button" class="btn btn-outline-dark" onclick="agregarTermico()" >Agregar</button>
-                </div>                
-                <!--__________________________________-->
-                <div class="col-md-12 col-sm-12 col-xs-12 centrar">
-                    <h4>Térmico:</h4>
-                    <div id="sec_termicos">
-                        <?php 
-                        if(!empty($preCargaDatos->termicos->termico)){
-                            foreach ($preCargaDatos->termicos->termico as $key) {
-                        ?>
-                            <div class='form-group termicos' data-json='<?php echo json_encode($key) ?>'>
-                                <span> 
-                                    <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i>
-                                    <?php echo "| $key->patente - $key->temperatura - $key->precintos" ?>
-                                </span>
-                            </div>
-                        <?php
-                            }
-                        }
-                        ?>
-                    </div>
-                </div>
-                <!--________________-->
-                <!--Observaciones-->
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                    <div class="form-group">
-                        <label for="observaciones">Observaciones:</label>
-                        <textarea class="form-control" row="3" name="observaciones" id="observaciones" placeholder="Observaciones" ></textarea>
-                    </div>                    
-                </div>
-                <!--________________-->
-                <!--Acta Infraccion-->
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                    <div class="form-group">
-                        <div class="input-group">
-                            <label>Acta infracción en calle:</label>
-                            <span id="add_acta" class="input-group-addon" data-toggle="modal" data-target="#mdl-actaInfraccion"><i class="fa fa-plus"></i></span>
-                        </div>
-                            <div class="col-sm-12 col-md-12 col-xl-12">
-                                <div class="contenedor">
-                                    <img id="imgActaInfraccion" class='thumbnail fotos' height='51' width='45' src='' alt='' style="display: none" onclick='preview(this)'>
+                            <input type="text" class="form-control hidden" name="petr_id" id="petr_id" value="<?php echo $petr_id?>">
+                            <!--Solicitud-->
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label for="Solicitud">Solicitud N°(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <input type="text" class="form-control requerido limitedChars" id="soli_num" placeholder="Ingrese número de solicitud"/>
                                 </div>
                             </div>
-                    </div>
-                </div>
-                <!--________________-->
-                <!--Valida Inspeccion-->
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                    <div class="form-group">
-                        <label for="inspValida">¿Inspección correcta?:</label>
-                        <div class="form-check form-check-inline">
-                            <input type="radio" class='form-check-input' name="inspValida" value="correcta" onchange="showValidar(this)"/>
-                            <label class="form-check-label" for="">Sí</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input type="radio" class='form-check-input' name="inspValida" value="incorrecta" onchange="showValidar(this)"/>
-                            <label class="form-check-label" for="">No</label>
-                        </div>
-                    </div>
-                </div>
-                <!--________________-->
-                <!--Bloque Validar-->
-                <div id="bloque_validar" style="display:none;">
-                    <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
-                        <div class="form-group">
-                            <label for="tpoInfraccion">Tipos Infracción(<strong style="color: #dd4b39">*</strong>):</label>
-                            <select class="form-control select2 select2-hidden-accesible" name="tpoInfraccion" id="tpoInfraccion" required>
-                                <option value="" disabled selected>-Seleccionar infracción-</option>	
-                                <?php
-                                if(!empty($infracciones)){
-                                    foreach ($infracciones as $tipos) {
-                                        echo "<option data-json='".json_encode($tipos)."' value='".$tipos->tabl_id."'>".$tipos->descripcion."</option>";
+                            <!--________________-->
+
+                            <!-- Lugar de Emisión -->
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label for="emision">Lugar de emisión(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <input type="text" class="form-control" id="emision" placeholder="Ingrese lugar de emisión"/>
+                                </div>
+                            </div>
+                            <!--________________-->
+
+                            <!--Hora de Salida-->
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                <label for="salida">Hora de Salida(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <input type="time" class="form-control" id="salida" placeholder="Ingrese hora de salida"/>
+                                </div>
+                            </div>
+                            <!--________________-->
+
+                            <!--Fecha-->
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                <label for="fecha">Fecha(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <input type="date" class="form-control" id="fecha" placeholder="Ingrese fecha"/>
+                                </div>
+                            </div>
+                            <!--________________-->
+
+                            <!--DOC. Sanitaria Tipo-->
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <label for="doc_sanitaria">Doc. Sanitaria Tipo(<strong style="color: #dd4b39">*</strong>):</label>
+                                <div class="form-check form-check-inline">
+                                    <input type="radio" class='form-check-input' name="doc_sanitaria" value="PT" />
+                                    <label class="form-check-label" for="">PT</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input type="radio" class='form-check-input' name="doc_sanitaria" value="PTR" />
+                                    <label class="form-check-label" for="">PTR</label>
+                                </div>
+                            </div>
+                            <!--________________-->
+
+                            <!--_________________ Agregar_________________-->
+                                <div class="form-group text-right">
+                                    <button type="button" class="btn btn-outline-dark" onclick="agregarPermiso()" >Agregar</button>
+                                </div>                
+                            <!--__________________________________-->
+                            <div class="col-md-12 col-sm-12 col-xs-12 centrar">
+                                <h4>Permisos:</h4>
+                                <div id="sec_permisos">
+                                    <?php 
+                                    if(!empty($preCargaDatos->permisos_transito->permiso_transito)){
+                                        foreach ($preCargaDatos->permisos_transito->permiso_transito as $key) {
+                                    ?>
+                                        <div class='form-group permTransito' data-json='<?php echo json_encode($key) ?>'>
+                                            <span> 
+                                                <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i>
+                                                <i class='fa fa-fw fa-edit text-light-blue' style='cursor: pointer;' title='Editar'></i> 
+                                                <?php echo "| $key->perm_id - $key->tipo - $key->lugar_emision - $key->fecha_hora_salida" ?>
+                                            </span>
+                                        </div>
+                                    <?php
+                                        }
                                     }
-                                }
-                                ?>
-                            </select>
-                        </div>
+                                    ?>
+                                </div>
+                                <hr>
+                            </div>
+
+                            <?php $this->load->view(SICP.'inspeccion/mosaicoBarrera.php') ?>
+                            <hr>
+                            <?php $this->load->view(SICP.'inspeccion/mosaicoDocumentacion.php') ?>
+                        </div><!-- FIN box-primary -->
                     </div>
-                    <div class="col-md-6 col-sm-6 col-xs-12">
-                        <div class="form-group">
-                            <label for="cant_fajas">Cantidad de fajas(<strong style="color: #dd4b39">*</strong>):</label>
-                            <input type="number" class="form-control" name="cant_fajas" id="cant_fajas" placeholder="Ingrese N° fajas" required/>
-                        </div>
-                    </div>
-                </div>                    
-                <!--________________-->
-            </div> <!--FIN box-primary-->
-        </div><!--FIN col-->
-    <!--_______ FIN FORMULARIO INSPECCION BOX 2______-->
-    </div><!-- FIN row-->
-</form>
+                    <!--_______ FIN FORMULARIO PERMISO DE TRANSITO BOX 1 ______-->
+
+                    <!--_______ FORMULARIO INSPECCION BOX 2______-->
+                    <div class="col-md-6 col-sm-12 col-xs-12">
+                        <div class="caja" id="boxInspeccion">
+                            <!--DNI Chofer-->
+                            <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
+                                <label for="doc_chofer">DNI Chofer(<strong style="color: #dd4b39">*</strong>):</label>
+                                <div class="input-group">
+                                    <select class="form-control select2 select2-hidden-accesible choferes" name="chof_id" id="doc_chofer" required>
+                                        <option value="" disabled selected>-Seleccionar-</option>	
+                                    </select>
+                                    <span id="add_chofer" class="input-group-addon" data-toggle="modal" data-target="#mdl-chofer"><i class="fa fa-plus"></i></span>
+                                </div>
+                            </div>
+                            <!--________________-->
+
+                            <!-- Nombre CHOFER -->
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label for="nom_chofer">Nombre Chofer(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <input type="text" class="form-control" name="nom_chofer" id="nom_chofer" placeholder="" readonly/>
+                                </div>
+                            </div>
+                            <!--________________-->
+
+                            <!--Patente Tractor-->
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group has-feedback">
+                                <label for="patenteTractor">Patente Tractor(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <input class="form-control limited" name="patente_tractor" id="patenteTractor" placeholder="Ingrese patente tractor" value="<?php echo isset($preCargaDatos->patente_tractor) ? $preCargaDatos->patente_tractor : null ?>" required/>
+                                </div>
+                            </div>
+                            <!--________________-->
+
+                            <!--N° SENASA-->
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                <label for="num_senasa">N° SENASA(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <input class="form-control limitedChars" name="nro_senasa" id="num_senasa" placeholder="Ingrese N° SENASA" value="<?php echo isset($preCargaDatos->nro_senasa) ? $preCargaDatos->nro_senasa : null ?>" required/>
+                                </div>
+                            </div>
+                            <!--________________-->
+                            
+                            <!--Establecimiento N°-->
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                <label for="esta_num">Establecimiento N°(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <input class="form-control" name="esta_num" id="esta_num" placeholder="Establecimiento N°" readonly/>
+                                </div>
+                            </div>
+                            <!--________________-->
+
+                            <!--Nombre Establecimiento-->
+                            <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
+                                <div class="form-group">
+                                    <label for="esta_nom">Establecimiento(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <div class="input-group">
+                                        <select class="form-control select2 select2-hidden-accesible empresa" id="esta_nom" required>
+                                            <option value="" disabled selected></option>
+                                        </select>
+                                        <span id="add_establecimiento" class="input-group-addon" data-toggle="modal" data-target="#mdl-empresa"><i class="fa fa-plus"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--________________-->
+
+                            <!--Empresa Destino-->
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label for="empre_destino">Empresa Destino(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <div class="input-group">
+                                    <select class="form-control select2 select2-hidden-accesible empresa" name="empre_destino" id="empre_destino">
+                                        <option value="" disabled selected></option>
+                                    </select>
+                                        <span id="add_empresa" class="input-group-addon" data-toggle="modal" data-target="#mdl-empresa"><i class="fa fa-plus"></i></span>
+                                    </div>
+                                </div>                    
+                            </div>
+                            <!--________________-->
+
+                            <!--Depósito Destino-->
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label for="depo_destino">Depósito Destino(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <div class="input-group">
+                                    <select class="form-control select2 select2-hidden-accesible" name="depo_destino" id="depo_destino">
+                                        <option value="" disabled selected>-Seleccionar-</option>
+                                    </select>
+                                        <span id="add_deposito" class="input-group-addon" data-toggle="modal" data-target="#mdl-deposito"><i class="fa fa-plus"></i></span>
+                                    </div>
+                                </div>                    
+                            </div>
+                            <!--_________________ Agregar_________________-->
+                            <div class="form-group text-right">
+                                <button type="button" class="btn btn-outline-dark" onclick="agregarDestino()" >Agregar</button>
+                            </div>                
+                            <!--__________________________________-->
+
+                            <div class="col-md-12 col-sm-12 col-xs-12 centrar">
+                                <h4>Empresa Destino:</h4>
+                                <div id="sec_destinos">
+                                    <?php 
+                                    if(!empty($destinos)){
+                                        foreach ($destinos as $key) {
+                                    ?>
+                                        <div class='form-group empreDestino' data-json='<?php echo json_encode($key) ?>'>
+                                            <span> 
+                                                <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i>
+                                                <?php echo "| $key->razon_social - $key->calle - $key->altura" ?>
+                                            </span>
+                                        </div>
+                                    <?php
+                                        }
+                                    }
+                                    ?>
+                                </div>
+                                <hr>
+                            </div>
+                            <!--________________-->
+                            <!--Transportista-->
+                            <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
+                                <div class="form-group">
+                                    <label for="transportista">Transportista(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <div class="input-group">
+                                        <select class="form-control select2 select2-hidden-accesible empresa" id="transportista" required>
+                                            <option value="" disabled selected></option>
+                                        </select>
+                                        <span id="add_transportista" class="input-group-addon" data-toggle="modal" data-target="#mdl-transportista"><i class="fa fa-plus"></i></span>
+                                    </div>
+                                </div>                    
+                            </div>
+                            <!--________________-->
+                            <!--Producto-->
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label for="producto">Producto/s(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <input class="form-control" name="productos" id="producto" placeholder="Ingrese producto" value="<?php echo isset($preCargaDatos->productos) ? $preCargaDatos->productos : null; ?>" required/>
+                                </div>                    
+                            </div>
+                            <!--________________-->
+                            <!--Termico Patente-->
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label for="term_patente">Térmico Patente(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <input class="form-control limited" id="term_patente" placeholder="Ingrese térmico patente" />
+                                </div>                    
+                            </div>
+                            <!--________________-->
+                            <!--Temperatura-->
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label for="temperatura">Temperatura(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <input class="form-control" id="temperatura" placeholder="Ingrese temperatura" />
+                                </div>                    
+                            </div>
+                            <!--________________-->
+                            <!--Precintos-->
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label for="precintos">Precintos N°(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <input class="form-control limited" id="precintos" placeholder="Ingrese precintos" />
+                                </div>                    
+                            </div>
+                            <!--________________-->
+                            <!--_________________ Agregar_________________-->
+                            <div class="form-group text-right">
+                                <button type="button" class="btn btn-outline-dark" onclick="agregarTermico()" >Agregar</button>
+                            </div>                
+                            <!--__________________________________-->
+                            <div class="col-md-12 col-sm-12 col-xs-12 centrar">
+                                <h4>Térmico:</h4>
+                                <div id="sec_termicos">
+                                    <?php 
+                                    if(!empty($preCargaDatos->termicos->termico)){
+                                        foreach ($preCargaDatos->termicos->termico as $key) {
+                                    ?>
+                                        <div class='form-group termicos' data-json='<?php echo json_encode($key) ?>'>
+                                            <span> 
+                                                <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i>
+                                                <?php echo "| $key->patente - $key->temperatura - $key->precintos" ?>
+                                            </span>
+                                        </div>
+                                    <?php
+                                        }
+                                    }
+                                    ?>
+                                </div>
+                            </div>
+                            <!--________________-->
+                            <!--Observaciones-->
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <label for="observaciones">Observaciones:</label>
+                                    <textarea class="form-control" row="3" name="observaciones" id="observaciones" placeholder="Observaciones" ></textarea>
+                                </div>                    
+                            </div>
+                            <!--________________-->
+                            <!--Acta Infraccion-->
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <label>Acta infracción en calle:</label>
+                                        <span id="add_acta" class="input-group-addon" data-toggle="modal" data-target="#mdl-actaInfraccion"><i class="fa fa-plus"></i></span>
+                                    </div>
+                                        <div class="col-sm-12 col-md-12 col-xl-12">
+                                            <div class="contenedor">
+                                                <img id="imgActaInfraccion" class='thumbnail fotos' height='51' width='45' src='' alt='' style="display: none" onclick='preview(this)'>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                            <!--________________-->
+                            <!--Valida Inspeccion-->
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <label for="inspValida">¿Inspección correcta?:</label>
+                                    <div class="form-check form-check-inline">
+                                        <input type="radio" class='form-check-input' name="inspValida" value="correcta" onchange="showValidar(this)"/>
+                                        <label class="form-check-label" for="">Sí</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input type="radio" class='form-check-input' name="inspValida" value="incorrecta" onchange="showValidar(this)"/>
+                                        <label class="form-check-label" for="">No</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--________________-->
+                            <!--Bloque Validar-->
+                            <div id="bloque_validar" style="display:none;">
+                                <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
+                                    <div class="form-group">
+                                        <label for="tpoInfraccion">Tipos Infracción(<strong style="color: #dd4b39">*</strong>):</label>
+                                        <select class="form-control select2 select2-hidden-accesible" name="tpoInfraccion" id="tpoInfraccion" required>
+                                            <option value="" disabled selected>-Seleccionar infracción-</option>	
+                                            <?php
+                                            if(!empty($infracciones)){
+                                                foreach ($infracciones as $tipos) {
+                                                    echo "<option data-json='".json_encode($tipos)."' value='".$tipos->tabl_id."'>".$tipos->descripcion."</option>";
+                                                }
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="cant_fajas">Cantidad de fajas(<strong style="color: #dd4b39">*</strong>):</label>
+                                        <input type="number" class="form-control" name="cant_fajas" id="cant_fajas" placeholder="Ingrese N° fajas" required/>
+                                    </div>
+                                </div>
+                            </div>                    
+                            <!--________________-->
+                        </div> <!--FIN box-primary-->
+                    </div><!--FIN col-->
+                <!--_______ FIN FORMULARIO INSPECCION BOX 2______-->
+                </div><!-- FIN row-->
+            </form>
+        </div><!-- FIN .tab-pane -->
+        <div class="tab-pane" id="actaInfraccion_tab">
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <?php $this->load->view(SICP."actas/acta_infraccion_inspeccion.php"); ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
 //
 //Document READY
@@ -585,6 +602,9 @@ $(document).ready(function() {
     $(".limited").inputmask({ regex: "[0-9/a-zA-Z -]*" });
     //Bruto y Tara
     $(".onlyNumbers").inputmask({ regex: "[0-9.,]*" });
+
+    //Renombro el BOTON de guardar
+    $('#btnHecho').text('Imprimir acta');
 
 });//FIN document.ready
 /******************************************************************************* */
@@ -854,9 +874,6 @@ $("#empre_destino").on('change', function(){
 //Cierre formulario
 async function cerrarTareaform(){
 
-    //si no se completo el paso de preCarga, no limpio las tablas
-    var preDataCargada = "<?php echo ($preDataCargada) ? $preDataCargada : $preDataCargada ?>";
-
     //obtengo el formulario de la inspeccion
     var dataForm = new FormData($('#formAlertaPCC')[0]);
     var frm_info_id = $('#formEscaneoDocu .frm').attr('data-ninfoid');
@@ -864,14 +881,12 @@ async function cerrarTareaform(){
     dataForm.append('case_id', $("#caseId").val());
     dataForm.append('info_id_doc', frm_info_id);
 
-    //evaluo si se precargaron datos para limpiar o no las tablas antes de guardar
-    if(preDataCargada){
-        limpiarDataPreCargada().then((result) => {
-            console.log(result);
-        }).catch((err) => {
-            console.log(err);
-        });
-    }
+    //Limpio la data pre cargada si existiera para evitar errores
+    limpiarDataPreCargada().then((result) => {
+        console.log(result);
+    }).catch((err) => {
+        console.log(err);
+    });
 
     //Guardo los datos del formulario para no perderlos en reload
     //obtengo los permisos
@@ -989,48 +1004,48 @@ async function cerrarTareaform(){
 function cerrarTarea() {
     wo();
     if(!frm_validar('#formAlertaPCC')){
+        wc();
         Swal.fire(
             'Error..',
             'Debes completar los campos obligatorios (*)',
             'error'
         );
-        wc();
         return;
     }
     //
     //Validacion Escaneo Documentacion
     //
     if($("select[name=doc_impo]").val() == "" || $("#cant_doc").val() == ""){
+        wc();
         Swal.fire(
             'Error..',
             'Debes completar el formulario de escaneo documentación (*)',
             'error'
         );
-        wc();
         return;
     }
     //
     //VALIDACION PERMISOS DE TRANSITO
     //
     if ( !$('#sec_permisos').children().length > 0 ) { 
+        wc();
         Swal.fire(
             'Error..',
             'No se agregaron permisos de tránsito (*)',
             'error'
         );
-        wc();
         return;
     }
     //
     //VALIDACION EMPRESAS DESTINO
     //
     if ( !$('#sec_destinos').children().length > 0 ) {
+        wc();
         Swal.fire(
             'Error..',
             'No se agregaron empresas de destino (*)',
             'error'
         );
-        wc();
         return;
     }
     //
@@ -1038,12 +1053,12 @@ function cerrarTarea() {
     //
     if ( !$('#sec_termicos').children().length > 0 ) {
         
+        wc();
         Swal.fire(
             'Error..',
             'No se agregaron térmicos (*)',
             'error'
         );
-        wc();
         return;
     }
     //Una vez validado el formulario, lo guardo
@@ -1150,5 +1165,69 @@ $(document).on('change',"#acta_infraccion",function() {
 
         reader.readAsDataURL(this.files[0]);
     }
+});
+/***************************************************** */
+//
+//Scripts Imprimir ACTA 
+//
+$("#btnHecho").on('click', function () {
+    
+    //Completo datos en el acta antes de imprimir
+    $(".acta_caseId").text($("#case_id").val());
+    $(".acta_chofer").text($("#nom_chofer").val());
+    $(".acta_dniChofer").text($("#doc_chofer").val());
+    $(".acta_patenteTractor").text($("#patenteTractor").val());
+    $(".acta_numSenasa").text($("#num_senasa").val());
+    $(".acta_cantFajas").text($("#cant_fajas").val());
+    $(".acta_observaciones").text($("#observaciones").val());
+    $(".acta_estaOrigen").text($("#esta_num").val());
+    $(".acta_transportista").text($('#transportista').select2('data')[0].text);
+    $(".acta_productos").text($("#producto").val());
+    $(".acta_bruto").text($("#bruto").val());
+    $(".acta_tara").text($("#tara").val());
+    $(".acta_ticket").text($("#ticket").val());
+    $(".acta_estaNum").text($("#esta_nom").select2('data')[0].text);
+
+    //Valído
+    if($('#tpoInfraccion').val() != null){
+        $(".acta_infraccion").text($('#tpoInfraccion').select2('data')[0].text);
+    }
+
+
+    infoTermico = "";
+    $('#sec_termicos div.termicos').each(function(i, obj) {
+        aux = $(obj).attr('data-json');
+        json = JSON.parse(aux);
+        infoTermico += json.precintos + " - " + json.temperatura;
+    });
+    $(".acta_precintoTemperatura").text(infoTermico);
+
+    infoDestino = "";
+    $('#sec_destinos div.empreDestino').each(function(i, obj) {
+        aux = $(obj).attr('data-json');
+        json = JSON.parse(aux);
+        infoDestino += json.razon_social+". ";
+    });
+    $(".acta_destinos").text(infoDestino);
+
+    infoPermisos = "";
+    $('#sec_permisos div.permTransito').each(function(i, obj) {
+        aux = $(obj).attr('data-json');
+        json = JSON.parse(aux);
+        infoPermisos += json.perm_id+" - "+ json.tipo+". ";
+    });
+    $(".acta_permisos").text(infoPermisos);
+
+    var base = "<?php echo base_url()?>";
+    
+    $("#actaInfraccionPCC").printThis({
+        debug: false,
+        importCSS: true,
+        importStyle: true,
+        loadCSS: "",
+        base: base,
+        pageTitle : "TRAZALOG TOOLS",
+    });
+
 });
 </script>

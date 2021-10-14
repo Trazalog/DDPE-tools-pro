@@ -645,7 +645,7 @@ $(document).ready(function() {
     $(".onlyNumbers").inputmask({ regex: "[0-9.,]*" });
 
     //Renombro el BOTON de guardar
-    $('.btnNotifEstandar.btn-success').text('Imprimir acta');
+    $('#btnHecho').text('Imprimir acta');
 
 });//FIN document.ready
 /******************************************************************************* */
@@ -929,9 +929,6 @@ $(".neto").on("change", function () {
 //Cierre formulario
 async function cerrarTareaform(){
 
-    //si no se completo el paso de preCarga, no limpio las tablas
-    var preDataCargada = "<?php echo ($preDataCargada) ? $preDataCargada : $preDataCargada ?>";
-
     //obtengo el formulario de la inspeccion
     var dataForm = new FormData($('#formInspeccion')[0]);
     var frm_info_id = $('#formEscaneoDocu .frm').attr('data-ninfoid');
@@ -939,14 +936,12 @@ async function cerrarTareaform(){
     dataForm.append('case_id', $("#caseId").val());
     dataForm.append('info_id_doc', frm_info_id);
 
-    //evaluo si se precargaron datos para limpiar o no las tablas antes de guardar
-    if(preDataCargada){
-        limpiarDataPreCargada().then((result) => {
-            console.log(result);
-        }).catch((err) => {
-            console.log(err);
-        });
-    }
+    //Limpio la data pre cargada si existiera para evitar errores
+    limpiarDataPreCargada().then((result) => {
+        console.log(result);
+    }).catch((err) => {
+        console.log(err);
+    });
 
     //Guardo los datos del formulario para no perderlos en reload
     //obtengo los permisos
@@ -1052,6 +1047,7 @@ async function cerrarTareaform(){
 function cerrarTarea() {
     wo();
     if(!frm_validar('#formInspeccion')){
+        wc();
         Swal.fire(
             'Error..',
             'Debes completar los campos obligatorios (*)',
@@ -1063,48 +1059,48 @@ function cerrarTarea() {
     //Validacion Escaneo Documentacion
     //
     if($("select[name=doc_impo]").val() == "" || $("#cant_doc").val() == ""){
+        wc();
         Swal.fire(
             'Error..',
             'Debes completar el formulario de escaneo documentación (*)',
             'error'
         );
-        wc();
         return;
     }
     //
     //VALIDACION PERMISOS DE TRANSITO
     //
     if ( !$('#sec_permisos').children().length > 0 ) { 
+        wc();
         Swal.fire(
             'Error..',
             'No se agregaron permisos de tránsito (*)',
             'error'
         );
-        wc();
         return;
     }
     //
     //VALIDACION EMPRESAS DESTINO
     //
     if ( !$('#sec_destinos').children().length > 0 ) {
+        wc();
         Swal.fire(
             'Error..',
             'No se agregaron empresas de destino (*)',
             'error'
         );
-        wc();
         return;
     }
     //
     //VALIDACION TERMICOS
     //
     if ( !$('#sec_termicos').children().length > 0 ) {
+        wc();
         Swal.fire(
             'Error..',
             'No se agregaron térmicos (*)',
             'error'
         );
-        wc();
         return;
     }
     //Una vez validado el formulario, lo guardo
@@ -1199,7 +1195,7 @@ function showValidar(tag){
 //
 //Scripts Imprimir ACTA 
 //
-$(document).on('click', '.btnNotifEstandar.btn-success' ,function () {
+$(document).on('click', '#btnHecho' ,function () {
     var idActa = "#actaInspeccionPCC";
     //Completo datos en el acta antes de imprimir
     $(".acta_caseId").text($("#case_id").val());
@@ -1219,7 +1215,7 @@ $(document).on('click', '.btnNotifEstandar.btn-success' ,function () {
 
     //Valído
     if($('#tpoInfraccion').val() != null){
-        $(".acta_infraccion").val($('#tpoInfraccion').select2('data')[0].text);
+        $(".acta_infraccion").text($('#tpoInfraccion').select2('data')[0].text);
         idActa = '#actaInfraccionPCC';
     }
 
