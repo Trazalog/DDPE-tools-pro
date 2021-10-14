@@ -139,9 +139,6 @@ class Sicpoatareas extends CI_Model
 
                         }
                     }
-                    $data['preDataCargada'] = true;
-                }else{
-                    $data['preDataCargada'] = false;
                 }
                 
                 //Es el info_id del formulario de escaneo documentacion
@@ -187,9 +184,6 @@ class Sicpoatareas extends CI_Model
 
                         }
                     }
-                    $data['preDataCargada'] = true;
-                }else{
-                    $data['preDataCargada'] = false;
                 }
 
                 //Es el info_id del formulario de escaneo documentacion
@@ -276,9 +270,6 @@ class Sicpoatareas extends CI_Model
 
                         }
                     }
-                    $data['preDataCargada'] = true;
-                }else{
-                    $data['preDataCargada'] = false;
                 }
 
                 //Obtengo un array con los ID's de las imagenes seleccionadas

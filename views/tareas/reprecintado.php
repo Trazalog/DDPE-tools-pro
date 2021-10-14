@@ -362,7 +362,9 @@ $(document).ready(function() {
     //Escaneo documentacion
     detectarForm();
     initForm();
-    $('.btnNotifEstandar.btn-success').text('Imprimir acta');
+    
+    //Renombro el BOTON de guardar
+    $('#btnHecho').text('Imprimir acta');
 
     //MÁSCARAS
     //Bruto y Tara
@@ -505,7 +507,7 @@ function showValidar(resultado){
 //
 //Scripts Imprimir ACTA
 //
-$(document).on('click', '.btnNotifEstandar.btn-success' ,function () {
+$(document).on('click', '#btnHecho' ,function () {
 
     var base = "<?php echo base_url()?>";
     $('#actaInfraccion').printThis({
