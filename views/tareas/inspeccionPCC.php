@@ -176,15 +176,6 @@
                                 </div>
                             </div>
                             <!--________________-->
-                            
-                            <!--Establecimiento N°-->
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <div class="form-group">
-                                    <label for="esta_num">Establecimiento N°(<strong style="color: #dd4b39">*</strong>):</label>
-                                    <input class="form-control" name="esta_num" id="esta_num" placeholder="Establecimiento N°" readonly/>
-                                </div>
-                            </div>
-                            <!--________________-->
 
                             <!--Nombre Establecimiento-->
                             <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
@@ -194,8 +185,17 @@
                                         <select class="form-control select2 select2-hidden-accesible empresa" id="esta_nom" required>
                                             <option value="" disabled selected></option>	
                                         </select>
-                                        <span id="add_establecimiento" class="input-group-addon" data-toggle="modal" data-target="#mdl-empresa"><i class="fa fa-plus"></i></span>
+                                        <span id="add_establecimiento" class="input-group-addon" data-toggle="modal" data-target="#mdl-establecimiento" onclick="$('#tipoEmpresa').val('Establecimiento')"><i class="fa fa-plus"></i></span>
                                     </div>
+                                </div>
+                            </div>
+                            <!--________________-->
+                            
+                            <!--Establecimiento N°-->
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label for="esta_num">Establecimiento N°(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <input class="form-control" name="esta_num" id="esta_num" placeholder="Establecimiento N°" readonly/>
                                 </div>
                             </div>
                             <!--________________-->
@@ -261,7 +261,7 @@
                                         <select class="form-control select2 select2-hidden-accesible empresa" id="transportista" required>
                                             <option value="" disabled selected></option>
                                         </select>
-                                        <span id="add_transportista" class="input-group-addon" data-toggle="modal" data-target="#mdl-empresa"><i class="fa fa-plus"></i></span>
+                                        <span id="add_transportista" class="input-group-addon" data-toggle="modal" data-target="#mdl-empresa" onclick="$('#tipoEmpresa').val('Transportista')"><i class="fa fa-plus"></i></span>
                                     </div>
                                 </div>                    
                             </div>
@@ -541,6 +541,7 @@ $(document).ready(function() {
                     results.push({
                         id: obj.cuit,
                         text: obj.razon_social,
+                        num_esta: obj.num_establecimiento
                     });
                 });
                 return {
@@ -614,8 +615,9 @@ $(document).ready(function() {
     //EMPRESA ORIGEN
     empr_origen = "<?php echo isset($origen) ? $origen->cuit : null ?>";
     empr_origen_nombre = "<?php echo isset($origen) ? $origen->razon_social : null ?>";
-
-    opcion = {'id': empr_origen, 'text': empr_origen_nombre};
+    empr_origen_num = "<?php echo isset($origen) ? $origen->num_establecimiento : null ?>";
+    
+    opcion = {'id': empr_origen, 'text': empr_origen_nombre, 'num_esta': empr_origen_num};
 
     emprOpc = new Option(empr_origen_nombre, empr_origen, true, true);
 
@@ -868,7 +870,7 @@ $('#doc_chofer').on('select2:select', function (e) {
 });
 $('#esta_nom').on('select2:select', function (e) {
     var data = e.params.data;
-    $("#esta_num").val(data.id);
+    $("#esta_num").val(data.num_esta);
 });
 //Cargo listado de depositos para empresa destino seleccionada
 $("#empre_destino").on('change', function(){

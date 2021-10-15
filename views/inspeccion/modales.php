@@ -70,6 +70,41 @@
     </div>
 </div>
 <!-- FIN MODAL EMPRESA -->
+<!-- Modal ESTABLECIMIENTO -->
+<div class="modal modal-fade" id="mdl-establecimiento">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Agregar Establecimiento</h4>
+            </div>
+            <form id="formEstablecimiento" action="#">
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Número Establecimiento(<strong style="color: #dd4b39">*</strong>):</label>
+                        <input id="mdl-num_esta-esta" class="form-control" type="text" name="num_establecimiento" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Razon Social(<strong style="color: #dd4b39">*</strong>):</label>
+                        <input id="mdl-razon_social-esta" class="form-control" type="text" name="razon_social" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Cuit(<strong style="color: #dd4b39">*</strong>):</label>
+                        <input type="number" id="mdl-cuit-esta" class="form-control" type="text" name="cuit" required>
+                    </div>
+                </div>
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" onclick="agregar(this,'Empresa')">Agregar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- FIN MODAL ESTABLECIMIENTO -->
 <!-- Modal DEPOSITO -->
 <div class="modal modal-fade" id="mdl-deposito">
     <div class="modal-dialog modal-sm">
@@ -312,28 +347,39 @@
                                     var empresa = $("#mdl-razon_social").val();
                                     var newOpc = new Option(empresa, $("#mdl-cuit").val(), true, true);
                                     $('#empre_destino').append(newOpc).trigger('change');
-                                break;
 
-                                case 'Establecimiento':
-                                    var empresa = $("#mdl-razon_social").val();
-                                    var newOpc = new Option(empresa, $("#mdl-cuit").val(), true, true);
-                                    $("#esta_num").val($("#mdl-num_esta").val());
-                                    $('#esta_nom').append(newOpc).trigger('change');
+                                    //Limpio form
+                                    $('#mdl-cuit').val('');
+                                    $('#mdl-razon_social').val('');
+                                    $('#mdl-num_esta').val('');
                                 break;
 
                                 case 'Transportista':
                                     var empresa = $("#mdl-razon_social").val();
                                     var newOpc = new Option(empresa, $("#mdl-cuit").val(), true, true);
                                     $('#transportista').append(newOpc).trigger('change');
+
+                                    //Limpio form
+                                    $('#mdl-cuit').val('');
+                                    $('#mdl-razon_social').val('');
+                                    $('#mdl-num_esta').val('');
+                                break;
+
+                                case 'Establecimiento':
+                                    var empresa = $("#mdl-razon_social-esta").val();
+                                    var newOpc = new Option(empresa, $("#mdl-cuit-esta").val(), true, true);
+                                    $("#esta_num").val($("#mdl-num_esta-esta").val());
+                                    $('#esta_nom').append(newOpc).trigger('change');
+
+                                    //Limpio form aca, porque separe los modales
+                                    $('#mdl-cuit-esta').val('');
+                                    $('#mdl-razon_social-esta').val('');
+                                    $('#mdl-num_esta-esta').val('');
                                 break;
 
                                 default:
                                     break;
                             }
-                            //Limpio form
-                            $('#mdl-cuit').val('');
-                            $('#mdl-razon_social').val('');
-                            $('#mdl-num_esta').val('');
                         break;
 
                     }
