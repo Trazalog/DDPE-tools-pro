@@ -44,8 +44,8 @@
       <param name="chof_id" sqlType="STRING"/>
    </query>
    <query id="getEmpresasInspeccion" useConfig="SICPOADataSource">
-      <sql>select &#xd;ie.rol &#xd;,e.cuit&#xd;,e.razon_social &#xd;,d.calle &#xd;,d.altura &#xd;,d.depa_id&#xd;,d.depo_id&#xd;,t.valor departamento&#xd;from sicpoa.inspecciones_empresas ie &#xd;join sicpoa.empresas e on ie.empr_id = e.cuit &#xd;left join sicpoa.depositos d on ie.depo_id = d.depo_id&#xd;left join core.tablas t on d.depa_id = t.tabl_id &#xd;where ie.case_id = cast(:case_id as integer)</sql>
-      <result outputType="json">{&#xd;   "empresas":{&#xd;      "empresa":[&#xd;         {&#xd;            "rol":"$rol",&#xd;            "cuit":"$cuit",&#xd;            "razon_social":"$razon_social",&#xd;            "depo_id":"$depo_id",&#xd;            "calle":"$calle",&#xd;            "altura":"$altura",&#xd;            "depa_id":"$depa_id",&#xd;            "departamento":"$departamento"&#xd;         }&#xd;      ]&#xd;   }&#xd;}</result>
+      <sql>select &#xd;ie.rol &#xd;,e.cuit&#xd;,e.razon_social &#xd;,e.num_establecimiento&#xd;,d.calle &#xd;,d.altura &#xd;,d.depa_id&#xd;,d.depo_id&#xd;,t.valor departamento&#xd;from sicpoa.inspecciones_empresas ie &#xd;join sicpoa.empresas e on ie.empr_id = e.cuit &#xd;left join sicpoa.depositos d on ie.depo_id = d.depo_id&#xd;left join core.tablas t on d.depa_id = t.tabl_id &#xd;where ie.case_id = cast(:case_id as integer)</sql>
+      <result outputType="json">{&#xd;   "empresas":{&#xd;      "empresa":[&#xd;         {&#xd;            "rol":"$rol",&#xd;            "cuit":"$cuit",&#xd;            "razon_social":"$razon_social",&#xd;            "num_establecimiento":"$num_establecimiento",&#xd;            "depo_id":"$depo_id",&#xd;            "calle":"$calle",&#xd;            "altura":"$altura",&#xd;            "depa_id":"$depa_id",&#xd;            "departamento":"$departamento"&#xd;         }&#xd;      ]&#xd;   }&#xd;}</result>
       <param name="case_id" sqlType="STRING"/>
    </query>
    <query id="getTermicosInspeccion" useConfig="SICPOADataSource">
@@ -93,8 +93,8 @@
       <param name="term_id" sqlType="STRING"/>
    </query>
    <query id="getEmpresasXPatron" useConfig="SICPOADataSource">
-      <sql>select *&#xd;from sicpoa.empresas e  &#xd;,(select :patron patron ) param&#xd;where e.cuit like '%'||param.patron||'%'&#xd;or e.razon_social like '%'||param.patron||'%'</sql>
-      <result outputType="json">{&#xd;   "empresas":{&#xd;      "empresa":[&#xd;         {&#xd;            "cuit":"$cuit",&#xd;            "razon_social":"$razon_social"&#xd;         }&#xd;      ]&#xd;   }&#xd;}</result>
+      <sql>select *&#xd;from sicpoa.empresas e  &#xd;,(select :patron patron ) param&#xd;where e.cuit like '%'||param.patron||'%'&#xd;or e.razon_social like '%'||param.patron||'%'&#xd;or e.num_establecimiento like '%'||param.patron||'%'</sql>
+      <result outputType="json">{&#xd;   "empresas":{&#xd;      "empresa":[&#xd;         {&#xd;            "cuit":"$cuit",&#xd;            "razon_social":"$razon_social",&#xd;            "num_establecimiento":"$num_establecimiento"&#xd;         }&#xd;      ]&#xd;   }&#xd;}</result>
       <param name="patron" sqlType="STRING"/>
    </query>
    <query id="getChoferesXPatron" useConfig="SICPOADataSource">
@@ -478,4 +478,3 @@
       </call-query>
    </resource>
 </data>
-
