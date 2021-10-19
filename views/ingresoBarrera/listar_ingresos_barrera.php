@@ -10,6 +10,7 @@
 							<tr>
 									<th class="text-center">Acciones</th>
 									<th class="text-center">Número de Pedido</th>
+                  <th class="text-center">Dominio</th>
 									<th class="text-center">Fecha de Inicio</th>
 									<th class="text-center">Estado</th>
 							</tr>
@@ -28,6 +29,7 @@
                 $proc_id = $rsp->proc_id;
                 $tipo_trabajo = $rsp->tipo_trabajo;
                 $dir_entrega = $rsp->dir_entrega;
+                $patente = $rsp->patente;
 
 								echo "<tr id='$petr_id' data-json='" . json_encode($rsp) . "'>";
 
@@ -37,6 +39,7 @@
 								echo '<i class="fa fa-search"  style="cursor: pointer;margin: 3px;" title="Ver Pedido" onclick="verPedido(this)"></i>';
 								echo "</td>";
 								echo '<td class="text-center">'.$petr_id.'</td>';
+                echo '<td class="text-center">'.$patente.'</td>';
 								echo '<td class="text-center">'.formatFechaPG($fec_inicio).'</td>';
 								switch ($estado) {
                   case 'estados_procesosPROC_EN_CURSO':
