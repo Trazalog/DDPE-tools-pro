@@ -18,8 +18,13 @@ class Sicpoatareas extends CI_Model
         $case_id = $tarea->caseId;
         $user_app = userNick();
         $aux_pedido = $this->rest->callAPI("GET",REST_PRO."/pedidoTrabajo/xcaseid/".$case_id);
-        $data_generico =json_decode($aux_pedido["data"]);
+        $data_generico = json_decode($aux_pedido["data"]);
         $aux_pedido = $data_generico->pedidoTrabajo;
+
+        //Obtengo la patente / dominio del tractor
+        if(isset($data_generico)){
+            $patente = $this->getPatenteTractor($data_generico->pedidoTrabajo->info_id);
+        }
         
 
         
@@ -33,6 +38,11 @@ class Sicpoatareas extends CI_Model
             $aux = new StdClass();
             $aux->color = 'primary';
             $aux->texto = "Fecha Inicio: ".formatFechaPG( $aux_pedido->fec_inicio);
+            $array['info'][] = $aux;
+
+            $aux = new StdClass();
+            $aux->color = 'danger';
+            $aux->texto = "Dominio: ".$patente;
             $array['info'][] = $aux;
 
             $array['descripcion'] =  $aux_pedido->descripcion;
@@ -801,5 +811,24 @@ class Sicpoatareas extends CI_Model
             }
         }
         return $formEscaneo;
+    }
+    /**
+	* Obtengo  patente / dominio cargada en Ingreso Barrera guardada en instancias_formularios
+	* @param array info_id
+	* @return array con patente / dominio guardado en forumlario
+	*/
+    function getPatenteTractor($info_id){
+        if($info_id){
+            $patente = '';
+            $this->load->model(FRM . 'Forms');
+            $res = $this->Forms->obtener($info_id);
+
+            foreach ($res->items as $dato) {
+                if($dato->name == 'dominio'){
+                    $patente = $dato->valor;
+                }
+            }
+        }
+        return $patente;
     }
 }
