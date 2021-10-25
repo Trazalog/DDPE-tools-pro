@@ -102,6 +102,7 @@ class Sicpoatareas extends CI_Model
                 $tareaData = $this->getXCaseId($tarea);
                 
                 $data['imgsBarrera'] = $this->getImgsBarrera($tareaData->info_id);
+                $data['patente'] =  $this->getPatenteTractor($tareaData->info_id);
                 $data['departamentos'] = $this->getDepartamentos();
                 $data['petr_id'] = $tareaData->petr_id;
 
@@ -131,6 +132,7 @@ class Sicpoatareas extends CI_Model
                 $data['petr_id'] = $tareaData->petr_id;
                 $data['infracciones'] = $this->getInfracciones();
                 $data['preCargaDatos'] = $this->getPreCargaDatos($tareaData->case_id);
+                $data['patente'] =  $this->getPatenteTractor($tareaData->info_id);
                 
                 $empresas = $data['preCargaDatos']->empresas->empresa;
 
@@ -176,6 +178,7 @@ class Sicpoatareas extends CI_Model
                 $data['petr_id'] = $tareaData->petr_id;
                 $data['infracciones'] = $this->getInfracciones();
                 $data['preCargaDatos'] = $this->getPreCargaDatos($tareaData->case_id);
+                $data['patente'] =  $this->getPatenteTractor($tareaData->info_id);
 
                 $empresas = $data['preCargaDatos']->empresas->empresa;
 
@@ -818,17 +821,18 @@ class Sicpoatareas extends CI_Model
 	* @return array con patente / dominio guardado en forumlario
 	*/
     function getPatenteTractor($info_id){
-        if($info_id){
-            $patente = '';
-            $this->load->model(FRM . 'Forms');
-            $res = $this->Forms->obtener($info_id);
+        $patente = '';
+        $url = REST_FRM."/formulario/".$info_id;
 
-            foreach ($res->items as $dato) {
-                if($dato->name == 'dominio'){
-                    $patente = $dato->valor;
-                }
+        $aux = $this->rest->callAPI("GET",$url);
+        $resp = json_decode($aux['data'])->formulario->items;
+
+        foreach ($resp->item as $dato) {
+            if($dato->name == 'dominio'){
+                $patente = $dato->valor;
             }
         }
+
         return $patente;
     }
 }
