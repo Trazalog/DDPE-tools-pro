@@ -93,7 +93,7 @@
       <param name="term_id" sqlType="STRING"/>
    </query>
    <query id="getEmpresasXPatron" useConfig="SICPOADataSource">
-      <sql>select *&#xd;from sicpoa.empresas e  &#xd;,(select :patron patron ) param&#xd;where e.cuit like '%'||param.patron||'%'&#xd;or e.razon_social like '%'||param.patron||'%'&#xd;or e.num_establecimiento like '%'||param.patron||'%'</sql>
+      <sql>select *&#xd;from sicpoa.empresas e  &#xd;,(select lower(:patron) patron ) param&#xd;where e.cuit like '%'||param.patron||'%'&#xd;or lower(e.razon_social) like '%'||param.patron||'%'&#xd;or e.num_establecimiento like '%'||param.patron||'%'</sql>
       <result outputType="json">{&#xd;   "empresas":{&#xd;      "empresa":[&#xd;         {&#xd;            "cuit":"$cuit",&#xd;            "razon_social":"$razon_social",&#xd;            "num_establecimiento":"$num_establecimiento"&#xd;         }&#xd;      ]&#xd;   }&#xd;}</result>
       <param name="patron" sqlType="STRING"/>
    </query>

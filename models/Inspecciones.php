@@ -70,7 +70,7 @@ class Inspecciones extends CI_Model {
 	*/
     public function buscaEmpresas($dato){
         
-        $url = REST_SICP."/empresas/patron/".$dato;
+        $url = REST_SICP."/empresas/patron/".urlencode($dato);
 
         $aux = $this->rest->callAPI("GET",$url);
         $resp = json_decode($aux['data']);

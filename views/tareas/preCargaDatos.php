@@ -28,6 +28,12 @@
 .btnZoom {
   height: 40px;
 }
+#sec_permisos, #sec_destinos, #sec_termicos{
+    background-color: #88888833;
+}
+.titDataDinamica{
+    font-weight: 700;
+}
 </style>
 <!--_______ FORMULARIO PERMISO DE TRANSITO BOX 1______-->
 <form class="formPreCarga" id="formPreCarga">
@@ -91,12 +97,14 @@
                 <!--________________-->
 
                 <!--_________________ Agregar_________________-->
+                <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="form-group text-right">
-                        <button type="button" class="btn btn-outline-dark" onclick="agregarPermiso()" >Agregar</button>
-                    </div>                
+                        <button type="button" class="btn btn-primary" onclick="agregarPermiso()" >Agregar</button>
+                    </div>
+                </div>                
                 <!--__________________________________-->
                 <div class="col-md-12 col-sm-12 col-xs-12 centrar">
-                    <h4>Permisos:</h4>
+                    <h4 class="titDataDinamica">Permisos:</h4>
                     <div id="sec_permisos"></div>
                     <hr>
                 </div>
@@ -154,15 +162,6 @@
                             </div>
                         </div>
                         <!--________________-->
-
-                        <!--N° SENASA-->
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <div class="form-group">
-                            <label for="num_senasa">N° SENASA(<strong style="color: #dd4b39">*</strong>):</label>
-                                <input type="text" class="form-control limitedChars" name="nro_senasa" id="num_senasa" placeholder="Ingrese N° SENASA" required/>
-                            </div>
-                        </div>
-                        <!--________________-->
                         
                         <!--Nombre Establecimiento-->
                         <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
@@ -214,13 +213,15 @@
                             </div>                    
                         </div>
                         <!--_________________ Agregar_________________-->
-                        <div class="form-group text-right">
-                            <button type="button" class="btn btn-outline-dark" onclick="agregarDestino()" >Agregar</button>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <div style="margin-top: 25px;" class="form-group text-right">
+                                <button type="button" class="btn btn-primary" onclick="agregarDestino()" >Agregar</button>
+                            </div>
                         </div>                
                         <!--__________________________________-->
 
                         <div class="col-md-12 col-sm-12 col-xs-12 centrar">
-                            <h4>Empresa Destino:</h4>
+                            <h4 class="titDataDinamica">Empresa Destino:</h4>
                             <div id="sec_destinos"></div>
                         <hr>
                         </div>
@@ -254,6 +255,16 @@
                             </div>                    
                         </div>
                         <!--________________-->
+
+                        <!--N° SENASA-->
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                            <label for="num_senasa">N° SENASA(<strong style="color: #dd4b39">*</strong>):</label>
+                                <input type="text" class="form-control limitedChars" name="nro_senasa" id="num_senasa" placeholder="Ingrese N° SENASA" required/>
+                            </div>
+                        </div>
+                        <!--________________-->
+
                         <!--Temperatura-->
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <div class="form-group">
@@ -271,13 +282,16 @@
                         </div>
                         <!--________________-->
                         <!--_________________ Agregar_________________-->
-                        <div class="form-group text-right">
-                            <button type="button" class="btn btn-outline-dark" onclick="agregarTermico()" >Agregar</button>
-                        </div>                
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="form-group text-right">
+                                <button type="button" class="btn btn-primary" onclick="agregarTermico()" >Agregar</button>
+                            </div>
+                        </div>              
                         <!--__________________________________-->
                         <div class="col-md-12 col-sm-12 col-xs-12 centrar">
-                            <h4>Térmico:</h4>
+                            <h4 class="titDataDinamica">Térmico:</h4>
                             <div id="sec_termicos"></div>
+                            <hr>
                         </div>
                         <!--________________-->
                         <!--Precintos-->
