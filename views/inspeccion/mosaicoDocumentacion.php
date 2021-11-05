@@ -7,7 +7,7 @@
         </div>
     </div>
     <div class="col-md-12 col-sm-12 col-xs-12">
-        <div class="fotos">
+        <div id="mosaicoDocumentos" class="fotos">
             <?php
             if(!empty($imgsEscaneo)){
                 foreach ($imgsEscaneo as $key => $value) {

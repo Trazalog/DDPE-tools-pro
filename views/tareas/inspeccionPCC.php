@@ -1273,4 +1273,58 @@ $(document).on('click', '#btnHecho' ,function () {
     });
 
 });
+/****************************************************** */
+//Show vista previa del escaneo de documentación
+//Genero el contenedor de la vista previa y se lo pego al contenedor del mosaico de imagenes
+//HASTA ACA
+$("#formEscaneoDocu").on('change',"input",function() {
+
+    $("#mosaicoDocumentos img").remove();
+    //BLOQUE 2
+    $("#formEscaneoDocu").find("input[type=file]").each(function(index, field){
+        const file = $(field)[0].files[0];
+        var reader = new FileReader();
+
+        
+        if (file) {
+            reader.onload = function () {
+                htmlVistaPrevia = $("<img class='thumbnail fotos documentacion "+index+"' height='51' width='45' src='' alt='' onclick='preview(this)'>");
+                $(htmlVistaPrevia).attr('src', reader.result);
+                console.log("ENTRE en la pasada: -> "+index);
+                reader.readAsDataURL(file);
+                $("#mosaicoDocumentos").append(htmlVistaPrevia);
+            }
+        }
+        // reader.addEventListener("load", function (e) {
+        //     debugger;
+        //     $(htmlVistaPrevia).attr('src', e.target.result);
+        //     $(htmlVistaPrevia).hide();
+        //     $(htmlVistaPrevia).fadeIn(850);   
+        // }, false);
+
+        console.log("PASADA: -> "+ index);
+    });
+    //BLOQUE 2 FIN
+
+
+    // if(this.files && this.files[0]){
+    //     debugger;
+    //     htmlVistaPrevia = $("<img class='thumbnail fotos documentacion' height='51' width='45' src='' alt='' onclick='preview(this)'>");
+
+    //     var reader = new FileReader();
+
+    //     reader.addEventListener("load", function (e) {
+    //         console.log(e);
+    //         console.log(e.target);
+    //         debugger;
+    //         $(htmlVistaPrevia).attr('src', e.target.result);
+    //         $(htmlVistaPrevia).hide();
+    //         $(htmlVistaPrevia).fadeIn(850);   
+    //     }, false);
+
+    //     $("#mosaicoDocumentos").append(htmlVistaPrevia);
+    //     reader.readAsDataURL(this.files[0]);
+    // }
+});
+/***************************************************** */
 </script>
