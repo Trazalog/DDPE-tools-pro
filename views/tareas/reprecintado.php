@@ -507,8 +507,9 @@ function showValidar(resultado){
 //
 //Scripts Imprimir ACTA
 //
-$(document).on('click', '#btnHecho' ,function () {
-
+$("#btnHecho").on('click', function (event) {
+    event.stopImmediatePropagation();
+    
     var base = "<?php echo base_url()?>";
     $('#actaInfraccion').printThis({
         debug: false,

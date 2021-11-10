@@ -1212,7 +1212,9 @@ function showValidar(tag){
 //
 //Scripts Imprimir ACTA 
 //
-$(document).on('click', '#btnHecho' ,function () {
+$("#btnHecho").on('click', function (event) {
+    event.stopImmediatePropagation();
+
     var idActa = "#actaInspeccionPCC";
     //Completo datos en el acta antes de imprimir
     $(".acta_caseId").text($("#case_id").val());
@@ -1274,57 +1276,26 @@ $(document).on('click', '#btnHecho' ,function () {
 
 });
 /****************************************************** */
-//Show vista previa del escaneo de documentación
+//Show vista previa de las imagenes en escaneo de documentación
 //Genero el contenedor de la vista previa y se lo pego al contenedor del mosaico de imagenes
-//HASTA ACA
-$("#formEscaneoDocu").on('change',"input",function() {
-
+$("#btn-cierreEscaneo").on('click', function() {
     $("#mosaicoDocumentos img").remove();
-    //BLOQUE 2
+
     $("#formEscaneoDocu").find("input[type=file]").each(function(index, field){
-        const file = $(field)[0].files[0];
-        var reader = new FileReader();
-
-        
-        if (file) {
-            reader.onload = function () {
-                htmlVistaPrevia = $("<img class='thumbnail fotos documentacion "+index+"' height='51' width='45' src='' alt='' onclick='preview(this)'>");
-                $(htmlVistaPrevia).attr('src', reader.result);
-                console.log("ENTRE en la pasada: -> "+index);
-                reader.readAsDataURL(file);
+        if ($(field)[0].files[0]) {
+            (function(){
+                let file = $(field)[0].files[0];
+                let htmlVistaPrevia = $("<img class='thumbnail fotos documentacion' height='51' width='45' src='' alt='' onclick='preview(this)'>");
+                let reader = new FileReader();
                 $("#mosaicoDocumentos").append(htmlVistaPrevia);
-            }
+
+                reader.onload = function () {
+                    $(htmlVistaPrevia).attr('src', reader.result);
+                }
+                reader.readAsDataURL(file);
+            }());
         }
-        // reader.addEventListener("load", function (e) {
-        //     debugger;
-        //     $(htmlVistaPrevia).attr('src', e.target.result);
-        //     $(htmlVistaPrevia).hide();
-        //     $(htmlVistaPrevia).fadeIn(850);   
-        // }, false);
-
-        console.log("PASADA: -> "+ index);
     });
-    //BLOQUE 2 FIN
-
-
-    // if(this.files && this.files[0]){
-    //     debugger;
-    //     htmlVistaPrevia = $("<img class='thumbnail fotos documentacion' height='51' width='45' src='' alt='' onclick='preview(this)'>");
-
-    //     var reader = new FileReader();
-
-    //     reader.addEventListener("load", function (e) {
-    //         console.log(e);
-    //         console.log(e.target);
-    //         debugger;
-    //         $(htmlVistaPrevia).attr('src', e.target.result);
-    //         $(htmlVistaPrevia).hide();
-    //         $(htmlVistaPrevia).fadeIn(850);   
-    //     }, false);
-
-    //     $("#mosaicoDocumentos").append(htmlVistaPrevia);
-    //     reader.readAsDataURL(this.files[0]);
-    // }
 });
 /***************************************************** */
 </script>

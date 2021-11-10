@@ -9,18 +9,18 @@
  $mes = strftime('%B', mktime(0, 0, 0, date('m')));
 ?>
 <div id="actaInfraccionPCC" style="">
-    <div class="col-md-5" style="width: 50%;float:left">
-        <div class="logoSJgobierno" style="margin-bottom: 7px">
-            <img src="lib/imageForms/logo_gobierno_sj.png" alt="" style="max-height: 80px;">
-        </div>
+    <div class="logoSJgobierno" style="width: 100%;float:left;margin-bottom: 7px">
+        <img src="lib/imageForms/logo_gobierno_sj.png" alt="" style="max-height: 80px;">
+    </div>
+    <div style="width: 50%;float:left">
         <p><b>SECRETARÍA DE AGRICULTURA, GANADERÍA Y AGROINDUSTRIA</b></p>
         <p><b>DIRECCIÓN DE DESARROLLO PECUARIO</b></p>
         <p><b>SERVICIO VETERINARIO DE INSPECCIÓN SANITARIA</b></p>
     </div>
-    <div class="col-md-6" style="width: 50%;float:left">
+    <div style="width: 50%;float:left">
         <h3>ACTA DE INFRACCIÓN N° <span class="acta_caseId"></span></h2>
     </div>
-    <div class="col-md-12" style="margin-bottom: 35px;width: 100%; float:left">
+    <div style="margin-bottom: 35px;width: 100%; float:left">
         <div class="bodyActa" style="">
                 En la provincia de San Juan, departamento . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . localidad . . . . . . . . . . . . . . . . . . . . . . a los <?php echo date('d'); ?> días del mes de <?php echo $mes; ?> del año <?php echo date('Y'); ?>,
                 siendo las <?php echo date('H'); ?> horas.  Los inspectores del S. V. I. S. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . se constituyen en 
@@ -39,17 +39,17 @@
                 concurrir con la fuerza pública.
         </div>
     </div>
-    <div class="col-md-4" style="text-align: center;float:left; margin-left:10px">
+    <div style="width: 30%;text-align: center;float:left; margin-left:10px">
         <p>. . . . . . . . . . . . . . . . . . . . . . . . . . . . </p>
         <h4>Firma del inspector</h4>
         <h4>Sello</h4>
     </div>
-    <div class="col-md-4" style="text-align: center;float:left">
+    <div style="width: 30%;text-align: center;float:left">
         <p>. . . . . . . . . . . . . . . . . . . . . . . . . . . . </p>
         <h4>Firma del inspector</h4>
         <h4>Sello</h4>
     </div>
-    <div class="col-md-4" style="text-align: center;float:left">
+    <div style="width: 30%;text-align: center;float:left">
         <p>. . . . . . . . . . . . . . . . . . . . . . . . . . . . </p>
         <h4>Firma del inspector</h4>
         <h4>Sello</h4>

@@ -33,16 +33,19 @@ class Sicpoatareas extends CI_Model
             $aux = new StdClass();
             $aux->color = 'warning';//primary //secondary // success // danger // warning // info // light // dark //white 
             $aux->texto = "Estado: $aux_pedido->estado ";
+            $aux->estilo = "font-size: 15px";
             $array['info'][] = $aux;
 
             $aux = new StdClass();
             $aux->color = 'primary';
             $aux->texto = "Fecha Inicio: ".formatFechaPG( $aux_pedido->fec_inicio);
+            $aux->estilo = "font-size: 15px";
             $array['info'][] = $aux;
 
             $aux = new StdClass();
             $aux->color = 'danger';
             $aux->texto = "Dominio: ".$patente;
+            $aux->estilo = "font-size: 15px";
             $array['info'][] = $aux;
 
             $array['descripcion'] =  $aux_pedido->descripcion;

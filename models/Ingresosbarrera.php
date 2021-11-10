@@ -144,4 +144,16 @@ class Ingresosbarrera extends CI_Model
 
         return json_decode($array['data']);
     }
+    /**
+	* Obtengo los puntos de control
+	* @param 
+	* @return array puntos de control almacenados en core.tablas
+	*/
+    public function getPuntosControl(){
+        $resource = "/tabla/puntos_control/empresa/";
+        $url = REST_CORE . $resource;
+        $aux = $this->rest->callApi('GET', $url);
+        $aux = json_decode($aux["data"]);
+        return $aux->tablas->tabla;
+    }
 }
