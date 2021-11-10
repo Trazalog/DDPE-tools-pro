@@ -1184,7 +1184,8 @@ $(document).on('change',"#acta_infraccion",function() {
 //
 //Scripts Imprimir ACTA 
 //
-$("#btnHecho").on('click', function () {
+$("#btnHecho").on('click', function (event) {
+    event.stopImmediatePropagation();
     
     //Completo datos en el acta antes de imprimir
     $(".acta_caseId").text($("#case_id").val());
@@ -1244,4 +1245,26 @@ $("#btnHecho").on('click', function () {
     });
 
 });
+//Show vista previa de las imagenes en escaneo de documentación
+//Genero el contenedor de la vista previa y se lo pego al contenedor del mosaico de imagenes
+$("#btn-cierreEscaneo").on('click', function() {
+    $("#mosaicoDocumentos img").remove();
+
+    $("#formEscaneoDocu").find("input[type=file]").each(function(index, field){
+        if ($(field)[0].files[0]) {
+            (function(){
+                let file = $(field)[0].files[0];
+                let htmlVistaPrevia = $("<img class='thumbnail fotos documentacion' height='51' width='45' src='' alt='' onclick='preview(this)'>");
+                let reader = new FileReader();
+                $("#mosaicoDocumentos").append(htmlVistaPrevia);
+
+                reader.onload = function () {
+                    $(htmlVistaPrevia).attr('src', reader.result);
+                }
+                reader.readAsDataURL(file);
+            }());
+        }
+    });
+});
+/***************************************************** */
 </script>

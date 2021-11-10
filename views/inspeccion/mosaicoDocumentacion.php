@@ -2,12 +2,12 @@
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="input-group">
-            <label>Fotos de Documentacion</label>
+            <label>Fotos de Documentación</label>
             <span id="add_docu" class="input-group-addon" data-toggle="modal" data-target="#mdl-documentacion"><i class="fa fa-plus"></i></span>
         </div>
     </div>
     <div class="col-md-12 col-sm-12 col-xs-12">
-        <div class="fotos">
+        <div id="mosaicoDocumentos" class="fotos">
             <?php
             if(!empty($imgsEscaneo)){
                 foreach ($imgsEscaneo as $key => $value) {

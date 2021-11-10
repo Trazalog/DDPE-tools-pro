@@ -9,16 +9,16 @@
  $mes = strftime('%B', mktime(0, 0, 0, date('m')));
 ?>
 <div id="actaInspeccionPCC" style="">
-    <div class="col-md-5" style="width: 50%;float:left">
-        <div class="logoSJgobierno" style="margin-bottom: 7px">
-            <img src="lib/imageForms/logo_gobierno_sj.png" alt="" style="max-height: 80px;">
-        </div>
+    <div class="logoSJgobierno" style="width: 100%;float:left;margin-bottom: 7px">
+        <img src="lib/imageForms/logo_gobierno_sj.png" alt="" style="max-height: 80px;">
+    </div>
+    <div style="width: 50%;float:left">
         <p><b>SECRETARÍA DE AGRICULTURA, GANADERÍA Y AGROINDUSTRIA</b></p>
         <p><b>DIRECCIÓN DE DESARROLLO PECUARIO</b></p>
         <p><b>SERVICIO VETERINARIO DE INSPECCIÓN SANITARIA</b></p>
     </div>
-    <div class="col-md-6" style="width: 50%;float:left">
-        <h3>ACTA DE INFRACCIÓN N° <span class="acta_caseId"></span></h2>
+    <div style="width: 50%;float:right">
+        <h3>ACTA DE INSPECCIÓN N° <span class="acta_caseId"></span></h2>
     </div>
     <div class="col-md-12" style="margin-bottom: 35px;width: 100%; float:left">
         <div class="bodyActa" style="">
@@ -42,17 +42,17 @@
                 concurrir con la fuerza pública. Se procede a notificar de los artículos N° 12 y 76 del Código de Faltas, conforme a la obligación impuesta en el Artículo N° 68 del mismo código.<b>(Ver reverso)</b>
         </div>
     </div>
-    <div class="col-md-4" style="text-align: center;float:left; margin-left:10px">
+    <div style="width: 30%;text-align: center;float:left; margin-left:10px">
         <p>. . . . . . . . . . . . . . . . . . . . . . . . . . . . </p>
         <h4>Firma del inspector</h4>
         <h4>Sello</h4>
     </div>
-    <div class="col-md-4" style="text-align: center;float:left">
+    <div style="width: 30%;text-align: center;float:left">
         <p>. . . . . . . . . . . . . . . . . . . . . . . . . . . . </p>
         <h4>Firma del inspector</h4>
         <h4>Sello</h4>
     </div>
-    <div class="col-md-4" style="text-align: center;float:left">
+    <div style="width: 30%;text-align: center;float:left">
         <p>. . . . . . . . . . . . . . . . . . . . . . . . . . . . </p>
         <h4>Firma del inspector</h4>
         <h4>Sello</h4>

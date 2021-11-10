@@ -49,7 +49,12 @@ class Ingreso_barrera extends CI_Controller
        
         $data['unidad_medida_tiempo'] = $this->Ingresosbarrera->seleccionarUnidadMedidaTiempo()['data'];
         $data['clientes'] = $this->Ingresosbarrera->getClientes(empresa())['data'];
-        $data['puntoControl'] = "San Carlos";
+        $puntosControl = $this->Ingresosbarrera->getPuntosControl();
+        foreach ($puntosControl  as $key) {
+            if($key->tabl_id == $this->session->userdata['puntoControl']){
+                $data['puntoControl'] = $key->valor;
+            }
+        }
         
         $url_info= $_SERVER["REQUEST_URI"];
 
