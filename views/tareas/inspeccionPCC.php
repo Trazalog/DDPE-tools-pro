@@ -1239,13 +1239,21 @@ $("#btnHecho").on('click', function (event) {
     }
 
 
-    infoTermico = "";
+    infoTemperatura = "";
     $('#sec_termicos div.termicos').each(function(i, obj) {
         aux = $(obj).attr('data-json');
         json = JSON.parse(aux);
-        infoTermico += json.precintos + " - " + json.temperatura;
+        infoTemperatura += json.temperatura + ", ";
     });
-    $(".acta_precintoTemperatura").text(infoTermico);
+    $(".acta_temperaturas").text(infoTemperatura);
+
+    infoPrecintos = "";
+    $('#sec_termicos div.termicos').each(function(i, obj) {
+        aux = $(obj).attr('data-json');
+        json = JSON.parse(aux);
+        infoPrecintos += json.precintos + ", ";
+    });
+    $(".acta_precintos").text(infoPrecintos);
 
     infoDestino = "";
     $('#sec_destinos div.empreDestino').each(function(i, obj) {
@@ -1259,9 +1267,9 @@ $("#btnHecho").on('click', function (event) {
     $('#sec_permisos div.permTransito').each(function(i, obj) {
         aux = $(obj).attr('data-json');
         json = JSON.parse(aux);
-        infoPermisos += json.perm_id+" - "+ json.tipo+". ";
+        infoPermisos += json.tipo + ", ";
     });
-    $(".acta_permisos").text(infoPermisos);
+    $(".acta_docSanitaria").text(infoPermisos);
 
     var base = "<?php echo base_url()?>";
     

@@ -136,7 +136,14 @@ class Sicpoatareas extends CI_Model
                 $data['infracciones'] = $this->getInfracciones();
                 $data['preCargaDatos'] = $this->getPreCargaDatos($tareaData->case_id);
                 $data['patente'] =  $this->getPatenteTractor($tareaData->info_id);
-                
+
+                $puntosControl = $this->Ingresosbarrera->getPuntosControl();
+                foreach ($puntosControl  as $key) {
+                    if($key->tabl_id == $this->session->userdata['puntoControl']){
+                        $data['infoPuntoControl']['domicilio'] = $key->valor2;
+                        $data['infoPuntoControl']['nombre'] = $key->descripcion;
+                    }
+                }
                 $empresas = $data['preCargaDatos']->empresas->empresa;
 
                 //Separo las empresas por su rol
