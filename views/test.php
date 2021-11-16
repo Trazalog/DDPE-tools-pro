@@ -2,7 +2,7 @@
 <div class="panel">
     <div class="panel-body" id="escaneoDocumentacion">
         <div class="row">
-            <div id="formDocumentacion" class="frm-new" data-form="12"></div>
+            <div id="formDocumentacion" class="frm-new" data-form="11"></div>
         </div>
     </div>
 </div>
@@ -34,7 +34,7 @@ $(document).ready(function () {
     //Cantidad de documentos solo digitos
     $("#cant_doc").attr("type","number");
 });
-function agregarAdjuntos(){
+function agregarFotos(){
     var modeloInput = "<div class='col-sm-12 col-md-6'>"+
                     "<label>Adjunto:</label>"+
                     "<div class='form-group imgConte'>"+
@@ -48,7 +48,7 @@ function agregarAdjuntos(){
                         "</label>"+
                     "</div>"+
                     "</div>";
-    $("#formDocumentacion").find("fieldset").append(modeloInput);
+    // $("#formDocumentacion").find("fieldset").append(modeloInput);
     index++;
 }
 </script>
