@@ -41,7 +41,6 @@
 
 
 <script>
-
 function cerrarModal() {
 
     $('#mdl-ingreso').modal('hide');
@@ -187,5 +186,26 @@ function cierraPedidoTrabajo(){
     }
 
     frmGuardar($('.frm-new').find('form'),guardarPedidoTrabajo);
+}
+//Variable de estado para agregar contenido dinamicamente
+indiceAdjuntos = 1;
+
+function agregarAdjuntos(){
+    var modeloInput = "<div class='col-sm-12 col-md-6'>"+
+                    "<label>Adjunto:</label>"+
+                    "<div class='form-group imgConte'>"+
+                        "<label for='adjunto_"+indiceAdjuntos+"'>"+
+                        "<div class='imgEdit'>"+
+                            "<input class='form-control' type='file' id='adjunto_"+indiceAdjuntos+"'  name='-file-adjunto[]' onchange='previewFile(this)' accept='image/*' capture/>"+
+                        "</div>"+
+                        "<div class='imgPreview'>"+
+                            "<div id='vistaPrevia_adjunto_"+indiceAdjuntos+"' style='background-image: url(lib/imageForms/camera_2.png);'></div>"+
+                        "</div>"+
+                        "</label>"+
+                    "</div>"+
+                    "</div>";
+    // $("#formDocumentacion").find("fieldset").append(modeloInput);
+    indiceAdjuntos++;
+    $(".addFotos").before(modeloInput);
 }
 </script>

@@ -1275,7 +1275,7 @@ $("#btnHecho").on('click', function (event) {
     
     $(idActa).printThis({
         debug: false,
-        importCSS: true,
+        importCSS: false,
         importStyle: true,
         loadCSS: "",
         base: base,
