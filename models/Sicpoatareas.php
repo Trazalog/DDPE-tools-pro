@@ -269,12 +269,12 @@ class Sicpoatareas extends CI_Model
 
                 $tareaData = $this->getXCaseId($tarea);
 
-                $data['imgsDocumentacion'] = $this->getImgsDocumentacion($tareaData->info_id);
+                $data['inspeccion'] = $this->getPreCargaDatos($tareaData->case_id);
+                $data['imgsDocumentacion'] = $this->getImgsDocumentacion($data['inspeccion']->info_id_doc);
                 $data['petr_id'] = $tareaData->petr_id;
                 $data['facturas'] = $this->getTiposFacturas();
                 $data['productos'] = $this->getProductos();
                 $data['un_medidas'] = $this->getMedidas();
-                $data['inspeccion'] = $this->getPreCargaDatos($tareaData->case_id);
                 
                 $empresas = $data['inspeccion']->empresas->empresa;
 
