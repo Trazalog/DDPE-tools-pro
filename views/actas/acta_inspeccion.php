@@ -5,12 +5,12 @@
 @page { size: auto;  margin: 0mm; }
 </style>
 <?php
- setlocale(LC_TIME, 'es_ra.utf-8');                                            
+ setlocale(LC_TIME, 'es_ES.UTF-8');                                            
  $mes = strftime('%B', mktime(0, 0, 0, date('m')));
 ?>
-<div id="actaInspeccionPCC" style="">
+<div id="actaInspeccionPCC" style="position:relative">
     <!-- ORIGINAL -->
-    <div class="page_1" style="width: 100%;page-break-after:always">
+    <div class="page_1" style="width: 100%;break-after:page">
         <div class="logoSJgobierno" style="width: 100%;float:left;margin-bottom: 7px;height: 80px;">
             <img src="lib/imageForms/logo_gobierno_sj_ddpe.png" alt="" style="object-fit: scale-down;max-width: 100%;">
         </div>
@@ -18,7 +18,7 @@
             <h3><b>ORIGINAL</b></h3>
         </div>
         <div style="width: 100%;text-align:center; margin-bottom: 35px">
-            <h3><b>SERVICIO VETERINARIO DE INSPECCIÓN SANITARIA</b></h3>
+            <h2><b>SERVICIO VETERINARIO DE INSPECCIÓN SANITARIA</b></h2>
         </div>
         <div style="width: 100%;margin-bottom: 40px;">
             <h2 style="width: 100%;text-align: right;margin-right: 100px"><b>ACTA N° <span class="acta_caseId"></span></b></h2>
@@ -31,7 +31,7 @@
                  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . , se constituyen en <span class="acta_puntoControl"><?php echo isset($infoPuntoControl) ? $infoPuntoControl['nombre'] : '' ?></span> con domicilio en 
                  <span class="acta_puntoControlDomicilio"><?php echo isset($infoPuntoControl) ? $infoPuntoControl['domicilio'] : '' ?></span> propiedad de D.D.P. siendo atendidos por <span class="acta_chofer"></span> D.N.I. N° <span class="acta_dniChofer"></span> en su carácter de chofer.<br>
                  Proceden a realizar la inspección de camión térmico, vehículo patente N° <span class="acta_patenteTractor"></span>, N° de habilitación del SENASA <span class="acta_numSenasa"></span>, Documentación Sanitaria tipo <span class="acta_docSanitaria"></span>
-                 Establecimiento N° <span class="acta_estaId"></span>, nombre del Establecimiento de Origen <span class="acta_establecimiento"></span>, Transportista <span class="acta_transportista"></span>, telefono del transportista 
+                 Establecimiento N° <span class="acta_origenNro"></span>, nombre del Establecimiento de Origen <span class="acta_estaOrigen"></span>, Transportista <span class="acta_transportista"></span>, telefono del transportista 
                  <span class="acta_telTransportista">. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . </span> correo electrónico del transportista <span class="acta_emailTransportista">. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . </span> 
                 destinos <span class="acta_destinos"></span> producto/s <span class="acta_productos"></span>, temperatura <span class="acta_temperaturas"></span>, precintos <span class="acta_precintos"></span>, Peso Bruto <span class="acta_bruto"></span>, 
                 Tara <span class="acta_tara"></span> kg, N° de Ticket <span class="acta_ticket"></span>
@@ -54,7 +54,7 @@
             <h4>Firma del Interesado</h4>
         </div>
     </div>
-    <div class="page_2" style="width: 100%; margin-top: 60px;page-break-after:always;float:left">
+    <div class="page_2" style="width: 100%; margin-top: 60px;break-after:page">
         <div class="body_page_2">
             En este acto se procede a notificar al Sr/Sra <span class="acta_chofer"></span> D.N.I. N° <span class="acta_dniChofer"></span> de los artículos N° 12 y N° 76 del código de faltas conforme la obligación
             impuesta en el artículo N° 68 del mismo código.
@@ -89,7 +89,7 @@
     </div>
     <!--FIN ORIGINAL-->
     <!-- DUPLICADO -->
-    <div class="page_1" style="width: 100%;page-break-after:always;">
+    <div class="page_1" style="width: 100%;break-after:page;">
         <div class="logoSJgobierno" style="width: 100%;float:left;margin-bottom: 7px;height: 80px;">
             <img src="lib/imageForms/logo_gobierno_sj_ddpe.png" alt="" style="object-fit: scale-down;max-width: 100%;">
         </div>
@@ -97,7 +97,7 @@
             <h3><b>DUPLICADO</b></h3>
         </div>
         <div style="width: 100%;text-align:center; margin-bottom: 35px">
-            <h3><b>SERVICIO VETERINARIO DE INSPECCIÓN SANITARIA</b></h3>
+            <h2><b>SERVICIO VETERINARIO DE INSPECCIÓN SANITARIA</b></h2>
         </div>
         <div style="width: 100%;margin-bottom: 40px;">
             <h2 style="width: 100%;text-align: right;margin-right: 100px"><b>ACTA N° <span class="acta_caseId"></span></b></h2>
@@ -110,7 +110,7 @@
                  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ., se constituyen en <span class="acta_puntoControl"><?php echo isset($infoPuntoControl) ? $infoPuntoControl['nombre'] : '' ?></span> con domicilio en 
                  <span class="acta_puntoControlDomicilio"><?php echo isset($infoPuntoControl) ? $infoPuntoControl['domicilio'] : '' ?></span> propiedad de D.D.P. siendo atendidos por <span class="acta_chofer"></span> D.N.I. N° <span class="acta_dniChofer"></span> en su carácter de chofer.
                  proceden a <span class="acta_infraccion"></span>, vehículo patente N° <span class="acta_patenteTractor"></span>, N° de habilitación del SENASA <span class="acta_numSenasa"></span>, Documentación Sanitaria tipo <span class="acta_docSanitaria"></span>
-                 Establecimiento N° <span class="acta_estaId"></span>, nombre del Establecimiento de Origen <span class="acta_establecimiento"></span>, Transportista <span class="acta_transportista"></span>, telefono del transportista 
+                 Establecimiento N° <span class="acta_origenNro"></span>, nombre del Establecimiento de Origen <span class="acta_estaOrigen"></span>, Transportista <span class="acta_transportista"></span>, telefono del transportista 
                  <span class="acta_telTransportista">. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . </span> correo electrónico del transportista <span class="acta_emailTransportista">. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . </span> 
                 destinos <span class="acta_destinos"></span> producto/s <span class="acta_productos"></span>, temperatura <span class="acta_temperaturas"></span>, precintos <span class="acta_precintos"></span>, Peso Bruto <span class="acta_bruto"></span>, 
                 Tara <span class="acta_tara"></span> kg, N° de Ticket <span class="acta_ticket"></span>
@@ -133,7 +133,7 @@
             <h4>Firma del Interesado</h4>
         </div>
     </div>
-    <div class="page_2" style="width: 100%; margin-top: 60px;page-break-after:always;float:left">
+    <div class="page_2" style="width: 100%; margin-top: 60px;break-after:page;">
         <div class="body_page_2">
             En este acto se procede a notificar al Sr/Sra <span class="acta_chofer"></span> D.N.I. N° <span class="acta_dniChofer"></span> de los artículos N° 12 y N° 76 del código de faltas conforme la obligación
             impuesta en el artículo N° 68 del mismo código.
@@ -168,7 +168,7 @@
     </div>
     <!--FIN DUPLICADO-->
     <!--TRIPLICADO-->
-    <div class="page_1" style="width: 100%;page-break-after:always;">
+    <div class="page_1" style="width: 100%;break-after:page;">
         <div class="logoSJgobierno" style="width: 100%;float:left;margin-bottom: 7px;height: 80px;">
             <img src="lib/imageForms/logo_gobierno_sj_ddpe.png" alt="" style="object-fit: scale-down;max-width: 100%;">
         </div>
@@ -176,7 +176,7 @@
             <h3><b>TRIPLICADO</b></h3>
         </div>
         <div style="width: 100%;text-align:center; margin-bottom: 35px">
-            <h3><b>SERVICIO VETERINARIO DE INSPECCIÓN SANITARIA</b></h3>
+            <h2><b>SERVICIO VETERINARIO DE INSPECCIÓN SANITARIA</b></h2>
         </div>
         <div style="width: 100%;margin-bottom: 40px;">
             <h2 style="width: 100%;text-align: right;margin-right: 100px"><b>ACTA N° <span class="acta_caseId"></span></b></h2>
@@ -189,7 +189,7 @@
                  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ., se constituyen en <span class="acta_puntoControl"><?php echo isset($infoPuntoControl) ? $infoPuntoControl['nombre'] : '' ?></span> con domicilio en 
                  <span class="acta_puntoControlDomicilio"><?php echo isset($infoPuntoControl) ? $infoPuntoControl['domicilio'] : '' ?></span> propiedad de D.D.P. siendo atendidos por <span class="acta_chofer"></span> D.N.I. N° <span class="acta_dniChofer"></span> en su carácter de chofer.
                  proceden a <span class="acta_infraccion"></span>, vehículo patente N° <span class="acta_patenteTractor"></span>, N° de habilitación del SENASA <span class="acta_numSenasa"></span>, Documentación Sanitaria tipo <span class="acta_docSanitaria"></span>
-                 Establecimiento N° <span class="acta_estaId"></span>, nombre del Establecimiento de Origen <span class="acta_establecimiento"></span>, Transportista <span class="acta_transportista"></span>, telefono del transportista 
+                 Establecimiento N° <span class="acta_origenNro"></span>, nombre del Establecimiento de Origen <span class="acta_estaOrigen"></span>, Transportista <span class="acta_transportista"></span>, telefono del transportista 
                  <span class="acta_telTransportista">. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . </span> correo electrónico del transportista <span class="acta_emailTransportista">. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . </span> 
                 destinos <span class="acta_destinos"></span> producto/s <span class="acta_productos"></span>, temperatura <span class="acta_temperaturas"></span>, precintos <span class="acta_precintos"></span>, Peso Bruto <span class="acta_bruto"></span>, 
                 Tara <span class="acta_tara"></span> kg, N° de Ticket <span class="acta_ticket"></span>
@@ -212,7 +212,7 @@
             <h4>Firma del Interesado</h4>
         </div>
     </div>
-    <div class="page_2" style="width: 100%; margin-top: 60px;page-break-after:always;float:left">
+    <div class="page_2" style="width: 100%; margin-top: 60px;break-after:page;">
         <div class="body_page_2">
             En este acto se procede a notificar al Sr/Sra <span class="acta_chofer"></span> D.N.I. N° <span class="acta_dniChofer"></span> de los artículos N° 12 y N° 76 del código de faltas conforme la obligación
             impuesta en el artículo N° 68 del mismo código.

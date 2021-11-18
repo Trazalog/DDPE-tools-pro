@@ -5,11 +5,11 @@
 @page { size: auto;  margin: 0mm; }
 </style>
 <?php
- setlocale(LC_TIME, 'es_ra.utf-8');                                            
+ setlocale(LC_TIME, 'es_ES.UTF-8');                                            
  $mes = strftime('%B', mktime(0, 0, 0, date('m')));
 ?>
-<div id="actaInfraccion" style="">
-    <div class="page_1" style="width: 100%;page-break-after:always;float:left">
+<div id="actaInfraccion" style="position:relative">
+    <div class="page_1" style="width: 100%;break-after:page;">
         <div class="logoSJgobierno" style="width: 100%;float:left;margin-bottom: 7px;height: 80px;">
             <img src="lib/imageForms/logo_gobierno_sj_ddpe.png" alt="" style="object-fit: scale-down;max-width: 100%;">
         </div>
@@ -17,10 +17,10 @@
             <h3><b>ORIGINAL</b></h3>
         </div>
         <div style="width: 100%;text-align:center; margin-bottom: 35px">
-            <h3><b>SERVICIO VETERINARIO DE INSPECCIÓN SANITARIA</b></h3>
+            <h2><b>SERVICIO VETERINARIO DE INSPECCIÓN SANITARIA</b></h2>
         </div>
         <div style="width: 50%;float:right">
-            <h3>ACTA DE INFRACCIÓN N° <?php echo $inspeccion->case_id; ?></h2>
+            <h2>ACTA DE INFRACCIÓN N° <?php echo $inspeccion->case_id; ?></h2>
         </div>
         <div style="margin-bottom: 35px;width: 100%; float:left">
             <div class="bodyActa" style="">
@@ -51,8 +51,10 @@
                     <br>
                     Fecha y Hora: <?php echo date('d-m-Y'); ?>, <?php echo date('H:i'); ?> horas.<br>
                     <div class="firmaDepositario" style="text-align: right;">
-                        <p>. . . . . . . . . . . . . . . . . . . . . . . . . . . . </p>
-                        <h5>Firma del Depositario Judicial</h5>
+                        <div style="text-align: center;">
+                            <p>. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .</p>
+                            <h5>Firma del Depositario Judicial</h5>
+                        </div>
                     </div>
                 </div>
                 Se le emplaza  para que despúes de <b>cuarenta y ocho (48) horas</b> de labrada está y dentro de los cinco (5) días hábiles subsiguientes, comparezca ante el Juez de Faltas de la Jurisdicción, bajo aprecibimientos de hacerlo
@@ -72,7 +74,7 @@
             <h5>Firma del inspector</h5>
         </div>
     </div>
-    <div class="page_2" style="width: 100%; margin-top: 60px;page-break-after:always">
+    <div class="page_2" style="width: 100%; margin-top: 60px;break-after:page">
         <div class="body_page_2">
             En este acto se procede a notificar al Sr/Sra <?php echo $inspeccion->chofer; ?> D.N.I. N° <?php echo $inspeccion->chof_id ?> de los artículos N° 12 y N° 76 del código de faltas conforme la obligación
             impuesta en el artículo N° 68 del mismo código.
@@ -105,7 +107,7 @@
         </div>
         <footer class="footerActa" style="float: right"><p>Impreso en el Boletín Oficial e Imprenta del Estado</p></footer>
     </div>
-    <div class="page_1" style="width: 100%;page-break-after:always;float:left">
+    <div class="page_1" style="width: 100%;break-after:page;">
         <div class="logoSJgobierno" style="width: 100%;float:left;margin-bottom: 7px;height: 80px;">
             <img src="lib/imageForms/logo_gobierno_sj_ddpe.png" alt="" style="object-fit: scale-down;max-width: 100%;">
         </div>
@@ -113,10 +115,10 @@
             <h3><b>DUPLICADO</b></h3>
         </div>
         <div style="width: 100%;text-align:center; margin-bottom: 35px">
-            <h3><b>SERVICIO VETERINARIO DE INSPECCIÓN SANITARIA</b></h3>
+            <h2><b>SERVICIO VETERINARIO DE INSPECCIÓN SANITARIA</b></h2>
         </div>
         <div style="width: 50%;float:right">
-            <h3>ACTA DE INFRACCIÓN N° <?php echo $inspeccion->case_id; ?></h2>
+            <h2>ACTA DE INFRACCIÓN N° <?php echo $inspeccion->case_id; ?></h2>
         </div>
         <div style="margin-bottom: 35px;width: 100%; float:left">
             <div class="bodyActa" style="">
@@ -147,8 +149,10 @@
                     <br>
                     Fecha y Hora: <?php echo date('d-m-Y'); ?>, <?php echo date('H:i'); ?> horas.<br>
                     <div class="firmaDepositario" style="text-align: right;">
-                        <p>. . . . . . . . . . . . . . . . . . . . . . . . . . . . </p>
-                        <h5>Firma del Depositario Judicial</h5>
+                        <div style="text-align: center;">
+                            <p>. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .</p>
+                            <h5>Firma del Depositario Judicial</h5>
+                        </div>
                     </div>
                 </div>
                 Se le emplaza  para que despúes de <b>cuarenta y ocho (48) horas</b> de labrada está y dentro de los cinco (5) días hábiles subsiguientes, comparezca ante el Juez de Faltas de la Jurisdicción, bajo aprecibimientos de hacerlo
@@ -168,7 +172,7 @@
             <h5>Firma del inspector</h5>
         </div>
     </div>
-    <div class="page_2" style="width: 100%; margin-top: 60px;page-break-after:always">
+    <div class="page_2" style="width: 100%; margin-top: 60px;break-after:page">
         <div class="body_page_2">
             En este acto se procede a notificar al Sr/Sra <?php echo $inspeccion->chofer; ?> D.N.I. N° <?php echo $inspeccion->chof_id ?> de los artículos N° 12 y N° 76 del código de faltas conforme la obligación
             impuesta en el artículo N° 68 del mismo código.
@@ -201,7 +205,7 @@
         </div>
         <footer class="footerActa" style="float: right"><p>Impreso en el Boletín Oficial e Imprenta del Estado</p></footer>
     </div>
-    <div class="page_1" style="width: 100%;page-break-after:always;float:left">
+    <div class="page_1" style="width: 100%;break-after:page;">
         <div class="logoSJgobierno" style="width: 100%;float:left;margin-bottom: 7px;height: 80px;">
             <img src="lib/imageForms/logo_gobierno_sj_ddpe.png" alt="" style="object-fit: scale-down;max-width: 100%;">
         </div>
@@ -209,10 +213,10 @@
             <h3><b>TRIPLICADO</b></h3>
         </div>
         <div style="width: 100%;text-align:center; margin-bottom: 35px">
-            <h3><b>SERVICIO VETERINARIO DE INSPECCIÓN SANITARIA</b></h3>
+            <h2><b>SERVICIO VETERINARIO DE INSPECCIÓN SANITARIA</b></h2>
         </div>
         <div style="width: 50%;float:right">
-            <h3>ACTA DE INFRACCIÓN N° <?php echo $inspeccion->case_id; ?></h2>
+            <h2>ACTA DE INFRACCIÓN N° <?php echo $inspeccion->case_id; ?></h2>
         </div>
         <div style="margin-bottom: 35px;width: 100%; float:left">
             <div class="bodyActa" style="">
@@ -243,8 +247,10 @@
                     <br>
                     Fecha y Hora: <?php echo date('d-m-Y'); ?>, <?php echo date('H:i'); ?> horas.<br>
                     <div class="firmaDepositario" style="text-align: right;">
-                        <p>. . . . . . . . . . . . . . . . . . . . . . . . . . . . </p>
-                        <h5>Firma del Depositario Judicial</h5>
+                        <div style="text-align: center;">
+                            <p>. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .</p>
+                            <h5>Firma del Depositario Judicial</h5>
+                        </div>
                     </div>
                 </div>
                 Se le emplaza  para que despúes de <b>cuarenta y ocho (48) horas</b> de labrada está y dentro de los cinco (5) días hábiles subsiguientes, comparezca ante el Juez de Faltas de la Jurisdicción, bajo aprecibimientos de hacerlo
@@ -264,7 +270,7 @@
             <h5>Firma del inspector</h5>
         </div>
     </div>
-    <div class="page_2" style="width: 100%; margin-top: 60px;page-break-after:always">
+    <div class="page_2" style="width: 100%; margin-top: 60px;break-after:page">
         <div class="body_page_2">
             En este acto se procede a notificar al Sr/Sra <?php echo $inspeccion->chofer; ?> D.N.I. N° <?php echo $inspeccion->chof_id ?> de los artículos N° 12 y N° 76 del código de faltas conforme la obligación
             impuesta en el artículo N° 68 del mismo código.

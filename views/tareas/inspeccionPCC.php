@@ -41,8 +41,8 @@
 <div class="nav-tabs-custom ">
     <ul class="nav nav-tabs">
         <li class="active"><a href="#formReprecintado_tab" data-toggle="tab" aria-expanded="false">Formulario</a></li>
-        <li class="privado"><a href="#actaInfraccion_tab" data-toggle="tab" aria-expanded="false">Acta de Infracción</a></li>
-        <li class="privado"><a href="#actaInspeccion_tab" data-toggle="tab" aria-expanded="false">Acta de Inspección</a></li>
+        <li style="display:none !important;" class="privado"><a href="#actaInfraccion_tab" data-toggle="tab" aria-expanded="false">Acta de Infracción</a></li>
+        <li style="display:none !important;" class="privado"><a href="#actaInspeccion_tab" data-toggle="tab" aria-expanded="false">Acta de Inspección</a></li>
     </ul>
     <div class="tab-content">
         <div class="tab-pane active" id="formReprecintado_tab">
@@ -58,8 +58,8 @@
                             <!--Solicitud-->
                             <div class="col-md-6 col-sm-6 col-xs-12">
                                 <div class="form-group">
-                                    <label for="Solicitud">Solicitud N°(<strong style="color: #dd4b39">*</strong>):</label>
-                                    <input type="text" class="form-control requerido limitedChars" id="soli_num" placeholder="Ingrese número de solicitud"/>
+                                    <label for="Solicitud">N° de Permiso(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <input type="text" class="form-control requerido alfanumerico" id="soli_num" placeholder="Ingrese número de solicitud"/>
                                 </div>
                             </div>
                             <!--________________-->
@@ -654,7 +654,9 @@ $(document).ready(function() {
     //MÁSCARAS
     //Lugar de Emision A-Z, 0-9 y space
     $("#emision").inputmask({ regex: "[a-zA-Z0-9 ]*" });
-    //Solicitud N° y N° SENASA: 0-9, /, ',' y -
+    //Solicitud N°
+    $(".alfanumerico").inputmask({ regex: "[0-9a-zA-Z]*" });
+    // N° SENASA: 0-9, /, ',' y -
     $(".limitedChars").inputmask({ regex: "[0-9/,-]*" });
     //PRECINTOS y Patentes: 0-9, A-Z, space, / y -
     $(".limited").inputmask({ regex: "[0-9/a-zA-Z -]*" });
@@ -1224,13 +1226,13 @@ $("#btnHecho").on('click', function (event) {
     $(".acta_numSenasa").text($("#num_senasa").val());
     $(".acta_cantFajas").text($("#cant_fajas").val());
     $(".acta_observaciones").text($("#observaciones").val());
-    $(".acta_estaOrigen").text($("#esta_num").val());
+    $(".acta_origenNro").text($("#esta_num").val());
+    $(".acta_estaOrigen").text($("#esta_nom").select2('data')[0].text);
     $(".acta_transportista").text($('#transportista').select2('data')[0].text);
     $(".acta_productos").text($("#producto").val());
     $(".acta_bruto").text($("#bruto").val());
     $(".acta_tara").text($("#tara").val());
     $(".acta_ticket").text($("#ticket").val());
-    $(".acta_estaNum").text($("#esta_nom").select2('data')[0].text);
 
     //Valído
     if($('#tpoInfraccion').val() != null){
@@ -1243,7 +1245,7 @@ $("#btnHecho").on('click', function (event) {
     $('#sec_termicos div.termicos').each(function(i, obj) {
         aux = $(obj).attr('data-json');
         json = JSON.parse(aux);
-        infoTemperatura += json.temperatura + ", ";
+        infoTemperatura += json.temperatura + " ";
     });
     $(".acta_temperaturas").text(infoTemperatura);
 
@@ -1251,7 +1253,7 @@ $("#btnHecho").on('click', function (event) {
     $('#sec_termicos div.termicos').each(function(i, obj) {
         aux = $(obj).attr('data-json');
         json = JSON.parse(aux);
-        infoPrecintos += json.precintos + ", ";
+        infoPrecintos += json.precintos + " ";
     });
     $(".acta_precintos").text(infoPrecintos);
 
@@ -1267,7 +1269,7 @@ $("#btnHecho").on('click', function (event) {
     $('#sec_permisos div.permTransito').each(function(i, obj) {
         aux = $(obj).attr('data-json');
         json = JSON.parse(aux);
-        infoPermisos += json.tipo + ", ";
+        infoPermisos += json.tipo + " ";
     });
     $(".acta_docSanitaria").text(infoPermisos);
 

@@ -49,8 +49,8 @@
                 <!--Solicitud-->
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
-                        <label for="Solicitud">Solicitud N°(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input type="text" class="form-control requerido limitedChars" id="soli_num" placeholder="Ingrese número de solicitud"/>
+                        <label for="Solicitud">N° de Permiso(<strong style="color: #dd4b39">*</strong>):</label>
+                        <input type="text" class="form-control requerido alfanumerico" id="soli_num" placeholder="Ingrese número de solicitud"/>
                     </div>
                 </div>
                 <!--________________-->
@@ -466,7 +466,9 @@ $(document).ready(function() {
     //MÁSCARAS
     //Lugar de Emision A-Z, 0-9 y space
     $("#emision").inputmask({ regex: "[a-zA-Z0-9 ]*" });
-    //Solicitud N° y N° SENASA: 0-9, /, ',' y -
+    //Solicitud N°
+    $(".alfanumerico").inputmask({ regex: "[0-9a-zA-Z]*" });
+    // N° SENASA: 0-9, /, ',' y -
     $(".limitedChars").inputmask({ regex: "[0-9/,-]*" });
     //PRECINTOS y Patentes: 0-9, A-Z, space, / y -
     $(".limited").inputmask({ regex: "[0-9/a-zA-Z -]*" });

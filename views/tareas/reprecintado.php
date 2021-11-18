@@ -86,7 +86,7 @@
 <div class="nav-tabs-custom ">
     <ul class="nav nav-tabs">
         <li class="active"><a href="#formReprecintado_tab" data-toggle="tab" aria-expanded="false">Formulario</a></li>
-        <li class="privado"><a href="#actaInfraccion_tab" data-toggle="tab" aria-expanded="false">Acta de Infracción</a></li>
+        <li style="display:none !important;" class="privado"><a href="#actaInfraccion_tab" data-toggle="tab" aria-expanded="false">Acta de Infracción</a></li>
     </ul>
     <div class="tab-content">
         <div class="tab-pane active" id="formReprecintado_tab">
@@ -513,7 +513,7 @@ $("#btnHecho").on('click', function (event) {
     var base = "<?php echo base_url()?>";
     $('#actaInfraccion').printThis({
         debug: false,
-        importCSS: true,
+        importCSS: false,
         importStyle: true,
         loadCSS: "",
         base: base,
