@@ -5,27 +5,27 @@
 @page { size: auto;  margin: 0mm; }
 </style>
 <?php
- setlocale(LC_TIME, 'es_ra.utf-8');                                            
+ setlocale(LC_TIME, 'es_ES.UTF-8');                                            
  $mes = strftime('%B', mktime(0, 0, 0, date('m')));
 ?>
-<div id="actaInfraccionPCC" style="">
-    <div class="page_1" style="width: 100%;page-break-after:always;float:left">
+<div id="actaInfraccionPCC" style="position:relative">
+    <div class="page_1" style="width: 100%;break-after:page;">
         <div class="logoSJgobierno" style="width: 100%;float:left;margin-bottom: 7px;height: 80px;">
             <img src="lib/imageForms/logo_gobierno_sj_ddpe.png" alt="" style="object-fit: scale-down;max-width: 100%;">
         </div>
-        <div style="width: 100%;text-align:right;margin-bottom: 35px">
+        <div style="width: 100%;text-align:right;margin-bottom: 20px">
             <h3><b>ORIGINAL</b></h3>
         </div>
-        <div style="width: 100%;text-align:center; margin-bottom: 35px">
-            <h3><b>SERVICIO VETERINARIO DE INSPECCIÓN SANITARIA</b></h3>
+        <div style="width: 100%;text-align:center; margin-bottom: 20px">
+            <h2><b>SERVICIO VETERINARIO DE INSPECCIÓN SANITARIA</b></h2>
         </div>
-        <div style="width: 100%;margin-bottom: 40px;">
+        <div style="width: 100%;margin-bottom: 30px;">
             <h2 style="width: 100%;text-align: right;margin-right: 100px"><b>ACTA INFRACCIÓN N° <span class="acta_caseId"></span></b></h2>
         </div>
         <div style="margin-bottom: 35px;width: 100%;">
             <div class="bodyActa" style="">
                 <div style="text-indent: 30px;">
-                    En la ciudad de San Juan, departamento . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . localidad . . . . . . . . . . . . . . . . . . . . . . a los <?php echo date('d'); ?> días del mes de <?php echo $mes; ?> del año <?php echo date('Y'); ?>,
+                    En la ciudad de San Juan, departamento . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . localidad . . . . . . . . . . . . . . . . . . . . a los <?php echo date('d'); ?> días del mes de <?php echo $mes; ?> del año <?php echo date('Y'); ?>,
                     siendo las <?php echo date('H'); ?> horas.  Los inspectores del S. V. I. S. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
                     . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . , se constituyen en <span class="acta_puntoControl"><?php echo isset($infoPuntoControl) ? $infoPuntoControl['nombre'] : '' ?></span> 
                     con domicilio en <span class="acta_puntoControlDomicilio"><?php echo isset($infoPuntoControl) ? $infoPuntoControl['domicilio'] : '' ?></span> propiedad de D.D.P. siendo atendidos por <span class="acta_chofer"></span> D.N.I. N° <span class="acta_dniChofer"></span> en su carácter de chofer.<br>
@@ -33,7 +33,7 @@
                 <br>
                 <div style="text-indent: 30px;">
                     Proceden a realizar la inspección de camión térmico, vehículo patente N° <span class="acta_patenteTractor"></span>, N° de habilitación del SENASA <span class="acta_numSenasa"></span>, Documentación Sanitaria tipo <span class="acta_docSanitaria"></span>
-                    Establecimiento N° <span class="acta_estaId"></span>, nombre del Establecimiento de Origen <span class="acta_establecimiento"></span>, Transportista <span class="acta_transportista"></span>, telefono del transportista 
+                    Establecimiento N° <span class="acta_origenNro"></span>, nombre del Establecimiento de Origen <span class="acta_estaOrigen"></span>, Transportista <span class="acta_transportista"></span>, telefono del transportista 
                     <span class="acta_telTransportista">. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . </span> correo electrónico del transportista <span class="acta_emailTransportista">. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . </span> 
                     destinos <span class="acta_destinos"></span> producto/s <span class="acta_productos"></span>, temperatura <span class="acta_temperaturas"></span>, precintos <span class="acta_precintos"></span>, Peso Bruto <span class="acta_bruto"></span>, 
                     Tara <span class="acta_tara"></span> kg, N° de Ticket <span class="acta_ticket"></span>.
@@ -51,28 +51,30 @@
                     <br>
                     Fecha y Hora: <?php echo date('d-m-Y'); ?>, <?php echo date('H:i'); ?> horas.<br>
                     <div class="firmaDepositario" style="text-align: right;">
-                        <p>. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .</p>
-                        <h5>Firma del Depositario Judicial</h5>
+                        <div style="text-align: center;">
+                            <p>. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .</p>
+                            <h5>Firma del Depositario Judicial</h5>
+                        </div>
                     </div>
                 </div>
                 Se le emplaza  para que despúes de <b>cuarenta y ocho (48) horas</b> de labrada está y dentro de los cinco (5) días hábiles subsiguientes, comparezca ante el Juez de Faltas de la Jurisdicción, bajo aprecibimientos de hacerlo
                 concurrir con la fuerza pública. Se procede a notificar de los artículos N° 12 y 76 del Código de Faltas, conforme a la obligación impuesta en el Artículo N° 68 del mismo código. (Ver reverso) 
             </div>
         </div>
-        <div style="width: 33%;text-align: center;float:left;margin-top: 50px">
+        <div style="width: 33%;text-align: center;float:left;margin-top: 40px">
             <p>. . . . . . . . . . . . . . . . . . . . . . . . . . . . </p>
             <h5>Firma del Inspector</h5>
         </div>
-        <div style="width: 33%;text-align: center;float:left;margin-top: 50px">
+        <div style="width: 33%;text-align: center;float:left;margin-top: 40px">
             <p>. . . . . . . . . . . . . . . . . . . . . . . . . . . . </p>
             <h5>Firma del Inspector</h5>
         </div>
-        <div style="width: 32%;text-align: center;float:left;margin-top: 50px">
+        <div style="width: 32%;text-align: center;float:left;margin-top: 40px">
             <p>. . . . . . . . . . . . . . . . . . . . . . . . . . . . </p>
             <h5>Firma del Interesado</h5>
         </div>
     </div>
-    <div class="page_2" style="width: 100%; margin-top: 60px;page-break-after:always;float:left">
+    <div class="page_2" style="width: 100%; margin-top: 60px;break-after:page;">
         <div class="body_page_2">
             En este acto se procede a notificar al Sr/Sra <span class="acta_chofer"></span> D.N.I. N° <span class="acta_dniChofer"></span> de los artículos N° 12 y N° 76 del código de faltas conforme la obligación
             impuesta en el artículo N° 68 del mismo código.
@@ -105,23 +107,23 @@
         </div>
         <footer class="footerActa" style="float: right"><p>Impreso en el Boletín Oficial e Imprenta del Estado</p></footer>
     </div>
-    <div class="page_1" style="width: 100%;page-break-after:always;float:left;page-break-before:always">
+    <div class="page_1" style="width: 100%;break-after:page;">
         <div class="logoSJgobierno" style="width: 100%;float:left;margin-bottom: 7px;height: 80px;">
             <img src="lib/imageForms/logo_gobierno_sj_ddpe.png" alt="" style="object-fit: scale-down;max-width: 100%;">
         </div>
-        <div style="width: 100%;text-align:right;margin-bottom: 35px">
+        <div style="width: 100%;text-align:right;margin-bottom: 20px">
             <h3><b>DUPLICADO</b></h3>
         </div>
-        <div style="width: 100%;text-align:center; margin-bottom: 35px">
-            <h3><b>SERVICIO VETERINARIO DE INSPECCIÓN SANITARIA</b></h3>
+        <div style="width: 100%;text-align:center; margin-bottom: 20px">
+            <h2><b>SERVICIO VETERINARIO DE INSPECCIÓN SANITARIA</b></h2>
         </div>
-        <div style="width: 100%;margin-bottom: 40px;">
+        <div style="width: 100%;margin-bottom: 30px;">
             <h2 style="width: 100%;text-align: right;margin-right: 100px"><b>ACTA INFRACCIÓN N° <span class="acta_caseId"></span></b></h2>
         </div>
         <div style="margin-bottom: 35px;width: 100%;">
             <div class="bodyActa" style="">
                 <div style="text-indent: 30px;">
-                    En la ciudad de San Juan, departamento . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . localidad . . . . . . . . . . . . . . . . . . . . . . a los <?php echo date('d'); ?> días del mes de <?php echo $mes; ?> del año <?php echo date('Y'); ?>,
+                    En la ciudad de San Juan, departamento . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . localidad . . . . . . . . . . . . . . . . . . . . a los <?php echo date('d'); ?> días del mes de <?php echo $mes; ?> del año <?php echo date('Y'); ?>,
                     siendo las <?php echo date('H'); ?> horas.  Los inspectores del S. V. I. S. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
                     . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . , se constituyen en <span class="acta_puntoControl"><?php echo isset($infoPuntoControl) ? $infoPuntoControl['nombre'] : '' ?></span> 
                     con domicilio en <span class="acta_puntoControlDomicilio"><?php echo isset($infoPuntoControl) ? $infoPuntoControl['domicilio'] : '' ?></span> propiedad de D.D.P. siendo atendidos por <span class="acta_chofer"></span> D.N.I. N° <span class="acta_dniChofer"></span> en su carácter de chofer.<br>
@@ -129,7 +131,7 @@
                 <br>
                 <div style="text-indent: 30px;">
                     Proceden a realizar la inspección de camión térmico, vehículo patente N° <span class="acta_patenteTractor"></span>, N° de habilitación del SENASA <span class="acta_numSenasa"></span>, Documentación Sanitaria tipo <span class="acta_docSanitaria"></span>
-                    Establecimiento N° <span class="acta_estaId"></span>, nombre del Establecimiento de Origen <span class="acta_establecimiento"></span>, Transportista <span class="acta_transportista"></span>, telefono del transportista 
+                    Establecimiento N° <span class="acta_origenNro"></span>, nombre del Establecimiento de Origen <span class="acta_estaOrigen"></span>, Transportista <span class="acta_transportista"></span>, telefono del transportista 
                     <span class="acta_telTransportista">. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . </span> correo electrónico del transportista <span class="acta_emailTransportista">. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . </span> 
                     destinos <span class="acta_destinos"></span> producto/s <span class="acta_productos"></span>, temperatura <span class="acta_temperaturas"></span>, precintos <span class="acta_precintos"></span>, Peso Bruto <span class="acta_bruto"></span>, 
                     Tara <span class="acta_tara"></span> kg, N° de Ticket <span class="acta_ticket"></span>.
@@ -146,29 +148,31 @@
                     . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . <br>
                     <br>
                     Fecha y Hora: <?php echo date('d-m-Y'); ?>, <?php echo date('H:i'); ?> horas.<br>
-                    <div class="firmaDepositario" style="text-align: right;margin-top: 50px">
-                        <p>. . . . . . . . . . . . . . . . . . . . . . . . . . . . </p>
-                        <h4>Firma del Depositario Judicial</h4>
+                    <div class="firmaDepositario" style="text-align: right;">
+                        <div style="text-align: center;">
+                            <p>. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .</p>
+                            <h5>Firma del Depositario Judicial</h5>
+                        </div>
                     </div>
                 </div>
                 Se le emplaza  para que despúes de <b>cuarenta y ocho (48) horas</b> de labrada está y dentro de los cinco (5) días hábiles subsiguientes, comparezca ante el Juez de Faltas de la Jurisdicción, bajo aprecibimientos de hacerlo
                 concurrir con la fuerza pública. Se procede a notificar de los artículos N° 12 y 76 del Código de Faltas, conforme a la obligación impuesta en el Artículo N° 68 del mismo código. (Ver reverso) 
             </div>
         </div>
-        <div style="width: 33%;text-align: center;float:left;margin-top: 50px">
+        <div style="width: 33%;text-align: center;float:left;margin-top: 40px">
             <p>. . . . . . . . . . . . . . . . . . . . . . . . . . . . </p>
-            <h4>Firma del Inspector</h4>
+            <h5>Firma del Inspector</h5>
         </div>
-        <div style="width: 33%;text-align: center;float:left;margin-top: 50px">
+        <div style="width: 33%;text-align: center;float:left;margin-top: 40px">
             <p>. . . . . . . . . . . . . . . . . . . . . . . . . . . . </p>
-            <h4>Firma del Inspector</h4>
+            <h5>Firma del Inspector</h5>
         </div>
-        <div style="width: 32%;text-align: center;float:left;margin-top: 50px">
+        <div style="width: 32%;text-align: center;float:left;margin-top: 40px">
             <p>. . . . . . . . . . . . . . . . . . . . . . . . . . . . </p>
-            <h4>Firma del Interesado</h4>
+            <h5>Firma del Interesado</h5>
         </div>
     </div>
-    <div class="page_2" style="width: 100%; margin-top: 60px;page-break-after:always;float:left">
+    <div class="page_2" style="width: 100%; margin-top: 60px;break-after:page;">
         <div class="body_page_2">
             En este acto se procede a notificar al Sr/Sra <span class="acta_chofer"></span> D.N.I. N° <span class="acta_dniChofer"></span> de los artículos N° 12 y N° 76 del código de faltas conforme la obligación
             impuesta en el artículo N° 68 del mismo código.
@@ -201,23 +205,23 @@
         </div>
         <footer class="footerActa" style="float: right"><p>Impreso en el Boletín Oficial e Imprenta del Estado</p></footer>
     </div>
-    <div class="page_1" style="width: 100%;page-break-after:always;float:left;page-break-before:always">
+    <div class="page_1" style="width: 100%;break-after:page;">
         <div class="logoSJgobierno" style="width: 100%;float:left;margin-bottom: 7px;height: 80px;">
             <img src="lib/imageForms/logo_gobierno_sj_ddpe.png" alt="" style="object-fit: scale-down;max-width: 100%;">
         </div>
-        <div style="width: 100%;text-align:right;margin-bottom: 35px">
+        <div style="width: 100%;text-align:right;margin-bottom: 20px">
             <h3><b>TRIPLICADO</b></h3>
         </div>
-        <div style="width: 100%;text-align:center; margin-bottom: 35px">
-            <h3><b>SERVICIO VETERINARIO DE INSPECCIÓN SANITARIA</b></h3>
+        <div style="width: 100%;text-align:center; margin-bottom: 20px">
+            <h2><b>SERVICIO VETERINARIO DE INSPECCIÓN SANITARIA</b></h2>
         </div>
-        <div style="width: 100%;margin-bottom: 40px;">
+        <div style="width: 100%;margin-bottom: 30px;">
             <h2 style="width: 100%;text-align: right;margin-right: 100px"><b>ACTA INFRACCIÓN N° <span class="acta_caseId"></span></b></h2>
         </div>
         <div style="margin-bottom: 35px;width: 100%;">
             <div class="bodyActa" style="">
                 <div style="text-indent: 30px;">
-                    En la ciudad de San Juan, departamento . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . localidad . . . . . . . . . . . . . . . . . . . . . . a los <?php echo date('d'); ?> días del mes de <?php echo $mes; ?> del año <?php echo date('Y'); ?>,
+                    En la ciudad de San Juan, departamento . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . localidad . . . . . . . . . . . . . . . . . . . . a los <?php echo date('d'); ?> días del mes de <?php echo $mes; ?> del año <?php echo date('Y'); ?>,
                     siendo las <?php echo date('H'); ?> horas.  Los inspectores del S. V. I. S. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
                     . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . , se constituyen en <span class="acta_puntoControl"><?php echo isset($infoPuntoControl) ? $infoPuntoControl['nombre'] : '' ?></span> 
                     con domicilio en <span class="acta_puntoControlDomicilio"><?php echo isset($infoPuntoControl) ? $infoPuntoControl['domicilio'] : '' ?></span> propiedad de D.D.P. siendo atendidos por <span class="acta_chofer"></span> D.N.I. N° <span class="acta_dniChofer"></span> en su carácter de chofer.<br>
@@ -225,7 +229,7 @@
                 <br>
                 <div style="text-indent: 30px;">
                     Proceden a realizar la inspección de camión térmico, vehículo patente N° <span class="acta_patenteTractor"></span>, N° de habilitación del SENASA <span class="acta_numSenasa"></span>, Documentación Sanitaria tipo <span class="acta_docSanitaria"></span>
-                    Establecimiento N° <span class="acta_estaId"></span>, nombre del Establecimiento de Origen <span class="acta_establecimiento"></span>, Transportista <span class="acta_transportista"></span>, telefono del transportista 
+                    Establecimiento N° <span class="acta_origenNro"></span>, nombre del Establecimiento de Origen <span class="acta_estaOrigen"></span>, Transportista <span class="acta_transportista"></span>, telefono del transportista 
                     <span class="acta_telTransportista">. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . </span> correo electrónico del transportista <span class="acta_emailTransportista">. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . </span> 
                     destinos <span class="acta_destinos"></span> producto/s <span class="acta_productos"></span>, temperatura <span class="acta_temperaturas"></span>, precintos <span class="acta_precintos"></span>, Peso Bruto <span class="acta_bruto"></span>, 
                     Tara <span class="acta_tara"></span> kg, N° de Ticket <span class="acta_ticket"></span>.
@@ -242,29 +246,31 @@
                     . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . <br>
                     <br>
                     Fecha y Hora: <?php echo date('d-m-Y'); ?>, <?php echo date('H:i'); ?> horas.<br>
-                    <div class="firmaDepositario" style="text-align: right;margin-top: 50px">
-                        <p>. . . . . . . . . . . . . . . . . . . . . . . . . . . . </p>
-                        <h4>Firma del Depositario Judicial</h4>
+                    <div class="firmaDepositario" style="text-align: right;">
+                        <div style="text-align: center;">
+                            <p>. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .</p>
+                            <h5>Firma del Depositario Judicial</h5>
+                        </div>
                     </div>
                 </div>
                 Se le emplaza  para que despúes de <b>cuarenta y ocho (48) horas</b> de labrada está y dentro de los cinco (5) días hábiles subsiguientes, comparezca ante el Juez de Faltas de la Jurisdicción, bajo aprecibimientos de hacerlo
                 concurrir con la fuerza pública. Se procede a notificar de los artículos N° 12 y 76 del Código de Faltas, conforme a la obligación impuesta en el Artículo N° 68 del mismo código. (Ver reverso) 
             </div>
         </div>
-        <div style="width: 33%;text-align: center;float:left;margin-top: 50px">
+        <div style="width: 33%;text-align: center;float:left;margin-top: 40px">
             <p>. . . . . . . . . . . . . . . . . . . . . . . . . . . . </p>
-            <h4>Firma del Inspector</h4>
+            <h5>Firma del Inspector</h5>
         </div>
-        <div style="width: 33%;text-align: center;float:left;margin-top: 50px">
+        <div style="width: 33%;text-align: center;float:left;margin-top: 40px">
             <p>. . . . . . . . . . . . . . . . . . . . . . . . . . . . </p>
-            <h4>Firma del Inspector</h4>
+            <h5>Firma del Inspector</h5>
         </div>
-        <div style="width: 32%;text-align: center;float:left;margin-top: 50px">
+        <div style="width: 32%;text-align: center;float:left;margin-top: 40px">
             <p>. . . . . . . . . . . . . . . . . . . . . . . . . . . . </p>
-            <h4>Firma del Interesado</h4>
+            <h5>Firma del Interesado</h5>
         </div>
     </div>
-    <div class="page_2" style="width: 100%; margin-top: 60px;page-break-after:always;float:left">
+    <div class="page_2" style="width: 100%; margin-top: 60px;break-after:page;">
         <div class="body_page_2">
             En este acto se procede a notificar al Sr/Sra <span class="acta_chofer"></span> D.N.I. N° <span class="acta_dniChofer"></span> de los artículos N° 12 y N° 76 del código de faltas conforme la obligación
             impuesta en el artículo N° 68 del mismo código.
