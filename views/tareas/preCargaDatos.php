@@ -6,7 +6,7 @@
 }
 .input-group-addon{
     background-color: #05b513 !important;
-    color: white;
+    color: white !important;
 }
 .form-check-inline{
     display: inline;
@@ -240,10 +240,10 @@
                         </div>
                         <!--________________-->
                         <!--Producto-->
-                        <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
                             <div class="form-group">
                                 <label for="producto">Producto/s(<strong style="color: #dd4b39">*</strong>):</label>
-                                <input class="form-control" name="productos" id="producto" placeholder="Ingrese producto" required/>
+                                <textarea class="form-control" name="productos" id="producto" placeholder="Ingrese producto/s" required></textarea>
                             </div>                    
                         </div>
                         <!--________________-->
@@ -577,11 +577,11 @@ var editando = false;// Utilizo para que no se pierdan los permisos al editar
                         </div>`;
                 $('#sec_permisos').append(div);
                 //Limpio luego de agregar
-                $("#soli_num").val('');
-                $("#emision").val('');
-                $("#salida").val('');
-                $("#fecha").val('');
-                $('input[name=doc_sanitaria]:checked').prop('checked',false);
+                // $("#soli_num").val('');
+                // $("#emision").val('');
+                // $("#salida").val('');
+                // $("#fecha").val('');
+                // $('input[name=doc_sanitaria]:checked').prop('checked',false);
                 editando = false;
                 alertify.success("Permiso de tránsito agregado correctamente!");
 			}else{
