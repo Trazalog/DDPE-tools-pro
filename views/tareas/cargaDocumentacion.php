@@ -284,17 +284,24 @@ function cerrarTarea() {
         processData: false,
         url: '<?php base_url() ?>index.php/<?php echo BPM ?>Proceso/cerrarTarea/' + id,
         success: function(data) {
-            //wc();
-            //back();
-            linkTo('<?php echo BPM ?>Proceso/');
-            setTimeout(() => {
-            Swal.fire(
+            const confirm = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-primary'
+                },
+                buttonsStyling: false
+            });
+
+            confirm.fire({
+                title: 'Perfecto!',
+                text: "Se finalizó la tarea correctamente!",
+                type: 'success',
+                showCancelButton: false,
+                confirmButtonText: 'Hecho'
+            }).then((result) => {
                 
-                    'Perfecto!',
-                    'Se finalizó la tarea correctamente!',
-                    'success'
-                )
-          }, 13000);
+                linkTo('<?php echo BPM ?>Proceso/');
+                
+            });
 
         },
         error: function(data) {
