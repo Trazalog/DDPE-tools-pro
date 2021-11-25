@@ -239,6 +239,16 @@
                             </div>                    
                         </div>
                         <!--________________-->
+
+                        <!--N° SENASA-->
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                            <label for="num_senasa">N° SENASA(<strong style="color: #dd4b39">*</strong>):</label>
+                                <input type="text" class="form-control limitedChars" name="nro_senasa" id="num_senasa" placeholder="Ingrese N° SENASA" required/>
+                            </div>
+                        </div>
+                        <!--________________-->
+
                         <!--Producto-->
                         <div class="col-md-12 col-sm-12 col-xs-12">
                             <div class="form-group">
@@ -253,15 +263,6 @@
                                 <label for="term_patente">Térmico Patente(<strong style="color: #dd4b39">*</strong>):</label>
                                 <input class="form-control limited" id="term_patente" placeholder="Ingrese térmico patente" />
                             </div>                    
-                        </div>
-                        <!--________________-->
-
-                        <!--N° SENASA-->
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <div class="form-group">
-                            <label for="num_senasa">N° SENASA(<strong style="color: #dd4b39">*</strong>):</label>
-                                <input type="text" class="form-control limitedChars" name="nro_senasa" id="num_senasa" placeholder="Ingrese N° SENASA" required/>
-                            </div>
                         </div>
                         <!--________________-->
 
@@ -572,7 +573,7 @@ var editando = false;// Utilizo para que no se pierdan los permisos al editar
                                 <span> 
                                 <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i>
                                 <i class='fa fa-fw fa-edit text-light-blue' style='cursor: pointer;' title='Editar'></i> 
-                                | ${soli_num} - ${tipo} - ${emision} - ${salida} ${fecha}
+                                | <span class='numPermiso'>${soli_num}</span> - ${tipo} - ${emision} - ${salida} ${fecha}
                                 </span>
                         </div>`;
                 $('#sec_permisos').append(div);
@@ -594,6 +595,12 @@ var editando = false;// Utilizo para que no se pierdan los permisos al editar
 		if($("#soli_num").val() == ""){
 			valida = "Complete Numero de solicitud!";
 		}
+        //Valido que el numero de permiso no se ingreso previamente
+        $(".numPermiso").each(function (i, val) { 
+            if($(val).text() == $("#soli_num").val()){
+                valida = "N° de Permiso ya fue ingresado!";
+            }
+        });
         //Lugar de emision
 		if($("#emision").val() == ""){
 			valida = "Complete Lugar de emision!";
@@ -890,17 +897,25 @@ function cerrarTarea() {
             processData: false,
             url: '<?php base_url() ?>index.php/<?php echo BPM ?>Proceso/cerrarTarea/' + id,
             success: function(data) {
-                //wc();
-                //back();
-                linkTo('<?php echo BPM ?>Proceso/');
-                setTimeout(() => {
-                Swal.fire(
+                
+                const confirm = Swal.mixin({
+					customClass: {
+						confirmButton: 'btn btn-primary'
+					},
+					buttonsStyling: false
+				});
+
+                confirm.fire({
+                    title: 'Perfecto!',
+                    text: "Se finalizó la tarea correctamente!",
+                    type: 'success',
+                    showCancelButton: false,
+                    confirmButtonText: 'Hecho'
+                }).then((result) => {
                     
-                        'Perfecto!',
-                        'Se finalizó la tarea correctamente!',
-                        'success'
-                    )
-        	  }, 7000);
+                    linkTo('<?php echo BPM ?>Proceso/');
+                    
+                });
 
             },
             error: function(data) {

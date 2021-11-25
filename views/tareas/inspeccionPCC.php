@@ -123,7 +123,7 @@
                                             <span> 
                                                 <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i>
                                                 <i class='fa fa-fw fa-edit text-light-blue' style='cursor: pointer;' title='Editar'></i> 
-                                                <?php echo "| $key->perm_id - $key->tipo - $key->lugar_emision - $key->fecha_hora_salida" ?>
+                                                <?php echo "| <span class='numPermiso'>$key->perm_id</span> - $key->tipo - $key->lugar_emision - $key->fecha_hora_salida" ?>
                                             </span>
                                         </div>
                                     <?php
@@ -268,8 +268,18 @@
                                 </div>                    
                             </div>
                             <!--________________-->
-                            <!--Producto-->
+
+                            <!--N° SENASA-->
                             <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label for="num_senasa">N° SENASA(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <input class="form-control limitedChars" name="nro_senasa" id="num_senasa" placeholder="Ingrese N° SENASA" value="<?php echo isset($preCargaDatos->nro_senasa) ? $preCargaDatos->nro_senasa : null ?>" required/>
+                                </div>
+                            </div>
+                            <!--________________-->
+
+                            <!--Producto-->
+                            <div class="col-md-12 col-sm-12 col-xs-12 ocultar">
                                 <div class="form-group">
                                     <label for="producto">Producto/s(<strong style="color: #dd4b39">*</strong>):</label>
                                     <textarea class="form-control" name="productos" id="producto" placeholder="Ingrese producto/s" required></textarea>
@@ -282,15 +292,6 @@
                                     <label for="term_patente">Térmico Patente(<strong style="color: #dd4b39">*</strong>):</label>
                                     <input class="form-control limited" id="term_patente" placeholder="Ingrese térmico patente" />
                                 </div>                    
-                            </div>
-                            <!--________________-->
-
-                            <!--N° SENASA-->
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <div class="form-group">
-                                    <label for="num_senasa">N° SENASA(<strong style="color: #dd4b39">*</strong>):</label>
-                                    <input class="form-control limitedChars" name="nro_senasa" id="num_senasa" placeholder="Ingrese N° SENASA" value="<?php echo isset($preCargaDatos->nro_senasa) ? $preCargaDatos->nro_senasa : null ?>" required/>
-                                </div>
                             </div>
                             <!--________________-->
 
@@ -342,7 +343,7 @@
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 <div class="form-group">
                                     <label for="observaciones">Observaciones:</label>
-                                    <textarea class="form-control" row="3" name="observaciones" id="observaciones" placeholder="Observaciones"><?php echo isset($preCargaDatos->observaciones) ? $preCargaDatos->observaciones : null; ?></textarea>
+                                    <textarea class="form-control" name="observaciones" id="observaciones" placeholder="Observaciones"><?php echo isset($preCargaDatos->observaciones) ? $preCargaDatos->observaciones : null; ?></textarea>
                                 </div>                    
                             </div>
                             <!--________________-->
@@ -386,7 +387,7 @@
                             </div>
                             <!--________________-->
                             <!--Ticket-->
-                            <div class="col-md-6 col-sm-6 col-xs-6">
+                            <div class="col-md-12 col-sm-12 col-xs-6">
                                 <div class="form-group">
                                     <label for="ticket">Ticket:</label>
                                     <input class="form-control" name="ticket" id="ticket" placeholder="Ingrese ticket" />
@@ -763,7 +764,7 @@ function agregarPermiso(){
                         <span> 
                         <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i>
                         <i class='fa fa-fw fa-edit text-light-blue' style='cursor: pointer;' title='Editar'></i> 
-                        | ${soli_num} - ${tipo} - ${emision} - ${fecha} ${salida}
+                        | <span class='numPermiso'>${soli_num}</span> - ${tipo} - ${emision} - ${fecha} ${salida}
                         </span>
                 </div>`;
         $('#sec_permisos').append(div);
@@ -787,6 +788,12 @@ function validarCamposPermiso(){
     if($("#soli_num").val() == ""){
         valida = "Complete Numero de solicitud!";
     }
+    //Valido que el numero de permiso no se ingreso previamente
+    $(".numPermiso").each(function (i, val) { 
+        if($(val).text() == $("#soli_num").val()){
+            valida = "N° de Permiso ya fue ingresado!";
+        }
+    });
     //Lugar de emision
     if($("#emision").val() == ""){
         valida = "Complete Lugar de emision!";
@@ -1141,17 +1148,8 @@ function cerrarTarea() {
             processData: false,
             url: '<?php base_url() ?>index.php/<?php echo BPM ?>Proceso/cerrarTarea/' + id,
             success: function(data) {
-                //wc();
-                //back();
-                linkTo('<?php echo BPM ?>Proceso/');
-                setTimeout(() => {
-                Swal.fire(
-                    
-                        'Perfecto!',
-                        'Se finalizó la tarea correctamente!',
-                        'success'
-                    )
-        	  }, 7000);
+
+                imprimirActa();
 
             },
             error: function(data) {
@@ -1214,8 +1212,7 @@ function showValidar(tag){
 //
 //Scripts Imprimir ACTA 
 //
-$("#btnHecho").on('click', function (event) {
-    event.stopImmediatePropagation();
+function imprimirActa(){
 
     var idActa = "#actaInspeccionPCC";
     //Completo datos en el acta antes de imprimir
@@ -1282,9 +1279,29 @@ $("#btnHecho").on('click', function (event) {
         loadCSS: "",
         base: base,
         pageTitle : "TRAZALOG TOOLS",
+        afterPrint: function(){
+            const confirm = Swal.mixin({
+					customClass: {
+						confirmButton: 'btn btn-primary'
+					},
+					buttonsStyling: false
+				});
+
+                confirm.fire({
+                    title: 'Perfecto!',
+                    text: "Se finalizó la tarea correctamente!",
+                    type: 'success',
+                    showCancelButton: false,
+                    confirmButtonText: 'Hecho'
+                }).then((result) => {
+                    
+                    linkTo('<?php echo BPM ?>Proceso/');
+                    
+                });
+        }
     });
 
-});
+};
 /****************************************************** */
 //Show vista previa de las imagenes en escaneo de documentación
 //Genero el contenedor de la vista previa y se lo pego al contenedor del mosaico de imagenes

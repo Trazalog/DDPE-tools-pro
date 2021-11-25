@@ -467,17 +467,8 @@ function cerrarTarea() {
             processData: false,
             url: '<?php base_url() ?>index.php/<?php echo BPM ?>Proceso/cerrarTarea/' + id,
             success: function(data) {
-                //wc();
-                //back();
-                linkTo('<?php echo BPM ?>Proceso/');
-                setTimeout(() => {
-                Swal.fire(
-                    
-                        'Perfecto!',
-                        'Se finalizó la tarea correctamente!',
-                        'success'
-                    )
-        	  }, 7000);
+                
+                imprimirActa();
 
             },
             error: function(data) {
@@ -507,8 +498,7 @@ function showValidar(resultado){
 //
 //Scripts Imprimir ACTA
 //
-$("#btnHecho").on('click', function (event) {
-    event.stopImmediatePropagation();
+function imprimirActa(){
     
     var base = "<?php echo base_url()?>";
     $('#actaInfraccion').printThis({
@@ -518,7 +508,27 @@ $("#btnHecho").on('click', function (event) {
         loadCSS: "",
         base: base,
         pageTitle : "TRAZALOG TOOLS",
+        afterPrint: function(){
+            const confirm = Swal.mixin({
+					customClass: {
+						confirmButton: 'btn btn-primary'
+					},
+					buttonsStyling: false
+				});
+
+                confirm.fire({
+                    title: 'Perfecto!',
+                    text: "Se finalizó la tarea correctamente!",
+                    type: 'success',
+                    showCancelButton: false,
+                    confirmButtonText: 'Hecho'
+                }).then((result) => {
+                    
+                    linkTo('<?php echo BPM ?>Proceso/');
+                    
+                });
+        }
     });
 
-});
+};
 </script>
