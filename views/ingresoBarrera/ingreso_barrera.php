@@ -136,7 +136,7 @@ function cierraPedidoTrabajo(){
     });
 
     //Validaciones CAMPOS OBLIGATORIOS Formulario 
-    if($("#perm_transito").val() == ''){
+    if($("input[name='-file-perm_transito'").val() == ''){
         Swal.fire(
             'Oops...',
             'Debe cargar la foto del permiso de tránsito (*)',
@@ -144,7 +144,15 @@ function cierraPedidoTrabajo(){
         );
         return;
     }
-    if($("#pat_tractor").val() == ''){
+    if($("#dominio").val() == ''){
+        Swal.fire(
+            'Oops...',
+            'Debe completar la Patente/Dominio del tractor (*)',
+            'error'
+        );
+        return;
+    }
+    if($("input[name='-file-pat_tractor'").val() == ''){
         Swal.fire(
             'Oops...',
             'Debe cargar la foto de la patente del tractor (*)',
@@ -152,7 +160,7 @@ function cierraPedidoTrabajo(){
         );
         return;
     }
-    if($("#pat_termico").val() == ''){
+    if($("input[name='-file-pat_termico'").val() == ''){
         Swal.fire(
             'Oops...',
             'Debe cargar la foto de la patente del térmico (*)',
@@ -160,7 +168,7 @@ function cierraPedidoTrabajo(){
         )
         return;
     }
-    if($("#temperatura").val() == ''){
+    if($("input[name='-file-temperatura'").val() == ''){
         Swal.fire(
             'Oops...',
             'Debe cargar la foto de la temperatura (*)',
@@ -168,7 +176,7 @@ function cierraPedidoTrabajo(){
         )
         return;
     }
-    if($("#precinto_1").val() == ''){
+    if($("input[name='-file-precinto_1'").val() == ''){
         Swal.fire(
             'Oops...',
             'Debe cargar la foto del precinto 1 (*)',
@@ -176,7 +184,7 @@ function cierraPedidoTrabajo(){
         )
         return;
     }
-    if($("#docu_firmado").val() == ''){
+    if($("input[name='-file-docu_firmado'").val() == ''){
         Swal.fire(
             'Oops...',
             'Debe cargar la foto del documento firmado (*)',
