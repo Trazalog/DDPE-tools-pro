@@ -1071,6 +1071,7 @@ async function cerrarTareaform(){
     
 
 function cerrarTarea() {
+    return;
     wo();
     if(!frm_validar('#formInspeccion')){
         wc();
@@ -1230,6 +1231,7 @@ function imprimirActa(){
     $(".acta_bruto").text($("#bruto").val());
     $(".acta_tara").text($("#tara").val());
     $(".acta_ticket").text($("#ticket").val());
+    $(".acta_tpoDocumentacion").text($("select[name='doc_impo']").val());
 
     //Valído
     if($('#tpoInfraccion').val() != null){
