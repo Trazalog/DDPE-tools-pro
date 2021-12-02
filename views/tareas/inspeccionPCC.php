@@ -1071,7 +1071,6 @@ async function cerrarTareaform(){
     
 
 function cerrarTarea() {
-    return;
     wo();
     if(!frm_validar('#formInspeccion')){
         wc();
