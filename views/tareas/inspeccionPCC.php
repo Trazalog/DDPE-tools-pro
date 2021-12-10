@@ -699,6 +699,7 @@ function agregarDestino(){
         datos.rol = "DESTINO";
         datos.empr_id = $("#empre_destino").val();
         datos.depo_id = $("#depo_destino").val();
+        datos.razon_social = empre_destino;
 
         var div = `<div class='form-group empreDestino' data-json='${JSON.stringify(datos)}'>
                         <span> 
