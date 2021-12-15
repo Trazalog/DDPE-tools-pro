@@ -35,7 +35,7 @@
 
 								echo "<td class='text-center text-light-blue'>";
 								echo '<i class="fa fa-trash-o" style="cursor: pointer;margin: 3px;" title="Eliminar ingreso por barrera" onclick="confirmaEliminar(this)"></i>';
-								// echo '<i class="fa fa-print" style="cursor: pointer; margin: 3px;" title="Imprimir Comprobante"></i>';
+								echo '<i class="fa fa-print" style="cursor: pointer; margin: 3px;" title="Imprimir acta" onclick="imprimirActa(this)"></i>';
 								echo '<i class="fa fa-search"  style="cursor: pointer;margin: 3px;" title="Ver Pedido" onclick="verPedido(this)"></i>';
 								echo "</td>";
 								echo '<td class="text-center">'.$petr_id.'</td>';
@@ -86,19 +86,14 @@
 </div>
 <?php
   
-        //informacion del proceso
-        $data['info'] = '';#$this->load->view(BPM.'tareas/componentes/informacion',$data['tarea'], true);
+    //LINEA DE TIEMPO
+    $data['timeline'] =$this->bpm->ObtenerLineaTiempo($tarea->processId, $case_id);
 
-        //LINEA DE TIEMPO
-        $data['timeline'] =$this->bpm->ObtenerLineaTiempo($tarea->processId, $case_id);
-
-        //COMENTARIOS DEL PEDIDO
-        $data_aux = ['case_id' => $case_id, 'comentarios' => $this->bpm->ObtenerComentarios($case_id)];
-        $data['comentarios'] = $this->load->view(BPM.'tareas/componentes/comentarios', $data_aux, true);
-        
-        // $data['formularios'] = $this->Pedidotrabajos->getFormularios($petr_id);
-
-        
+    //COMENTARIOS DEL PEDIDO
+    $data_aux = ['case_id' => $case_id, 'comentarios' => $this->bpm->ObtenerComentarios($case_id)];
+    $data['comentarios'] = $this->load->view(BPM.'tareas/componentes/comentarios', $data_aux, true);
+    
+    // $data['formularios'] = $this->Pedidotrabajos->getFormularios($petr_id);      
 ?>
 <!-- The Modal -->
 <div class="modal modal-fade" id="mdl-vista">
@@ -115,14 +110,22 @@
     </div>
 </div>
 <!-- MODAL AGREGAR INGRESO POR BARRERA -->
-<?php $this->load->view('ingresoBarrera/mdl_ingresos_barrera'); ?>
+  <?php $this->load->view('ingresoBarrera/mdl_ingresos_barrera'); ?>
 <!-- FIN MODAL AGREGAR INGRESO POR BARRERA -->
+
+<!-- ACTA -->
+  <div id="actaImprimir" style="display:none"></div>
+<!-- FIN ACTA -->
+
+
 <script>
 
 $('#tbl-pedidos').DataTable({
         "order": [[ 0, "desc" ]]
 	});
-
+//
+//Ver detalles de comentarios y linea de trazabildiad del ingreso por barrera
+//
 function verPedido(tag) {
 
   dataJson = JSON.parse($(tag).closest('tr').attr('data-json'));
@@ -141,7 +144,38 @@ function verPedido(tag) {
     wc();
   });
 
-	} 
+	}
+//
+//Carga el acta correspondiente segun resultado de la inspeccion
+//
+function imprimirActa(tag) {
+
+  base = "<?php echo base_url()?>";
+  dataJson = JSON.parse($(tag).closest('tr').attr('data-json'));
+
+  actaCorrespondiente = "<?php echo base_url(SICP); ?>Ingreso_barrera/cargar_detalle_acta?petr_id=" + dataJson.petr_id + "&case_id=" + dataJson.case_id;
+  wo();
+
+  $("#actaImprimir").empty();
+  $("#actaImprimir").load(actaCorrespondiente,function(){
+    wc();
+    $("#actaImprimir").printThis({
+      debug: false,
+      importCSS: false,
+      importStyle: true,
+      loadCSS: "",
+      base: base,
+      pageTitle : "TRAZALOG TOOLS",
+      beforePrint: function () {
+        $("#actaImprimir").show();
+      },
+      afterPrint: function(){
+        $("#actaImprimir").hide();
+      }
+    });
+  });
+
+}
 //
 //Confirmación con SWAL2 para eliminar el ingreso por barrera
 //
@@ -177,6 +211,7 @@ function confirmaEliminar(tag){
   });
 
 }
+
 //
 //Elimina el Ingreso por barrera, es lo mismo que pedido de trabajo
 //

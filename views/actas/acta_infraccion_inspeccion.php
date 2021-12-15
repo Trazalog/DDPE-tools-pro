@@ -36,7 +36,7 @@
                     Establecimiento N° <span class="acta_origenNro"></span>, nombre del Establecimiento de Origen <span class="acta_estaOrigen"></span>, Transportista <span class="acta_transportista"></span>, telefono del transportista 
                     <span class="acta_telTransportista">. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . </span> correo electrónico del transportista <span class="acta_emailTransportista">. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . </span> 
                     destinos <span class="acta_destinos"></span> producto/s <span class="acta_productos"></span>, temperatura <span class="acta_temperaturas"></span>, precintos <span class="acta_precintos"></span>, Peso Bruto <span class="acta_bruto"></span>, 
-                    Tara <span class="acta_tara"></span> kg, N° de Ticket <span class="acta_ticket"></span>. Tipo de documentación <span class="acta_tpoDocumentacion"></span>
+                    Tara <span class="acta_tara"></span> kg, N° de Ticket <span class="acta_ticket"></span>. Tipo de documentación <span class="acta_tpoDocumentacion"></span>.
                 </div> 
                 <br>
                 <div style="text-indent: 30px;">
@@ -57,7 +57,7 @@
                         </div>
                     </div>
                 </div>
-                Se le emplaza  para que despúes de <b>cuarenta y ocho (48) horas</b> de labrada está y dentro de los cinco (5) días hábiles subsiguientes, comparezca ante el Juez de Faltas de la Jurisdicción, bajo aprecibimientos de hacerlo
+                Se le emplaza  para que despúes de <b>cuarenta y ocho (48) horas</b> de labrada está y dentro de los cinco (5) días hábiles subsiguientes, comparezca ante el Juez de Faltas de la Jurisdicción, bajo apercibimientos de hacerlo
                 concurrir con la fuerza pública. Se procede a notificar de los artículos N° 12 y 76 del Código de Faltas, conforme a la obligación impuesta en el Artículo N° 68 del mismo código. (Ver reverso) 
             </div>
         </div>
@@ -86,10 +86,10 @@
             </br>
             <b>ARTÍCULO 76.- Audiencia en Juicio- Prueba.</b> El proceso se llevará a cabo en audiencia oral y pública, salvo que motivos de moralidad u orden público aconsejaren lo contrario, de lo cual el juez deberá
             dar funtamentos.</br>
-            <div style="text-indent: 30px;">El juez procederá a interrogar al imputado a lso fines de su identificación, tras lo cual le hará conocer los antecedentes agregados a la causa.</div></br>
-            <div style="text-indent: 30px;">Le informará asimismo sobre su derecho a declarar o de abstenerse de ahcerlo, sin que ello implique presunción en su contra y de nombrar defensor si lo quisiere.</div></br>
+            <div style="text-indent: 30px;">El juez procederá a interrogar al imputado a los fines de su identificación, tras lo cual le hará conocer los antecedentes agregados a la causa.</div></br>
+            <div style="text-indent: 30px;">Le informará asimismo sobre su derecho a declarar o de abstenerse de hacerlo, sin que ello implique presunción en su contra y de nombrar defensor si lo quisiere.</div></br>
             <div style="text-indent: 30px;">Seguidamente, el magistrado oirá personalmente al imputado sobre el hecho que se le atribuye, pudiendo éste expresar todo cuanto considere conveniente en su descargo.</div></br>
-            <div style="text-indent: 30px;">La prueba será ofrecida y producida en la mismaaudiencia. Si ello no fuere posible el juez podrá disponer la realización de nuevas audiencias.</div></br>
+            <div style="text-indent: 30px;">La prueba será ofrecida y producida en la misma audiencia. Si ello no fuere posible el juez podrá disponer la realización de nuevas audiencias.</div></br>
             <div style="text-indent: 30px;">Se labrará acta de lo sustancial, la que será suscrita por el juez y el secretario, pudiendo también hacerlo el imputado, los testigos y demás participantes del acto.</div></br>
             <div style="text-indent: 30px;">Cuando el juez lo considere conveniente aceptará la presentación de escritos o dispondrá que se tome versión escrita de las declaraciones, interrogatorios y careos.</div></br>
             <div style="text-indent: 30px;">Los planteos de inconstitucionalidad, incompetencia y prescripción deberán formularse por escrito.</div></br>
@@ -134,7 +134,7 @@
                     Establecimiento N° <span class="acta_origenNro"></span>, nombre del Establecimiento de Origen <span class="acta_estaOrigen"></span>, Transportista <span class="acta_transportista"></span>, telefono del transportista 
                     <span class="acta_telTransportista">. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . </span> correo electrónico del transportista <span class="acta_emailTransportista">. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . </span> 
                     destinos <span class="acta_destinos"></span> producto/s <span class="acta_productos"></span>, temperatura <span class="acta_temperaturas"></span>, precintos <span class="acta_precintos"></span>, Peso Bruto <span class="acta_bruto"></span>, 
-                    Tara <span class="acta_tara"></span> kg, N° de Ticket <span class="acta_ticket"></span>.
+                    Tara <span class="acta_tara"></span> kg, N° de Ticket <span class="acta_ticket"></span>. Tipo de documentación <span class="acta_tpoDocumentacion"></span>.
                 </div> 
                 <br>
                 <div style="text-indent: 30px;">
@@ -155,7 +155,7 @@
                         </div>
                     </div>
                 </div>
-                Se le emplaza  para que despúes de <b>cuarenta y ocho (48) horas</b> de labrada está y dentro de los cinco (5) días hábiles subsiguientes, comparezca ante el Juez de Faltas de la Jurisdicción, bajo aprecibimientos de hacerlo
+                Se le emplaza  para que despúes de <b>cuarenta y ocho (48) horas</b> de labrada está y dentro de los cinco (5) días hábiles subsiguientes, comparezca ante el Juez de Faltas de la Jurisdicción, bajo apercibimientos de hacerlo
                 concurrir con la fuerza pública. Se procede a notificar de los artículos N° 12 y 76 del Código de Faltas, conforme a la obligación impuesta en el Artículo N° 68 del mismo código. (Ver reverso) 
             </div>
         </div>
@@ -184,10 +184,10 @@
             </br>
             <b>ARTÍCULO 76.- Audiencia en Juicio- Prueba.</b> El proceso se llevará a cabo en audiencia oral y pública, salvo que motivos de moralidad u orden público aconsejaren lo contrario, de lo cual el juez deberá
             dar funtamentos.</br>
-            <div style="text-indent: 30px;">El juez procederá a interrogar al imputado a lso fines de su identificación, tras lo cual le hará conocer los antecedentes agregados a la causa.</div></br>
-            <div style="text-indent: 30px;">Le informará asimismo sobre su derecho a declarar o de abstenerse de ahcerlo, sin que ello implique presunción en su contra y de nombrar defensor si lo quisiere.</div></br>
+            <div style="text-indent: 30px;">El juez procederá a interrogar al imputado a los fines de su identificación, tras lo cual le hará conocer los antecedentes agregados a la causa.</div></br>
+            <div style="text-indent: 30px;">Le informará asimismo sobre su derecho a declarar o de abstenerse de hacerlo, sin que ello implique presunción en su contra y de nombrar defensor si lo quisiere.</div></br>
             <div style="text-indent: 30px;">Seguidamente, el magistrado oirá personalmente al imputado sobre el hecho que se le atribuye, pudiendo éste expresar todo cuanto considere conveniente en su descargo.</div></br>
-            <div style="text-indent: 30px;">La prueba será ofrecida y producida en la mismaaudiencia. Si ello no fuere posible el juez podrá disponer la realización de nuevas audiencias.</div></br>
+            <div style="text-indent: 30px;">La prueba será ofrecida y producida en la misma audiencia. Si ello no fuere posible el juez podrá disponer la realización de nuevas audiencias.</div></br>
             <div style="text-indent: 30px;">Se labrará acta de lo sustancial, la que será suscrita por el juez y el secretario, pudiendo también hacerlo el imputado, los testigos y demás participantes del acto.</div></br>
             <div style="text-indent: 30px;">Cuando el juez lo considere conveniente aceptará la presentación de escritos o dispondrá que se tome versión escrita de las declaraciones, interrogatorios y careos.</div></br>
             <div style="text-indent: 30px;">Los planteos de inconstitucionalidad, incompetencia y prescripción deberán formularse por escrito.</div></br>
@@ -232,7 +232,7 @@
                     Establecimiento N° <span class="acta_origenNro"></span>, nombre del Establecimiento de Origen <span class="acta_estaOrigen"></span>, Transportista <span class="acta_transportista"></span>, telefono del transportista 
                     <span class="acta_telTransportista">. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . </span> correo electrónico del transportista <span class="acta_emailTransportista">. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . </span> 
                     destinos <span class="acta_destinos"></span> producto/s <span class="acta_productos"></span>, temperatura <span class="acta_temperaturas"></span>, precintos <span class="acta_precintos"></span>, Peso Bruto <span class="acta_bruto"></span>, 
-                    Tara <span class="acta_tara"></span> kg, N° de Ticket <span class="acta_ticket"></span>.
+                    Tara <span class="acta_tara"></span> kg, N° de Ticket <span class="acta_ticket"></span>. Tipo de documentación <span class="acta_tpoDocumentacion"></span>.
                 </div> 
                 <br>
                 <div style="text-indent: 30px;">
@@ -253,7 +253,7 @@
                         </div>
                     </div>
                 </div>
-                Se le emplaza  para que despúes de <b>cuarenta y ocho (48) horas</b> de labrada está y dentro de los cinco (5) días hábiles subsiguientes, comparezca ante el Juez de Faltas de la Jurisdicción, bajo aprecibimientos de hacerlo
+                Se le emplaza  para que despúes de <b>cuarenta y ocho (48) horas</b> de labrada está y dentro de los cinco (5) días hábiles subsiguientes, comparezca ante el Juez de Faltas de la Jurisdicción, bajo apercibimientos de hacerlo
                 concurrir con la fuerza pública. Se procede a notificar de los artículos N° 12 y 76 del Código de Faltas, conforme a la obligación impuesta en el Artículo N° 68 del mismo código. (Ver reverso) 
             </div>
         </div>
@@ -282,10 +282,10 @@
             </br>
             <b>ARTÍCULO 76.- Audiencia en Juicio- Prueba.</b> El proceso se llevará a cabo en audiencia oral y pública, salvo que motivos de moralidad u orden público aconsejaren lo contrario, de lo cual el juez deberá
             dar funtamentos.</br>
-            <div style="text-indent: 30px;">El juez procederá a interrogar al imputado a lso fines de su identificación, tras lo cual le hará conocer los antecedentes agregados a la causa.</div></br>
-            <div style="text-indent: 30px;">Le informará asimismo sobre su derecho a declarar o de abstenerse de ahcerlo, sin que ello implique presunción en su contra y de nombrar defensor si lo quisiere.</div></br>
+            <div style="text-indent: 30px;">El juez procederá a interrogar al imputado a los fines de su identificación, tras lo cual le hará conocer los antecedentes agregados a la causa.</div></br>
+            <div style="text-indent: 30px;">Le informará asimismo sobre su derecho a declarar o de abstenerse de hacerlo, sin que ello implique presunción en su contra y de nombrar defensor si lo quisiere.</div></br>
             <div style="text-indent: 30px;">Seguidamente, el magistrado oirá personalmente al imputado sobre el hecho que se le atribuye, pudiendo éste expresar todo cuanto considere conveniente en su descargo.</div></br>
-            <div style="text-indent: 30px;">La prueba será ofrecida y producida en la mismaaudiencia. Si ello no fuere posible el juez podrá disponer la realización de nuevas audiencias.</div></br>
+            <div style="text-indent: 30px;">La prueba será ofrecida y producida en la misma audiencia. Si ello no fuere posible el juez podrá disponer la realización de nuevas audiencias.</div></br>
             <div style="text-indent: 30px;">Se labrará acta de lo sustancial, la que será suscrita por el juez y el secretario, pudiendo también hacerlo el imputado, los testigos y demás participantes del acto.</div></br>
             <div style="text-indent: 30px;">Cuando el juez lo considere conveniente aceptará la presentación de escritos o dispondrá que se tome versión escrita de las declaraciones, interrogatorios y careos.</div></br>
             <div style="text-indent: 30px;">Los planteos de inconstitucionalidad, incompetencia y prescripción deberán formularse por escrito.</div></br>

@@ -250,6 +250,14 @@ class Sicpoatareas extends CI_Model
                     }
                 }
 
+                $puntosControl = $this->Ingresosbarrera->getPuntosControl();
+                foreach ($puntosControl  as $key) {
+                    if($key->tabl_id == $this->session->userdata['puntoControl']){
+                        $data['infoPuntoControl']['domicilio'] = $key->valor2;
+                        $data['infoPuntoControl']['nombre'] = $key->descripcion;
+                    }
+                }
+                
                 $formulario = $this->Ingresosbarrera->getFormularios($tareaData->petr_id);
                 $escaneoInfoId = $formulario['data'][0]->forms->form[0]->info_id;
                 $data['escaneoInfoId'] = $escaneoInfoId;// Lo mando a la vista para instaciar formulario en modal
