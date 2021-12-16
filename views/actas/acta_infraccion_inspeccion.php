@@ -105,7 +105,6 @@
         <div style="width: 50%;text-align: center;margin-top: 50px;float:left">
             <p> . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .</p>
         </div>
-        <footer class="footerActa" style="float: right"><p>Impreso en el Boletín Oficial e Imprenta del Estado</p></footer>
     </div>
     <div class="page_1" style="width: 100%;break-after:page;">
         <div class="logoSJgobierno" style="width: 100%;float:left;margin-bottom: 7px;height: 80px;">
@@ -203,7 +202,6 @@
         <div style="width: 50%;text-align: center;margin-top: 50px;float:left">
             <p> . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .</p>
         </div>
-        <footer class="footerActa" style="float: right"><p>Impreso en el Boletín Oficial e Imprenta del Estado</p></footer>
     </div>
     <div class="page_1" style="width: 100%;break-after:page;">
         <div class="logoSJgobierno" style="width: 100%;float:left;margin-bottom: 7px;height: 80px;">
@@ -301,6 +299,5 @@
         <div style="width: 50%;text-align: center;margin-top: 50px;float:left">
             <p> . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .</p>
         </div>
-        <footer class="footerActa" style="float: right"><p>Impreso en el Boletín Oficial e Imprenta del Estado</p></footer>
     </div>
 </div><!--FIN ACTA-->

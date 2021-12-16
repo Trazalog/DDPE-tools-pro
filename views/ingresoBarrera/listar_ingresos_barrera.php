@@ -21,7 +21,7 @@
 
 								$petr_id = $rsp->petr_id;
 								$nombre_cliente = $rsp->nombre;
-								$tipo = $rsp->tipo;
+								// $tipo = $rsp->tipo;
 								$descripcion = $rsp->descripcion;
 								$fec_inicio = $rsp->fec_inicio;
                 $estado = $rsp->estado;
@@ -132,11 +132,19 @@ function verPedido(tag) {
 
   comments = "<?php echo base_url(SICP); ?>Ingreso_barrera/cargar_detalle_comentario?petr_id=" + dataJson.petr_id + "&case_id=" + dataJson.case_id;
   timeline = "<?php echo base_url(SICP); ?>Ingreso_barrera/cargar_detalle_linetiempo?case_id=" + dataJson.case_id;
+  forms = "<?php echo base_url(SICP); ?>Ingreso_barrera/cargar_detalle_formulario?petr_id=" + dataJson.petr_id + "&case_id=" + dataJson.case_id;
+  header = "<?php echo base_url(SICP); ?>Ingreso_barrera/cargar_detalle_cabecera?case_id=" + dataJson.case_id;
 
   wo();
 
   $("#cargar_comentario").empty();
   $("#cargar_comentario").load(comments);
+
+  $("#cargar_form").empty();
+  $("#cargar_form").load(forms);
+
+  $("#cabecera").empty();
+  $("#cabecera").load(header);
 
   $("#cargar_trazabilidad").empty();
   $("#cargar_trazabilidad").load(timeline,function () {

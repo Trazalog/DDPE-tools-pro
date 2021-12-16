@@ -86,7 +86,6 @@
         <div style="width: 50%;text-align: center;margin-top: 50px;float:left">
             <p> . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .</p>
         </div>
-        <footer class="footerActa" style="float: right"><p>Impreso en el Boletín Oficial e Imprenta del Estado</p></footer>
     </div>
     <!--FIN ORIGINAL-->
     <!-- DUPLICADO -->
@@ -166,7 +165,6 @@
         <div style="width: 50%;text-align: center;margin-top: 50px;float:left">
             <p> . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .</p>
         </div>
-        <footer class="footerActa" style="float: right"><p>Impreso en el Boletín Oficial e Imprenta del Estado</p></footer>
     </div>
     <!--FIN DUPLICADO-->
     <!--TRIPLICADO-->
@@ -245,7 +243,6 @@
         <div style="width: 50%;text-align: center;margin-top: 50px;float:left">
             <p> . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .</p>
         </div>
-        <footer class="footerActa" style="float: right"><p>Impreso en el Boletín Oficial e Imprenta del Estado</p></footer>
     </div>
     <!-- FIN TRIPLICADO -->
 </div><!--FIN ACTA-->

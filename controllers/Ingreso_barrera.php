@@ -101,8 +101,8 @@ class Ingreso_barrera extends CI_Controller
             'descripcion' => $proceso->descripcion,
             'estado' => $proceso->esin_id,
             'objetivo' => "6",
-            'fec_inicio' => date('Y-m-d'),
-            'fec_entrega' => "2021-12-31",
+            'fec_inicio' => date('Y-m-d H:i:s'),
+            'fec_entrega' => FEC_VEN,
             'usuario_app' => $user_app,
             'umti_id' => "unidad_medida_tiempoMeses",
             'info_id' => $this->input->post('info_id'),
@@ -386,5 +386,29 @@ class Ingreso_barrera extends CI_Controller
         }else{
             $this->load->view(SICP . "actas/acta_inspeccion", $data);
         }
+    }
+
+    /**
+        * Trae cabecera relacionada con el proceso
+        *@param case_id ,petr_id, processId. (metodo GET)
+        *@return array forularios
+    */
+    public function cargar_detalle_cabecera(){
+
+        $this->load->model('Sicpoatareas');
+
+        $case_id = $this->input->get('case_id');
+
+        //Id del proceso desde la tabla pro.procesos
+        $processId = $this->Ingresosbarrera->procesos()->proceso->nombre_bpm;
+
+        $tarea = new StdClass();
+        $tarea->caseId = $case_id;
+        $tarea->processId = $processId;
+        $tarea->nombreTarea = '';
+
+        $cabecera = $this->Sicpoatareas->desplegarCabecera($tarea);
+
+        echo $cabecera;
     }
 }

@@ -1,5 +1,6 @@
-<?php $this->load->view(SICP."documentacion/modalDocumentos.php"); ?>
-<?php $this->load->view(SICP."documentacion/nuevoDocumento.php"); ?>
+<?php $this->load->view(SICP."documentacion/modalDocumentos"); ?>
+<?php $this->load->view(SICP."documentacion/nuevoDocumento"); ?>
+<?php $this->load->view(SICP."inspeccion/modales"); ?>
 <div id="tablaDocumentosBox">
     <div class="row">
         <div class="col-md-12 col-lg-12 col-xs-12">
@@ -9,6 +10,7 @@
             </button>
         </div>
         <div class="col-md-12 col-sm-12 col-xs-12">
+            <input type="hidden" name="info_id_doc" id="info_id_doc" value="<?php echo $inspeccion->info_id_doc ?>">
             <!-- ______ TABLA DOCUMENTOS ______ -->
             <table id="tabla_documentos" class="table table-bordered table-striped">
                 <thead class="thead-dark" bgcolor="#eeeeee">
@@ -105,7 +107,6 @@ function actualizaTablaDocumentos(){
                         '</tr>';
                     tabla.row.add($(fila)).draw();
                 });
-                wc();
                 console.log("Actualizando tabla con documentos cargados");
 
 
@@ -115,6 +116,9 @@ function actualizaTablaDocumentos(){
         },
         error: function(data) {
             console.log("No hay documentos cargados para esta inspección");
+        },
+        complete: function(){
+            wc();
         }
     });
 }
@@ -128,10 +132,10 @@ $("#btnAgregar").on('click', function () {
     accion = "nuevo";
     
     //Reemplazo los botones standard de la notificacion
-    $(".btn-success.btnNotifEstandar").text("Guardar");
-    $(".btn-primary.btnNotifEstandar").text("Volver");
-    $(".btn-success.btnNotifEstandar").attr("onclick","guardarDetalle()");
-    $(".btn-primary.btnNotifEstandar").attr("onclick","cerrarDetalle()");
+    $("#btnHecho").text("Guardar");
+    $("#btnCerrarVistaNotificacion").text("Volver");
+    $("#btnHecho").attr("onclick","guardarDetalle()");
+    $("#btnCerrarVistaNotificacion").attr("onclick","cerrarDetalle()");
 });
 //
 //Muestra pantalla de editar un documento
@@ -220,10 +224,10 @@ $(document).on('click','.btnEditarDocu', function () {
 
 
     //Reemplazo los botones standard de la notificacion
-    $(".btn-success.btnNotifEstandar").text("Editar");
-    $(".btn-primary.btnNotifEstandar").text("Volver");
-    $(".btn-success.btnNotifEstandar").attr("onclick","guardarDetalle()");
-    $(".btn-primary.btnNotifEstandar").attr("onclick","cerrarDetalle()");
+    $("#btnHecho").text("Editar");
+    $("#btnCerrarVistaNotificacion").text("Volver");
+    $("#btnHecho").attr("onclick","guardarDetalle()");
+    $("#btnCerrarVistaNotificacion").attr("onclick","cerrarDetalle()");
 });
 //
 //Eliminar registro tabla intermedia
@@ -273,7 +277,9 @@ $(document).on('click','.btnEliminarDocu', function () {
 function cerrarTarea() {
 
     var dataForm = new FormData();
+    var frm_info_id = $('#info_id_doc').val();
 
+    dataForm.append('frm_info_id', frm_info_id);
     var id = $('#taskId').val();
     
     $.ajax({

@@ -194,6 +194,7 @@
         </div>
     </div>
 </div>
+
 <!-- FIN MODAL Escanear Documentacion -->
 <!-- Modal Acta infraccion en calle -->
 <div class="modal modal-fade" id="mdl-actaInfraccion">
@@ -398,4 +399,29 @@
             }
         });
     }
+    
+$(document).ready(function () {
+    //Cantidad de documentos solo digitos
+    $("#cant_doc").attr("type","number");
+});
+//Variable de estado para agregar contenido dinamicamente
+indice = 2;
+
+function agregarFotos(){
+    var modeloInput = "<div class='col-sm-12 col-md-6'>"+
+                    "<label>Foto "+indice+":</label>"+
+                    "<div class='form-group imgConte'>"+
+                        "<label for='foto_"+indice+"'>"+
+                        "<div class='imgEdit'>"+
+                            "<input class='form-control' type='file' id='foto_"+indice+"'  name='-file-fotos[]' onchange='previewFile(this)' accept='image/*' capture/>"+
+                        "</div>"+
+                        "<div class='imgPreview'>"+
+                            "<div id='vistaPrevia_foto_"+indice+"' style='background-image: url(lib/imageForms/camera_2.png);'></div>"+
+                        "</div>"+
+                        "</label>"+
+                    "</div>"+
+                    "</div>";
+    indice++;
+    $(".addFotos").before(modeloInput);
+}
 </script>
