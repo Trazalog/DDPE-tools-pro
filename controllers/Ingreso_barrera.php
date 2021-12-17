@@ -102,7 +102,7 @@ class Ingreso_barrera extends CI_Controller
             'estado' => $proceso->esin_id,
             'objetivo' => "6",
             'fec_inicio' => date('Y-m-d H:i:s'),
-            'fec_entrega' => FEC_VEN,
+            'fec_entrega' => "2051-12-31",
             'usuario_app' => $user_app,
             'umti_id' => "unidad_medida_tiempoMeses",
             'info_id' => $this->input->post('info_id'),
