@@ -377,7 +377,28 @@
                                     $('#mdl-razon_social-esta').val('');
                                     $('#mdl-num_esta-esta').val('');
                                 break;
+                                
+                                case 'Emisor':
+                                    var empresa = $("#mdl-razon_social").val();
+                                    var newOpc = new Option(empresa, $("#mdl-cuit").val(), true, true);
+                                    $('#emisor').append(newOpc).trigger('change');
 
+                                    //Limpio form
+                                    $('#mdl-cuit').val('');
+                                    $('#mdl-razon_social').val('');
+                                    $('#mdl-num_esta').val('');
+                                break;
+
+                                case 'Destino':
+                                    var empresa = $("#mdl-razon_social").val();
+                                    var newOpc = new Option(empresa, $("#mdl-cuit").val(), true, true);
+                                    $('#destino').append(newOpc).trigger('change');
+
+                                    //Limpio form
+                                    $('#mdl-cuit').val('');
+                                    $('#mdl-razon_social').val('');
+                                    $('#mdl-num_esta').val('');
+                                break;
                                 default:
                                     break;
                             }

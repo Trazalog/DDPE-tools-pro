@@ -67,7 +67,7 @@
                             <select class="form-control select2 select2-hidden-accesible empresa" name="empr_id_emisor" id="emisor" style="width: 100%" data-bv-notempty data-bv-notempty-message="Campo Obligatorio *">
                                 <option value="" disabled selected>- Seleccionar -</option>	
                             </select>
-                            <span id="add_emisor" class="input-group-addon" data-toggle="modal" data-target="#mdl-empresa"><i class="fa fa-plus"></i></span>
+                            <span id="add_emisor" class="input-group-addon" data-toggle="modal" data-target="#mdl-empresa" onclick="$('#tipoEmpresa').val('Emisor')"><i class="fa fa-plus"></i></span>
                         </div>
                     </div>                    
                 </div>
@@ -81,7 +81,7 @@
                             <select class="form-control select2 select2-hidden-accesible empresa" name="empr_id_destino" id="destino" style="width: 100%" data-bv-notempty data-bv-notempty-message="Campo Obligatorio *">
                                 <option value="" disabled selected>- Seleccionar -</option>	
                             </select>
-                            <span id="add_destino" class="input-group-addon" data-toggle="modal" data-target="#mdl-empresa"><i class="fa fa-plus"></i></span>
+                            <span id="add_destino" class="input-group-addon" data-toggle="modal" data-target="#mdl-empresa" onclick="$('#tipoEmpresa').val('Destino')"><i class="fa fa-plus"></i></span>
                         </div>
                     </div>                    
                 </div>
