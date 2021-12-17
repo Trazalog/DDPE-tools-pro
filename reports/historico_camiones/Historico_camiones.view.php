@@ -85,7 +85,7 @@
 
             <div class="col-md-4 col-md-6 mb-4 mb-lg-0">
               <label for="resultado" class="form-label">Resultado:</label>
-              <?php  echo selectFromCore('resultado', 'Seleccione Resultado', '888-tipos_resultado', '') ?>
+              <?php  echo selectFromCoreEmpresa('resultado', 'Seleccione Resultado', 'tipos_resultado', '') ?>
 
             </div>
 
@@ -103,7 +103,7 @@
           <div class="form-group">
             <div class="col-md-4 col-md-6 mb-4 mb-lg-0">
               <label for="producto" class="form-label">Tipo de producto:</label>
-              <?php  echo selectFromCore('producto', 'Seleccione tipo de Producto', '888-tipos_producto', '') ?>
+              <?php  echo selectFromCoreEmpresa('producto', 'Seleccione tipo de Producto', 'tipos_producto', '') ?>
             </div>
           </div>
 
