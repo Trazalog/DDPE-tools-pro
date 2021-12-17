@@ -471,6 +471,8 @@ function cerrarTarea() {
     cerrarTareaform().then((result) => {
         
         var dataForm = new FormData($('#formInfraccionPCC')[0]);
+        var frm_info_id = $('#info_id_doc').val();
+        dataForm.append('frm_info_id', frm_info_id);
         
         var id = $('#taskId').val();
 

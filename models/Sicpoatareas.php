@@ -250,6 +250,14 @@ class Sicpoatareas extends CI_Model
                     }
                 }
 
+                $puntosControl = $this->Ingresosbarrera->getPuntosControl();
+                foreach ($puntosControl  as $key) {
+                    if($key->tabl_id == $this->session->userdata['puntoControl']){
+                        $data['infoPuntoControl']['domicilio'] = $key->valor2;
+                        $data['infoPuntoControl']['nombre'] = $key->descripcion;
+                    }
+                }
+                
                 $formulario = $this->Ingresosbarrera->getFormularios($tareaData->petr_id);
                 $escaneoInfoId = $formulario['data'][0]->forms->form[0]->info_id;
                 $data['escaneoInfoId'] = $escaneoInfoId;// Lo mando a la vista para instaciar formulario en modal
@@ -554,7 +562,17 @@ class Sicpoatareas extends CI_Model
 
         //paso 4
         case 'Reprecintado':       
-        
+            
+            $data['_post_pedidotrabajo_tarea_form'] = array(
+                "nom_tarea" => "$nom_tarea",
+                "task_id" => $task_id,
+                "usuario_app" => $user_app,
+                "case_id" => $case_id,
+                "info_id" => $form['frm_info_id']
+            );
+            
+            $rsp = $this->guardarForms($data);
+
             $contrato["erroresDocumentacion"]  = true;
             
             log_message('DEBUG', '#TRAZA | #SICPOA | Sicpoatareas | getContrato()  >> contrato '.json_encode($contrato));
@@ -565,7 +583,17 @@ class Sicpoatareas extends CI_Model
 
         //paso 5
         case 'Carga de Documentación':       
-        
+            
+            $data['_post_pedidotrabajo_tarea_form'] = array(
+                "nom_tarea" => "$nom_tarea",
+                "task_id" => $task_id,
+                "usuario_app" => $user_app,
+                "case_id" => $case_id,
+                "info_id" => $form['frm_info_id']
+            );
+            
+            $rsp = $this->guardarForms($data);
+
             $contrato["erroresDocumentacion"]  = true;
             
             log_message('DEBUG', '#TRAZA | #SICPOA | Sicpoatareas | getContrato()  >> contrato '.json_encode($contrato));
@@ -575,7 +603,17 @@ class Sicpoatareas extends CI_Model
         break;
 
         //paso 6
-        case 'Notificar Infracción en PCC':       
+        case 'Notificar Infracción en PCC':
+            
+            $data['_post_pedidotrabajo_tarea_form'] = array(
+                "nom_tarea" => "$nom_tarea",
+                "task_id" => $task_id,
+                "usuario_app" => $user_app,
+                "case_id" => $case_id,
+                "info_id" => $form['frm_info_id']
+            );
+            
+            $rsp = $this->guardarForms($data);
         
             $contrato["erroresDocumentacion"]  = true;
             

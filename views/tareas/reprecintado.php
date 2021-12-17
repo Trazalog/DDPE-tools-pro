@@ -456,6 +456,9 @@ function cerrarTarea() {
     cerrarTareaform().then((result) => {
         
         var dataForm = new FormData($('#formReprecintado')[0]);
+        frm_info_id = $('#info_id_doc').val();
+
+        dataForm.append('frm_info_id', frm_info_id);
         
         var id = $('#taskId').val();
 
@@ -467,7 +470,7 @@ function cerrarTarea() {
             processData: false,
             url: '<?php base_url() ?>index.php/<?php echo BPM ?>Proceso/cerrarTarea/' + id,
             success: function(data) {
-                
+                wc();
                 imprimirActa();
 
             },
