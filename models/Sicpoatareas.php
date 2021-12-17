@@ -754,7 +754,7 @@ class Sicpoatareas extends CI_Model
 	*/
     public function getTiposFacturas(){
         
-        $url = REST_CORE."/tabla/888-tipos_documento/empresa/";
+        $url = REST_CORE."/tabla/tipos_documento/empresa/".empresa();
 
         $aux = $this->rest->callAPI("GET",$url);
         $resp = json_decode($aux['data']);
@@ -770,7 +770,7 @@ class Sicpoatareas extends CI_Model
 	*/
     public function getProductos(){
         
-        $url = REST_CORE."/tabla/888-tipos_producto/empresa/";
+        $url = REST_CORE."/tabla/tipos_producto/empresa/".empresa();
 
         $aux = $this->rest->callAPI("GET",$url);
         $resp = json_decode($aux['data']);
@@ -786,7 +786,7 @@ class Sicpoatareas extends CI_Model
 	*/
     public function getMedidas(){
         
-        $url = REST_CORE."/tabla/888-unidades_medida/empresa/";
+        $url = REST_CORE."/tabla/unidades_medida/empresa/".empresa();
 
         $aux = $this->rest->callAPI("GET",$url);
         $resp = json_decode($aux['data']);

@@ -54,6 +54,7 @@
 DataTable($('#tabla_documentos'));
 //Determina la accion en la pantalla de carga
 var accion = '';
+var empresa = '<?php echo empresa(); ?>';
 
 $(document).ready(function () {
     imag_ids = <?php echo json_encode($imag_ids); ?>;
@@ -190,7 +191,7 @@ $(document).on('click','.btnEditarDocu', function () {
                 
             //Caso remito no los tengo en cuenta
             precio_total = "";
-            if(datos.tido_id != '888-tipos_documentoREMITO'){
+            if(datos.tido_id != empresa + '-tipos_documentoREMITO'){
             
                 precio_total = value.precio_unitario * value.cantidad;
                 //Puede poseer o no descuento
