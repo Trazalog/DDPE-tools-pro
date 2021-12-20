@@ -19,7 +19,7 @@
         <div class="panel-body" id="ingreso_barrera">
             <div class="row">
                 <?php 
-                $formulario = getForm(601); //Ulitmo test doble imagen
+                $formulario = getForm(640); //Ulitmo test doble imagen
                 echo $formulario;
                 ?>
             </div>
@@ -29,7 +29,7 @@
 <script>
 detectarForm();
 initForm();
-var index = 1;
+var index = 2;
 $(document).ready(function () {
     //Cantidad de documentos solo digitos
     $("#cant_doc").attr("type","number");
@@ -38,17 +38,17 @@ function agregarFotos(){
     var modeloInput = "<div class='col-sm-12 col-md-6'>"+
                     "<label>Adjunto:</label>"+
                     "<div class='form-group imgConte'>"+
-                        "<label for='adjunto_"+index+"'>"+
+                        "<label for='fotos_"+index+"'>"+
                         "<div class='imgEdit'>"+
-                            "<input class='form-control' type='file' id='adjunto_"+index+"'  name='-file-adjunto[]' onchange='previewFile(this)' accept='image/*' capture/>"+
+                            "<input class='form-control' type='file' id='fotos_"+index+"'  name='-file-fotos[]' onchange='previewFile(this)' accept='image/*' capture/>"+
                         "</div>"+
                         "<div class='imgPreview'>"+
-                            "<div id='vistaPrevia_adjunto_"+index+"' style='background-image: url(lib/imageForms/camera_2.png);'></div>"+
+                            "<div id='vistaPrevia_fotos_"+index+"' style='background-image: url(lib/imageForms/camera_2.png);'></div>"+
                         "</div>"+
                         "</label>"+
                     "</div>"+
                     "</div>";
-    // $("#formDocumentacion").find("fieldset").append(modeloInput);
+    $(".addFotos").before(modeloInput);
     index++;
 }
 </script>
