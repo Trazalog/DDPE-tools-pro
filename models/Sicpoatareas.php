@@ -92,7 +92,9 @@ class Sicpoatareas extends CI_Model
 
     public function desplegarCabecera($tarea)
     {
+        $pedidoTrabajo = $this->getXCaseId($tarea);
         $tarea->inspeccion = $this->getPreCargaDatos($tarea->caseId);
+        $tarea->imgsBarrera = $this->getImgsBarrera($pedidoTrabajo->info_id);
         $resp = infoproceso($tarea);
         return $resp;
     }
