@@ -361,8 +361,12 @@ class Sicpoatareas extends CI_Model
                 }
 
                 //Obtengo la imagen del Acta Infraccion
-                $actaInfraccionInfoId = $formulario['data'][0]->forms->form[1]->info_id;
-
+                foreach($formulario['data'][0]->forms->form as $forms){
+                    if(strpos($forms->nom_tarea, 'Acta infracción')){
+                        $actaInfraccionInfoId = $forms->info_id;
+                    }
+                }
+        
                 if(isset($actaInfraccionInfoId)){
                     $data['imgInfraccion'] = $this->getImgInfraccion($actaInfraccionInfoId);
                 }
@@ -540,7 +544,7 @@ class Sicpoatareas extends CI_Model
                 //Escaneo Documentacion
                 $data['_post_pedidotrabajo_tarea_form'] = array(
         
-                    "nom_tarea" => "$nom_tarea",
+                    "nom_tarea" => "$nom_tarea". " Escaneo Documentación",
                     "task_id" => $task_id,
                     "usuario_app" => $user_app,
                     "case_id" => $case_id,
@@ -550,7 +554,7 @@ class Sicpoatareas extends CI_Model
                 
                 $rsp = $this->guardarForms($data);
 
-                if($form['doc_impositiva'] == 'Parcial'){
+                if($form['doc_impositiva'] == 'Total'){
                     $contrato["erroresDocumentacion"]  = false;
                 }else{
                     $contrato["erroresDocumentacion"]  = true;

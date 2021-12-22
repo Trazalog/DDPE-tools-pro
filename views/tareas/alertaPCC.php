@@ -275,7 +275,7 @@
                             <!--________________-->
 
                             <!--Producto-->
-                            <div class="col-md-6 col-sm-6 col-xs-12">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
                                 <div class="form-group">
                                     <label for="producto">Producto/s(<strong style="color: #dd4b39">*</strong>):</label>
                                     <textarea class="form-control" name="productos" id="producto" placeholder="Ingrese producto/s" required></textarea>
@@ -587,6 +587,7 @@ $(document).ready(function() {
     });
     //EMPRESA ORIGEN
     empr_origen = "<?php echo isset($origen) ? $origen->cuit : null ?>";
+    empr_origen_nombre = "<?php echo isset($origen) ? $origen->razon_social : null ?>";
     empr_origen_num = "<?php echo isset($origen) ? $origen->num_establecimiento : null ?>";
     
     opcion = {'id': empr_origen, 'text': empr_origen_nombre, 'num_esta': empr_origen_num};
@@ -1167,7 +1168,7 @@ function showValidar(tag){
 }
 /****************************************************** */
 //Show vista previa acta infraccion en calle
-$(document).on('change',"#acta_infraccion",function() {
+$(document).on('change',"input[name='-file-acta_infraccion']",function() {
     if(this.files && this.files[0]){
         var reader = new FileReader();
 

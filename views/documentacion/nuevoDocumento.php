@@ -613,10 +613,10 @@ function cerrarDetalle(){
     actualizaTablaDocumentos();
 
     //Reemplazo los botones standard de la notificacion
-    $(".btn-success.btnNotifEstandar").text("Hecho");
-    $(".btn-primary.btnNotifEstandar").text("Cerrar");
-    $(".btn-success.btnNotifEstandar").attr("onclick","existFunction('cerrarTarea')");
-    $(".btn-primary.btnNotifEstandar").attr("onclick","cerrar()");
+    $("#btnHecho").text("Hecho");
+    $("#btnCerrarVistaNotificacion").text("Cerrar");
+    $("#btnHecho").attr("onclick","existFunction('cerrarTarea')");
+    $("#btnCerrarVistaNotificacion").attr("onclick","cerrar()");
 }
 
 function guardarDetalle(){
