@@ -270,11 +270,10 @@
                         <div class="form-group">
                             <div class="input-group">
                                 <label>Acta infracción en calle:</label>
-                                <span id="add_acta" class="input-group-addon" data-toggle="modal" data-target="#mdl-actaInfraccion"><i class="fa fa-plus"></i></span>
                             </div>
                                 <div class="col-sm-12 col-md-12 col-xl-12">
                                     <div class="contenedor">
-                                        <img id="imgActaInfraccion" class='thumbnail fotos' height='51' width='45' src='<?php echo $imgInfraccion[0] ?>' alt='' style="display: none" onclick='preview(this)'>
+                                        <img id="imgActaInfraccion" class='thumbnail fotos' height='51' width='45' src='<?php echo $imgInfraccion[0] ?>' alt='' onclick='preview(this)'>
                                     </div>
                                 </div>
                         </div>
