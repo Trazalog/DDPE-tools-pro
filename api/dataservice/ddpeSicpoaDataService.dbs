@@ -195,6 +195,18 @@
       <param name="unme_id" sqlType="STRING"/>
       <param name="unidades" sqlType="STRING"/>
    </query>
+   <query id="setDetalleDocumentoBatchReq" useConfig="SICPOADataSource">
+      <sql>insert&#xd;	into&#xd;	sicpoa.detalles_documento (cantidad,&#xd;	precio_unitario,&#xd;	descuento,&#xd;        unidades,&#xd;	usuario_app,&#xd;	docu_id,&#xd;	tido_id,&#xd;	tipr_id,&#xd;	unme_id)&#xd;values(cast (:cantidad as float),&#xd;	cast (:precio_unitario as float),&#xd;	cast (:descuento as float),&#xd;        cast (:unidades as integer),&#xd;	:usuario_app,&#xd;	:docu_id,&#xd;	:tido_id,&#xd;	:tipr_id,&#xd;	:unme_id);</sql>
+      <param name="cantidad" sqlType="STRING"/>
+      <param name="precio_unitario" sqlType="STRING"/>
+      <param name="descuento" sqlType="STRING"/>
+      <param name="usuario_app" sqlType="STRING"/>
+      <param name="docu_id" sqlType="STRING"/>
+      <param name="tido_id" sqlType="STRING"/>
+      <param name="tipr_id" sqlType="STRING"/>
+      <param name="unme_id" sqlType="STRING"/>
+      <param name="unidades" sqlType="STRING"/>
+   </query>
    <query id="updateDocumento" useConfig="SICPOADataSource">
       <sql>update&#xd;	sicpoa.documentos&#xd;set&#xd;	fec_emision = to_timestamp(:fec_emision,'YYYY-MM-DD') ,&#xd;	usuario_app = :usuario_app,&#xd;	imag_id = cast(:imag_id as integer),&#xd;	empr_id_emisor = cast(:empr_id_emisor as integer),&#xd;	empr_id_destino = cast(:empr_id_destino as integer)&#xd;where&#xd;	num_documento = :num_documento &#xd;	and tido_id = :tido_id ;</sql>
       <param name="fec_emision" sqlType="STRING"/>
@@ -399,6 +411,19 @@
    </resource>
    <resource method="POST" path="/documento/detalle">
       <call-query href="setDetalleDocumento">
+         <with-param name="cantidad" query-param="cantidad"/>
+         <with-param name="precio_unitario" query-param="precio_unitario"/>
+         <with-param name="descuento" query-param="descuento"/>
+         <with-param name="usuario_app" query-param="usuario_app"/>
+         <with-param name="docu_id" query-param="docu_id"/>
+         <with-param name="tido_id" query-param="tido_id"/>
+         <with-param name="tipr_id" query-param="tipr_id"/>
+         <with-param name="unme_id" query-param="unme_id"/>
+         <with-param name="unidades" query-param="unidades"/>
+      </call-query>
+   </resource>
+   <resource method="POST" path="/docdetlist">
+      <call-query href="setDetalleDocumentoBatchReq">
          <with-param name="cantidad" query-param="cantidad"/>
          <with-param name="precio_unitario" query-param="precio_unitario"/>
          <with-param name="descuento" query-param="descuento"/>
