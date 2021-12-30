@@ -174,18 +174,9 @@
                 )
             ),
             "cssClass" => array(
-              "table" => "table-scroll table-responsive dataTables_wrapper form-inline dt-bootstrap dataTable table table-bordered table-striped table-hover display",
+              "table" => "table dataTable dt-responsive table-striped table-bordered",
               "th" => "sorting"
-            ),
-            "paging"=>array(
-              "pageSize"=>10,
-              "pageIndex"=>0,
-            ),
-            "options"=>array(
-              "searching"=>true
-            ),
-            "searchOnEnter" => true,
-            "searchMode" => "or"
+            )
           ));
           ?>
         </div>
@@ -399,7 +390,7 @@ $(document).ready(function() {
     //Botón para Excel
     extend: 'excel',
     exportOptions: {
-    columns: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     },
     footer: true,
     title: 'Inspecciones',
