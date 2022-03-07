@@ -25,8 +25,8 @@ class Sicpoatareas extends CI_Model
         if(isset($data_generico)){
             $patente = $this->getPatenteTractor($data_generico->pedidoTrabajo->info_id);
         }
-        
-
+        //Oculto el tag del case en bandeja
+        $array['tagCase'] = 'oculto';
         
         if(isset($case_id)){
 
