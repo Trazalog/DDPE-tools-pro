@@ -90,14 +90,14 @@
                 <!--DOC. Sanitaria Tipo-->
                 <div class="col-md-6 col-sm-6 col-xs-6" style="display: contents;">
                     <div class="col-md-6 col-sm-6 col-xs-6">
-                        <label for="doc_sanitaria">Doc. Sanitaria Tipo(<strong style="color: #dd4b39">*</strong>):</label>
+                        <label for="doc_sanitaria">Documentación Sanitaria Tipo(<strong style="color: #dd4b39">*</strong>):</label>
                     </div>
                     <div class="col-md-6 col-sm-6 col-xs-6">
-                        <div class="form-check form-check-inline">
+                        <div class="form-check">
                             <input type="radio" class='form-check-input' name="doc_sanitaria" value="PT"/>
                             <label class="form-check-label" for="">PT</label>
                         </div>
-                        <div class="form-check form-check-inline">
+                        <div class="form-check">
                             <input type="radio" class='form-check-input' name="doc_sanitaria" value="PTR"/>
                             <label class="form-check-label" for="">PTR</label>
                         </div>
@@ -117,7 +117,7 @@
                 <!--Fecha-->
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
-                    <label for="fecha">Fecha del permiso(<strong style="color: #dd4b39">*</strong>):</label>
+                    <label for="fecha">Fecha del Permiso(<strong style="color: #dd4b39">*</strong>):</label>
                         <input type="date" class="form-control" id="fecha"/>
                     </div>
                 </div>
@@ -126,7 +126,7 @@
                 <!--Nombre Establecimiento-->
                 <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
                     <div class="form-group">
-                        <label for="esta_nom">Nombre Establecimiento(<strong style="color: #dd4b39">*</strong>):</label>
+                        <label for="esta_nom">Nombre de Establecimiento(<strong style="color: #dd4b39">*</strong>):</label>
                         <div class="input-group">
                             <select class="form-control select2 select2-hidden-accesible empresa" name="esta_nom" id="esta_nom">
                                 <option value="" disabled selected></option>
@@ -146,10 +146,46 @@
                 </div>
                 <!--________________-->
 
+                <!--Producto-->
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="producto">Producto/s(<strong style="color: #dd4b39">*</strong>):</label>
+                        <textarea class="form-control" name="productos" id="producto" placeholder="Ingrese producto/s" required></textarea>
+                    </div>                    
+                </div>
+                <!--________________-->
+
+                <!--Neto-->
+                <div class="col-md-4 col-sm-6 col-xs-6">
+                    <div class="form-group">
+                        <label for="neto">Peso Neto:</label>
+                        <input class="form-control onlyNumbers" id="neto" placeholder="Ingrese peso neto"/>
+                    </div>                    
+                </div>
+                <!--________________-->
+
+                <!--Bruto-->
+                <div class="col-md-4 col-sm-6 col-xs-6">
+                    <div class="form-group">
+                        <label for="bruto">Peso Bruto:</label>
+                        <input class="form-control onlyNumbers" name="bruto" id="bruto" placeholder="Ingrese peso bruto" />
+                    </div>                    
+                </div>
+                <!--________________-->
+
+                <!--Temperatura-->
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    <div class="form-group">
+                        <label for="temperatura">Temperatura(<strong style="color: #dd4b39">*</strong>):</label>
+                        <input type="number" class="form-control" id="temperatura" placeholder="Ingrese temperatura" />
+                    </div>                    
+                </div>
+                <!--________________-->
+
                 <!--_________________ Agregar_________________-->
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="form-group text-right">
-                        <button type="button" class="btn btn-primary" onclick="agregarPermiso()" >Agregar</button>
+                        <button type="button" class="btn btn-primary" onclick="agregarPermiso()" >Agregar Permiso</button>
                     </div>
                 </div>                
                 <!--__________________________________-->
@@ -194,9 +230,23 @@
                         <!--Patente Tractor-->
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <div class="form-group has-feedback">
-                            <label for="patenteTractor">Patente del Tractor(<strong style="color: #dd4b39">*</strong>):</label>
+                            <label for="patenteTractor">Patente de Tractor(<strong style="color: #dd4b39">*</strong>):</label>
                                 <input class="form-control limited" name="patente_tractor" id="patenteTractor" placeholder="Ingrese Patente Tractor" value="<?php echo isset($patente) ? $patente : null ?>" required/>
                             </div>
+                        </div>
+                        <!--________________-->
+
+                        <!--Transportista-->
+                        <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
+                            <div class="form-group">
+                                <label for="transportista">Transportista(<strong style="color: #dd4b39">*</strong>):</label>
+                                <div class="input-group">
+                                    <select class="form-control select2 select2-hidden-accesible empresa" name="transportista" id="transportista" required>
+                                        <option value="" disabled selected></option>	
+                                    </select>
+                                    <span id="add_transportista" class="input-group-addon" data-toggle="modal" data-target="#mdl-empresa" onclick="$('#tipoEmpresa').val('Transportista')"><i class="fa fa-plus"></i></span>
+                                </div>
+                            </div>                    
                         </div>
                         <!--________________-->
 
@@ -227,9 +277,9 @@
                             </div>                    
                         </div>
                         <!--_________________ Agregar_________________-->
-                        <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
                             <div style="margin-top: 25px;" class="form-group text-right">
-                                <button type="button" class="btn btn-primary" onclick="agregarDestino()" >Agregar</button>
+                                <button type="button" class="btn btn-primary" onclick="agregarDestino()" >Agregar Destino</button>
                             </div>
                         </div>                
                         <!--__________________________________-->
@@ -240,16 +290,12 @@
                         <hr>
                         </div>
                         <!--________________-->
-                        <!--Transportista-->
-                        <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
+
+                        <!--Termico Patente-->
+                        <div class="col-md-6 col-sm-6 col-xs-12">
                             <div class="form-group">
-                                <label for="transportista">Transportista(<strong style="color: #dd4b39">*</strong>):</label>
-                                <div class="input-group">
-                                    <select class="form-control select2 select2-hidden-accesible empresa" name="transportista" id="transportista" required>
-                                        <option value="" disabled selected></option>	
-                                    </select>
-                                    <span id="add_transportista" class="input-group-addon" data-toggle="modal" data-target="#mdl-empresa" onclick="$('#tipoEmpresa').val('Transportista')"><i class="fa fa-plus"></i></span>
-                                </div>
+                                <label for="term_patente">Patente Térmico(<strong style="color: #dd4b39">*</strong>):</label>
+                                <input class="form-control limited" id="term_patente" placeholder="Ingrese patente del térmico" />
                             </div>                    
                         </div>
                         <!--________________-->
@@ -257,41 +303,16 @@
                         <!--N° SENASA-->
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <div class="form-group">
-                            <label for="num_senasa">N° SENASA(<strong style="color: #dd4b39">*</strong>):</label>
-                                <input type="text" class="form-control limitedChars" name="nro_senasa" id="num_senasa" placeholder="Ingrese N° SENASA" required/>
+                            <label for="num_senasa">N° hab. SENASA(<strong style="color: #dd4b39">*</strong>):</label>
+                                <input type="text" class="form-control limitedChars" name="nro_senasa" id="num_senasa" placeholder="Ingrese N° de habilitación SENASA" required/>
                             </div>
                         </div>
                         <!--________________-->
 
-                        <!--Producto-->
-                        <div class="col-md-12 col-sm-12 col-xs-12">
-                            <div class="form-group">
-                                <label for="producto">Producto/s(<strong style="color: #dd4b39">*</strong>):</label>
-                                <textarea class="form-control" name="productos" id="producto" placeholder="Ingrese producto/s" required></textarea>
-                            </div>                    
-                        </div>
-                        <!--________________-->
-                        <!--Termico Patente-->
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <div class="form-group">
-                                <label for="term_patente">Térmico Patente(<strong style="color: #dd4b39">*</strong>):</label>
-                                <input class="form-control limited" id="term_patente" placeholder="Ingrese térmico patente" />
-                            </div>                    
-                        </div>
-                        <!--________________-->
-
-                        <!--Temperatura-->
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <div class="form-group">
-                                <label for="temperatura">Temperatura(<strong style="color: #dd4b39">*</strong>):</label>
-                                <input type="number" class="form-control" id="temperatura" placeholder="Ingrese temperatura" />
-                            </div>                    
-                        </div>
-                        <!--________________-->
                         <!--Precintos-->
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <div class="form-group">
-                                <label for="precintos">Precintos N°(<strong style="color: #dd4b39">*</strong>):</label>
+                                <label for="precintos">N° de Precintos(<strong style="color: #dd4b39">*</strong>):</label>
                                 <input class="form-control limited" id="precintos" placeholder="Ingrese precintos" />
                             </div>                    
                         </div>
@@ -299,7 +320,7 @@
                         <!--_________________ Agregar_________________-->
                         <div class="col-md-12 col-sm-12 col-xs-12">
                             <div class="form-group text-right">
-                                <button type="button" class="btn btn-primary" onclick="agregarTermico()" >Agregar</button>
+                                <button type="button" class="btn btn-primary" onclick="agregarTermico()" >Agregar Térmico</button>
                             </div>
                         </div>              
                         <!--__________________________________-->
@@ -309,15 +330,6 @@
                             <hr>
                         </div>
                         <!--________________-->
-                        <!--Precintos-->
-                        <div class="col-md-12 col-sm-12 col-xs-12">
-                            <div class="form-group">
-                                <label for="observaciones">Observaciones:</label>
-                                <textarea class="form-control" row="3" name="observaciones" id="observaciones" placeholder="Observaciones" ></textarea>
-                            </div>                    
-                        </div>
-                        <!--________________-->
-                    
                     </div>
                 <!-- </div> -->
 
@@ -660,13 +672,12 @@ var editando = false;// Utilizo para que no se pierdan los permisos al editar
         var reporte = validarCamposTermico();
                                 
         if(reporte == ''){
-            var temperatura = $('#temperatura').val();
+            // var temperatura = $('#temperatura').val();
             var precintos = $('#precintos').val();
             var term_patente = $("#term_patente").val();
-            // var descDepo = $("#depo_origen_id option:selected").text();
 
             var datos = {};
-            datos.temperatura = temperatura;
+            // datos.temperatura = temperatura;
             datos.precintos = precintos;
             datos.case_id = $("#caseId").val();
             datos.term_id = term_patente;
@@ -674,13 +685,13 @@ var editando = false;// Utilizo para que no se pierdan los permisos al editar
             var div = `<div class='form-group termicos' data-json='${JSON.stringify(datos)}'>
                             <span> 
                             <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i> 
-                            | ${term_patente} - ${temperatura} - ${precintos}
+                            | ${term_patente} - ${precintos}
                             </span>
                     </div>`;
             $('#sec_termicos').append(div);
             //Limpio luego de agregar
             $("#term_patente").val('');
-            $("#temperatura").val('');
+            // $("#temperatura").val('');
             $("#precintos").val('');
             alertify.success("Térmico agregado correctamente!");
         }else{

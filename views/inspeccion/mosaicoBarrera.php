@@ -39,8 +39,8 @@
 </style>
 <!-- FIN CSS -->
 <!-- <div class="row"> -->
-    <div class="col-md-12 col-sm-12 col-xs-12">
-        <label>Fotos de Barrera</label>
+    <div class="col-md-12 col-sm-12 col-xs-12 box-tittle">
+        <h3>Fotos de Barrera</h3>
     </div>
     <div class="col-md-6 col-sm-6 col-xs-6">
         <div class="fotos">

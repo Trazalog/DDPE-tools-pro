@@ -2,11 +2,11 @@
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="input-group">
-            <label>Fotos de Documentación</label>
+            <h3>Fotos de Documentación</h3>
             <span id="add_docu" class="input-group-addon" data-toggle="modal" data-target="#mdl-documentacion"><i class="fa fa-plus"></i></span>
         </div>
     </div>
-    <div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="col-md-6 col-sm-6 col-xs-6">
         <div id="mosaicoDocumentos" class="fotos">
             <?php
             if(!empty($imgsEscaneo)){
@@ -20,7 +20,7 @@
 </div>
 <hr>
 <!-- The expanding image container -->
-<div class="col-sm-12 col-md-12 col-xl-12">
+<div class="col-sm-6 col-md-6 col-xl-6">
     <div class="contenedor">
         <!-- Boton para ocultar imagen -->
         <!-- <span onclick="this.parentElement.style.display='none'" class="closebtn">&times;</span> -->

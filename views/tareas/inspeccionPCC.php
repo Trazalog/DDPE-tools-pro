@@ -49,6 +49,11 @@
             <!--_______ FORMULARIO PERMISO DE TRANSITO BOX 1______-->
             <form class="formInspeccion" id="formInspeccion">
                 <div class="row">
+                    <?php $this->load->view(SICP.'inspeccion/mosaicoBarrera.php') ?>
+                </div>
+                <hr>
+                <?php $this->load->view(SICP.'inspeccion/mosaicoDocumentacion.php') ?>
+                <div class="row">
                     <div class="col-md-6 col-sm-12 col-xs-12">
                         <div class="caja" id="boxPermisoTransito">
                             <div class="box-tittle centrar">
@@ -133,10 +138,6 @@
                                 </div>
                                 <hr>
                             </div>
-
-                            <?php $this->load->view(SICP.'inspeccion/mosaicoBarrera.php') ?>
-                            <hr>
-                            <?php $this->load->view(SICP.'inspeccion/mosaicoDocumentacion.php') ?>
                         </div><!-- FIN box-primary -->
                     </div>
                     <!--_______ FIN FORMULARIO PERMISO DE TRANSITO BOX 1 ______-->
