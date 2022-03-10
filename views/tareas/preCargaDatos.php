@@ -140,7 +140,7 @@
                 <!--Establecimiento N°-->
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
-                    <label for="esta_num">Establecimiento N°(<strong style="color: #dd4b39">*</strong>):</label>
+                    <label for="esta_num">N° Establecimiento(<strong style="color: #dd4b39">*</strong>):</label>
                         <input class="form-control" name="esta_num" id="esta_num" placeholder="Ingrese Establecimiento N°" readonly/>
                     </div>
                 </div>

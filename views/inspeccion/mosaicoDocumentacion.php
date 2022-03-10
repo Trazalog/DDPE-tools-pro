@@ -1,8 +1,10 @@
 <!-- The grid: four columns -->
-<div class="row">
-    <div class="col-md-12 col-sm-12 col-xs-12">
-        <div class="input-group">
-            <h3>Fotos de Documentación</h3>
+<!-- <div class="row"> -->
+    <div class="col-md-5 col-sm-6 col-xs-6">
+        <div class="col-md-8 col-sm-8 col-xs-8">
+            <h3 id="tituloDocumentacion">Fotos de Documentación</h3>
+        </div>
+        <div class="col-md-2 col-sm-2 col-xs-2" style="margin-top: 20px;margin-bottom: 10px;margin-left: -20px;">
             <span id="add_docu" class="input-group-addon" data-toggle="modal" data-target="#mdl-documentacion"><i class="fa fa-plus"></i></span>
         </div>
     </div>
@@ -17,18 +19,22 @@
             ?>
         </div>
     </div>
-</div>
-<hr>
-<!-- The expanding image container -->
-<div class="col-sm-6 col-md-6 col-xl-6">
-    <div class="contenedor">
-        <!-- Boton para ocultar imagen -->
-        <!-- <span onclick="this.parentElement.style.display='none'" class="closebtn">&times;</span> -->
+<!-- </div> -->
+<!-- FUNCIONES -->
+<script>
+function preview(imgs) {
+  //La marco porque fue seleccionada
+  $(imgs).toggleClass("selected");
+  
+  //Reseteo los valores del ancho del modal
 
-        <!-- Expanded image -->
-        <img src="lib\imageForms\preview.png" id="expandedImg" style="">
-        
-        <!-- Zoom Modal Button -->
-        <button type="button" class="btn btn-outline-dark btnZoom" data-toggle="modal" data-target="#mdl-zoomPreview" title="Zoom"><i class="fa fa-search"></i></button>
-    </div>
-</div>
+  // Tomo el elemento para la vista previa
+  var expandImg = document.getElementById("expandedImg");
+
+  //Tomo el elemento del modal
+  var zoomImg = document.getElementById("zoomPreview");
+  // Le asigno la misma src al elemento de la vista previa y al zoom
+  expandImg.src = imgs.src;
+  zoomImg.src = imgs.src;//VISTA PREVIA ZOOM MODAL
+}
+</script>

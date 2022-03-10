@@ -120,8 +120,16 @@
                                 </div>
                                 <hr>
                             </div>
-                            <?php $this->load->view(SICP.'inspeccion/mosaicoDocumentacion.php') ?>
-                        </div><!-- FIN box-primary -->
+                            <?php $this->load->view(SICP.'reprecintado/mosaicoReprecintado.php') ?>
+                            <!--Inspectores-->
+                            <div style="margin-top: 50px;" class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <label for="inspectores">Inspectores(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <input class="form-control" name="inspectores" id="inspectores" placeholder="Ingrese Inspectores" />
+                                </div>                    
+                            </div>
+                            <!--________________-->
+                        </div><!-- FIN #boxPermisoTransito -->
                     </div>
                     <!--_______ FIN FORMULARIO PERMISO DE TRANSITO BOX 1 ______-->
 
@@ -306,11 +314,34 @@
                                 </div>                    
                             </div>
                             <!--________________-->
-                            <!--Valida Inspeccion-->
+                            <!--Nro de Precintos de cierre-->
+                            <div class="col-md-12 col-sm-6 col-xs-6">
+                                <div class="form-group">
+                                    <label for="nroPrecintosCierre">Nro de Precintos de cierre(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <input class="form-control" name="nroPrecintosCierre" id="nroPrecintosCierre"/>
+                                </div>                    
+                            </div>
+                            <!--________________-->
+                            <!--Observaciones-->
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 <div class="form-group">
+                                    <label for="observaciones">Observaciones:</label>
+                                    <textarea class="form-control" name="observaciones" id="observaciones" placeholder="Observaciones"><?php echo isset($preCargaDatos->observaciones) ? $preCargaDatos->observaciones : null; ?></textarea>
+                                </div>                    
+                            </div>
+                            <!--________________-->
+                            <!--Valida Inspeccion-->
+                            <div class="col-md-6 col-sm-6 col-xs-6">
+                                <div class="form-group">
                                     <label for="inspValida">¿Inspección correcta?:</label>
-                                    <input class="form-control" name="inspValida" id="resultado" value="<?php echo isset($inspeccion->resultado) ? $inspeccion->resultado : null; ?>" readonly/>
+                                    <div class="form-check form-check-inline">
+                                        <input type="radio" class='form-check-input' name="inspValida" value="correcta" onchange="showValidar(this)"/>
+                                        <label class="form-check-label" for="">Sí</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input type="radio" class='form-check-input' name="inspValida" value="incorrecta" onchange="showValidar(this)"/>
+                                        <label class="form-check-label" for="">No</label>
+                                    </div>
                                 </div>
                             </div>
                             <!--________________-->
@@ -318,14 +349,23 @@
                             <div id="bloque_validar" style="display:none;">
                                 <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
                                     <div class="form-group">
-                                        <label for="tpoInfraccion">Tipo infracción:</label>
-                                        <input type="text" class="form-control" name="tpoInfraccion" id="tpoInfraccion" value="<?php echo isset($inspeccion->infracciones->infraccion) ? $inspeccion->infracciones->infraccion[0]->tipo_infraccion : null; ?>" readonly/>
+                                        <label for="tpoInfraccion">Tipos Infracción(<strong style="color: #dd4b39">*</strong>):</label>
+                                        <select class="form-control select2 select2-hidden-accesible" name="tpoInfraccion" id="tpoInfraccion" required>
+                                            <option value="" disabled selected>-Seleccionar infracción-</option>	
+                                            <?php
+                                            if(!empty($infracciones)){
+                                                foreach ($infracciones as $tipos) {
+                                                    echo "<option data-json='".json_encode($tipos)."' value='".$tipos->tabl_id."'>".$tipos->descripcion."</option>";
+                                                }
+                                            }
+                                            ?>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <div class="form-group">
-                                        <label for="cant_fajas">Cantidad de fajas:</label>
-                                        <input type="number" class="form-control" name="cant_fajas" id="cant_fajas" value="<?php echo isset($inspeccion->cant_fajas) ? $inspeccion->cant_fajas : null; ?>" readonly/>
+                                        <label for="cant_fajas">Cantidad de fajas(<strong style="color: #dd4b39">*</strong>):</label>
+                                        <input type="number" class="form-control" name="cant_fajas" id="cant_fajas" placeholder="Ingrese N° fajas" required/>
                                     </div>
                                 </div>
                             </div>                    
