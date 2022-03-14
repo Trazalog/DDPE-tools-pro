@@ -90,7 +90,7 @@
                 <!--DOC. Sanitaria Tipo-->
                 <div class="col-md-6 col-sm-6 col-xs-6" style="display: contents;">
                     <div class="col-md-6 col-sm-6 col-xs-6">
-                        <label for="doc_sanitaria">Documentación Sanitaria Tipo(<strong style="color: #dd4b39">*</strong>):</label>
+                        <label for="doc_sanitaria">Doc. Sanitaria Tipo(<strong style="color: #dd4b39">*</strong>):</label>
                     </div>
                     <div class="col-md-6 col-sm-6 col-xs-6">
                         <div class="form-check">

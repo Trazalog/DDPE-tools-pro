@@ -37,6 +37,42 @@
 .titDataDinamica{
     font-weight: 700;
 }
+/* Style the images inside the grid */ 
+.col img {
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+.col img:hover {
+  opacity: 1;
+}
+
+ /* Clear floats after the columns */ 
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+ /* The expanding image container (positioning is needed to position the close button and the text) */ 
+.contenedor {
+  display: inline-flex;
+}
+/* THUMBNAIL */
+.selected{
+    opacity : 0.2 !important;
+} 
+.fotos{
+    float: left;
+    margin-right: 10px;
+    display: block;
+}
+#expandedImg{
+  margin-right: auto;
+  margin-left:auto;
+  display: block;
+  max-width: 60%;
+}
 </style>
 <div class="nav-tabs-custom ">
     <ul class="nav nav-tabs">
@@ -47,6 +83,33 @@
         <div class="tab-pane active" id="formReprecintado_tab">
             <!--_______ FORMULARIO PERMISO DE TRANSITO BOX 1______-->
             <form class="formAlertaPCC" id="formAlertaPCC">
+                <div class="row">
+                    <div class="col-md-5 col-sm-6 col-xs-6">
+                        <div class="col-md-12 col-sm-12 col-xs-12 box-tittle">
+                            <h3>Fotos de Barrera</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-6">
+                        <div class="fotos">
+                            <?php foreach ($imgsBarrera as $key => $value) {
+                                echo "<img class='thumbnail fotos barrera' height='51' width='45' src='$value' alt='' onclick='preview(this)'>";
+                            } ?>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <?php $this->load->view(SICP.'inspeccion/mosaicoDocumentacion.php') ?>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 col-xl-12 centrar">
+                        <div class="contenedor">
+                            <!-- Expanded image -->
+                            <img src="lib\imageForms\preview.png" id="expandedImg" style="">
+                            <!-- Zoom Modal Button -->
+                            <button type="button" class="btn btn-outline-dark btnZoom" data-toggle="modal" data-target="#mdl-zoomPreview" title="Zoom"><i class="fa fa-search"></i></button>
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-md-6 col-sm-12 col-xs-12">
                         <div class="caja" id="boxPermisoTransito">
@@ -63,11 +126,38 @@
                             </div>
                             <!--________________-->
 
+                            <!--Solicitud-->
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label for="Solicitud">N° de Solicitud(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <input type="text" class="form-control requerido alfanumerico" id="soli_num" placeholder="Ingrese número de solicitud"/>
+                                </div>
+                            </div>
+                            <!--________________-->
+
                             <!-- Lugar de Emisión -->
                             <div class="col-md-6 col-sm-6 col-xs-12">
                                 <div class="form-group">
                                     <label for="emision">Lugar de emisión(<strong style="color: #dd4b39">*</strong>):</label>
                                     <input type="text" class="form-control" id="emision" placeholder="Ingrese lugar de emisión"/>
+                                </div>
+                            </div>
+                            <!--________________-->
+
+                            <!--DOC. Sanitaria Tipo-->
+                            <div class="col-md-6 col-sm-6 col-xs-6" style="display: contents;">
+                                <div class="col-md-6 col-sm-6 col-xs-6">
+                                    <label for="doc_sanitaria">Doc. Sanitaria Tipo(<strong style="color: #dd4b39">*</strong>):</label>
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-6">                                
+                                    <div class="form-check">
+                                        <input type="radio" class='form-check-input' name="doc_sanitaria" value="PT" />
+                                        <label class="form-check-label" for="">PT</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input type="radio" class='form-check-input' name="doc_sanitaria" value="PTR" />
+                                        <label class="form-check-label" for="">PTR</label>
+                                    </div>
                                 </div>
                             </div>
                             <!--________________-->
@@ -84,23 +174,68 @@
                             <!--Fecha-->
                             <div class="col-md-6 col-sm-6 col-xs-12">
                                 <div class="form-group">
-                                <label for="fecha">Fecha(<strong style="color: #dd4b39">*</strong>):</label>
+                                <label for="fecha">Fecha del Permiso(<strong style="color: #dd4b39">*</strong>):</label>
                                     <input type="date" class="form-control" id="fecha" placeholder="Ingrese fecha"/>
                                 </div>
                             </div>
                             <!--________________-->
 
-                            <!--DOC. Sanitaria Tipo-->
+                            <!--Nombre Establecimiento-->
+                            <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
+                                <div class="form-group">
+                                    <label for="esta_nom">Nombre de Establecimiento(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <div class="input-group">
+                                        <select class="form-control select2 select2-hidden-accesible empresa" id="esta_nom" required>
+                                            <option value="" disabled selected></option>
+                                        </select>
+                                        <span id="add_establecimiento" class="input-group-addon" data-toggle="modal" data-target="#mdl-establecimiento" onclick="$('#tipoEmpresa').val('Establecimiento')"><i class="fa fa-plus"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--________________-->
+
+                            <!--Establecimiento N°-->
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                <label for="esta_num">Establecimiento N°(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <input class="form-control" name="esta_num" id="esta_num" placeholder="Establecimiento N°" readonly/>
+                                </div>
+                            </div>
+                            <!--________________-->
+                            
+                            <!--Producto-->
                             <div class="col-md-12 col-sm-12 col-xs-12">
-                                    <label for="doc_sanitaria">Doc. Sanitaria Tipo(<strong style="color: #dd4b39">*</strong>):</label>
-                                <div class="form-check form-check-inline">
-                                    <input type="radio" class='form-check-input' name="doc_sanitaria" value="PT" />
-                                    <label class="form-check-label" for="">PT</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input type="radio" class='form-check-input' name="doc_sanitaria" value="PTR" />
-                                    <label class="form-check-label" for="">PTR</label>
-                                </div>
+                                <div class="form-group">
+                                    <label for="producto">Producto/s(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <textarea class="form-control" name="productos" id="producto" placeholder="Ingrese producto/s" required></textarea>
+                                </div>                    
+                            </div>
+                            <!--________________-->
+
+                            <!--Neto-->
+                            <div class="col-md-4 col-sm-6 col-xs-6">
+                                <div class="form-group">
+                                    <label for="neto">Peso Neto:</label>
+                                    <input class="form-control onlyNumbers" id="neto"/>
+                                </div>                    
+                            </div>
+                            <!--________________-->
+
+                            <!--Bruto-->
+                            <div class="col-md-4 col-sm-6 col-xs-6">
+                                <div class="form-group">
+                                    <label for="bruto">Peso Bruto:</label>
+                                    <input class="form-control onlyNumbers" name="bruto" id="bruto"/>
+                                </div>                    
+                            </div>
+                            <!--________________-->
+
+                            <!--Temperatura-->
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label for="temperatura">Temperatura(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <input type="number" class="form-control" id="temperatura"/>
+                                </div>                    
                             </div>
                             <!--________________-->
 
@@ -132,10 +267,6 @@
                                 </div>
                                 <hr>
                             </div>
-
-                            <?php $this->load->view(SICP.'inspeccion/mosaicoBarrera.php') ?>
-                            <hr>
-                            <?php $this->load->view(SICP.'inspeccion/mosaicoDocumentacion.php') ?>
                         </div><!-- FIN box-primary -->
                     </div>
                     <!--_______ FIN FORMULARIO PERMISO DE TRANSITO BOX 1 ______-->
@@ -158,7 +289,7 @@
                             <!-- Nombre CHOFER -->
                             <div class="col-md-6 col-sm-6 col-xs-12">
                                 <div class="form-group">
-                                    <label for="nom_chofer">Nombre Chofer(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <label for="nom_chofer">Nombre del Chofer(<strong style="color: #dd4b39">*</strong>):</label>
                                     <input type="text" class="form-control" name="nom_chofer" id="nom_chofer" placeholder="" readonly/>
                                 </div>
                             </div>
@@ -167,32 +298,23 @@
                             <!--Patente Tractor-->
                             <div class="col-md-6 col-sm-6 col-xs-12">
                                 <div class="form-group has-feedback">
-                                <label for="patenteTractor">Patente Tractor(<strong style="color: #dd4b39">*</strong>):</label>
+                                <label for="patenteTractor">Patente de Tractor(<strong style="color: #dd4b39">*</strong>):</label>
                                     <input class="form-control limited" name="patente_tractor" id="patenteTractor" placeholder="Ingrese patente tractor" value="<?php echo isset($preCargaDatos->patente_tractor) ? $preCargaDatos->patente_tractor : $patente ?>" required/>
                                 </div>
                             </div>
                             <!--________________-->
                             
-                            <!--Nombre Establecimiento-->
+                            <!--Transportista-->
                             <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
                                 <div class="form-group">
-                                    <label for="esta_nom">Establecimiento(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <label for="transportista">Transportista(<strong style="color: #dd4b39">*</strong>):</label>
                                     <div class="input-group">
-                                        <select class="form-control select2 select2-hidden-accesible empresa" id="esta_nom" required>
+                                        <select class="form-control select2 select2-hidden-accesible empresa" id="transportista" required>
                                             <option value="" disabled selected></option>
                                         </select>
-                                        <span id="add_establecimiento" class="input-group-addon" data-toggle="modal" data-target="#mdl-establecimiento" onclick="$('#tipoEmpresa').val('Establecimiento')"><i class="fa fa-plus"></i></span>
+                                        <span id="add_transportista" class="input-group-addon" data-toggle="modal" data-target="#mdl-transportista" onclick="$('#tipoEmpresa').val('Transportista')"><i class="fa fa-plus"></i></span>
                                     </div>
-                                </div>
-                            </div>
-                            <!--________________-->
-
-                            <!--Establecimiento N°-->
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <div class="form-group">
-                                <label for="esta_num">Establecimiento N°(<strong style="color: #dd4b39">*</strong>):</label>
-                                    <input class="form-control" name="esta_num" id="esta_num" placeholder="Establecimiento N°" readonly/>
-                                </div>
+                                </div>                    
                             </div>
                             <!--________________-->
 
@@ -223,7 +345,7 @@
                                 </div>                    
                             </div>
                             <!--_________________ Agregar_________________-->
-                            <div class="col-md-6 col-sm-6 col-xs-12">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
                                 <div style="margin-top: 25px;" class="form-group text-right">
                                     <button type="button" class="btn btn-primary" onclick="agregarDestino()" >Agregar</button>
                                 </div>
@@ -251,16 +373,12 @@
                                 <hr>
                             </div>
                             <!--________________-->
-                            <!--Transportista-->
-                            <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
+
+                            <!--Termico Patente-->
+                            <div class="col-md-6 col-sm-6 col-xs-12">
                                 <div class="form-group">
-                                    <label for="transportista">Transportista(<strong style="color: #dd4b39">*</strong>):</label>
-                                    <div class="input-group">
-                                        <select class="form-control select2 select2-hidden-accesible empresa" id="transportista" required>
-                                            <option value="" disabled selected></option>
-                                        </select>
-                                        <span id="add_transportista" class="input-group-addon" data-toggle="modal" data-target="#mdl-transportista" onclick="$('#tipoEmpresa').val('Transportista')"><i class="fa fa-plus"></i></span>
-                                    </div>
+                                    <label for="term_patente">Patente Térmico(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <input class="form-control limited" id="term_patente" placeholder="Ingrese térmico patente" />
                                 </div>                    
                             </div>
                             <!--________________-->
@@ -268,41 +386,16 @@
                             <!--N° SENASA-->
                             <div class="col-md-6 col-sm-6 col-xs-12">
                                 <div class="form-group">
-                                <label for="num_senasa">N° SENASA(<strong style="color: #dd4b39">*</strong>):</label>
+                                <label for="num_senasa">N° hab. SENASA(<strong style="color: #dd4b39">*</strong>):</label>
                                     <input class="form-control limitedChars" name="nro_senasa" id="num_senasa" placeholder="Ingrese N° SENASA" value="<?php echo isset($preCargaDatos->nro_senasa) ? $preCargaDatos->nro_senasa : null ?>" required/>
                                 </div>
                             </div>
                             <!--________________-->
 
-                            <!--Producto-->
+                            <!--Precintos-->
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 <div class="form-group">
-                                    <label for="producto">Producto/s(<strong style="color: #dd4b39">*</strong>):</label>
-                                    <textarea class="form-control" name="productos" id="producto" placeholder="Ingrese producto/s" required></textarea>
-                                </div>                    
-                            </div>
-                            <!--________________-->
-                            <!--Termico Patente-->
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <div class="form-group">
-                                    <label for="term_patente">Térmico Patente(<strong style="color: #dd4b39">*</strong>):</label>
-                                    <input class="form-control limited" id="term_patente" placeholder="Ingrese térmico patente" />
-                                </div>                    
-                            </div>
-                            <!--________________-->
-
-                            <!--Temperatura-->
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <div class="form-group">
-                                    <label for="temperatura">Temperatura(<strong style="color: #dd4b39">*</strong>):</label>
-                                    <input class="form-control" id="temperatura" placeholder="Ingrese temperatura" />
-                                </div>                    
-                            </div>
-                            <!--________________-->
-                            <!--Precintos-->
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <div class="form-group">
-                                    <label for="precintos">Precintos N°(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <label for="precintos">Nro de Precintos(<strong style="color: #dd4b39">*</strong>):</label>
                                     <input class="form-control limited" id="precintos" placeholder="Ingrese precintos" />
                                 </div>                    
                             </div>
@@ -336,15 +429,15 @@
                             </div>
                             <!--________________-->
                             <!--Observaciones-->
-                            <div class="col-md-12 col-sm-12 col-xs-12">
+                            <!-- <div class="col-md-12 col-sm-12 col-xs-12">
                                 <div class="form-group">
                                     <label for="observaciones">Observaciones:</label>
                                     <textarea class="form-control" row="3" name="observaciones" id="observaciones" placeholder="Observaciones" ></textarea>
                                 </div>                    
-                            </div>
+                            </div> -->
                             <!--________________-->
                             <!--Acta Infraccion-->
-                            <div class="col-md-12 col-sm-12 col-xs-12">
+                            <!-- <div class="col-md-12 col-sm-12 col-xs-12">
                                 <div class="form-group">
                                     <div class="input-group">
                                         <label>Acta infracción en calle:</label>
@@ -356,10 +449,10 @@
                                             </div>
                                         </div>
                                 </div>
-                            </div>
+                            </div> -->
                             <!--________________-->
                             <!--Valida Inspeccion-->
-                            <div class="col-md-12 col-sm-12 col-xs-12">
+                            <!-- <div class="col-md-12 col-sm-12 col-xs-12">
                                 <div class="form-group">
                                     <label for="inspValida">¿Inspección correcta?:</label>
                                     <div class="form-check form-check-inline">
@@ -371,10 +464,10 @@
                                         <label class="form-check-label" for="">No</label>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                             <!--________________-->
                             <!--Bloque Validar-->
-                            <div id="bloque_validar" style="display:none;">
+                            <!-- <div id="bloque_validar" style="display:none;">
                                 <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
                                     <div class="form-group">
                                         <label for="tpoInfraccion">Tipos Infracción(<strong style="color: #dd4b39">*</strong>):</label>
@@ -396,12 +489,102 @@
                                         <input type="number" class="form-control" name="cant_fajas" id="cant_fajas" placeholder="Ingrese N° fajas" required/>
                                     </div>
                                 </div>
-                            </div>                    
+                            </div>-->
                             <!--________________-->
                         </div> <!--FIN box-primary-->
                     </div><!--FIN col-->
                 <!--_______ FIN FORMULARIO INSPECCION BOX 2______-->
                 </div><!-- FIN row-->
+                <div class="row">
+                    <!--Fecha Acta-->
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label for="fechaActa">Fecha(<strong style="color: #dd4b39">*</strong>):</label>
+                            <input type="date" class="form-control" name="fechaActa" id="fechaActa" required/>
+                        </div>
+                    </div>
+                    <!--________________-->
+                    <!--Hora Acta-->
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label for="horaActa">Hora(<strong style="color: #dd4b39">*</strong>):</label>
+                            <input type="time" class="form-control" name="horaActa" id="horaActa" required/>
+                        </div>
+                    </div>
+                    <!--________________-->
+                    <!--DNI Acta-->
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label for="dniActa">DNI(<strong style="color: #dd4b39">*</strong>):</label>
+                            <input type="number" class="form-control" name="dniActa" id="dniActa" placeholder="Ingrese DNI" required/>
+                        </div>
+                    </div>
+                    <!--________________-->
+                    <!--Nombre y Apellido Depositario Acta-->
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label for="direccionActa">Nombre y Apellido Depositario(<strong style="color: #dd4b39">*</strong>):</label>
+                            <input type="text" class="form-control" name="direccionActa" id="direccionActa" placeholder="Ingrese Depositario" required/>
+                        </div>
+                    </div>
+                    <!--________________-->
+                    <!--Direccion Acta-->
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label for="direccionActa">Dirección(<strong style="color: #dd4b39">*</strong>):</label>
+                            <input type="text" class="form-control" name="direccionActa" id="direccionActa" placeholder="Ingrese dirección" required/>
+                        </div>
+                    </div>
+                    <!--________________-->
+                    <!--Teléfono-->
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label for="telefonoActa">Teléfono(<strong style="color: #dd4b39">*</strong>):</label>
+                            <input type="number" class="form-control" name="telefonoActa" id="telefonoActa" placeholder="Ingrese Teléfono" required/>
+                        </div>
+                    </div>
+                    <!--________________-->
+                    <!--Correo Electrónico-->
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label for="correoActa">Correo Electrónico(<strong style="color: #dd4b39">*</strong>):</label>
+                            <input type="text" class="form-control" name="correoActa" id="correoActa" placeholder="Ingrese Correo Electrónico" required/>
+                        </div>
+                    </div>
+                    <!--________________-->
+                    <!--Detalle de la infracción-->
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label for="detalleInfraccionActa">Detalle de la infracción:</label>
+                            <textarea class="form-control" name="detalleInfraccionActa" id="detalleInfraccionActa"></textarea>
+                        </div>                    
+                    </div>
+                    <!--________________-->
+                    <!--Tipo de Cámara-->
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label for="tipoCamaraActa">Tipo de Cámara(<strong style="color: #dd4b39">*</strong>):</label>
+                            <input type="text" class="form-control" name="tipoCamaraActa" id="tipoCamaraActa" placeholder="Ingrese Tipo de Cámara" required/>
+                        </div>
+                    </div>
+                    <!--________________-->
+                    <!--T° Actual Cámara-->
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label for="tipoCamaraActa">T° Actual Cámara(<strong style="color: #dd4b39">*</strong>):</label>
+                            <input type="number" class="form-control" name="tipoCamaraActa" id="tipoCamaraActa" placeholder="Ingrese T° Actual Cámara" required/>
+                        </div>
+                    </div>
+                    <!--________________-->
+                    <!--Cant de Fajas-->
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label for="cant_fajas">Cant de Fajas(<strong style="color: #dd4b39">*</strong>):</label>
+                            <input type="text" class="form-control" name="cant_fajas" id="cant_fajas" placeholder="Ingrese Cant de Fajas" required/>
+                        </div>
+                    </div>
+                    <!--________________-->
+                </div>
             </form>
         </div><!-- FIN .tab-pane -->
         <div class="tab-pane" id="actaInfraccion_tab">
@@ -622,7 +805,7 @@ $(document).ready(function() {
     $(".onlyNumbers").inputmask({ regex: "[0-9.,]*" });
 
     //Renombro el BOTON de guardar
-    $('#btnHecho').text('Imprimir acta');
+    $('#btnHecho').text('Imprimir acta de infracción');
 
 });//FIN document.ready
 /******************************************************************************* */

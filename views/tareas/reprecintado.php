@@ -262,7 +262,7 @@
                             <div class="col-md-4 col-sm-6 col-xs-6">
                                 <div class="form-group">
                                     <label for="bruto">Bruto:</label>
-                                    <input class="form-control neto onlyNumbers" name="bruto" id="bruto" value="<?php echo isset($inspeccion->bruto) ? $inspeccion->bruto : null; ?>" readonly/>
+                                    <input class="form-control neto onlyNumbers" name="bruto" id="bruto" value="<?php echo isset($inspeccion->bruto) ? $inspeccion->bruto : null; ?>"/>
                                 </div>                    
                             </div>
                             <!--________________-->
@@ -270,7 +270,7 @@
                             <div class="col-md-4 col-sm-6 col-xs-6">
                                 <div class="form-group">
                                     <label for="tara">Tara:</label>
-                                    <input class="form-control neto onlyNumbers" name="tara" id="tara" value="<?php echo isset($inspeccion->tara) ? $inspeccion->tara : null; ?>" readonly/>
+                                    <input class="form-control neto onlyNumbers" name="tara" id="tara" value="<?php echo isset($inspeccion->tara) ? $inspeccion->tara : null; ?>"/>
                                 </div>                    
                             </div>
                             <!--________________-->
@@ -286,39 +286,39 @@
                             <div class="col-md-12 col-sm-6 col-xs-6">
                                 <div class="form-group">
                                     <label for="ticket">Ticket:</label>
-                                    <input class="form-control" name="ticket" id="ticket" value="<?php echo isset($inspeccion->ticket) ? $inspeccion->ticket : null; ?>" readonly/>
+                                    <input class="form-control" name="ticket" id="ticket" value="<?php echo isset($inspeccion->ticket) ? $inspeccion->ticket : null; ?>"/>
                                 </div>                    
                             </div>
                             <!--________________-->
                             <!--Bruto Reprecintado-->
-                            <div class="col-md-6 col-sm-6 col-xs-6">
+                            <!-- <div class="col-md-6 col-sm-6 col-xs-6">
                                 <div class="form-group">
                                     <label for="bruto">Bruto:</label>
                                     <input class="form-control netoRepre onlyNumbers" name="bruto_reprecintado" id="bruto_reprecintado"/>
                                 </div>                    
-                            </div>
+                            </div> -->
                             <!--________________-->
                             <!--Neto Reprecintdo-->
-                            <div class="col-md-6 col-sm-6 col-xs-6">
+                            <!-- <div class="col-md-6 col-sm-6 col-xs-6">
                                 <div class="form-group">
                                     <label for="neto_reprecintado">Neto:</label>
                                     <input type="number" class="form-control" id="neto_reprecintado" readonly/>
                                 </div>                    
-                            </div>
+                            </div> -->
                             <!--________________-->
                             <!--Ticket Reprecintado-->
-                            <div class="col-md-12 col-sm-6 col-xs-6">
+                            <!-- <div class="col-md-12 col-sm-6 col-xs-6">
                                 <div class="form-group">
                                     <label for="ticket">Ticket:</label>
                                     <input class="form-control" name="ticket_reprecintado" id="ticket_reprecintado"/>
                                 </div>                    
-                            </div>
+                            </div> -->
                             <!--________________-->
                             <!--Nro de Precintos de cierre-->
                             <div class="col-md-12 col-sm-6 col-xs-6">
                                 <div class="form-group">
                                     <label for="nroPrecintosCierre">Nro de Precintos de cierre(<strong style="color: #dd4b39">*</strong>):</label>
-                                    <input class="form-control" name="nroPrecintosCierre" id="nroPrecintosCierre"/>
+                                    <input class="form-control onlyNumbers" name="nroPrecintosCierre" id="nroPrecintosCierre" placeholder="Ingrese Precintos"/>
                                 </div>                    
                             </div>
                             <!--________________-->
@@ -331,7 +331,7 @@
                             </div>
                             <!--________________-->
                             <!--Valida Inspeccion-->
-                            <div class="col-md-6 col-sm-6 col-xs-6">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
                                 <div class="form-group">
                                     <label for="inspValida">¿Inspección correcta?:</label>
                                     <div class="form-check form-check-inline">
@@ -376,6 +376,13 @@
                 </div><!-- FIN row-->
             </form>
         </div><!-- FIN .tab-pane -->
+        <div class="tab-pane" id="actaInspeccion_tab">
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <?php $this->load->view(SICP."actas/acta_inspeccion.php"); ?>
+                </div>
+            </div>
+        </div>
         <div class="tab-pane" id="actaInfraccion_tab">
             <div class="row">
                 <div class="col-md-12 col-sm-12 col-xs-12">
@@ -393,7 +400,7 @@
 $(document).ready(function() {
     //Seccion de trigger para los cambios
     //Mustra bloque validar si es correcta
-    showValidar($('#resultado').val());
+    // showValidar($('#resultado').val());
     
     //Calcula neto anterior
     $(".neto").trigger('change');
@@ -531,8 +538,9 @@ function cerrarTarea() {
 //Bloques para validar
 //
 function showValidar(resultado){
-    if(resultado == "correcta"){
+    if(resultado.value == "correcta"){
         $("#bloque_validar").hide();
+        $('#tpoInfraccion').val(null).trigger('change');
     }else{
         $("#bloque_validar").show();
     }
@@ -542,6 +550,63 @@ function showValidar(resultado){
 //Scripts Imprimir ACTA
 //
 function imprimirActa(){
+
+    var idActa = "#actaInspeccionPCC";
+    //Completo datos en el acta antes de imprimir
+    $(".acta_caseId").text($("#case_id").val());
+    $(".acta_chofer").text($("#nom_chofer").val());
+    $(".acta_dniChofer").text($("#doc_chofer").val());
+    $(".acta_patenteTractor").text($("#patenteTractor").val());
+    $(".acta_numSenasa").text($("#num_senasa").val());
+    $(".acta_cantFajas").text($("#cant_fajas").val());
+    $(".acta_observaciones").text($("#observaciones").val());
+    $(".acta_origenNro").text($("#esta_num").val());
+    $(".acta_estaOrigen").text($("#esta_nom").select2('data')[0].text);
+    $(".acta_transportista").text($('#transportista').select2('data')[0].text);
+    $(".acta_productos").text($("#producto").val());
+    $(".acta_bruto").text($("#bruto").val());
+    $(".acta_tara").text($("#tara").val());
+    $(".acta_ticket").text($("#ticket").val());
+    $(".acta_tpoDocumentacion").text($("select[name='doc_impo']").val());
+
+    //Valído
+    if($('#tpoInfraccion').val() != null){
+        $(".acta_infraccion").text($('#tpoInfraccion').select2('data')[0].text);
+        idActa = '#actaInfraccion';
+    }
+
+
+    infoTemperatura = "";
+    $('#sec_termicos div.termicos').each(function(i, obj) {
+        aux = $(obj).attr('data-json');
+        json = JSON.parse(aux);
+        infoTemperatura += json.temperatura + " ";
+    });
+    $(".acta_temperaturas").text(infoTemperatura);
+
+    infoPrecintos = "";
+    $('#sec_termicos div.termicos').each(function(i, obj) {
+        aux = $(obj).attr('data-json');
+        json = JSON.parse(aux);
+        infoPrecintos += json.precintos + " ";
+    });
+    $(".acta_precintos").text(infoPrecintos);
+
+    infoDestino = "";
+    $('#sec_destinos div.empreDestino').each(function(i, obj) {
+        aux = $(obj).attr('data-json');
+        json = JSON.parse(aux);
+        infoDestino += json.razon_social+". ";
+    });
+    $(".acta_destinos").text(infoDestino);
+
+    infoPermisos = "";
+    $('#sec_permisos div.permTransito').each(function(i, obj) {
+        aux = $(obj).attr('data-json');
+        json = JSON.parse(aux);
+        infoPermisos += json.tipo + " ";
+    });
+    $(".acta_docSanitaria").text(infoPermisos);
     
     var base = "<?php echo base_url()?>";
     $('#actaInfraccion').printThis({

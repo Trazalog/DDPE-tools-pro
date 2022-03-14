@@ -37,7 +37,7 @@
 .titDataDinamica{
     font-weight: 700;
 }
- /* Style the images inside the grid */ 
+/* Style the images inside the grid */ 
 .col img {
   opacity: 0.8;
   cursor: pointer;
@@ -148,7 +148,7 @@
                             <!--DOC. Sanitaria Tipo-->
                             <div class="col-md-6 col-sm-6 col-xs-6" style="display: contents;">
                                 <div class="col-md-6 col-sm-6 col-xs-6">
-                                    <label for="doc_sanitaria">Documentación Sanitaria Tipo(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <label for="doc_sanitaria">Doc. Sanitaria Tipo(<strong style="color: #dd4b39">*</strong>):</label>
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-6">
                                     <div class="form-check">
@@ -217,7 +217,7 @@
                             <div class="col-md-4 col-sm-6 col-xs-6">
                                 <div class="form-group">
                                     <label for="neto">Peso Neto:</label>
-                                    <input class="form-control onlyNumbers" id="neto" placeholder="Ingrese peso neto"/>
+                                    <input class="form-control onlyNumbers" id="neto"/>
                                 </div>                    
                             </div>
                             <!--________________-->
@@ -226,7 +226,7 @@
                             <div class="col-md-4 col-sm-6 col-xs-6">
                                 <div class="form-group">
                                     <label for="bruto">Peso Bruto:</label>
-                                    <input class="form-control onlyNumbers" name="bruto" id="bruto" placeholder="Ingrese peso bruto" />
+                                    <input class="form-control onlyNumbers" name="bruto" id="bruto"/>
                                 </div>                    
                             </div>
                             <!--________________-->
@@ -632,8 +632,8 @@
                     <!--________________-->
                     <!--Bloque Validar-->
                     <div id="bloque_validar" style="display:none;">
-                        <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
-                            <div class="form-group">
+                        <!-- <div class="col-md-6 col-sm-6 col-xs-12 ocultar"> -->
+                            <!-- <div class="form-group">
                                 <label for="tpoInfraccion">Tipos Infracción(<strong style="color: #dd4b39">*</strong>):</label>
                                 <select class="form-control select2 select2-hidden-accesible" name="tpoInfraccion" id="tpoInfraccion" required>
                                     <option value="" disabled selected>-Seleccionar infracción-</option>	
@@ -645,14 +645,96 @@
                                     }
                                     ?>
                                 </select>
-                            </div>
-                        </div>
+                            </div> -->
+                        <!-- </div> -->
+                        <!--Fecha Acta-->
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <div class="form-group">
-                                <label for="cant_fajas">Cantidad de fajas(<strong style="color: #dd4b39">*</strong>):</label>
-                                <input type="number" class="form-control" name="cant_fajas" id="cant_fajas" placeholder="Ingrese N° fajas" required/>
+                                <label for="fechaActa">Fecha(<strong style="color: #dd4b39">*</strong>):</label>
+                                <input type="date" class="form-control" name="fechaActa" id="fechaActa" required/>
                             </div>
                         </div>
+                        <!--________________-->
+                        <!--Hora Acta-->
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                <label for="horaActa">Hora(<strong style="color: #dd4b39">*</strong>):</label>
+                                <input type="time" class="form-control" name="horaActa" id="horaActa" required/>
+                            </div>
+                        </div>
+                        <!--________________-->
+                        <!--DNI Acta-->
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                <label for="dniActa">DNI(<strong style="color: #dd4b39">*</strong>):</label>
+                                <input type="number" class="form-control" name="dniActa" id="dniActa" placeholder="Ingrese DNI" required/>
+                            </div>
+                        </div>
+                        <!--________________-->
+                        <!--Nombre y Apellido Depositario Acta-->
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                <label for="direccionActa">Nombre y Apellido Depositario(<strong style="color: #dd4b39">*</strong>):</label>
+                                <input type="text" class="form-control" name="direccionActa" id="direccionActa" placeholder="Ingrese Depositario" required/>
+                            </div>
+                        </div>
+                        <!--________________-->
+                        <!--Direccion Acta-->
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="form-group">
+                                <label for="direccionActa">Dirección(<strong style="color: #dd4b39">*</strong>):</label>
+                                <input type="text" class="form-control" name="direccionActa" id="direccionActa" placeholder="Ingrese dirección" required/>
+                            </div>
+                        </div>
+                        <!--________________-->
+                        <!--Teléfono-->
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                <label for="telefonoActa">Teléfono(<strong style="color: #dd4b39">*</strong>):</label>
+                                <input type="number" class="form-control" name="telefonoActa" id="telefonoActa" placeholder="Ingrese Teléfono" required/>
+                            </div>
+                        </div>
+                        <!--________________-->
+                        <!--Correo Electrónico-->
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                <label for="correoActa">Correo Electrónico(<strong style="color: #dd4b39">*</strong>):</label>
+                                <input type="text" class="form-control" name="correoActa" id="correoActa" placeholder="Ingrese Correo Electrónico" required/>
+                            </div>
+                        </div>
+                        <!--________________-->
+                        <!--Detalle de la infracción-->
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="form-group">
+                                <label for="detalleInfraccionActa">Detalle de la infracción:</label>
+                                <textarea class="form-control" name="detalleInfraccionActa" id="detalleInfraccionActa"></textarea>
+                            </div>                    
+                        </div>
+                        <!--________________-->
+                        <!--Tipo de Cámara-->
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                <label for="tipoCamaraActa">Tipo de Cámara(<strong style="color: #dd4b39">*</strong>):</label>
+                                <input type="text" class="form-control" name="tipoCamaraActa" id="tipoCamaraActa" placeholder="Ingrese Tipo de Cámara" required/>
+                            </div>
+                        </div>
+                        <!--________________-->
+                        <!--T° Actual Cámara-->
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                <label for="tipoCamaraActa">T° Actual Cámara(<strong style="color: #dd4b39">*</strong>):</label>
+                                <input type="number" class="form-control" name="tipoCamaraActa" id="tipoCamaraActa" placeholder="Ingrese T° Actual Cámara" required/>
+                            </div>
+                        </div>
+                        <!--________________-->
+                        <!--Cant de Fajas-->
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                <label for="cant_fajas">Cant de Fajas(<strong style="color: #dd4b39">*</strong>):</label>
+                                <input type="text" class="form-control" name="cant_fajas" id="cant_fajas" placeholder="Ingrese Cant de Fajas" required/>
+                            </div>
+                        </div>
+                        <!--________________-->
                     </div>                    
                     <!--________________-->
                 </div>
