@@ -541,8 +541,10 @@ function showValidar(resultado){
     if(resultado.value == "correcta"){
         $("#bloque_validar").hide();
         $('#tpoInfraccion').val(null).trigger('change');
+        $('#btnHecho').text('Imprimir Acta de Inspección');
     }else{
         $("#bloque_validar").show();
+        $('#btnHecho').text('Imprimir Acta de Infracción');
     }
 }
 /***************************************************** */

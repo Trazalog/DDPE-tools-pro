@@ -325,7 +325,7 @@
                             <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
                                 <div class="form-group">
                                     <label for="telTransportista">Teléfono Transportista:</label>
-                                    <input class="form-control limited" name="telTransportista" id="telTransportista" placeholder="Ingrese Patente Tractor" required/>
+                                    <input class="form-control limited" name="telTransportista" id="telTransportista" placeholder="Ingrese teléfono del transportista" required/>
                                 </div>                    
                             </div>
                             <!--________________-->
@@ -334,7 +334,7 @@
                             <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
                                 <div class="form-group">
                                     <label for="emailTransportista">E-mail Transportista(<strong style="color: #dd4b39">*</strong>):</label>
-                                    <input class="form-control limited" name="emailTransportista" id="emailTransportista" placeholder="Ingrese Patente Tractor" required/>
+                                    <input class="form-control limited" name="emailTransportista" id="emailTransportista" placeholder="Ingrese correo del transportista" required/>
                                 </div>                    
                             </div>
                             <!--________________-->
@@ -424,7 +424,7 @@
                             <!--________________-->
 
                             <!--N° de Precintos-->
-                            <div class="col-md-6 col-sm-6 col-xs-12">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
                                 <div class="form-group">
                                     <label for="precintos">N° de Precintos(<strong style="color: #dd4b39">*</strong>):</label>
                                     <input class="form-control limited" id="precintos" placeholder="Ingrese precintos" />
@@ -503,7 +503,7 @@
                         <div class="form-group">
                             <label>Departamento(<strong style="color: #dd4b39">*</strong>):</label>
                             <div class="input-group" style="width: 100%;">
-                                <select class="form-control select2 select2-hidden-accesible" name="depa_id" id="depa_id" required style="width: 100%;">
+                                <select class="form-control select2 select2-hidden-accesible" name="depa_idActa" id="depa_idActa" required style="width: 100%;">
                                     <option value="" disabled selected>-Seleccionar-</option>	
                                     <?php
                                     if(!empty($departamentos)){ 
@@ -674,8 +674,8 @@
                         <!--Nombre y Apellido Depositario Acta-->
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <div class="form-group">
-                                <label for="direccionActa">Nombre y Apellido Depositario(<strong style="color: #dd4b39">*</strong>):</label>
-                                <input type="text" class="form-control" name="direccionActa" id="direccionActa" placeholder="Ingrese Depositario" required/>
+                                <label for="nyaDepositario">Nombre y Apellido Depositario(<strong style="color: #dd4b39">*</strong>):</label>
+                                <input type="text" class="form-control" name="nyaDepositario" id="nyaDepositario" placeholder="Ingrese Depositario" required/>
                             </div>
                         </div>
                         <!--________________-->
@@ -735,9 +735,9 @@
                             </div>
                         </div>
                         <!--________________-->
-                    </div>                    
+                    </div><!-- FIN #bloque_validar -->                    
                     <!--________________-->
-                </div>
+                </div><!-- /.row -->
             </form>
         </div><!-- FIN .tab-pane -->
         <div class="tab-pane" id="actaInspeccion_tab">
@@ -746,14 +746,14 @@
                     <?php $this->load->view(SICP."actas/acta_inspeccion.php"); ?>
                 </div>
             </div>
-        </div>
+        </div><!-- FIN .tab-pane -->
         <div class="tab-pane" id="actaInfraccion_tab">
             <div class="row">
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <?php $this->load->view(SICP."actas/acta_infraccion_inspeccion.php"); ?>
                 </div>
             </div>
-        </div>
+        </div><!-- FIN .tab-pane -->
     </div>
 </div>
 <script>
@@ -1532,6 +1532,17 @@ function imprimirActa(){
     $(".acta_tara").text($("#tara").val());
     $(".acta_ticket").text($("#ticket").val());
     $(".acta_tpoDocumentacion").text($("select[name='doc_impo']").val());
+    $(".acta_depto").text($("#depa_idActa").val());
+    $(".acta_localidad").text($("#localidad").val());
+    $(".acta_inspectores").text($("#inspectores").val());
+    $(".acta_puntoControl").text($("#dondeConstituyen").val());
+    $(".acta_puntoControlDomicilio").text($("#domicilio").val());
+    $(".acta_propiedadDe").text($("#propiedad").val());
+    $(".acta_caracter").text($("#caracterAtendio").val());
+    $(".acta_procedenA").text($("#procedenAccion").val());
+    $(".acta_telTransportista").text($("#telTransportista").val());
+    $(".acta_emailTransportista").text($("#emailTransportista").val());
+    $(".acta_nyaDepositario").text($("#nyaDepositario").val());
 
     //Valído
     if($('#tpoInfraccion').val() != null){
