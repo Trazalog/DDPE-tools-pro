@@ -325,7 +325,7 @@
                             <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
                                 <div class="form-group">
                                     <label for="telTransportista">Teléfono Transportista:</label>
-                                    <input class="form-control limited" name="telTransportista" id="telTransportista" placeholder="Ingrese teléfono del transportista" required/>
+                                    <input class="form-control limited" name="telTransportista" id="telTransportista" placeholder="Ingrese teléfono" required/>
                                 </div>                    
                             </div>
                             <!--________________-->
@@ -334,7 +334,7 @@
                             <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
                                 <div class="form-group">
                                     <label for="emailTransportista">E-mail Transportista(<strong style="color: #dd4b39">*</strong>):</label>
-                                    <input class="form-control limited" name="emailTransportista" id="emailTransportista" placeholder="Ingrese correo del transportista" required/>
+                                    <input type="text" class="form-control" name="emailTransportista" id="emailTransportista" placeholder="Ingrese correo" required/>
                                 </div>                    
                             </div>
                             <!--________________-->
@@ -679,11 +679,19 @@
                             </div>
                         </div>
                         <!--________________-->
-                        <!--Direccion Acta-->
-                        <div class="col-md-12 col-sm-12 col-xs-12">
+                        <!--Domicilio Legal Acta-->
+                        <div class="col-md-6 col-sm-6 col-xs-12">
                             <div class="form-group">
-                                <label for="direccionActa">Dirección(<strong style="color: #dd4b39">*</strong>):</label>
-                                <input type="text" class="form-control" name="direccionActa" id="direccionActa" placeholder="Ingrese dirección" required/>
+                                <label for="domiLegalActa">Domicilio Legal(<strong style="color: #dd4b39">*</strong>):</label>
+                                <input type="text" class="form-control" name="domiLegalActa" id="domiLegalActa" placeholder="Ingrese Domicilio Legal" required/>
+                            </div>
+                        </div>
+                        <!--________________-->
+                        <!--Domicilio Comercial Acta-->
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                <label for="domiComercialActa">Domicilio comercial:</label>
+                                <input type="text" class="form-control" name="domiComercialActa" id="domiComercialActa" placeholder="Ingrese Domicilio Comercial"/>
                             </div>
                         </div>
                         <!--________________-->
@@ -711,6 +719,22 @@
                             </div>                    
                         </div>
                         <!--________________-->
+                        <!--Características Organolepticas-->
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="form-group">
+                                <label for="caractOrganolepticasActa">Características Organolepticas:</label>
+                                <textarea class="form-control" name="caractOrganolepticasActa" id="caractOrganolepticasActa"></textarea>
+                            </div>                    
+                        </div>
+                        <!--________________-->
+                        <!--Caracteristicas del Depósito-->
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="form-group">
+                                <label for="caractDeposito">Caracteristicas del Depósito(<strong style="color: #dd4b39">*</strong>):</label>
+                                <input type="text" class="form-control" name="caractDeposito" id="caractDeposito" placeholder="Ingrese Caracteristicas del Depósito" required/>
+                            </div>
+                        </div>
+                        <!--________________-->
                         <!--Tipo de Cámara-->
                         <div class="col-md-4 col-sm-6 col-xs-12">
                             <div class="form-group">
@@ -722,8 +746,8 @@
                         <!--T° Actual Cámara-->
                         <div class="col-md-4 col-sm-6 col-xs-12">
                             <div class="form-group">
-                                <label for="tipoCamaraActa">T° Actual Cámara(<strong style="color: #dd4b39">*</strong>):</label>
-                                <input type="number" class="form-control" name="tipoCamaraActa" id="tipoCamaraActa" placeholder="Ingrese T° Actual Cámara" required/>
+                                <label for="tempCamaraActa">T° Actual Cámara(<strong style="color: #dd4b39">*</strong>):</label>
+                                <input type="number" class="form-control" name="tempCamaraActa" id="tempCamaraActa" placeholder="Ingrese T° Actual Cámara" required/>
                             </div>
                         </div>
                         <!--________________-->
@@ -1532,21 +1556,30 @@ function imprimirActa(){
     $(".acta_tara").text($("#tara").val());
     $(".acta_ticket").text($("#ticket").val());
     $(".acta_tpoDocumentacion").text($("select[name='doc_impo']").val());
-    $(".acta_depto").text($("#depa_idActa").val());
+    $(".acta_depto").text($("#depa_idActa").select2('data')[0].text);
     $(".acta_localidad").text($("#localidad").val());
     $(".acta_inspectores").text($("#inspectores").val());
     $(".acta_puntoControl").text($("#dondeConstituyen").val());
     $(".acta_puntoControlDomicilio").text($("#domicilio").val());
     $(".acta_propiedadDe").text($("#propiedad").val());
+    $(".acta_quienAtendio").text($("#quienAtendio").val());
     $(".acta_caracter").text($("#caracterAtendio").val());
     $(".acta_procedenA").text($("#procedenAccion").val());
     $(".acta_telTransportista").text($("#telTransportista").val());
     $(".acta_emailTransportista").text($("#emailTransportista").val());
     $(".acta_nyaDepositario").text($("#nyaDepositario").val());
+    $(".dniActa").text($("#dniActa").val());
+    $(".telefonoActa").text($("#telefonoActa").val());
+    $(".correoActa").text($("#correoActa").val());
+    $(".direccionLegalActa").text($("#domiLegalActa").val());
+    $(".direccionComercialActa").text($("#domiComercialActa").val());
+    $(".acta_caractOrganolepticas").text($("#caractOrganolepticasActa").val());
+    $(".acta_caractDeposito").text($("#caractDeposito").val());
+    $(".acta_tempCamaraActa").text($("#tempCamaraActa").val());
 
     //Valído
-    if($('#tpoInfraccion').val() != null){
-        $(".acta_infraccion").text($('#tpoInfraccion').select2('data')[0].text);
+    if($('input[name=inspValida]:checked').val() == 'incorrecta'){
+        // $(".acta_infraccion").text($('#tpoInfraccion').select2('data')[0].text);
         idActa = '#actaInfraccionPCC';
     }
 
@@ -1607,8 +1640,8 @@ function imprimirActa(){
                     showCancelButton: false,
                     confirmButtonText: 'Hecho'
                 }).then((result) => {
-                    
-                    linkTo('<?php echo BPM ?>Proceso/');
+                    console.log("FIN REY");
+                    // linkTo('<?php echo BPM ?>Proceso/');
                     
                 });
         }
