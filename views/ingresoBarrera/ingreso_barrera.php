@@ -19,7 +19,7 @@
     <div class="panel-subheading">
         <label><?php echo $this->session->userdata['first_name'].' '.$this->session->userdata['last_name'].' - '.date('d/m/Y H:i:s')?></label>
         </br>
-        <label>Punto de control: <?php echo $puntoControl; ?></label>
+        <label>Barrera de Ingreso: <?php echo $puntoControl; ?></label>
         </br>
     </div> 
     <div class="panel-body" id="div_ingreso_barrera">

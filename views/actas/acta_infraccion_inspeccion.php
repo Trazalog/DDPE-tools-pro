@@ -25,16 +25,15 @@
         <div style="margin-bottom: 35px;width: 100%;">
             <div class="bodyActa" style="">
                 <div style="text-indent: 30px;">
-                    En la ciudad de San Juan, departamento . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . localidad . . . . . . . . . . . . . . . . . . . . a los <?php echo date('d'); ?> días del mes de <?php echo $mes; ?> del año <?php echo date('Y'); ?>,
-                    siendo las <?php echo date('H'); ?> horas.  Los inspectores del S. V. I. S. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
-                    . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . , se constituyen en <span class="acta_puntoControl"><?php echo isset($infoPuntoControl) ? $infoPuntoControl['nombre'] : '' ?></span> 
-                    con domicilio en <span class="acta_puntoControlDomicilio"><?php echo isset($infoPuntoControl) ? $infoPuntoControl['domicilio'] : '' ?></span> propiedad de D.D.P. siendo atendidos por <span class="acta_chofer"></span> D.N.I. N° <span class="acta_dniChofer"></span> en su carácter de chofer.<br>
+                    En la ciudad de San Juan, departamento <span class="acta_depto"></span>, localidad <span class="acta_localidad"></span> a los <?php echo date('d'); ?> días del mes de <?php echo $mes; ?> del año <?php echo date('Y'); ?>,
+                    siendo las <?php echo date('H'); ?> horas.  Los inspectores del S. V. I. S. <span class="acta_inspectores"></span>, se constituyen en <span class="acta_puntoControl"></span> 
+                    con domicilio en <span class="acta_puntoControlDomicilio"></span> propiedad de <span class="acta_propiedadDe"></span>. Siendo atendidos por <span class="acta_quienAtendio"></span> D.N.I. N° <span class="acta_dniChofer"></span> en su carácter de <span class="acta_caracter"></span>.<br>
                 </div>
                 <br>
                 <div style="text-indent: 30px;">
-                    Proceden a realizar la inspección de camión térmico, vehículo patente N° <span class="acta_patenteTractor"></span>, N° de habilitación del SENASA <span class="acta_numSenasa"></span>, Documentación Sanitaria tipo <span class="acta_docSanitaria"></span>
-                    Establecimiento N° <span class="acta_origenNro"></span>, nombre del Establecimiento de Origen <span class="acta_estaOrigen"></span>, Transportista <span class="acta_transportista"></span>, telefono del transportista 
-                    <span class="acta_telTransportista">. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . </span> correo electrónico del transportista <span class="acta_emailTransportista">. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . </span> 
+                    Proceden a <span class="acta_procedenA"></span>, vehículo patente N° <span class="acta_patenteTractor"></span>, N° de habilitación del SENASA <span class="acta_numSenasa"></span>, Documentación Sanitaria tipo <span class="acta_docSanitaria"></span>
+                    Establecimiento N° <span class="acta_origenNro"></span>, nombre del Establecimiento de Origen <span class="acta_estaOrigen"></span>, Transportista <span class="acta_transportista"></span>, teléfono del transportista 
+                    <span class="acta_telTransportista"></span> correo electrónico del transportista <span class="acta_emailTransportista"></span> 
                     destinos <span class="acta_destinos"></span> producto/s <span class="acta_productos"></span>, temperatura <span class="acta_temperaturas"></span>, precintos <span class="acta_precintos"></span>, Peso Bruto <span class="acta_bruto"></span>, 
                     Tara <span class="acta_tara"></span> kg, N° de Ticket <span class="acta_ticket"></span>. Tipo de documentación <span class="acta_tpoDocumentacion"></span>.
                 </div> 
@@ -43,13 +42,12 @@
                     Observaciones: <span class="acta_observaciones"></span>.<br><br>
                 </div>
                 <div style="text-indent: 30px;">
-                    Quedando como Depositario Judicial de la mercadería en cuestión, el señor/a . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . , D.N.I. N°  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . , Teléfono
-                    . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . , correo electrónico  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . , con domicilio legal  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ,
-                    y domicilio comercial  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . Con las características organolépticas que describen a continuación  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . , en un depósito
-                    con las siguientes características:  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . , y registrándose las siguientes temperaturas 
-                    . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . <br>
+                    Quedando como Depositario Judicial de la mercadería en cuestión, el señor/a <span class="acta_nyaDepositario"></span>, D.N.I. N° <span class="dniActa"></span>, Teléfono
+                    <span class="telefonoActa"></span>, correo electrónico <span class="correoActa"></span>, con domicilio legal <span class="direccionLegalActa"></span>,
+                    y domicilio comercial <span class="direccionComercialActa"></span>. Con las características organolépticas que que describen a continuación <span class="acta_caractOrganolepticas"></span>, en un depósito
+                    con las siguientes características: <span class="acta_caractDeposito"></span>, y registrándose las siguientes temperaturas <span class="acta_tempCamaraActa"></span><br>
                     <br>
-                    Fecha y Hora: <?php echo date('d-m-Y'); ?>, <?php echo date('H:i'); ?> horas.<br>
+                    Fecha y Hora: <span class="acta_fecha"></span>, <span class="acta_hora"></span> horas.<br>
                     <div class="firmaDepositario" style="text-align: right;">
                         <div style="text-align: center;">
                             <p>. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .</p>
@@ -122,16 +120,15 @@
         <div style="margin-bottom: 35px;width: 100%;">
             <div class="bodyActa" style="">
                 <div style="text-indent: 30px;">
-                    En la ciudad de San Juan, departamento . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . localidad . . . . . . . . . . . . . . . . . . . . a los <?php echo date('d'); ?> días del mes de <?php echo $mes; ?> del año <?php echo date('Y'); ?>,
-                    siendo las <?php echo date('H'); ?> horas.  Los inspectores del S. V. I. S. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
-                    . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . , se constituyen en <span class="acta_puntoControl"><?php echo isset($infoPuntoControl) ? $infoPuntoControl['nombre'] : '' ?></span> 
-                    con domicilio en <span class="acta_puntoControlDomicilio"><?php echo isset($infoPuntoControl) ? $infoPuntoControl['domicilio'] : '' ?></span> propiedad de D.D.P. siendo atendidos por <span class="acta_chofer"></span> D.N.I. N° <span class="acta_dniChofer"></span> en su carácter de chofer.<br>
+                    En la ciudad de San Juan, departamento <span class="acta_depto"></span>, localidad <span class="acta_localidad"></span> a los <?php echo date('d'); ?> días del mes de <?php echo $mes; ?> del año <?php echo date('Y'); ?>,
+                    siendo las <?php echo date('H'); ?> horas.  Los inspectores del S. V. I. S. <span class="acta_inspectores"></span>, se constituyen en <span class="acta_puntoControl"></span> 
+                    con domicilio en <span class="acta_puntoControlDomicilio"></span> propiedad de <span class="acta_propiedadDe"></span>. Siendo atendidos por <span class="acta_quienAtendio"></span> D.N.I. N° <span class="acta_dniChofer"></span> en su carácter de <span class="acta_caracter"></span>.<br>
                 </div>
                 <br>
                 <div style="text-indent: 30px;">
-                    Proceden a realizar la inspección de camión térmico, vehículo patente N° <span class="acta_patenteTractor"></span>, N° de habilitación del SENASA <span class="acta_numSenasa"></span>, Documentación Sanitaria tipo <span class="acta_docSanitaria"></span>
-                    Establecimiento N° <span class="acta_origenNro"></span>, nombre del Establecimiento de Origen <span class="acta_estaOrigen"></span>, Transportista <span class="acta_transportista"></span>, telefono del transportista 
-                    <span class="acta_telTransportista">. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . </span> correo electrónico del transportista <span class="acta_emailTransportista">. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . </span> 
+                    Proceden a <span class="acta_procedenA"></span>, vehículo patente N° <span class="acta_patenteTractor"></span>, N° de habilitación del SENASA <span class="acta_numSenasa"></span>, Documentación Sanitaria tipo <span class="acta_docSanitaria"></span>
+                    Establecimiento N° <span class="acta_origenNro"></span>, nombre del Establecimiento de Origen <span class="acta_estaOrigen"></span>, Transportista <span class="acta_transportista"></span>, teléfono del transportista 
+                    <span class="acta_telTransportista"></span> correo electrónico del transportista <span class="acta_emailTransportista"></span> 
                     destinos <span class="acta_destinos"></span> producto/s <span class="acta_productos"></span>, temperatura <span class="acta_temperaturas"></span>, precintos <span class="acta_precintos"></span>, Peso Bruto <span class="acta_bruto"></span>, 
                     Tara <span class="acta_tara"></span> kg, N° de Ticket <span class="acta_ticket"></span>. Tipo de documentación <span class="acta_tpoDocumentacion"></span>.
                 </div> 
@@ -140,13 +137,12 @@
                     Observaciones: <span class="acta_observaciones"></span>.<br><br>
                 </div>
                 <div style="text-indent: 30px;">
-                    Quedando como Depositario Judicial de la mercadería en cuestión, el señor/a . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . , D.N.I. N°  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . , Teléfono
-                    . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . , correo electrónico  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . , con domicilio legal  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ,
-                    y domicilio comercial  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . Con las características organolépticas que describen a continuación  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . , en un depósito
-                    con las siguientes características:  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . , y registrándose las siguientes temperaturas 
-                    . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . <br>
+                    Quedando como Depositario Judicial de la mercadería en cuestión, el señor/a <span class="acta_nyaDepositario"></span>, D.N.I. N° <span class="dniActa"></span>, Teléfono
+                    <span class="telefonoActa"></span>, correo electrónico <span class="correoActa"></span>, con domicilio legal <span class="direccionLegalActa"></span>,
+                    y domicilio comercial <span class="direccionComercialActa"></span>. Con las características organolépticas que que describen a continuación <span class="acta_caractOrganolepticas"></span>, en un depósito
+                    con las siguientes características: <span class="acta_caractDeposito"></span>, y registrándose las siguientes temperaturas <span class="acta_tempCamaraActa"></span> <br>
                     <br>
-                    Fecha y Hora: <?php echo date('d-m-Y'); ?>, <?php echo date('H:i'); ?> horas.<br>
+                    Fecha y Hora: <span class="acta_fecha"></span>, <span class="acta_hora"></span> horas.<br>
                     <div class="firmaDepositario" style="text-align: right;">
                         <div style="text-align: center;">
                             <p>. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .</p>
@@ -219,16 +215,15 @@
         <div style="margin-bottom: 35px;width: 100%;">
             <div class="bodyActa" style="">
                 <div style="text-indent: 30px;">
-                    En la ciudad de San Juan, departamento . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . localidad . . . . . . . . . . . . . . . . . . . . a los <?php echo date('d'); ?> días del mes de <?php echo $mes; ?> del año <?php echo date('Y'); ?>,
-                    siendo las <?php echo date('H'); ?> horas.  Los inspectores del S. V. I. S. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
-                    . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . , se constituyen en <span class="acta_puntoControl"><?php echo isset($infoPuntoControl) ? $infoPuntoControl['nombre'] : '' ?></span> 
-                    con domicilio en <span class="acta_puntoControlDomicilio"><?php echo isset($infoPuntoControl) ? $infoPuntoControl['domicilio'] : '' ?></span> propiedad de D.D.P. siendo atendidos por <span class="acta_chofer"></span> D.N.I. N° <span class="acta_dniChofer"></span> en su carácter de chofer.<br>
+                    En la ciudad de San Juan, departamento <span class="acta_depto"></span>, localidad <span class="acta_localidad"></span> a los <?php echo date('d'); ?> días del mes de <?php echo $mes; ?> del año <?php echo date('Y'); ?>,
+                    siendo las <?php echo date('H'); ?> horas.  Los inspectores del S. V. I. S. <span class="acta_inspectores"></span>, se constituyen en <span class="acta_puntoControl"></span> 
+                    con domicilio en <span class="acta_puntoControlDomicilio"></span> propiedad de <span class="acta_propiedadDe"></span>. Siendo atendidos por <span class="acta_quienAtendio"></span> D.N.I. N° <span class="acta_dniChofer"></span> en su carácter de <span class="acta_caracter"></span>.<br>
                 </div>
                 <br>
                 <div style="text-indent: 30px;">
-                    Proceden a realizar la inspección de camión térmico, vehículo patente N° <span class="acta_patenteTractor"></span>, N° de habilitación del SENASA <span class="acta_numSenasa"></span>, Documentación Sanitaria tipo <span class="acta_docSanitaria"></span>
-                    Establecimiento N° <span class="acta_origenNro"></span>, nombre del Establecimiento de Origen <span class="acta_estaOrigen"></span>, Transportista <span class="acta_transportista"></span>, telefono del transportista 
-                    <span class="acta_telTransportista">. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . </span> correo electrónico del transportista <span class="acta_emailTransportista">. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . </span> 
+                    Proceden a <span class="acta_procedenA"></span>, vehículo patente N° <span class="acta_patenteTractor"></span>, N° de habilitación del SENASA <span class="acta_numSenasa"></span>, Documentación Sanitaria tipo <span class="acta_docSanitaria"></span>
+                    Establecimiento N° <span class="acta_origenNro"></span>, nombre del Establecimiento de Origen <span class="acta_estaOrigen"></span>, Transportista <span class="acta_transportista"></span>, teléfono del transportista 
+                    <span class="acta_telTransportista"></span> correo electrónico del transportista <span class="acta_emailTransportista"></span> 
                     destinos <span class="acta_destinos"></span> producto/s <span class="acta_productos"></span>, temperatura <span class="acta_temperaturas"></span>, precintos <span class="acta_precintos"></span>, Peso Bruto <span class="acta_bruto"></span>, 
                     Tara <span class="acta_tara"></span> kg, N° de Ticket <span class="acta_ticket"></span>. Tipo de documentación <span class="acta_tpoDocumentacion"></span>.
                 </div> 
@@ -237,13 +232,12 @@
                     Observaciones: <span class="acta_observaciones"></span>.<br><br>
                 </div>
                 <div style="text-indent: 30px;">
-                    Quedando como Depositario Judicial de la mercadería en cuestión, el señor/a . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . , D.N.I. N°  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . , Teléfono
-                    . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . , correo electrónico  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . , con domicilio legal  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ,
-                    y domicilio comercial  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . Con las características organolépticas que describen a continuación  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . , en un depósito
-                    con las siguientes características:  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . , y registrándose las siguientes temperaturas 
-                    . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . <br>
+                    Quedando como Depositario Judicial de la mercadería en cuestión, el señor/a <span class="acta_nyaDepositario"></span>, D.N.I. N° <span class="dniActa"></span>, Teléfono
+                    <span class="telefonoActa"></span>, correo electrónico <span class="correoActa"></span>, con domicilio legal <span class="direccionLegalActa"></span>,
+                    y domicilio comercial <span class="direccionComercialActa"></span>. Con las características organolépticas que que describen a continuación <span class="acta_caractOrganolepticas"></span>, en un depósito
+                    con las siguientes características: <span class="acta_caractDeposito"></span>, y registrándose las siguientes temperaturas <span class="acta_tempCamaraActa"></span><br>
                     <br>
-                    Fecha y Hora: <?php echo date('d-m-Y'); ?>, <?php echo date('H:i'); ?> horas.<br>
+                    Fecha y Hora: <span class="acta_fecha"></span>, <span class="acta_hora"></span> horas.<br>
                     <div class="firmaDepositario" style="text-align: right;">
                         <div style="text-align: center;">
                             <p>. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .</p>
