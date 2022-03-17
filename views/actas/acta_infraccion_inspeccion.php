@@ -47,7 +47,7 @@
                     y domicilio comercial <span class="direccionComercialActa"></span>. Con las características organolépticas que que describen a continuación <span class="acta_caractOrganolepticas"></span>, en un depósito
                     con las siguientes características: <span class="acta_caractDeposito"></span>, y registrándose las siguientes temperaturas <span class="acta_tempCamaraActa"></span><br>
                     <br>
-                    Fecha y Hora: <?php echo date('d-m-Y'); ?>, <?php echo date('H:i'); ?> horas.<br>
+                    Fecha y Hora: <span class="acta_fecha"></span>, <span class="acta_hora"></span> horas.<br>
                     <div class="firmaDepositario" style="text-align: right;">
                         <div style="text-align: center;">
                             <p>. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .</p>
@@ -142,7 +142,7 @@
                     y domicilio comercial <span class="direccionComercialActa"></span>. Con las características organolépticas que que describen a continuación <span class="acta_caractOrganolepticas"></span>, en un depósito
                     con las siguientes características: <span class="acta_caractDeposito"></span>, y registrándose las siguientes temperaturas <span class="acta_tempCamaraActa"></span> <br>
                     <br>
-                    Fecha y Hora: <?php echo date('d-m-Y'); ?>, <?php echo date('H:i'); ?> horas.<br>
+                    Fecha y Hora: <span class="acta_fecha"></span>, <span class="acta_hora"></span> horas.<br>
                     <div class="firmaDepositario" style="text-align: right;">
                         <div style="text-align: center;">
                             <p>. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .</p>
@@ -237,7 +237,7 @@
                     y domicilio comercial <span class="direccionComercialActa"></span>. Con las características organolépticas que que describen a continuación <span class="acta_caractOrganolepticas"></span>, en un depósito
                     con las siguientes características: <span class="acta_caractDeposito"></span>, y registrándose las siguientes temperaturas <span class="acta_tempCamaraActa"></span><br>
                     <br>
-                    Fecha y Hora: <?php echo date('d-m-Y'); ?>, <?php echo date('H:i'); ?> horas.<br>
+                    Fecha y Hora: <span class="acta_fecha"></span>, <span class="acta_hora"></span> horas.<br>
                     <div class="firmaDepositario" style="text-align: right;">
                         <div style="text-align: center;">
                             <p>. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .</p>

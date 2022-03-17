@@ -126,7 +126,7 @@
                 <!--Nombre Establecimiento-->
                 <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
                     <div class="form-group">
-                        <label for="esta_nom">Nombre de Establecimiento(<strong style="color: #dd4b39">*</strong>):</label>
+                        <label for="esta_nom" style="font-size:13px !important">Nombre de Establecimiento(<strong style="color: #dd4b39">*</strong>):</label>
                         <div class="input-group">
                             <select class="form-control select2 select2-hidden-accesible empresa" name="esta_nom" id="esta_nom">
                                 <option value="" disabled selected></option>
@@ -140,7 +140,7 @@
                 <!--Establecimiento N°-->
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
-                    <label for="esta_num">N° Establecimiento(<strong style="color: #dd4b39">*</strong>):</label>
+                    <label for="esta_num">Establecimiento N°(<strong style="color: #dd4b39">*</strong>):</label>
                         <input class="form-control" name="esta_num" id="esta_num" placeholder="Ingrese Establecimiento N°" readonly/>
                     </div>
                 </div>
@@ -158,7 +158,7 @@
                 <!--Neto-->
                 <div class="col-md-4 col-sm-6 col-xs-6">
                     <div class="form-group">
-                        <label for="neto">Peso Neto:</label>
+                        <label for="neto">Peso Neto(<strong style="color: #dd4b39">*</strong>):</label>
                         <input class="form-control onlyNumbers" id="neto" placeholder="Ingrese peso neto"/>
                     </div>                    
                 </div>
@@ -167,7 +167,7 @@
                 <!--Bruto-->
                 <div class="col-md-4 col-sm-6 col-xs-6">
                     <div class="form-group">
-                        <label for="bruto">Peso Bruto:</label>
+                        <label for="bruto">Peso Bruto(<strong style="color: #dd4b39">*</strong>):</label>
                         <input class="form-control onlyNumbers" name="bruto" id="bruto" placeholder="Ingrese peso bruto" />
                     </div>                    
                 </div>
@@ -249,7 +249,9 @@
                             </div>                    
                         </div>
                         <!--________________-->
-
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <hr>
+                        </div>
                         <!--Empresa Destino-->
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <div class="form-group">

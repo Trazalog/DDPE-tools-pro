@@ -121,8 +121,8 @@
                             <!--Permiso-->
                             <div class="col-md-6 col-sm-6 col-xs-12">
                                 <div class="form-group">
-                                    <label for="Solicitud">N° de Permiso(<strong style="color: #dd4b39">*</strong>):</label>
-                                    <input type="text" class="form-control requerido alfanumerico" id="soli_num" placeholder="Ingrese número de solicitud"/>
+                                    <label for="perm_num">N° de Permiso(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <input type="text" class="form-control requerido alfanumerico" id="perm_num" placeholder="Ingrese número de permiso"/>
                                 </div>
                             </div>
                             <!--________________-->
@@ -184,7 +184,7 @@
                             <!--Nombre Establecimiento-->
                             <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
                                 <div class="form-group">
-                                    <label for="esta_nom">Nombre de Establecimiento(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <label for="esta_nom" style="font-size:13px !important">Nombre de Establecimiento(<strong style="color: #dd4b39">*</strong>):</label>
                                     <div class="input-group">
                                         <select class="form-control select2 select2-hidden-accesible empresa" id="esta_nom" required>
                                             <option value="" disabled selected></option>	
@@ -198,7 +198,7 @@
                             <!--Establecimiento N°-->
                             <div class="col-md-6 col-sm-6 col-xs-12">
                                 <div class="form-group">
-                                    <label for="esta_num">N° Establecimiento(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <label for="esta_num">Establecimiento N°(<strong style="color: #dd4b39">*</strong>):</label>
                                     <input class="form-control" name="esta_num" id="esta_num" placeholder="Establecimiento N°" readonly/>
                                 </div>
                             </div>
@@ -216,7 +216,7 @@
                             <!--Neto-->
                             <div class="col-md-4 col-sm-6 col-xs-6">
                                 <div class="form-group">
-                                    <label for="neto">Peso Neto:</label>
+                                    <label for="neto">Peso Neto(<strong style="color: #dd4b39">*</strong>):</label>
                                     <input class="form-control onlyNumbers" id="neto"/>
                                 </div>                    
                             </div>
@@ -225,7 +225,7 @@
                             <!--Bruto-->
                             <div class="col-md-4 col-sm-6 col-xs-6">
                                 <div class="form-group">
-                                    <label for="bruto">Peso Bruto:</label>
+                                    <label for="bruto">Peso Bruto(<strong style="color: #dd4b39">*</strong>):</label>
                                     <input class="form-control onlyNumbers" name="bruto" id="bruto"/>
                                 </div>                    
                             </div>
@@ -243,7 +243,7 @@
                             <!--_________________ Agregar_________________-->
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 <div class="form-group text-right">
-                                    <button type="button" class="btn btn-primary" onclick="agregarPermiso()" >Agregar</button>
+                                    <button type="button" class="btn btn-primary" onclick="agregarPermiso()" >Agregar Permiso</button>
                                 </div>
                             </div>                     
                             <!--__________________________________-->
@@ -338,7 +338,9 @@
                                 </div>                    
                             </div>
                             <!--________________-->
-                        
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <hr>
+                            </div>
                             <!--Empresa Destino-->
                             <div class="col-md-6 col-sm-6 col-xs-12">
                                 <div class="form-group">
@@ -378,7 +380,7 @@
                             <!--_________________ Agregar_________________-->
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 <div style="margin-top: 25px;" class="form-group text-right">
-                                    <button type="button" class="btn btn-primary" onclick="agregarDestino()" >Agregar</button>
+                                    <button type="button" class="btn btn-primary" onclick="agregarDestino()" >Agregar Destino</button>
                                 </div>
                             </div>                
                             <!--__________________________________-->
@@ -435,7 +437,7 @@
                             <!--_________________ Agregar_________________-->
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 <div class="form-group text-right">
-                                    <button type="button" class="btn btn-primary" onclick="agregarTermico()" >Agregar</button>
+                                    <button type="button" class="btn btn-primary" onclick="agregarTermico()" >Agregar Térmico</button>
                                 </div>
                             </div>                
                             <!--__________________________________-->
@@ -1576,6 +1578,8 @@ function imprimirActa(){
     $(".acta_caractOrganolepticas").text($("#caractOrganolepticasActa").val());
     $(".acta_caractDeposito").text($("#caractDeposito").val());
     $(".acta_tempCamaraActa").text($("#tempCamaraActa").val());
+    $(".acta_fecha").text(dateFormat($("#fechaActa").val()));
+    $(".acta_hora").text($("#horaActa").val());
 
     //Valído
     if($('input[name=inspValida]:checked').val() == 'incorrecta'){
@@ -1640,8 +1644,7 @@ function imprimirActa(){
                     showCancelButton: false,
                     confirmButtonText: 'Hecho'
                 }).then((result) => {
-                    console.log("FIN REY");
-                    // linkTo('<?php echo BPM ?>Proceso/');
+                    linkTo('<?php echo BPM ?>Proceso/');
                     
                 });
         }

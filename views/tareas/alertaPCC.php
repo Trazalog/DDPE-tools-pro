@@ -121,7 +121,7 @@
                             <div class="col-md-6 col-sm-6 col-xs-12">
                                 <div class="form-group">
                                     <label for="Solicitud">N° de Permiso(<strong style="color: #dd4b39">*</strong>):</label>
-                                    <input type="text" class="form-control requerido alfanumerico" id="soli_num" placeholder="Ingrese número de solicitud"/>
+                                    <input type="text" class="form-control requerido alfanumerico" id="soli_num" placeholder="Ingrese número de permiso"/>
                                 </div>
                             </div>
                             <!--________________-->
@@ -183,7 +183,7 @@
                             <!--Nombre Establecimiento-->
                             <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
                                 <div class="form-group">
-                                    <label for="esta_nom">Nombre de Establecimiento(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <label for="esta_nom" style="font-size:13px !important">Nombre de Establecimiento(<strong style="color: #dd4b39">*</strong>):</label>
                                     <div class="input-group">
                                         <select class="form-control select2 select2-hidden-accesible empresa" id="esta_nom" required>
                                             <option value="" disabled selected></option>
@@ -215,7 +215,7 @@
                             <!--Neto-->
                             <div class="col-md-4 col-sm-6 col-xs-6">
                                 <div class="form-group">
-                                    <label for="neto">Peso Neto:</label>
+                                    <label for="neto">Peso Neto(<strong style="color: #dd4b39">*</strong>):</label>
                                     <input class="form-control onlyNumbers" id="neto"/>
                                 </div>                    
                             </div>
@@ -224,7 +224,7 @@
                             <!--Bruto-->
                             <div class="col-md-4 col-sm-6 col-xs-6">
                                 <div class="form-group">
-                                    <label for="bruto">Peso Bruto:</label>
+                                    <label for="bruto">Peso Bruto(<strong style="color: #dd4b39">*</strong>):</label>
                                     <input class="form-control onlyNumbers" name="bruto" id="bruto"/>
                                 </div>                    
                             </div>
@@ -395,7 +395,7 @@
                             <!--Precintos-->
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 <div class="form-group">
-                                    <label for="precintos">Nro de Precintos(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <label for="precintos">N° de Precintos(<strong style="color: #dd4b39">*</strong>):</label>
                                     <input class="form-control limited" id="precintos" placeholder="Ingrese precintos" />
                                 </div>                    
                             </div>
@@ -1385,11 +1385,34 @@ function imprimirActa(){
     $(".acta_bruto").text($("#bruto").val());
     $(".acta_tara").text($("#tara").val());
     $(".acta_ticket").text($("#ticket").val());
+    $(".acta_tpoDocumentacion").text($("select[name='doc_impo']").val());
+    $(".acta_depto").text($("#depa_idActa").select2('data')[0].text);
+    $(".acta_localidad").text($("#localidad").val());
+    $(".acta_inspectores").text($("#inspectores").val());
+    $(".acta_puntoControl").text($("#dondeConstituyen").val());
+    $(".acta_puntoControlDomicilio").text($("#domicilio").val());
+    $(".acta_propiedadDe").text($("#propiedad").val());
+    $(".acta_quienAtendio").text($("#quienAtendio").val());
+    $(".acta_caracter").text($("#caracterAtendio").val());
+    $(".acta_procedenA").text($("#procedenAccion").val());
+    $(".acta_telTransportista").text($("#telTransportista").val());
+    $(".acta_emailTransportista").text($("#emailTransportista").val());
+    $(".acta_nyaDepositario").text($("#nyaDepositario").val());
+    $(".dniActa").text($("#dniActa").val());
+    $(".telefonoActa").text($("#telefonoActa").val());
+    $(".correoActa").text($("#correoActa").val());
+    $(".direccionLegalActa").text($("#domiLegalActa").val());
+    $(".direccionComercialActa").text($("#domiComercialActa").val());
+    $(".acta_caractOrganolepticas").text($("#caractOrganolepticasActa").val());
+    $(".acta_caractDeposito").text($("#caractDeposito").val());
+    $(".acta_tempCamaraActa").text($("#tempCamaraActa").val());
+    $(".acta_fecha").text(dateFormat($("#fechaActa").val()));
+    $(".acta_hora").text($("#horaActa").val());
 
     //Valído
-    if($('#tpoInfraccion').val() != null){
-        $(".acta_infraccion").text($('#tpoInfraccion').select2('data')[0].text);
-    }
+    // if($('input[name=inspValida]:checked').val() == 'incorrecta'){
+    //     $(".acta_infraccion").text($('#tpoInfraccion').select2('data')[0].text);
+    // }
 
 
     infoTemperatura = "";

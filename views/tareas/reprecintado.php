@@ -570,10 +570,32 @@ function imprimirActa(){
     $(".acta_tara").text($("#tara").val());
     $(".acta_ticket").text($("#ticket").val());
     $(".acta_tpoDocumentacion").text($("select[name='doc_impo']").val());
+    $(".acta_depto").text($("#depa_idActa").select2('data')[0].text);
+    $(".acta_localidad").text($("#localidad").val());
+    $(".acta_inspectores").text($("#inspectores").val());
+    $(".acta_puntoControl").text($("#dondeConstituyen").val());
+    $(".acta_puntoControlDomicilio").text($("#domicilio").val());
+    $(".acta_propiedadDe").text($("#propiedad").val());
+    $(".acta_quienAtendio").text($("#quienAtendio").val());
+    $(".acta_caracter").text($("#caracterAtendio").val());
+    $(".acta_procedenA").text($("#procedenAccion").val());
+    $(".acta_telTransportista").text($("#telTransportista").val());
+    $(".acta_emailTransportista").text($("#emailTransportista").val());
+    $(".acta_nyaDepositario").text($("#nyaDepositario").val());
+    $(".dniActa").text($("#dniActa").val());
+    $(".telefonoActa").text($("#telefonoActa").val());
+    $(".correoActa").text($("#correoActa").val());
+    $(".direccionLegalActa").text($("#domiLegalActa").val());
+    $(".direccionComercialActa").text($("#domiComercialActa").val());
+    $(".acta_caractOrganolepticas").text($("#caractOrganolepticasActa").val());
+    $(".acta_caractDeposito").text($("#caractDeposito").val());
+    $(".acta_tempCamaraActa").text($("#tempCamaraActa").val());
+    $(".acta_fecha").text(dateFormat($("#fechaActa").val()));
+    $(".acta_hora").text($("#horaActa").val());
 
     //Valído
-    if($('#tpoInfraccion').val() != null){
-        $(".acta_infraccion").text($('#tpoInfraccion').select2('data')[0].text);
+    if($('input[name=inspValida]:checked').val() == 'incorrecta'){
+        // $(".acta_infraccion").text($('#tpoInfraccion').select2('data')[0].text);
         idActa = '#actaInfraccion';
     }
 
