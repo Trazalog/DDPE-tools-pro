@@ -1458,7 +1458,8 @@ function cerrarTarea() {
     }
     //Una vez validado el formulario, lo guardo
     cerrarTareaform().then((result) => {
-        
+        console.log("lLegue");
+        return;
         var dataForm = new FormData($('#formInspeccion')[0]);
         var frm_info_id = $('#formEscaneoDocu .frm').attr('data-ninfoid');
 

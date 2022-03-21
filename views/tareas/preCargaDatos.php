@@ -674,12 +674,12 @@ var editando = false;// Utilizo para que no se pierdan los permisos al editar
         var reporte = validarCamposTermico();
                                 
         if(reporte == ''){
-            // var temperatura = $('#temperatura').val();
+            var temperatura = $('#temperatura').val();
             var precintos = $('#precintos').val();
             var term_patente = $("#term_patente").val();
 
             var datos = {};
-            // datos.temperatura = temperatura;
+            datos.temperatura = temperatura;
             datos.precintos = precintos;
             datos.case_id = $("#caseId").val();
             datos.term_id = term_patente;
@@ -693,7 +693,7 @@ var editando = false;// Utilizo para que no se pierdan los permisos al editar
             $('#sec_termicos').append(div);
             //Limpio luego de agregar
             $("#term_patente").val('');
-            // $("#temperatura").val('');
+            $("#temperatura").val('');
             $("#precintos").val('');
             alertify.success("Térmico agregado correctamente!");
         }else{
