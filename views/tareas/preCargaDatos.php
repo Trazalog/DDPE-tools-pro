@@ -924,7 +924,7 @@ function cerrarTarea() {
             processData: false,
             url: '<?php base_url() ?>index.php/<?php echo BPM ?>Proceso/cerrarTarea/' + id,
             success: function(data) {
-                
+                wc();
                 const confirm = Swal.mixin({
 					customClass: {
 						confirmButton: 'btn btn-primary'
