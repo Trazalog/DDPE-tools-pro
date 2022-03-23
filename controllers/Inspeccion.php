@@ -180,8 +180,19 @@ class Inspeccion extends CI_Controller
 		$data['chof_id'] =  !empty($this->input->post('chof_id'))? $this->input->post('chof_id') : "";
 		$data['inca_id'] =  !empty($this->input->post('inca_id'))? $this->input->post('inca_id') : "";
 		$data['observaciones'] =  !empty($this->input->post('observaciones'))? $this->input->post('observaciones') : "";
-		$data['info_id_doc'] =  !empty($this->input->post('info_id_doc'))? $this->input->post('info_id_doc') : "";
-
+		$data['info_id_doc'] =  !empty($this->input->post('info_id_doc'))? $this->input->post('info_id_doc'): "";
+		$data['email_transportista'] =  !empty($this->input->post('emailTransportista'))? $this->input->post('emailTransportista') : "";
+		$data['tel_transportista'] =  !empty($this->input->post('telTransportista'))? $this->input->post('telTransportista') : "";
+		$data['departamento'] =  !empty($this->input->post('depa_idActa'))? $this->input->post('depa_idActa') : "";
+		$data['localidad'] =  !empty($this->input->post('localidad'))? $this->input->post('localidad') : "";
+		$data['inspectores'] =  !empty($this->input->post('inspectores'))? $this->input->post('inspectores') : "";
+		$data['se_constituye'] =  !empty($this->input->post('dondeConstituyen'))? $this->input->post('dondeConstituyen') : "";
+		$data['domicilio_constituye'] =  !empty($this->input->post('domicilio'))? $this->input->post('domicilio') : "";
+		$data['propiedad_de'] =  !empty($this->input->post('propiedad'))? $this->input->post('propiedad') : "";
+		$data['atendidos_por'] =  !empty($this->input->post('quienAtendio'))? $this->input->post('quienAtendio') : "";
+		$data['caracter_de'] =  !empty($this->input->post('caracterAtendio'))? $this->input->post('caracterAtendio') : "";
+		$data['proceden_a'] =  !empty($this->input->post('procedenAccion'))? $this->input->post('procedenAccion') : "";
+		
 		$resp = $this->Inspecciones->agregarInspeccion($data);
         
 		if ($resp['status']) {
@@ -203,7 +214,7 @@ class Inspeccion extends CI_Controller
         $empresas = $this->input->post('empresas');
 		$termicos = $this->input->post('termicos');
 		$infraccion = $this->input->post('infraccion');
-
+	
 		//Agrego permisos
 		$rspPermisos = $this->Inspecciones->agregarPermisos($permisos);
 

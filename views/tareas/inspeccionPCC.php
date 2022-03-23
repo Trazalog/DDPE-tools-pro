@@ -217,7 +217,7 @@
                             <div class="col-md-4 col-sm-6 col-xs-6">
                                 <div class="form-group">
                                     <label for="neto">Peso Neto(<strong style="color: #dd4b39">*</strong>):</label>
-                                    <input class="form-control onlyNumbers" id="neto"/>
+                                    <input class="form-control onlyNumbers" id="netoPermiso"/>
                                 </div>                    
                             </div>
                             <!--________________-->
@@ -226,7 +226,7 @@
                             <div class="col-md-4 col-sm-6 col-xs-6">
                                 <div class="form-group">
                                     <label for="bruto">Peso Bruto(<strong style="color: #dd4b39">*</strong>):</label>
-                                    <input class="form-control onlyNumbers" name="bruto" id="bruto"/>
+                                    <input class="form-control onlyNumbers" id="brutoPermiso"/>
                                 </div>                    
                             </div>
                             <!--________________-->
@@ -462,37 +462,37 @@
                                 <hr>
                             </div>
                             <!--________________-->
-                            <!--Bruto-->
-                            <!-- <div class="col-md-4 col-sm-6 col-xs-6">
-                                <div class="form-group">
-                                    <label for="bruto">Bruto:</label>
-                                    <input class="form-control neto onlyNumbers" name="bruto" id="bruto" placeholder="Bruto" />
-                                </div>                    
-                            </div> -->
-                            <!--________________-->
-                            <!--Tara-->
-                            <!-- <div class="col-md-4 col-sm-6 col-xs-6">
-                                <div class="form-group">
-                                    <label for="tara">Tara:</label>
-                                    <input class="form-control neto onlyNumbers" name="tara" id="tara" placeholder="Tara" />
-                                </div>                    
-                            </div> -->
-                            <!--________________-->
-                            <!--Neto-->
-                            <!-- <div class="col-md-4 col-sm-6 col-xs-6">
-                                <div class="form-group">
-                                    <label for="neto">Neto:</label>
-                                    <input class="form-control" id="neto" placeholder="Neto" readonly/>
-                                </div>                    
-                            </div> -->
-                            <!--________________-->
                         </div> <!--FIN box-primary-->
                     </div><!--FIN col-->
                 <!--_______ FIN FORMULARIO INSPECCION BOX 2______-->
                 </div><!-- FIN row-->
                 <div class="row">
+                    <!--Bruto-->
+                    <div class="col-md-3 col-sm-6 col-xs-6">
+                        <div class="form-group">
+                            <label for="bruto">Bruto:</label>
+                            <input class="form-control neto onlyNumbers" name="bruto" id="bruto" placeholder="Bruto" />
+                        </div>                    
+                    </div>
+                    <!--________________-->
+                    <!--Tara-->
+                    <div class="col-md-3 col-sm-6 col-xs-6">
+                        <div class="form-group">
+                            <label for="tara">Tara:</label>
+                            <input class="form-control neto onlyNumbers" name="tara" id="tara" placeholder="Tara" />
+                        </div>                    
+                    </div>
+                    <!--________________-->
+                    <!--Neto-->
+                    <div class="col-md-3 col-sm-6 col-xs-6">
+                        <div class="form-group">
+                            <label for="neto">Neto:</label>
+                            <input class="form-control" id="neto" placeholder="Neto" readonly/>
+                        </div>                    
+                    </div>
+                    <!--________________-->
                     <!--Ticket-->
-                    <div class="col-md-12 col-sm-12 col-xs-6">
+                    <div class="col-md-3 col-sm-6 col-xs-6">
                         <div class="form-group">
                             <label for="ticket">Ticket:</label>
                             <input class="form-control" name="ticket" id="ticket" placeholder="Ingrese ticket" />
@@ -542,7 +542,7 @@
                     <div class="col-md-6 col-sm-6 col-xs-6">
                         <div class="form-group">
                             <label for="dondeConstituyen">Se constituyen en(<strong style="color: #dd4b39">*</strong>):</label>
-                            <input class="form-control" name="dondeConstituyen" id="dondeConstituyen" placeholder="Ingrese cómo se constituyen" />
+                            <input class="form-control" name="dondeConstituyen" id="dondeConstituyen" value="Dirección de Desarrollo Pecuario" readonly/>
                         </div>                    
                     </div>
                     <!--________________-->
@@ -732,8 +732,8 @@
                         <!--Caracteristicas del Depósito-->
                         <div class="col-md-12 col-sm-12 col-xs-12">
                             <div class="form-group">
-                                <label for="caractDeposito">Caracteristicas del Depósito(<strong style="color: #dd4b39">*</strong>):</label>
-                                <input type="text" class="form-control" name="caractDeposito" id="caractDeposito" placeholder="Ingrese Caracteristicas del Depósito" required/>
+                                <label for="caractDeposito">Caracteristicas del Depósito:</label>
+                                <textarea class="form-control" name="caractDeposito" id="caractDeposito" placeholder="Ingrese Caracteristicas del Depósito"></textarea>
                             </div>
                         </div>
                         <!--________________-->
@@ -1343,9 +1343,22 @@ async function cerrarTareaform(){
 
     //obtengo el tipo de infraccion
     infraccion = {};
-    if($('#tpoInfraccion').val() != null){
+    if($('input[name=inspValida]:checked').val() == 'incorrecta'){
         infraccion.case_id = $("#caseId").val();
-        infraccion.tiin_id = $("#tpoInfraccion").val();
+        // infraccion.tiin_id = $("#tpoInfraccion").val(); hasta resolver la parte funcional
+        infraccion.tiin_id = 'tipos_infraccionPrecinto roto';
+        infraccion.depositario = $("#nyaDepositario").val();
+        infraccion.documento = $("#dniActa").val();
+        infraccion.domicilio_legal = $("#domiLegalActa").val();
+        infraccion.domicilio_comercial = $("#domiComercialActa").val();
+        infraccion.telefono = $("#telefonoActa").val();
+        infraccion.email = $("#correoActa").val();
+        infraccion.detalle_infraccion = $("#detalleInfraccionActa").val();
+        infraccion.caracteristicas_organolepticas = $("#caractOrganolepticasActa").val();
+        infraccion.caracteristicas_deposito = $("#caractDeposito").val();
+        infraccion.tipo_camara = $("#tipoCamaraActa").val();
+        infraccion.temperatura_actual = $("#tempCamaraActa").val();
+        infraccion.fecha_hora = $("#fechaActa").val() + " " + $("#horaActa").val();
     }
 
     //Guardo la inspeccion
@@ -1458,7 +1471,7 @@ function cerrarTarea() {
     }
     //Una vez validado el formulario, lo guardo
     cerrarTareaform().then((result) => {
-        
+    
         var dataForm = new FormData($('#formInspeccion')[0]);
         var frm_info_id = $('#formEscaneoDocu .frm').attr('data-ninfoid');
 

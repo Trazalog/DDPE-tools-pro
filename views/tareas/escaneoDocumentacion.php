@@ -56,7 +56,7 @@ function cerrarTareaform(){
         return false;
     }else{
 
-        $('#formDocumentacion .frm-save').click();
+        frmGuardar($('#formDocumentacion').find('form'),false,false);
         var info_id = $('#formDocumentacion .frm').attr('data-ninfoid');
         console.log('Formulario guardado con éxito. Info ID: '+ info_id);
 

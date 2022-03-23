@@ -674,12 +674,12 @@ var editando = false;// Utilizo para que no se pierdan los permisos al editar
         var reporte = validarCamposTermico();
                                 
         if(reporte == ''){
-            // var temperatura = $('#temperatura').val();
+            var temperatura = $('#temperatura').val();
             var precintos = $('#precintos').val();
             var term_patente = $("#term_patente").val();
 
             var datos = {};
-            // datos.temperatura = temperatura;
+            datos.temperatura = temperatura;
             datos.precintos = precintos;
             datos.case_id = $("#caseId").val();
             datos.term_id = term_patente;
@@ -693,7 +693,7 @@ var editando = false;// Utilizo para que no se pierdan los permisos al editar
             $('#sec_termicos').append(div);
             //Limpio luego de agregar
             $("#term_patente").val('');
-            // $("#temperatura").val('');
+            $("#temperatura").val('');
             $("#precintos").val('');
             alertify.success("Térmico agregado correctamente!");
         }else{
@@ -825,29 +825,37 @@ async function cerrarTareaform(){
             processData: false,
             url: "<?php echo SICP; ?>inspeccion/agregarInspeccion",
             success: function(data) {
-                console.log("Se guardo el formulario de PreCarga correctamente");
-                
-                //Guardo los permisos, empresas y termicos
-                $.ajax({
-                    type: 'POST',
-                    data: {permisos, empresas, termicos},
-                    url: "<?php echo SICP; ?>inspeccion/guardarDatosInspeccion",
-                    success: function(data) {
-                        resp = JSON.parse(data);
-                        if(resp.status){
-                            console.log(resp.message);
-                            resolve("Correcto");
-                        }else{
-                            console.log(resp.message);
+                result = JSON.parse(data);
+                if(result.status){
+
+                    console.log("Se guardo el formulario de PreCarga correctamente");
+
+                    //Guardo los permisos, empresas y termicos
+                    $.ajax({
+                        type: 'POST',
+                        data: {permisos, empresas, termicos},
+                        url: "<?php echo SICP; ?>inspeccion/guardarDatosInspeccion",
+                        success: function(data) {
+                            resp = JSON.parse(data);
+                            if(resp.status){
+                                console.log(resp.message);
+                                resolve("Correcto");
+                            }else{
+                                console.log(resp.message);
+                                reject("Error");
+                            }
+                        },
+                        error: function(data) {
+                            wc();
+                            error("Error al guardar los datos anexos al formulario de PreCarga");
                             reject("Error");
                         }
-                    },
-                    error: function(data) {
-                        wc();
-                        alert("Error al guardar datos del formulario");
-                        reject("Error");
-                    }
-                });
+                    });
+                }else{
+                    wc();
+                    error("Error al guardar el formulario de PreCarga");
+                    reject("Error");
+                }
 
             },
             error: function(data) {
@@ -924,7 +932,7 @@ function cerrarTarea() {
             processData: false,
             url: '<?php base_url() ?>index.php/<?php echo BPM ?>Proceso/cerrarTarea/' + id,
             success: function(data) {
-                
+                wc();
                 const confirm = Swal.mixin({
 					customClass: {
 						confirmButton: 'btn btn-primary'

@@ -234,6 +234,7 @@ class Sicpoatareas extends CI_Model
                 $data['petr_id'] = $tareaData->petr_id;
                 $data['inspeccion'] = $this->getPreCargaDatos($tareaData->case_id);
                 $empresas = $data['inspeccion']->empresas->empresa;
+                $data['infracciones'] = $this->getInfracciones();
 
                 //Separo las empresas por su rol
                 if(!empty($empresas)){
@@ -711,7 +712,7 @@ class Sicpoatareas extends CI_Model
 	*/
     public function getDepartamentos(){
         
-        $url = REST_CORE."/tabla/departamentos_sanjuan/empresa/";
+        $url = REST_CORE."/tabla/departamentos_sanjuan/empresa/".empresa();
 
         $aux = $this->rest->callAPI("GET",$url);
         $resp = json_decode($aux['data']);
@@ -728,7 +729,7 @@ class Sicpoatareas extends CI_Model
 	*/
     public function getInfracciones(){
 
-        $url = REST_CORE."/tabla/tipos_infraccion/empresa/";
+        $url = REST_CORE."/tabla/tipos_infraccion/empresa/".empresa();
 
         $aux = $this->rest->callAPI("GET",$url);
         $resp = json_decode($aux['data']);
