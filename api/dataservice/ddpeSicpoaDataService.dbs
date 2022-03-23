@@ -3,7 +3,7 @@
       <property name="carbon_datasource_name">ToolsDataSource</property>
    </config>
    <query id="setInspeccion" useConfig="SICPOADataSource">
-      <sql>insert&#xd;	into&#xd;	sicpoa.inspecciones (&#xd;	case_id,&#xd;	patente_tractor,&#xd;	nro_senasa,&#xd;	productos,&#xd;	reprecintado,&#xd;	bruto,&#xd;	tara,&#xd;	ticket,&#xd;	resultado,&#xd;	cant_fajas,&#xd;	bruto_reprecintado,&#xd;	ticket_reprecintado,&#xd;	usuario_app,&#xd;	petr_id,&#xd;	chof_id,&#xd;	inca_id,&#xd;	observaciones,&#xd;        info_id_doc)&#xd;select	cast ( :case_id as integer),&#xd;	:patente_tractor,&#xd;	:nro_senasa,&#xd;	:productos,&#xd;	cast(:reprecintado as boolean),&#xd;	case when param.bruto is null or param.bruto = '' then null else cast(param.bruto as float) end,&#xd;	case when param.tara  is null or param.tara = '' then null else  cast(param.tara as float) end,&#xd;	:ticket,&#xd;	:resultado,&#xd;	case when param.cant_fajas is null or param.cant_fajas ='' then null else cast(param.cant_fajas as integer) end,&#xd;	case when param.bruto_reprecintado  is null or param.bruto_reprecintado = '' then null else cast(param.bruto_reprecintado as float) end,&#xd;	:ticket_reprecintado,&#xd;	:usuario_app,&#xd;	cast(:petr_id as integer),&#xd;	cast(:chof_id as integer),&#xd;	case when param.inca_id is null or param.inca_id = '' then null else cast(param.inca_id as integer) end,&#xd;	:observaciones,&#xd;           case when param.info_id_doc is null or param.info_id_doc = '' then null else cast (param.info_id_doc as integer) end&#xd;from (select :bruto bruto, :tara tara, :bruto_reprecintado bruto_reprecintado, :inca_id inca_id,:cant_fajas cant_fajas,:info_id_doc info_id_doc) param&#xd;on conflict (case_id) do&#xd;update&#xd;set&#xd;	patente_tractor = excluded.patente_tractor,&#xd;	nro_senasa = excluded.nro_senasa,&#xd;	productos = excluded.productos,&#xd;	reprecintado = cast(excluded.reprecintado as boolean),&#xd;	bruto = cast(excluded.bruto as float),&#xd;	tara = cast(excluded.tara as float),&#xd;	ticket = excluded.ticket,&#xd;	resultado = excluded.resultado,&#xd;	cant_fajas = cast(excluded.cant_fajas as integer),&#xd;	bruto_reprecintado = cast(excluded.bruto_reprecintado as float),&#xd;	ticket_reprecintado = excluded.ticket_reprecintado,&#xd;	usuario_app = excluded.usuario_app ,&#xd;	petr_id = cast(excluded.petr_id as integer),&#xd;	chof_id = excluded.chof_id,&#xd;	inca_id = excluded.inca_id,&#xd;	observaciones = excluded.observaciones,&#xd;        info_id_doc = excluded.info_id_doc</sql>
+      <sql>INSERT INTO sicpoa.inspecciones (&#xd;	case_id,&#xd;	patente_tractor,&#xd;	nro_senasa,&#xd;	productos,&#xd;	reprecintado,&#xd;	bruto,&#xd;	tara,&#xd;	ticket,&#xd;	resultado,&#xd;	cant_fajas,&#xd;	bruto_reprecintado,&#xd;	ticket_reprecintado,&#xd;	usuario_app,&#xd;	petr_id,&#xd;	chof_id,&#xd;	inca_id,&#xd;	observaciones,&#xd;	info_id_doc,&#xd;	tel_transportista,&#xd;	email_transportista,&#xd;	se_constituye,&#xd;	domicilio_constituye,&#xd;	propiedad_de,&#xd;	atendidos_por,&#xd;	caracter_de,&#xd;	proceden_a,&#xd;	departamento,&#xd;	inspectores,&#xd;	localidad&#xd;) &#xd;SELECT cast (:case_id AS INTEGER ),&#xd;	:patente_tractor,&#xd;	:nro_senasa,&#xd;	:productos,&#xd;	CAST ( :reprecintado AS BOOLEAN ),&#xd;	case when param.bruto IS NULL OR param.bruto = '' then null ELSE CAST ( param.bruto AS FLOAT ) END,&#xd;	case when param.tara IS NULL OR param.tara = '' then NULL ELSE CAST ( param.tara AS FLOAT ) END,&#xd;    :ticket,&#xd;    :resultado,&#xd;    case when param.cant_fajas IS null or param.cant_fajas = '' then null ELSE CAST ( param.cant_fajas AS INTEGER ) END,&#xd;    case when param.bruto_reprecintado IS NULL OR param.bruto_reprecintado = '' then NULL ELSE CAST ( param.bruto_reprecintado AS FLOAT ) END,&#xd;    :ticket_reprecintado,&#xd;    :usuario_app,&#xd;    CAST ( :petr_id AS INTEGER ),&#xd;    CAST ( :chof_id AS INTEGER ),&#xd;    case when param.inca_id is null or param.inca_id = '' then NULL ELSE CAST ( param.inca_id AS INTEGER ) END,&#xd;    :observaciones,&#xd;    case when param.info_id_doc IS NULL OR param.info_id_doc = '' then null else CAST ( param.info_id_doc AS INTEGER ) END,&#xd;    :tel_transportista,&#xd;    :email_transportista,&#xd;    :se_constituye,&#xd;    :domicilio_constituye,&#xd;    :propiedad_de,&#xd;    :atendidos_por,&#xd;    :caracter_de,&#xd;    :proceden_a,&#xd;    case when param.departamento is null or param.departamento = '' then null end,&#xd;    :inspectores,		&#xd;    :localidad&#xd;    FROM&#xd;    ( SELECT :bruto bruto, :tara tara, :bruto_reprecintado bruto_reprecintado, :inca_id inca_id,:cant_fajas cant_fajas,:info_id_doc info_id_doc, :departamento departamento) param &#xd;   ON conflict ( case_id ) DO&#xd;        UPDATE &#xd;            SET patente_tractor = excluded.patente_tractor,&#xd;            nro_senasa = excluded.nro_senasa,&#xd;            productos = excluded.productos,&#xd;            reprecintado = CAST ( excluded.reprecintado AS BOOLEAN ),&#xd;            bruto = CAST ( excluded.bruto AS FLOAT ),&#xd;            tara = CAST ( excluded.tara AS FLOAT ),&#xd;            ticket = excluded.ticket,&#xd;            resultado = excluded.resultado,&#xd;            cant_fajas = CAST ( excluded.cant_fajas AS INTEGER ),&#xd;            bruto_reprecintado = CAST ( excluded.bruto_reprecintado AS FLOAT ),&#xd;            ticket_reprecintado = excluded.ticket_reprecintado,&#xd;            usuario_app = excluded.usuario_app,&#xd;            petr_id = CAST ( excluded.petr_id AS INTEGER ),&#xd;            chof_id = excluded.chof_id,&#xd;            inca_id = excluded.inca_id,&#xd;            observaciones = excluded.observaciones,&#xd;            info_id_doc = excluded.info_id_doc,&#xd;            tel_transportista = excluded.tel_transportista,&#xd;            email_transportista = excluded.email_transportista,&#xd;            se_constituye = excluded.se_constituye,&#xd;            domicilio_constituye = excluded.domicilio_constituye,&#xd;            propiedad_de = excluded.propiedad_de,&#xd;            atendidos_por = excluded.atendidos_por,&#xd;            caracter_de = excluded.caracter_de,&#xd;            proceden_a = excluded.proceden_a,&#xd;            departamento = excluded.departamento,&#xd;            localidad = excluded.localidad,&#xd;            inspectores = excluded.inspectores</sql>
       <param name="case_id" sqlType="STRING"/>
       <param name="patente_tractor" sqlType="STRING"/>
       <param name="nro_senasa" sqlType="STRING"/>
@@ -22,6 +22,17 @@
       <param name="inca_id" sqlType="STRING"/>
       <param name="observaciones" sqlType="STRING"/>
       <param name="info_id_doc" sqlType="STRING"/>
+      <param name="tel_transportista" sqlType="STRING"/>
+      <param name="email_transportista" sqlType="STRING"/>
+      <param name="se_constituye" sqlType="STRING"/>
+      <param name="domicilio_constituye" sqlType="STRING"/>
+      <param name="propiedad_de" sqlType="STRING"/>
+      <param name="atendidos_por" sqlType="STRING"/>
+      <param name="caracter_de" sqlType="STRING"/>
+      <param name="proceden_a" sqlType="STRING"/>
+      <param name="departamento" sqlType="STRING"/>
+      <param name="localidad" sqlType="STRING"/>
+      <param name="inspectores" sqlType="STRING"/>
    </query>
    <query id="getInspeccion" useConfig="SICPOADataSource">
       <sql>select &#xd;case_id&#xd;,patente_tractor&#xd;,nro_senasa&#xd;,productos&#xd;,reprecintado&#xd;,bruto&#xd;,tara&#xd;,ticket&#xd;,resultado&#xd;,cant_fajas&#xd;,bruto_reprecintado&#xd;,ticket_reprecintado&#xd;,to_char( i.fec_alta, 'YYYY-MM-DD HH24:MI') fec_alta&#xd;,i.usuario&#xd;,i.usuario_app&#xd;,petr_id&#xd;,chof_id&#xd;,c.nombre chofer&#xd;,inca_id&#xd;,inf.valor4_base64 foto_infraccion_calle&#xd;,observaciones&#xd;,info_id_doc&#xd;from sicpoa.inspecciones i&#xd;left join frm.instancias_formularios inf on inf.inst_id = i.inca_id &#xd;, sicpoa.choferes c&#xd;where i.case_id = cast(:case_id as integer)&#xd;and i.chof_id = c.dni&#xd;and i.eliminado = false</sql>
@@ -54,10 +65,22 @@
       <param name="case_id" sqlType="STRING"/>
    </query>
    <query id="setInfraccionInspeccion" useConfig="SICPOADataSource">
-      <sql>insert into&#xd;	sicpoa.infracciones (&#xd;	usuario_app,&#xd;	case_id,&#xd;	tiin_id)&#xd;values(&#xd;	:usuario_app,&#xd;	cast(:case_id as integer),&#xd;	:tiin_id);</sql>
+      <sql>insert into&#xd;	sicpoa.infracciones (&#xd;	usuario_app,&#xd;	case_id,&#xd;	tiin_id,&#xd;	depositario,&#xd;	documento,&#xd;	domicilio_legal,&#xd;	domicilio_comercial,&#xd;	telefono,&#xd;	email,&#xd;	detalle_infraccion,&#xd;	caracteristicas_organolepticas,&#xd;	caracteristicas_deposito,&#xd;	tipo_camara,&#xd;	temperatura_actual,&#xd;	fecha_hora)&#xd;values(&#xd;	:usuario_app,&#xd;	cast(:case_id as integer),&#xd;	:tiin_id,&#xd;	:depositario,&#xd;	:documento,&#xd;	:domicilio_legal,&#xd;	:domicilio_comercial,&#xd;	:telefono,&#xd;	:email,&#xd;	:detalle_infraccion,&#xd;	:caracteristicas_organolepticas,&#xd;	:caracteristicas_deposito,&#xd;	:tipo_camara,&#xd;	cast(:temperatura_actual as float),&#xd;	to_timestamp(cast(:fecha_hora as text),'YYYY-MM-DD HH24:MI:SS')&#xd;);</sql>
       <param name="usuario_app" sqlType="STRING"/>
       <param name="case_id" sqlType="STRING"/>
       <param name="tiin_id" sqlType="STRING"/>
+      <param name="depositario" sqlType="STRING"/>
+      <param name="documento" sqlType="STRING"/>
+      <param name="domicilio_legal" sqlType="STRING"/>
+      <param name="domicilio_comercial" sqlType="STRING"/>
+      <param name="telefono" sqlType="STRING"/>
+      <param name="email" sqlType="STRING"/>
+      <param name="detalle_infraccion" sqlType="STRING"/>
+      <param name="caracteristicas_organolepticas" sqlType="STRING"/>
+      <param name="caracteristicas_deposito" sqlType="STRING"/>
+      <param name="tipo_camara" sqlType="STRING"/>
+      <param name="temperatura_actual" sqlType="STRING"/>
+      <param name="fecha_hora" sqlType="STRING"/>
    </query>
    <query id="setPermisosInspeccion" useConfig="SICPOADataSource">
       <sql>insert&#xd;	into&#xd;	sicpoa.permisos_transito (perm_id,&#xd;	lugar_emision,&#xd;	fecha_hora_salida,&#xd;	tipo,&#xd;	usuario_app,&#xd;	case_id)&#xd;values(:perm_id,&#xd;	:lugar_emision,&#xd;	to_timestamp(:fecha_hora_salida,'YYYY-MM-DD HH24:MI'),&#xd;	:tipo,&#xd;	:usuario_app,&#xd;	cast(:case_id as integer));</sql>
@@ -268,6 +291,17 @@
          <with-param name="inca_id" query-param="inca_id"/>
          <with-param name="observaciones" query-param="observaciones"/>
          <with-param name="info_id_doc" query-param="info_id_doc"/>
+         <with-param name="tel_transportista" query-param="tel_transportista"/>
+         <with-param name="email_transportista" query-param="email_transportista"/>
+         <with-param name="se_constituye" query-param="se_constituye"/>
+         <with-param name="domicilio_constituye" query-param="domicilio_constituye"/>
+         <with-param name="propiedad_de" query-param="propiedad_de"/>
+         <with-param name="atendidos_por" query-param="atendidos_por"/>
+         <with-param name="caracter_de" query-param="caracter_de"/>
+         <with-param name="proceden_a" query-param="proceden_a"/>
+         <with-param name="departamento" query-param="departamento"/>
+         <with-param name="localidad" query-param="localidad"/>
+         <with-param name="inspectores&#x9;&#x9;" query-param="inspectores&#x9;&#x9;"/>
       </call-query>
    </resource>
    <resource method="GET" path="/inspeccion/id/{case_id}">
@@ -280,6 +314,18 @@
          <with-param name="usuario_app" query-param="usuario_app"/>
          <with-param name="case_id" query-param="case_id"/>
          <with-param name="tiin_id" query-param="tiin_id"/>
+         <with-param name="depositario" query-param="depositario"/>
+         <with-param name="documento" query-param="documento"/>
+         <with-param name="domicilio_legal" query-param="domicilio_legal"/>
+         <with-param name="domicilio_comercial" query-param="domicilio_comercial"/>
+         <with-param name="telefono" query-param="telefono"/>
+         <with-param name="email" query-param="email"/>
+         <with-param name="detalle_infraccion" query-param="detalle_infraccion"/>
+         <with-param name="caracteristicas_organolepticas" query-param="caracteristicas_organolepticas"/>
+         <with-param name="caracteristicas_deposito" query-param="caracteristicas_deposito"/>
+         <with-param name="tipo_camara" query-param="tipo_camara"/>
+         <with-param name="temperatura_actual" query-param="temperatura_actual"/>
+         <with-param name="fecha_hora" query-param="fecha_hora"/>
       </call-query>
    </resource>
    <resource method="POST" path="/inspeccion/permiso">
