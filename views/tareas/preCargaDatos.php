@@ -825,29 +825,37 @@ async function cerrarTareaform(){
             processData: false,
             url: "<?php echo SICP; ?>inspeccion/agregarInspeccion",
             success: function(data) {
-                console.log("Se guardo el formulario de PreCarga correctamente");
-                
-                //Guardo los permisos, empresas y termicos
-                $.ajax({
-                    type: 'POST',
-                    data: {permisos, empresas, termicos},
-                    url: "<?php echo SICP; ?>inspeccion/guardarDatosInspeccion",
-                    success: function(data) {
-                        resp = JSON.parse(data);
-                        if(resp.status){
-                            console.log(resp.message);
-                            resolve("Correcto");
-                        }else{
-                            console.log(resp.message);
+                result = JSON.parse(data);
+                if(result.status){
+
+                    console.log("Se guardo el formulario de PreCarga correctamente");
+
+                    //Guardo los permisos, empresas y termicos
+                    $.ajax({
+                        type: 'POST',
+                        data: {permisos, empresas, termicos},
+                        url: "<?php echo SICP; ?>inspeccion/guardarDatosInspeccion",
+                        success: function(data) {
+                            resp = JSON.parse(data);
+                            if(resp.status){
+                                console.log(resp.message);
+                                resolve("Correcto");
+                            }else{
+                                console.log(resp.message);
+                                reject("Error");
+                            }
+                        },
+                        error: function(data) {
+                            wc();
+                            error("Error al guardar los datos anexos al formulario de PreCarga");
                             reject("Error");
                         }
-                    },
-                    error: function(data) {
-                        wc();
-                        alert("Error al guardar datos del formulario");
-                        reject("Error");
-                    }
-                });
+                    });
+                }else{
+                    wc();
+                    error("Error al guardar el formulario de PreCarga");
+                    reject("Error");
+                }
 
             },
             error: function(data) {

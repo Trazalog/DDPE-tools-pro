@@ -732,8 +732,8 @@
                         <!--Caracteristicas del Depósito-->
                         <div class="col-md-12 col-sm-12 col-xs-12">
                             <div class="form-group">
-                                <label for="caractDeposito">Caracteristicas del Depósito(<strong style="color: #dd4b39">*</strong>):</label>
-                                <input type="text" class="form-control" name="caractDeposito" id="caractDeposito" placeholder="Ingrese Caracteristicas del Depósito" required/>
+                                <label for="caractDeposito">Caracteristicas del Depósito:</label>
+                                <textarea class="form-control" name="caractDeposito" id="caractDeposito" placeholder="Ingrese Caracteristicas del Depósito"></textarea>
                             </div>
                         </div>
                         <!--________________-->
@@ -1343,9 +1343,22 @@ async function cerrarTareaform(){
 
     //obtengo el tipo de infraccion
     infraccion = {};
-    if($('#tpoInfraccion').val() != null){
+    if($('input[name=inspValida]:checked').val() == 'incorrecta'){
         infraccion.case_id = $("#caseId").val();
-        infraccion.tiin_id = $("#tpoInfraccion").val();
+        // infraccion.tiin_id = $("#tpoInfraccion").val(); hasta resolver la parte funcional
+        infraccion.tiin_id = 'tipos_infraccionPrecinto roto';
+        infraccion.depositario = $("#nyaDepositario").val();
+        infraccion.documento = $("#dniActa").val();
+        infraccion.domicilio_legal = $("#domiLegalActa").val();
+        infraccion.domicilio_comercial = $("#domiComercialActa").val();
+        infraccion.telefono = $("#telefonoActa").val();
+        infraccion.email = $("#correoActa").val();
+        infraccion.detalle_infraccion = $("#detalleInfraccionActa").val();
+        infraccion.caracteristicas_organolepticas = $("#caractOrganolepticasActa").val();
+        infraccion.caracteristicas_deposito = $("#caractDeposito").val();
+        infraccion.tipo_camara = $("#tipoCamaraActa").val();
+        infraccion.temperatura_actual = $("#tempCamaraActa").val();
+        infraccion.fecha_hora = $("#fechaActa").val() + " " + $("#horaActa").val();
     }
 
     //Guardo la inspeccion
