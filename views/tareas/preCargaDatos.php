@@ -558,7 +558,7 @@ function agregarDestino(){
         var div = `<div class='form-group empreDestino' data-json='${JSON.stringify(datos)}'>
                         <span> 
                         <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i>
-                        | ${empre_destino} - ${depo_destino} - ${productos}
+                        | ${empre_destino} - ${depo_destino}
                         </span>
                 </div>`;
         $('#sec_destinos').append(div);
