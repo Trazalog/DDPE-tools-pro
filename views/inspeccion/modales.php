@@ -267,6 +267,96 @@
     </div>
 </div>
 <!-- FIN MODAL ZOOM PREVIEW -->
+<!-- Modal VER PERMISO -->
+<div class="modal modal-fade" id="mdl-verDetallePermiso">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Detalle Permiso de Tránsito</h4>
+            </div>
+            <form id="formVerDetallePermiso" action="#">
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6 col-sx-12">
+                            <div class="form-group">
+                                <label>N° de Permiso:</label>
+                                <input id="modalVerPermiso" class="form-control" type="text" name="modalVerPermiso" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-sx-12">
+                            <div class="form-group">
+                                <label>N° de Solicitud:</label>
+                                <input id="modalVerSolicitud" class="form-control" type="text" name="modalVerSolicitud" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-sx-12">
+                            <div class="form-group">
+                                <label>Lugar de Emisión:</label>
+                                <input id="modalVerEmision" class="form-control" type="text" name="modalVerEmision" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-sx-12">
+                            <div class="form-group">
+                                <label>Doc. Sanitaria Tipo:</label>
+                                <input id="modalVerDocSanitaria" class="form-control" type="text" name="modalVerDocSanitaria" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-sx-12">
+                            <div class="form-group">
+                                <label>Hora de Salida:</label>
+                                <input id="modalVerHoraSalida" class="form-control" type="text" name="modalVerHoraSalida" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-sx-12">
+                            <div class="form-group">
+                                <label>Nombre de Establecimiento:</label>
+                                <input id="modalVerOrigen" class="form-control" type="text" name="modalVerOrigen" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-sx-12">
+                            <div class="form-group">
+                                <label>Establecimiento N°:</label>
+                                <input id="modalVerOrigenNumero" class="form-control" type="text" name="modalVerOrigenNumero" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-sx-12">
+                            <div class="form-group">
+                                <label>Producto/s:</label>
+                                <input id="modalVerProductos" class="form-control" type="text" name="modalVerProductos" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-sx-12">
+                            <div class="form-group">
+                                <label>Peso Neto:</label>
+                                <input id="modalVerNeto" class="form-control" type="text" name="modalVerNeto" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-sx-12">
+                            <div class="form-group">
+                                <label>Peso Bruto:</label>
+                                <input id="modalVerBruto" class="form-control" type="text" name="modalVerBruto" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-sx-12">
+                            <div class="form-group">
+                                <label>Temperatura:</label>
+                                <input id="modalVerTemperatura" class="form-control" type="text" name="modalVerTemperatura" readonly>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn" data-dismiss="modal">Cerrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- FIN MODAL VER PERMISO -->
 <script>
     //SCRIPTS MODAL ZOOM VISTA PREVIA
     //Scripts para hacer zoom en la imagen seleccionada

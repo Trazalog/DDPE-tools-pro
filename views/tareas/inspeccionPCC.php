@@ -122,7 +122,7 @@
                             <div class="col-md-6 col-sm-6 col-xs-12">
                                 <div class="form-group">
                                     <label for="perm_num">N° de Permiso(<strong style="color: #dd4b39">*</strong>):</label>
-                                    <input type="text" class="form-control requerido alfanumerico" id="perm_num" placeholder="Ingrese número de permiso"/>
+                                    <input type="text" class="form-control requerido alfanumerico" id="permi_num" placeholder="Ingrese número de permiso"/>
                                 </div>
                             </div>
                             <!--________________-->
@@ -257,7 +257,8 @@
                                         <div class='form-group permTransito' data-json='<?php echo json_encode($key) ?>'>
                                             <span> 
                                                 <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i>
-                                                <i class='fa fa-fw fa-edit text-light-blue' style='cursor: pointer;' title='Editar'></i> 
+                                                <i class='fa fa-fw fa-edit text-light-blue' style='cursor: pointer;' title='Editar'></i>
+                                                <i class='fa fa-fw fa-eye text-light-blue' style='cursor: pointer;' title='Ver detalle'></i> 
                                                 <?php echo "| <span class='numPermiso'>$key->perm_id</span> - $key->tipo - $key->lugar_emision - $key->fecha_hora_salida" ?>
                                             </span>
                                         </div>
@@ -724,7 +725,7 @@
                         <!--Características Organolepticas-->
                         <div class="col-md-12 col-sm-12 col-xs-12">
                             <div class="form-group">
-                                <label for="caractOrganolepticasActa">Características Organolepticas:</label>
+                                <label for="caractOrganolepticasActa">Características Organólepticas:</label>
                                 <textarea class="form-control" name="caractOrganolepticasActa" id="caractOrganolepticasActa"></textarea>
                             </div>                    
                         </div>
@@ -732,7 +733,7 @@
                         <!--Caracteristicas del Depósito-->
                         <div class="col-md-12 col-sm-12 col-xs-12">
                             <div class="form-group">
-                                <label for="caractDeposito">Caracteristicas del Depósito:</label>
+                                <label for="caractDeposito">Características del Depósito:</label>
                                 <textarea class="form-control" name="caractDeposito" id="caractDeposito" placeholder="Ingrese Caracteristicas del Depósito"></textarea>
                             </div>
                         </div>
@@ -1075,23 +1076,38 @@ function agregarPermiso(){
     if(reporte == ''){
         
         var soli_num = $("#soli_num").val();
+        var permi_num = $("#permi_num").val();
         // var descDepo = $("#depo_origen_id option:selected").text();
         var emision = $('#emision').val();
         var salida = $('#salida').val();
         var fecha = $("#fecha").val();
         var tipo = $('input[name=doc_sanitaria]:checked').val();
+        var origen = $("#esta_nom").select2('data')[0].text;
+        var origen_num = $("#esta_num").val();
+        var productos = $("#producto").val();
+        var netoPermiso = $("#netoPermiso").val(); 
+        var brutoPermiso = $("#brutoPermiso").val(); 
+        var temperatura = $("#temperatura").val(); 
 
         var datos = {};
-        datos.perm_id = soli_num;
+        datos.perm_id = permi_num;
+        datos.soli_num = soli_num;
         datos.lugar_emision = emision;
         datos.fecha_hora_salida = fecha +" "+salida;
         datos.tipo = tipo;
+        datos.origen = origen;
+        datos.origen_num = origen_num;
+        datos.productos = productos;
+        datos.neto = netoPermiso;
+        datos.bruto = brutoPermiso;
+        datos.temperatura = temperatura;
 
         var div = `<div class='form-group permTransito' data-json='${JSON.stringify(datos)}'>
                         <span> 
                         <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i>
-                        <i class='fa fa-fw fa-edit text-light-blue' style='cursor: pointer;' title='Editar'></i> 
-                        | <span class='numPermiso'>${soli_num}</span> - ${tipo} - ${emision} - ${fecha} ${salida}
+                        <i class='fa fa-fw fa-edit text-light-blue' style='cursor: pointer;' title='Editar'></i>
+                        <i class='fa fa-fw fa-eye text-light-blue' style='cursor: pointer;' title='Ver detalle'></i> 
+                        | <span class='numPermiso'>${soli_num}</span> - ${permi_num}
                         </span>
                 </div>`;
         $('#sec_permisos').append(div);
@@ -1154,6 +1170,21 @@ $(document).on("click",".fa-edit",function(e) {
     }else{
         alert("Ya se esta editando un permiso!");
     }
+});
+$(document).on("click",".fa-eye",function(e) {
+    var data =	JSON.parse($(e.target).closest('div').attr('data-json'));
+    $("#modalVerPermiso").val(data.perm_id);
+    $("#modalVerSolicitud").val(data.soli_num);
+    $("#modalVerEmision").val(data.lugar_emision);
+    $("#modalVerDocSanitaria").val(data.tipo);
+    $("#modalVerHoraSalida").val(data.fecha_hora_salida);
+    $("#modalVerOrigen").val(data.origen);
+    $("#modalVerOrigenNumero").val(data.origen_num);
+    $("#modalVerProductos").val(data.productos);
+    $("#modalVerNeto").val(data.neto);
+    $("#modalVerBruto").val(data.bruto);
+    $("#modalVerTemperatura").val(data.temperatura);
+    $("#mdl-verDetallePermiso").modal('show');
 });
 //FIN Script's seccion permisos transito
 /***************************************************** */

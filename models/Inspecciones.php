@@ -143,7 +143,12 @@ class Inspecciones extends CI_Model {
             $aux["tipo"] = $key['tipo'];
             $aux["usuario_app"] = userNick();
             $aux["case_id"] = $key['case_id'];
-
+            $aux["soli_num"] = $key['soli_num'];
+            $aux["origen"] = $key['origen'];
+            $aux["productos"] = $key['productos'];
+            $aux["neto"] = $key['neto'];
+            $aux["bruto"] = $key['bruto'];
+            $aux["temperatura"] = $key['temperatura'];
 
             $batch_req['_post_inspeccion_permiso_batch_req']['_post_inspeccion_permiso'][] = $aux;
         }

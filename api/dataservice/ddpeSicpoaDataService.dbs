@@ -83,13 +83,19 @@
       <param name="fecha_hora" sqlType="STRING"/>
    </query>
    <query id="setPermisosInspeccion" useConfig="SICPOADataSource">
-      <sql>insert&#xd;	into&#xd;	sicpoa.permisos_transito (perm_id,&#xd;	lugar_emision,&#xd;	fecha_hora_salida,&#xd;	tipo,&#xd;	usuario_app,&#xd;	case_id)&#xd;values(:perm_id,&#xd;	:lugar_emision,&#xd;	to_timestamp(:fecha_hora_salida,'YYYY-MM-DD HH24:MI'),&#xd;	:tipo,&#xd;	:usuario_app,&#xd;	cast(:case_id as integer));</sql>
+      <sql>insert&#xd;	into&#xd;	sicpoa.permisos_transito (perm_id,&#xd;	lugar_emision,&#xd;	fecha_hora_salida,&#xd;	tipo,&#xd;	usuario_app,&#xd;	case_id,&#xd;    soli_num,&#xd;    origen,&#xd;    neto,&#xd;    bruto,&#xd;    temperatura,&#xd;    productos)&#xd;values(:perm_id,&#xd;	:lugar_emision,&#xd;	to_timestamp(:fecha_hora_salida,'YYYY-MM-DD HH24:MI'),&#xd;	:tipo,&#xd;	:usuario_app,&#xd;	cast(:case_id as integer),&#xd;    :soli_num,&#xd;    :origen,&#xd;    :neto,&#xd;    :bruto,&#xd;    cast(:temperatura as float),&#xd;    :productos);</sql>
       <param name="perm_id" sqlType="STRING"/>
       <param name="lugar_emision" sqlType="STRING"/>
       <param name="fecha_hora_salida" sqlType="STRING"/>
       <param name="tipo" sqlType="STRING"/>
       <param name="usuario_app" sqlType="STRING"/>
       <param name="case_id" sqlType="STRING"/>
+      <param name="soli_num" sqlType="STRING"/>
+      <param name="origen" sqlType="STRING"/>
+      <param name="neto" sqlType="STRING"/>
+      <param name="bruto" sqlType="STRING"/>
+      <param name="temperatura" sqlType="STRING"/>
+      <param name="productos" sqlType="STRING"/>
    </query>
    <query id="deletePermisoInspeccion" useConfig="SICPOADataSource">
       <sql>delete from sicpoa.permisos_transito&#xd;WHERE case_id=cast(:case_id as integer) ;</sql>
@@ -336,6 +342,12 @@
          <with-param name="tipo" query-param="tipo"/>
          <with-param name="usuario_app" query-param="usuario_app"/>
          <with-param name="case_id" query-param="case_id"/>
+         <with-param name="soli_num" query-param="soli_num"/>
+         <with-param name="origen" query-param="origen"/>
+         <with-param name="neto" query-param="neto"/>
+         <with-param name="bruto" query-param="bruto"/>
+         <with-param name="temperatura" query-param="temperatura"/>
+         <with-param name="productos" query-param="productos"/>
       </call-query>
    </resource>
    <resource method="DELETE" path="/inspeccion/permiso">

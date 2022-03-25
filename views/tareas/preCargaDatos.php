@@ -249,6 +249,25 @@
                             </div>                    
                         </div>
                         <!--________________-->
+
+                        <!--Teléfono Transportista-->
+                        <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
+                            <div class="form-group">
+                                <label for="telTransportista">Teléfono Transportista:</label>
+                                <input class="form-control limited" name="telTransportista" id="telTransportista" placeholder="Ingrese teléfono" required/>
+                            </div>                    
+                        </div>
+                        <!--________________-->
+
+                        <!--E-mail Transportista-->
+                        <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
+                            <div class="form-group">
+                                <label for="emailTransportista">E-mail Transportista(<strong style="color: #dd4b39">*</strong>):</label>
+                                <input type="text" class="form-control" name="emailTransportista" id="emailTransportista" placeholder="Ingrese correo" required/>
+                            </div>                    
+                        </div>
+                        <!--________________-->
+
                         <div class="col-md-12 col-sm-12 col-xs-12">
                             <hr>
                         </div>
@@ -539,7 +558,7 @@ function agregarDestino(){
         var div = `<div class='form-group empreDestino' data-json='${JSON.stringify(datos)}'>
                         <span> 
                         <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i>
-                        | ${empre_destino} - ${depo_destino}
+                        | ${empre_destino} - ${depo_destino} - ${productos}
                         </span>
                 </div>`;
         $('#sec_destinos').append(div);
@@ -584,24 +603,39 @@ var editando = false;// Utilizo para que no se pierdan los permisos al editar
 			if(reporte == ''){
                 
                 var soli_num = $("#soli_num").val();
+                var permi_num = $("#permi_num").val();
                 // var descDepo = $("#depo_origen_id option:selected").text();
                 var emision = $('#emision').val();
                 var salida = $('#salida').val();
                 var fecha = $("#fecha").val();
                 var tipo = $('input[name=doc_sanitaria]:checked').val();
+                var origen = $("#esta_nom").select2('data')[0].text;
+                var origen_num = $("#esta_num").val();
+                var productos = $("#producto").val();
+                var neto = $("#neto").val(); 
+                var bruto = $("#bruto").val(); 
+                var temperatura = $("#temperatura").val(); 
 
                 var datos = {};
-                datos.perm_id = soli_num;
+                datos.perm_id = permi_num;
+                datos.soli_num = soli_num;
                 datos.lugar_emision = emision;
                 datos.fecha_hora_salida = fecha +" "+salida;
                 datos.tipo = tipo;
                 datos.case_id = $("#caseId").val(); 
+                datos.origen = origen;
+                datos.origen_num = origen_num;
+                datos.productos = productos;
+                datos.neto = neto;
+                datos.bruto = bruto;
+                datos.temperatura = temperatura;
 
                 var div = `<div class='form-group permTransito' data-json='${JSON.stringify(datos)}'>
                                 <span> 
                                 <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i>
                                 <i class='fa fa-fw fa-edit text-light-blue' style='cursor: pointer;' title='Editar'></i> 
-                                | <span class='numPermiso'>${soli_num}</span> - ${tipo} - ${emision} - ${salida} ${fecha}
+                                <i class='fa fa-fw fa-eye text-light-blue' style='cursor: pointer;' title='Ver detalle'></i> 
+                                | <span class='numPermiso'>${soli_num}</span> - ${permi_num}
                                 </span>
                         </div>`;
                 $('#sec_permisos').append(div);
@@ -662,6 +696,22 @@ var editando = false;// Utilizo para que no se pierdan los permisos al editar
         }else{
             alert("Ya se esta editando un permiso!");
         }
+	});
+
+    $(document).on("click",".fa-eye",function(e) {
+        var data =	JSON.parse($(e.target).closest('div').attr('data-json'));
+        $("#modalVerPermiso").val(data.perm_id);
+        $("#modalVerSolicitud").val(data.soli_num);
+        $("#modalVerEmision").val(data.lugar_emision);
+        $("#modalVerDocSanitaria").val(data.tipo);
+        $("#modalVerHoraSalida").val(data.fecha_hora_salida);
+        $("#modalVerOrigen").val(data.origen);
+        $("#modalVerOrigenNumero").val(data.origen_num);
+        $("#modalVerProductos").val(data.productos);
+        $("#modalVerNeto").val(data.neto);
+        $("#modalVerBruto").val(data.bruto);
+        $("#modalVerTemperatura").val(data.temperatura);
+        $("#mdl-verDetallePermiso").modal('show');
 	});
 //FIN Script's seccion permisos transito
 /***************************************************** */
