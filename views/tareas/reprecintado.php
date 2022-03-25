@@ -374,6 +374,16 @@
                     </div><!--FIN col-->
                 <!--_______ FIN FORMULARIO INSPECCION BOX 2______-->
                 </div><!-- FIN row-->
+                <div class="row" style="display: none">
+                    <!--Fecha Acta-->
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label for="fechaActa">Fecha(<strong style="color: #dd4b39">*</strong>):</label>
+                            <input type="date" class="form-control" name="fechaActa" id="fechaActa" required/>
+                        </div>
+                    </div>
+                    <!--________________-->
+                </div>
             </form>
         </div><!-- FIN .tab-pane -->
         <div class="tab-pane" id="actaInspeccion_tab">
@@ -563,14 +573,14 @@ function imprimirActa(){
     $(".acta_cantFajas").text($("#cant_fajas").val());
     $(".acta_observaciones").text($("#observaciones").val());
     $(".acta_origenNro").text($("#esta_num").val());
-    $(".acta_estaOrigen").text($("#esta_nom").select2('data')[0].text);
-    $(".acta_transportista").text($('#transportista').select2('data')[0].text);
+    $(".acta_estaOrigen").text($("#esta_nom").val());
+    $(".acta_transportista").text($('#transportista').val());
     $(".acta_productos").text($("#producto").val());
     $(".acta_bruto").text($("#bruto").val());
     $(".acta_tara").text($("#tara").val());
     $(".acta_ticket").text($("#ticket").val());
     $(".acta_tpoDocumentacion").text($("select[name='doc_impo']").val());
-    $(".acta_depto").text($("#depa_idActa").select2('data')[0].text);
+    $(".acta_depto").text($("#depa_idActa").val());
     $(".acta_localidad").text($("#localidad").val());
     $(".acta_inspectores").text($("#inspectores").val());
     $(".acta_puntoControl").text($("#dondeConstituyen").val());
@@ -633,7 +643,7 @@ function imprimirActa(){
     $(".acta_docSanitaria").text(infoPermisos);
     
     var base = "<?php echo base_url()?>";
-    $('#actaInfraccion').printThis({
+    $(idActa).printThis({
         debug: false,
         importCSS: false,
         importStyle: true,
