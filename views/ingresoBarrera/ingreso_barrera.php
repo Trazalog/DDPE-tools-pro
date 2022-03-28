@@ -193,7 +193,7 @@ function cierraPedidoTrabajo(){
         return;
     }
 
-    frmGuardar($('.frm-new').find('form'),guardarPedidoTrabajo);
+    frmGuardar($('.frm-new').find('form'),guardarPedidoTrabajo,false);
 }
 //Variable de estado para agregar contenido dinamicamente
 indiceAdjuntos = 1;
