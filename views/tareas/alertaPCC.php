@@ -795,8 +795,8 @@ $(document).ready(function() {
     //MÁSCARAS
     //Lugar de Emision A-Z, 0-9 y space
     $("#emision").inputmask({ regex: "[a-zA-Z0-9 ]*" });
-    //Solicitud N°
-    $(".alfanumerico").inputmask({ regex: "[0-9a-zA-Z]*" });
+    //Solicitud N° y N° de Permiso
+    $(".alfanumerico").inputmask({ regex: "[0-9/a-zA-Z -]*" });
     // N° SENASA: 0-9, /, ',' y -
     $(".limitedChars").inputmask({ regex: "[0-9/,-]*" });
     //PRECINTOS y Patentes: 0-9, A-Z, space, / y -

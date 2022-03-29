@@ -25,6 +25,7 @@ $(document).ready(function () {
 });
 //Variable de estado para agregar contenido dinamicamente
 indice = 2;
+indexFiles = 2;
 
 function agregarFotos(){
     var modeloInput = "<div class='col-sm-12 col-md-6'>"+
@@ -42,6 +43,16 @@ function agregarFotos(){
                     "</div>";
     indice++;
     $(".addFotos").before(modeloInput);
+}
+function agregarArchivos(){
+    var modeloInputFile = "<div class='col-sm-12 col-md-6'>"+
+                        "<div class='form-group'>"+
+                            "<label>PDF "+indexFiles+":</label>"+
+                            "<input class='form-control' id='archivo_"+indexFiles+"' type='file' name='-file-archivos[]'>"+
+                        "</div>"+
+                    "</div>";
+    $(".addFiles").before(modeloInputFile);
+    indexFiles++;
 }
 function cerrarTareaform(){
 

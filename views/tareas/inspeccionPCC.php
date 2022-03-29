@@ -525,7 +525,7 @@
                     <div class="col-md-4 col-sm-4 col-xs-12">
                         <div class="form-group">
                             <label for="localidad">Localidad(<strong style="color: #dd4b39">*</strong>):</label>
-                            <input class="form-control" name="localidad" id="localidad" placeholder="Ingrese Localidad" />
+                            <input class="form-control" name="localidad" id="localidad" placeholder="Ingrese Localidad" required/>
                         </div>                    
                     </div>
                     <!--________________-->
@@ -534,7 +534,7 @@
                     <div class="col-md-4 col-sm-4 col-xs-12">
                         <div class="form-group">
                             <label for="inspectores">Inspectores(<strong style="color: #dd4b39">*</strong>):</label>
-                            <input class="form-control" name="inspectores" id="inspectores" placeholder="Ingrese Inspectores" />
+                            <input class="form-control" name="inspectores" id="inspectores" placeholder="Ingrese Inspectores" required/>
                         </div>                    
                     </div>
                     <!--________________-->
@@ -552,7 +552,7 @@
                     <div class="col-md-6 col-sm-6 col-xs-6">
                         <div class="form-group">
                             <label for="domicilio">Con domicilio en(<strong style="color: #dd4b39">*</strong>):</label>
-                            <input class="form-control" name="domicilio" id="domicilio" placeholder="Ingrese Domicilio" />
+                            <input class="form-control" name="domicilio" id="domicilio" placeholder="Ingrese Domicilio" required/>
                         </div>                    
                     </div>
                     <!--________________-->
@@ -561,7 +561,7 @@
                     <div class="col-md-4 col-sm-4 col-xs-6">
                         <div class="form-group">
                             <label for="propiedad">Propiedad de(<strong style="color: #dd4b39">*</strong>):</label>
-                            <input class="form-control" name="propiedad" id="propiedad" placeholder="Ingrese a quién pertenece" />
+                            <input class="form-control" name="propiedad" id="propiedad" placeholder="Ingrese a quién pertenece" required/>
                         </div>                    
                     </div>
                     <!--________________-->
@@ -570,7 +570,7 @@
                     <div class="col-md-4 col-sm-4 col-xs-6">
                         <div class="form-group">
                             <label for="quienAtendio">Siendo atendido por(<strong style="color: #dd4b39">*</strong>):</label>
-                            <input class="form-control" name="quienAtendio" id="quienAtendio" placeholder="Ingrese por quién fue atendido" />
+                            <input class="form-control" name="quienAtendio" id="quienAtendio" placeholder="Ingrese por quién fue atendido" required/>
                         </div>                    
                     </div>
                     <!--________________-->
@@ -579,7 +579,7 @@
                     <div class="col-md-4 col-sm-4 col-xs-6">
                         <div class="form-group">
                             <label for="caracterAtendio">En su carácter de(<strong style="color: #dd4b39">*</strong>):</label>
-                            <input class="form-control" name="caracterAtendio" id="caracterAtendio" placeholder="Ingrese el caracter del que atendió" />
+                            <input class="form-control" name="caracterAtendio" id="caracterAtendio" placeholder="Ingrese el caracter del que atendió" required/>
                         </div>                    
                     </div>
                     <!--________________-->
@@ -587,7 +587,7 @@
                     <!--Proceden a-->
                     <div class="col-md-12 col-sm-12 col-xs-6">
                         <div class="form-group">
-                            <label for="procedenAccion">Proceden a(<strong style="color: #dd4b39">*</strong>):</label>
+                            <label for="procedenAccion">Proceden a:</label>
                             <textarea class="form-control" name="procedenAccion" id="procedenAccion" placeholder=""></textarea>
                         </div>                    
                     </div>
@@ -982,8 +982,8 @@ $(document).ready(function() {
     //MÁSCARAS
     //Lugar de Emision A-Z, 0-9 y space
     $("#emision").inputmask({ regex: "[a-zA-Z0-9 ]*" });
-    //Solicitud N°
-    $(".alfanumerico").inputmask({ regex: "[0-9a-zA-Z]*" });
+    //Solicitud N° y N° de Permiso
+    $(".alfanumerico").inputmask({ regex: "[0-9/a-zA-Z -]*" });
     // N° SENASA: 0-9, /, ',' y -
     $(".limitedChars").inputmask({ regex: "[0-9/,-]*" });
     //PRECINTOS y Patentes: 0-9, A-Z, space, / y -
@@ -1702,6 +1702,7 @@ $("#btn-cierreEscaneo").on('click', function() {
     $("#mosaicoDocumentos img").remove();
 
     $("#formEscaneoDocu").find("input[type=file]").each(function(index, field){
+        debugger;
         if ($(field)[0].files[0]) {
             (function(){
                 let file = $(field)[0].files[0];
