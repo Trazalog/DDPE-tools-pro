@@ -19,7 +19,7 @@
         <div class="panel-body" id="ingreso_barrera">
             <div class="row">
                 <?php 
-                $formulario = getForm(640); //Ulitmo test doble imagen
+                $formulario = getForm(741); //Ulitmo test doble archivo
                 echo $formulario;
                 ?>
             </div>
@@ -30,13 +30,14 @@
 detectarForm();
 initForm();
 var index = 2;
+var indexFiles = 2;
 $(document).ready(function () {
     //Cantidad de documentos solo digitos
     $("#cant_doc").attr("type","number");
 });
 function agregarFotos(){
     var modeloInput = "<div class='col-sm-12 col-md-6'>"+
-                    "<label>Adjunto:</label>"+
+                    "<label>Foto "+index+":</label>"+
                     "<div class='form-group imgConte'>"+
                         "<label for='fotos_"+index+"'>"+
                         "<div class='imgEdit'>"+
@@ -50,5 +51,15 @@ function agregarFotos(){
                     "</div>";
     $(".addFotos").before(modeloInput);
     index++;
+}
+function agregarArchivos(){
+    var modeloInput = "<div class='col-sm-12 col-md-6'>"+
+                        "<div class='form-group'>"+
+                            "<label>PDF "+indexFiles+":</label>"+
+                            "<input class='form-control' id='archivo_"+indexFiles+"' type='file' name='-file-archivos[]'>"+
+                        "</div>"+
+                    "</div>";
+    $(".addFiles").before(modeloInput);
+    indexFiles++;
 }
 </script>

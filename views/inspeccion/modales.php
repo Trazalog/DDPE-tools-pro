@@ -388,11 +388,14 @@
 //
     function agregar(elem,recurso){
         //Obtengo el ID del formulario del que se llamo la funcion
-        var idForm = $(elem).closest('form').attr('id');
-        var form = $('#'+idForm)[0];
+        var idForm = "#" + $(elem).closest('form').attr('id');
+        var form = $(idForm)[0];
         var datos = new FormData(form);
         var data = formToObject(datos);
-
+        if(!frm_validar(idForm)){
+            alertify.error("No completo todos los campos requeridos!");
+            return;
+        }
         wo();
         $.ajax({
             type: "POST",
@@ -517,6 +520,7 @@ $(document).ready(function () {
 });
 //Variable de estado para agregar contenido dinamicamente
 indice = 2;
+indexFiles = 2;
 
 function agregarFotos(){
     var modeloInput = "<div class='col-sm-12 col-md-6'>"+
@@ -534,5 +538,15 @@ function agregarFotos(){
                     "</div>";
     indice++;
     $(".addFotos").before(modeloInput);
+}
+function agregarArchivos(){
+    var modeloInputFile = "<div class='col-sm-12 col-md-6'>"+
+                        "<div class='form-group'>"+
+                            "<label>PDF "+indexFiles+":</label>"+
+                            "<input class='form-control' id='archivo_"+indexFiles+"' type='file' name='-file-archivos[]'>"+
+                        "</div>"+
+                    "</div>";
+    $(".addFiles").before(modeloInputFile);
+    indexFiles++;
 }
 </script>

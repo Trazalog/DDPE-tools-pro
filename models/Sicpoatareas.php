@@ -647,7 +647,7 @@ class Sicpoatareas extends CI_Model
             $res = $this->Forms->obtener($info_id);
 
             foreach ($res->items as $dato) {
-                if(isset($dato->valor4_base64)){
+                if(isset($dato->valor4_base64)  && $dato->tipo_dato == 'image'){
                     $rec = stream_get_contents($dato->valor4_base64);
                     $ext = $this->obtenerExtension($dato->valor);
                     array_push($imagenes, $ext.$rec);
@@ -669,7 +669,7 @@ class Sicpoatareas extends CI_Model
             $res = $this->Forms->obtener($info_id);
 
             foreach ($res->items as $dato) {
-                if(isset($dato->valor4_base64)){
+                if(isset($dato->valor4_base64) && $dato->tipo_dato == 'image'){
                     $rec = stream_get_contents($dato->valor4_base64);
                     $ext = $this->obtenerExtension($dato->valor);
                     array_push($imagenes, $ext.$rec);
