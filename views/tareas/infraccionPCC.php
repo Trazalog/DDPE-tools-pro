@@ -270,11 +270,10 @@
                         <div class="form-group">
                             <div class="input-group">
                                 <label>Acta infracción en calle:</label>
-                                <span id="add_acta" class="input-group-addon" data-toggle="modal" data-target="#mdl-actaInfraccion"><i class="fa fa-plus"></i></span>
                             </div>
                                 <div class="col-sm-12 col-md-12 col-xl-12">
                                     <div class="contenedor">
-                                        <img id="imgActaInfraccion" class='thumbnail fotos' height='51' width='45' src='<?php echo $imgInfraccion[0] ?>' alt='' style="display: none" onclick='preview(this)'>
+                                        <img id="imgActaInfraccion" class='thumbnail fotos' height='51' width='45' src='<?php echo $imgInfraccion[0] ?>' alt='' onclick='preview(this)'>
                                     </div>
                                 </div>
                         </div>
@@ -349,14 +348,7 @@
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="form-group">
                         <label for="inspValida">¿Inspección correcta?:</label>
-                        <div class="form-check form-check-inline">
-                            <input type="radio" class='form-check-input' name="inspValida" value="correcta" <?php echo isset($inspeccion->resultado) && ($inspeccion->resultado == "correcta")  ? "checked" : ""; ?> onchange="showValidar(this)" disabled/>
-                            <label class="form-check-label" for="">Sí</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input type="radio" class='form-check-input' name="inspValida" value="incorrecta" <?php echo isset($inspeccion->resultado) && ($inspeccion->resultado == "incorrecta") ? "checked" : ""; ?> onchange="showValidar(this)" disabled/>
-                            <label class="form-check-label" for="">No</label>
-                        </div>
+                        <input class="form-control" name="inspValida" id="resultado" value="<?php echo isset($inspeccion->resultado) ? $inspeccion->resultado : null; ?>" readonly/>
                     </div>
                 </div>
                 <!--________________-->
@@ -389,7 +381,7 @@
 $(document).ready(function() {
     //Seccion de trigger para los cambios
     //Mustra bloque validar si es correcta
-    $('input[name=inspValida]:checked').trigger('change');
+    showValidar($('#resultado').val());
     //Calcula neto anterior
     $(".neto").trigger('change');
     $(".netoRepre").trigger('change');
@@ -478,6 +470,8 @@ function cerrarTarea() {
     cerrarTareaform().then((result) => {
         
         var dataForm = new FormData($('#formInfraccionPCC')[0]);
+        var frm_info_id = $('#info_id_doc').val();
+        dataForm.append('frm_info_id', frm_info_id);
         
         var id = $('#taskId').val();
 
@@ -489,17 +483,25 @@ function cerrarTarea() {
             processData: false,
             url: '<?php base_url() ?>index.php/<?php echo BPM ?>Proceso/cerrarTarea/' + id,
             success: function(data) {
-                //wc();
-                //back();
-                linkTo('<?php echo BPM ?>Proceso/');
-                setTimeout(() => {
-                Swal.fire(
+                
+                const confirm = Swal.mixin({
+					customClass: {
+						confirmButton: 'btn btn-primary'
+					},
+					buttonsStyling: false
+				});
+
+                confirm.fire({
+                    title: 'Perfecto!',
+                    text: "Se finalizó la tarea correctamente!",
+                    type: 'success',
+                    showCancelButton: false,
+                    confirmButtonText: 'Hecho'
+                }).then((result) => {
                     
-                        'Perfecto!',
-                        'Se finalizó la tarea correctamente!',
-                        'success'
-                    )
-        	  }, 13000);
+                    linkTo('<?php echo BPM ?>Proceso/');
+                    
+                });
 
             },
             error: function(data) {
@@ -517,10 +519,9 @@ function cerrarTarea() {
 //
 //Bloques para validar
 //
-function showValidar(tag){
-    if(tag.value == "correcta"){
+function showValidar(resultado){
+    if(resultado == "correcta"){
         $("#bloque_validar").hide();
-        $('#tpoInfraccion').val(null).trigger('change');
     }else{
         $("#bloque_validar").show();
     }

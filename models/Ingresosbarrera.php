@@ -129,5 +129,31 @@ class Ingresosbarrera extends CI_Model
         $url = REST_PRO . "/info_id/$petrId";
         return wso2($url);
 	}
+     /**
+	* Obtengo la informacion guardada en el ingreso por barrera
+	* @param $info_id
+	* @return array datos gaurdado en instancias_formularios
+	*/
+    public function getFormIngresoBarrera($info_id){
 
+        $resource = "/formulario/" . $info_id;
+
+        $url = REST_FRM . $resource;
+        
+        $array = $this->rest->callApi('GET', $url);
+
+        return json_decode($array['data']);
+    }
+    /**
+	* Obtengo los puntos de control
+	* @param 
+	* @return array puntos de control almacenados en core.tablas
+	*/
+    public function getPuntosControl(){
+        $resource = "/tabla/puntos_control/empresa/";
+        $url = REST_CORE . $resource;
+        $aux = $this->rest->callApi('GET', $url);
+        $aux = json_decode($aux["data"]);
+        return $aux->tablas->tabla;
+    }
 }

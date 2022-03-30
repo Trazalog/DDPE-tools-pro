@@ -1,35 +1,65 @@
-<!-- <link rel="stylesheet" href="lib/imageForms/styleImgForm.css"> -->
-<!-- Test Form HARCODE-->
-<?php //echo getForm(35);?>
-<!-- FIN TEST -->
-
-<!-- COMIENZO 2 VER FORM VACIO-->
-<!-- <div class="container">
-    <div class="row">
-        <div class="frm-new" data-form="40"></div>
-    </div>
-</div> -->
-<div>
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <h3 class="panel-title">Test Formularios</h3>
-    </div>
-    <div class="panel-body" id="ingreso_barrera">
+<!-- COMIENZO FORM ESCANEO DOCUMENTACION-->
+<div class="panel">
+    <div class="panel-body" id="escaneoDocumentacion">
         <div class="row">
-            <?php 
-            $formulario = getForm(412); //Ulitmo test doble imagen
-            echo $formulario;
-            ?>
+            <div id="formDocumentacion" class="frm-new" data-form="11"></div>
         </div>
     </div>
 </div>
+<div id="hackeo">
+    <button onclick="addInput()">TEST!</button>
 </div>
-<!-- TEST-->
-<!-- <h2>Prueba Foto</h2> -->
-<!-- <form id="imagen" class="dropzone"></form>         -->
-<!-- <input id="imagen" class="dropzone" type="file" accept="image/*" capture> -->
-<!-- FIN TEST -->
+<!-- FIN FORM ESCANEO DOCUMENTACION -->
+
+<div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Test Formularios</h3>
+        </div>
+        <div class="panel-body" id="ingreso_barrera">
+            <div class="row">
+                <?php 
+                $formulario = getForm(741); //Ulitmo test doble archivo
+                echo $formulario;
+                ?>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
 detectarForm();
 initForm();
+var index = 2;
+var indexFiles = 2;
+$(document).ready(function () {
+    //Cantidad de documentos solo digitos
+    $("#cant_doc").attr("type","number");
+});
+function agregarFotos(){
+    var modeloInput = "<div class='col-sm-12 col-md-6'>"+
+                    "<label>Foto "+index+":</label>"+
+                    "<div class='form-group imgConte'>"+
+                        "<label for='fotos_"+index+"'>"+
+                        "<div class='imgEdit'>"+
+                            "<input class='form-control' type='file' id='fotos_"+index+"'  name='-file-fotos[]' onchange='previewFile(this)' accept='image/*' capture/>"+
+                        "</div>"+
+                        "<div class='imgPreview'>"+
+                            "<div id='vistaPrevia_fotos_"+index+"' style='background-image: url(lib/imageForms/camera_2.png);'></div>"+
+                        "</div>"+
+                        "</label>"+
+                    "</div>"+
+                    "</div>";
+    $(".addFotos").before(modeloInput);
+    index++;
+}
+function agregarArchivos(){
+    var modeloInput = "<div class='col-sm-12 col-md-6'>"+
+                        "<div class='form-group'>"+
+                            "<label>PDF "+indexFiles+":</label>"+
+                            "<input class='form-control' id='archivo_"+indexFiles+"' type='file' name='-file-archivos[]'>"+
+                        "</div>"+
+                    "</div>";
+    $(".addFiles").before(modeloInput);
+    indexFiles++;
+}
 </script>

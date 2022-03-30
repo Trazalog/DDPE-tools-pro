@@ -7,6 +7,13 @@ class Ingreso_barrera extends CI_Controller
     {
         parent::__construct();
         $this->load->model('Ingresosbarrera');
+
+        // si esta vencida la sesion redirige al login
+		$data = $this->session->userdata();
+		if(!$data['email']){
+			log_message('DEBUG','#TRAZA|DASH|CONSTRUCT|ERROR  >> Sesion Expirada!!!');
+			redirect(DNATO.'main/login');
+		}
     }
 
     /**
@@ -22,6 +29,11 @@ class Ingreso_barrera extends CI_Controller
 
         $data['pedidos'] = $this->Ingresosbarrera->obtener(empresa())['data'];
 
+        //obtengo la data de la instancia del formulario dinamico
+        //Le asigno la patente del ingreso por barrera
+        foreach ($data['pedidos'] as $key) {
+            $key->patente = $this->Ingresosbarrera->getFormIngresoBarrera($key->info_id)->formulario->items->item[4]->valor;
+        }
         $url_info= $_SERVER["REQUEST_URI"];
 
         $components = parse_url($url_info);
@@ -44,7 +56,12 @@ class Ingreso_barrera extends CI_Controller
        
         $data['unidad_medida_tiempo'] = $this->Ingresosbarrera->seleccionarUnidadMedidaTiempo()['data'];
         $data['clientes'] = $this->Ingresosbarrera->getClientes(empresa())['data'];
-        $data['puntoControl'] = "San Carlos";
+        $puntosControl = $this->Ingresosbarrera->getPuntosControl();
+        foreach ($puntosControl  as $key) {
+            if($key->tabl_id == $this->session->userdata['puntoControl']){
+                $data['puntoControl'] = $key->valor;
+            }
+        }
         
         $url_info= $_SERVER["REQUEST_URI"];
 
@@ -84,8 +101,8 @@ class Ingreso_barrera extends CI_Controller
             'descripcion' => $proceso->descripcion,
             'estado' => $proceso->esin_id,
             'objetivo' => "6",
-            'fec_inicio' => date('Y-m-d'),
-            'fec_entrega' => "2021-12-31",
+            'fec_inicio' => date('Y-m-d H:i:s'),
+            'fec_entrega' => "2051-12-31",
             'usuario_app' => $user_app,
             'umti_id' => "unidad_medida_tiempoMeses",
             'info_id' => $this->input->post('info_id'),
@@ -239,57 +256,17 @@ class Ingreso_barrera extends CI_Controller
             echo json_encode($respPetr);
         }
     }
-		/**
-		* Levanta pantalla Planificacion de Pedido de Trabajo
-		* @param
-		* @return
-		*/
-    public function dash()
-    {
-      $this->load->view('pedidos_trabajo/dash', $data);
-    }
-		/**
+
+    /**
 		* Agrega componente Pedidos Trabajo(en Planificacion Trabajos)
 		* @param
 		* @return 
-		*/
+    */
     public function pedidosTrabajos($emprId)
     {
 
         $data['ots'] = $this->Ingresosbarrera->obtener($emprId)['data'];
         $this->load->view('pedidos_trabajo/lista_pedidos', $data);
-    }
-		/**
-		* Agrega componente Hitos(en Planificacion Trabajos) si envia datos.
-		* sino es asi,trae el listado de hitos guardados para ese pedido ese trabajo
-		* @param
-		* @return view listado de hitos de un pedido de trabajo
-		*/
-    public function hitos($petrId)
-    {
-        $post = $this->input->post();
-        if($post)
-        {
-            $rsp = $this->Ingresosbarrera->guardarHito($petrId, $post);
-            echo json_encode($rsp);
-        }else{
-						$data['hitos'] = $this->Ingresosbarrera->obtenerHitosXPedido($petrId)['data'];
-					// AGREGADO DE MERGE DE CHECHO
-						$data['info_id']="0".$this->Ingresosbarrera->obtenerInfoId($petrId)['data'];
-						$data['petr_id'] = "0".$petrId;
-					// FIN AGREGADO DE MERGE DE CHECHO
-            $this->load->view('pedidos_trabajo/lista_hitos', $data);
-        }
-    }
-
-    public function hito($hitoId = false)
-    {  
-        if($hitoId){
-            $data['hito'] = $this->Ingresosbarrera->obtenerHito($hitoId)['data'][0];
-            $this->load->view('pedidos_trabajo/detalle_hito', $data);
-        }else{
-            $this->load->view('pedidos_trabajo/form_hito');
-        }
     }
 
     public function cambiarEstado()
@@ -303,15 +280,15 @@ class Ingreso_barrera extends CI_Controller
 	*@param case_id (metodo GET)
     *@return view componete comentarios
 	*/
-public function cargar_detalle_comentario(){
+    public function cargar_detalle_comentario(){
 
-    $case_id = $_GET['case_id'];    
-    
-    $data_aux = ['case_id' => $case_id, 'comentarios' => $this->bpm->ObtenerComentarios($case_id)];
-    
-    $data['comentarios'] = $this->load->view(BPM.'tareas/componentes/comentarios', $data_aux, true);
-    
-    echo $data['comentarios'];
+        $case_id = $this->input->get('case_id');    
+        
+        $data_aux = ['case_id' => $case_id, 'comentarios' => $this->bpm->ObtenerComentarios($case_id)];
+        
+        $data['comentarios'] = $this->load->view(BPM.'tareas/componentes/comentarios', $data_aux, true);
+        
+        echo $data['comentarios'];
     }
     
     
@@ -319,13 +296,11 @@ public function cargar_detalle_comentario(){
         * Trae trazabilidad de un pedido segun case_id
         *@param case_id ,processId. (metodo GET)
         *@return array componete BPM trazabilidad
-        */
-    //HARCODECHUKA processId
+    */
     public function cargar_detalle_linetiempo(){
     
-        $case_id = $_GET['case_id'];               
+        $case_id = $this->input->get('case_id');               
             
-        //    $processId = BPM_PROCESS_ID_REPARACION_NEUMATICOS;
         //Id del proceso desde la tabla pro.procesos
         $processId = $this->Ingresosbarrera->procesos()->proceso->nombre_bpm;
     
@@ -336,20 +311,16 @@ public function cargar_detalle_comentario(){
      
     }
     
-    
     /**
         * Trae formularios asociados al pedido de trabajo segun petr_id
         *@param case_id ,petr_id, processId. (metodo GET)
         *@return array forularios
-        */
-    //HARCODECHUKA processId
+    */
     public function cargar_detalle_formulario(){
     
-            $case_id = $_GET['case_id'];        
-            
-            $petr_id = $_GET['petr_id'];
-            
-    //    $processId = BPM_PROCESS_ID_REPARACION_NEUMATICOS;
+        $case_id = $this->input->get('case_id');        
+        $petr_id = $this->input->get('petr_id');
+
         //Id del proceso desde la tabla pro.procesos
         $processId = $this->Ingresosbarrera->procesos()->proceso->nombre_bpm;
 
@@ -358,5 +329,86 @@ public function cargar_detalle_comentario(){
         $this->load->view(BPM.'pedidos_trabajo/tbl_formularios_pedido', $data);
        
     
+    }
+
+    /**
+        * Trae información pertinente a la inspeccion para ser impresa
+        *@param 
+        *@return array view con datos de la inspeccion
+    */
+    public function cargar_detalle_acta(){
+    
+        $this->load->model('Sicpoatareas');
+        $case_id = $this->input->get('case_id');
+        $petr_id = $this->input->get('petr_id');
+
+        // $data['petr_id'] = $petr_id;
+        $data['inspeccion'] = $this->Sicpoatareas->getPreCargaDatos($case_id);
+
+        //Separo las empresas por su rol
+        $empresas = $data['inspeccion']->empresas->empresa;
+
+        if(!empty($empresas)){
+            foreach($empresas as $key => $value){
+                
+                if($value->rol == "DESTINO"){
+                    $data['destinos'][$key] = $value;
+
+                }elseif ($value->rol == "ORIGEN") {
+                    $data['origen'] = $value;
+
+                }elseif($value->rol == "TRANSPORTISTA"){
+                    $data['transportista'] = $value;
+
+                }
+            }
+        }
+
+        $puntosControl = $this->Ingresosbarrera->getPuntosControl();
+        foreach ($puntosControl  as $key) {
+            if($key->tabl_id == $this->session->userdata['puntoControl']){
+                $data['infoPuntoControl']['domicilio'] = $key->valor2;
+                $data['infoPuntoControl']['nombre'] = $key->descripcion;
+            }
+        }
+        
+        $formulario = $this->Ingresosbarrera->getFormularios($petr_id);
+        $escaneoInfoId = $formulario['data'][0]->forms->form[0]->info_id;
+        $data['escaneoInfoId'] = $escaneoInfoId;// Lo mando a la vista para instaciar formulario en modal
+
+        if(isset($escaneoInfoId)){
+            $formEscaneo =  $this->Sicpoatareas->getFormEscaneoDocu($escaneoInfoId);
+            $data['imgsEscaneo'] = $formEscaneo['imagenes'];
+            $data['datosEscaneo'] = $formEscaneo['datos'];
+        }
+        if($data['inspeccion']->resultado == 'incorrecta'){
+            $this->load->view(SICP . "actas/acta_infraccion", $data);
+        }else{
+            $this->load->view(SICP . "actas/acta_inspeccion", $data);
+        }
+    }
+
+    /**
+        * Trae cabecera relacionada con el proceso
+        *@param case_id ,petr_id, processId. (metodo GET)
+        *@return array forularios
+    */
+    public function cargar_detalle_cabecera(){
+
+        $this->load->model('Sicpoatareas');
+
+        $case_id = $this->input->get('case_id');
+
+        //Id del proceso desde la tabla pro.procesos
+        $processId = $this->Ingresosbarrera->procesos()->proceso->nombre_bpm;
+
+        $tarea = new StdClass();
+        $tarea->caseId = $case_id;
+        $tarea->processId = $processId;
+        $tarea->nombreTarea = '';
+
+        $cabecera = $this->Sicpoatareas->desplegarCabecera($tarea);
+
+        echo $cabecera;
     }
 }

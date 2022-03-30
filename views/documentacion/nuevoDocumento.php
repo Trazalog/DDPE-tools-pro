@@ -67,7 +67,7 @@
                             <select class="form-control select2 select2-hidden-accesible empresa" name="empr_id_emisor" id="emisor" style="width: 100%" data-bv-notempty data-bv-notempty-message="Campo Obligatorio *">
                                 <option value="" disabled selected>- Seleccionar -</option>	
                             </select>
-                            <span id="add_emisor" class="input-group-addon" data-toggle="modal" data-target="#mdl-empresa"><i class="fa fa-plus"></i></span>
+                            <span id="add_emisor" class="input-group-addon" data-toggle="modal" data-target="#mdl-empresa" onclick="$('#tipoEmpresa').val('Emisor')"><i class="fa fa-plus"></i></span>
                         </div>
                     </div>                    
                 </div>
@@ -81,7 +81,7 @@
                             <select class="form-control select2 select2-hidden-accesible empresa" name="empr_id_destino" id="destino" style="width: 100%" data-bv-notempty data-bv-notempty-message="Campo Obligatorio *">
                                 <option value="" disabled selected>- Seleccionar -</option>	
                             </select>
-                            <span id="add_destino" class="input-group-addon" data-toggle="modal" data-target="#mdl-empresa"><i class="fa fa-plus"></i></span>
+                            <span id="add_destino" class="input-group-addon" data-toggle="modal" data-target="#mdl-empresa" onclick="$('#tipoEmpresa').val('Destino')"><i class="fa fa-plus"></i></span>
                         </div>
                     </div>                    
                 </div>
@@ -327,7 +327,7 @@ function agregarProducto(){
 
         //Caso remito no los tengo en cuenta
         precio_total = "";
-        if($("#tipo_documento").val() != '888-tipos_documentoREMITO'){
+        if($("#tipo_documento").val() != empresa + '-tipos_documentoREMITO'){
 
             precio_unitario = data.precio_unitario.split(" ");
             precio_total = precio_unitario[1] * data.cantidad;
@@ -491,7 +491,7 @@ function validarCampos(){
 		// if($("#unidades").val() == ""){
 		// 	valida = "Complete unidades!";
 		// }
-        if($("#tipo_documento").val() != '888-tipos_documentoREMITO'){
+        if($("#tipo_documento").val() != empresa + '-tipos_documentoREMITO'){
             //Precio Unitario
             if($("#precio_unitario").val() == ""){
                 valida = "Complete precio unitario!";
@@ -583,7 +583,7 @@ $(document).on('click','.btnEditar', function () {
 //Fin scripts para manipular data en tabla intermedia
 //
 $("#tipo_documento").on('change', function () {
-    if(this.value == '888-tipos_documentoREMITO'){
+    if(this.value == empresa + '-tipos_documentoREMITO'){
         $("#precio_unitario").prop("readonly", 'readonly');
         $("#descuento").prop("readonly", 'readonly');
         $("#precio_unitario").val("");
@@ -613,10 +613,10 @@ function cerrarDetalle(){
     actualizaTablaDocumentos();
 
     //Reemplazo los botones standard de la notificacion
-    $(".btn-success.btnNotifEstandar").text("Hecho");
-    $(".btn-primary.btnNotifEstandar").text("Cerrar");
-    $(".btn-success.btnNotifEstandar").attr("onclick","existFunction('cerrarTarea')");
-    $(".btn-primary.btnNotifEstandar").attr("onclick","cerrar()");
+    $("#btnHecho").text("Hecho");
+    $("#btnCerrarVistaNotificacion").text("Cerrar");
+    $("#btnHecho").attr("onclick","existFunction('cerrarTarea')");
+    $("#btnCerrarVistaNotificacion").attr("onclick","cerrar()");
 }
 
 function guardarDetalle(){

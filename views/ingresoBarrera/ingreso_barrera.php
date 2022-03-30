@@ -19,7 +19,7 @@
     <div class="panel-subheading">
         <label><?php echo $this->session->userdata['first_name'].' '.$this->session->userdata['last_name'].' - '.date('d/m/Y H:i:s')?></label>
         </br>
-        <label>Punto de control: <?php echo $puntoControl; ?></label>
+        <label>Barrera de Ingreso: <?php echo $puntoControl; ?></label>
         </br>
     </div> 
     <div class="panel-body" id="div_ingreso_barrera">
@@ -41,7 +41,6 @@
 
 
 <script>
-
 function cerrarModal() {
 
     $('#mdl-ingreso').modal('hide');
@@ -137,7 +136,7 @@ function cierraPedidoTrabajo(){
     });
 
     //Validaciones CAMPOS OBLIGATORIOS Formulario 
-    if($("#perm_transito").val() == ''){
+    if($("input[name='-file-perm_transito'").val() == ''){
         Swal.fire(
             'Oops...',
             'Debe cargar la foto del permiso de tránsito (*)',
@@ -145,7 +144,15 @@ function cierraPedidoTrabajo(){
         );
         return;
     }
-    if($("#pat_tractor").val() == ''){
+    if($("#dominio").val() == ''){
+        Swal.fire(
+            'Oops...',
+            'Debe completar la Patente/Dominio del tractor (*)',
+            'error'
+        );
+        return;
+    }
+    if($("input[name='-file-pat_tractor'").val() == ''){
         Swal.fire(
             'Oops...',
             'Debe cargar la foto de la patente del tractor (*)',
@@ -153,7 +160,7 @@ function cierraPedidoTrabajo(){
         );
         return;
     }
-    if($("#pat_termico").val() == ''){
+    if($("input[name='-file-pat_termico'").val() == ''){
         Swal.fire(
             'Oops...',
             'Debe cargar la foto de la patente del térmico (*)',
@@ -161,7 +168,7 @@ function cierraPedidoTrabajo(){
         )
         return;
     }
-    if($("#temperatura").val() == ''){
+    if($("input[name='-file-temperatura'").val() == ''){
         Swal.fire(
             'Oops...',
             'Debe cargar la foto de la temperatura (*)',
@@ -169,7 +176,7 @@ function cierraPedidoTrabajo(){
         )
         return;
     }
-    if($("#precinto_1").val() == ''){
+    if($("input[name='-file-precinto_1'").val() == ''){
         Swal.fire(
             'Oops...',
             'Debe cargar la foto del precinto 1 (*)',
@@ -177,7 +184,7 @@ function cierraPedidoTrabajo(){
         )
         return;
     }
-    if($("#docu_firmado").val() == ''){
+    if($("input[name='-file-docu_firmado'").val() == ''){
         Swal.fire(
             'Oops...',
             'Debe cargar la foto del documento firmado (*)',
@@ -186,6 +193,27 @@ function cierraPedidoTrabajo(){
         return;
     }
 
-    frmGuardar($('.frm-new').find('form'),guardarPedidoTrabajo);
+    frmGuardar($('.frm-new').find('form'),guardarPedidoTrabajo,false);
+}
+//Variable de estado para agregar contenido dinamicamente
+indiceAdjuntos = 1;
+
+function agregarAdjuntos(){
+    var modeloInput = "<div class='col-sm-12 col-md-6'>"+
+                    "<label>Adjunto:</label>"+
+                    "<div class='form-group imgConte'>"+
+                        "<label for='adjunto_"+indiceAdjuntos+"'>"+
+                        "<div class='imgEdit'>"+
+                            "<input class='form-control' type='file' id='adjunto_"+indiceAdjuntos+"'  name='-file-adjunto[]' onchange='previewFile(this)' accept='image/*' capture/>"+
+                        "</div>"+
+                        "<div class='imgPreview'>"+
+                            "<div id='vistaPrevia_adjunto_"+indiceAdjuntos+"' style='background-image: url(lib/imageForms/camera_2.png);'></div>"+
+                        "</div>"+
+                        "</label>"+
+                    "</div>"+
+                    "</div>";
+    // $("#formDocumentacion").find("fieldset").append(modeloInput);
+    indiceAdjuntos++;
+    $(".addFotos").before(modeloInput);
 }
 </script>

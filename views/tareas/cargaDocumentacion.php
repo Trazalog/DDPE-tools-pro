@@ -1,5 +1,6 @@
-<?php $this->load->view(SICP."documentacion/modalDocumentos.php"); ?>
-<?php $this->load->view(SICP."documentacion/nuevoDocumento.php"); ?>
+<?php $this->load->view(SICP."documentacion/modalDocumentos"); ?>
+<?php $this->load->view(SICP."documentacion/nuevoDocumento"); ?>
+<?php $this->load->view(SICP."inspeccion/modales"); ?>
 <div id="tablaDocumentosBox">
     <div class="row">
         <div class="col-md-12 col-lg-12 col-xs-12">
@@ -9,6 +10,7 @@
             </button>
         </div>
         <div class="col-md-12 col-sm-12 col-xs-12">
+            <input type="hidden" name="info_id_doc" id="info_id_doc" value="<?php echo $inspeccion->info_id_doc ?>">
             <!-- ______ TABLA DOCUMENTOS ______ -->
             <table id="tabla_documentos" class="table table-bordered table-striped">
                 <thead class="thead-dark" bgcolor="#eeeeee">
@@ -52,6 +54,7 @@
 DataTable($('#tabla_documentos'));
 //Determina la accion en la pantalla de carga
 var accion = '';
+var empresa = '<?php echo empresa(); ?>';
 
 $(document).ready(function () {
     imag_ids = <?php echo json_encode($imag_ids); ?>;
@@ -105,7 +108,6 @@ function actualizaTablaDocumentos(){
                         '</tr>';
                     tabla.row.add($(fila)).draw();
                 });
-                wc();
                 console.log("Actualizando tabla con documentos cargados");
 
 
@@ -115,6 +117,9 @@ function actualizaTablaDocumentos(){
         },
         error: function(data) {
             console.log("No hay documentos cargados para esta inspección");
+        },
+        complete: function(){
+            wc();
         }
     });
 }
@@ -128,10 +133,10 @@ $("#btnAgregar").on('click', function () {
     accion = "nuevo";
     
     //Reemplazo los botones standard de la notificacion
-    $(".btn-success.btnNotifEstandar").text("Guardar");
-    $(".btn-primary.btnNotifEstandar").text("Volver");
-    $(".btn-success.btnNotifEstandar").attr("onclick","guardarDetalle()");
-    $(".btn-primary.btnNotifEstandar").attr("onclick","cerrarDetalle()");
+    $("#btnHecho").text("Guardar");
+    $("#btnCerrarVistaNotificacion").text("Volver");
+    $("#btnHecho").attr("onclick","guardarDetalle()");
+    $("#btnCerrarVistaNotificacion").attr("onclick","cerrarDetalle()");
 });
 //
 //Muestra pantalla de editar un documento
@@ -186,7 +191,7 @@ $(document).on('click','.btnEditarDocu', function () {
                 
             //Caso remito no los tengo en cuenta
             precio_total = "";
-            if(datos.tido_id != '888-tipos_documentoREMITO'){
+            if(datos.tido_id != empresa + '-tipos_documentoREMITO'){
             
                 precio_total = value.precio_unitario * value.cantidad;
                 //Puede poseer o no descuento
@@ -220,10 +225,10 @@ $(document).on('click','.btnEditarDocu', function () {
 
 
     //Reemplazo los botones standard de la notificacion
-    $(".btn-success.btnNotifEstandar").text("Editar");
-    $(".btn-primary.btnNotifEstandar").text("Volver");
-    $(".btn-success.btnNotifEstandar").attr("onclick","guardarDetalle()");
-    $(".btn-primary.btnNotifEstandar").attr("onclick","cerrarDetalle()");
+    $("#btnHecho").text("Editar");
+    $("#btnCerrarVistaNotificacion").text("Volver");
+    $("#btnHecho").attr("onclick","guardarDetalle()");
+    $("#btnCerrarVistaNotificacion").attr("onclick","cerrarDetalle()");
 });
 //
 //Eliminar registro tabla intermedia
@@ -273,7 +278,9 @@ $(document).on('click','.btnEliminarDocu', function () {
 function cerrarTarea() {
 
     var dataForm = new FormData();
+    var frm_info_id = $('#info_id_doc').val();
 
+    dataForm.append('frm_info_id', frm_info_id);
     var id = $('#taskId').val();
     
     $.ajax({
@@ -284,17 +291,24 @@ function cerrarTarea() {
         processData: false,
         url: '<?php base_url() ?>index.php/<?php echo BPM ?>Proceso/cerrarTarea/' + id,
         success: function(data) {
-            //wc();
-            //back();
-            linkTo('<?php echo BPM ?>Proceso/');
-            setTimeout(() => {
-            Swal.fire(
+            const confirm = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-primary'
+                },
+                buttonsStyling: false
+            });
+
+            confirm.fire({
+                title: 'Perfecto!',
+                text: "Se finalizó la tarea correctamente!",
+                type: 'success',
+                showCancelButton: false,
+                confirmButtonText: 'Hecho'
+            }).then((result) => {
                 
-                    'Perfecto!',
-                    'Se finalizó la tarea correctamente!',
-                    'success'
-                )
-          }, 13000);
+                linkTo('<?php echo BPM ?>Proceso/');
+                
+            });
 
         },
         error: function(data) {

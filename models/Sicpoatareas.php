@@ -18,21 +18,34 @@ class Sicpoatareas extends CI_Model
         $case_id = $tarea->caseId;
         $user_app = userNick();
         $aux_pedido = $this->rest->callAPI("GET",REST_PRO."/pedidoTrabajo/xcaseid/".$case_id);
-        $data_generico =json_decode($aux_pedido["data"]);
+        $data_generico = json_decode($aux_pedido["data"]);
         $aux_pedido = $data_generico->pedidoTrabajo;
-        
 
+        //Obtengo la patente / dominio del tractor
+        if(isset($data_generico)){
+            $patente = $this->getPatenteTractor($data_generico->pedidoTrabajo->info_id);
+        }
+        //Oculto el tag del case en bandeja
+        $array['tagCase'] = 'oculto';
         
         if(isset($case_id)){
 
             $aux = new StdClass();
             $aux->color = 'warning';//primary //secondary // success // danger // warning // info // light // dark //white 
             $aux->texto = "Estado: $aux_pedido->estado ";
+            $aux->estilo = "font-size: 15px";
             $array['info'][] = $aux;
 
             $aux = new StdClass();
             $aux->color = 'primary';
             $aux->texto = "Fecha Inicio: ".formatFechaPG( $aux_pedido->fec_inicio);
+            $aux->estilo = "font-size: 15px";
+            $array['info'][] = $aux;
+
+            $aux = new StdClass();
+            $aux->color = 'danger';
+            $aux->texto = "Dominio: ".$patente;
+            $aux->estilo = "font-size: 15px";
             $array['info'][] = $aux;
 
             $array['descripcion'] =  $aux_pedido->descripcion;
@@ -79,7 +92,9 @@ class Sicpoatareas extends CI_Model
 
     public function desplegarCabecera($tarea)
     {
+        $pedidoTrabajo = $this->getXCaseId($tarea);
         $tarea->inspeccion = $this->getPreCargaDatos($tarea->caseId);
+        $tarea->imgsBarrera = $this->getImgsBarrera($pedidoTrabajo->info_id);
         $resp = infoproceso($tarea);
         return $resp;
     }
@@ -92,6 +107,7 @@ class Sicpoatareas extends CI_Model
                 $tareaData = $this->getXCaseId($tarea);
                 
                 $data['imgsBarrera'] = $this->getImgsBarrera($tareaData->info_id);
+                $data['patente'] =  $this->getPatenteTractor($tareaData->info_id);
                 $data['departamentos'] = $this->getDepartamentos();
                 $data['petr_id'] = $tareaData->petr_id;
 
@@ -121,7 +137,15 @@ class Sicpoatareas extends CI_Model
                 $data['petr_id'] = $tareaData->petr_id;
                 $data['infracciones'] = $this->getInfracciones();
                 $data['preCargaDatos'] = $this->getPreCargaDatos($tareaData->case_id);
-                
+                $data['patente'] =  $this->getPatenteTractor($tareaData->info_id);
+
+                $puntosControl = $this->Ingresosbarrera->getPuntosControl();
+                foreach ($puntosControl  as $key) {
+                    if($key->tabl_id == $this->session->userdata['puntoControl']){
+                        $data['infoPuntoControl']['domicilio'] = $key->valor2;
+                        $data['infoPuntoControl']['nombre'] = $key->descripcion;
+                    }
+                }
                 $empresas = $data['preCargaDatos']->empresas->empresa;
 
                 //Separo las empresas por su rol
@@ -139,9 +163,6 @@ class Sicpoatareas extends CI_Model
 
                         }
                     }
-                    $data['preDataCargada'] = true;
-                }else{
-                    $data['preDataCargada'] = false;
                 }
                 
                 //Es el info_id del formulario de escaneo documentacion
@@ -169,6 +190,7 @@ class Sicpoatareas extends CI_Model
                 $data['petr_id'] = $tareaData->petr_id;
                 $data['infracciones'] = $this->getInfracciones();
                 $data['preCargaDatos'] = $this->getPreCargaDatos($tareaData->case_id);
+                $data['patente'] =  $this->getPatenteTractor($tareaData->info_id);
 
                 $empresas = $data['preCargaDatos']->empresas->empresa;
 
@@ -187,9 +209,6 @@ class Sicpoatareas extends CI_Model
 
                         }
                     }
-                    $data['preDataCargada'] = true;
-                }else{
-                    $data['preDataCargada'] = false;
                 }
 
                 //Es el info_id del formulario de escaneo documentacion
@@ -215,6 +234,7 @@ class Sicpoatareas extends CI_Model
                 $data['petr_id'] = $tareaData->petr_id;
                 $data['inspeccion'] = $this->getPreCargaDatos($tareaData->case_id);
                 $empresas = $data['inspeccion']->empresas->empresa;
+                $data['infracciones'] = $this->getInfracciones();
 
                 //Separo las empresas por su rol
                 if(!empty($empresas)){
@@ -233,12 +253,22 @@ class Sicpoatareas extends CI_Model
                     }
                 }
 
+                $puntosControl = $this->Ingresosbarrera->getPuntosControl();
+                foreach ($puntosControl  as $key) {
+                    if($key->tabl_id == $this->session->userdata['puntoControl']){
+                        $data['infoPuntoControl']['domicilio'] = $key->valor2;
+                        $data['infoPuntoControl']['nombre'] = $key->descripcion;
+                    }
+                }
+                
                 $formulario = $this->Ingresosbarrera->getFormularios($tareaData->petr_id);
                 $escaneoInfoId = $formulario['data'][0]->forms->form[0]->info_id;
                 $data['escaneoInfoId'] = $escaneoInfoId;// Lo mando a la vista para instaciar formulario en modal
 
                 if(isset($escaneoInfoId)){
-                    $data['imgsEscaneo'] = $this->getImgsEscaneoDocu($escaneoInfoId);
+                    $formEscaneo =  $this->getFormEscaneoDocu($escaneoInfoId);
+                    $data['imgsEscaneo'] = $formEscaneo['imagenes'];
+                    $data['datosEscaneo'] = $formEscaneo['datos'];
                 }
 
                 return $this->load->view(SICP . 'tareas/reprecintado', $data, true);
@@ -252,12 +282,12 @@ class Sicpoatareas extends CI_Model
 
                 $tareaData = $this->getXCaseId($tarea);
 
-                $data['imgsDocumentacion'] = $this->getImgsDocumentacion($tareaData->info_id);
+                $data['inspeccion'] = $this->getPreCargaDatos($tareaData->case_id);
+                $data['imgsDocumentacion'] = $this->getImgsDocumentacion($data['inspeccion']->info_id_doc);
                 $data['petr_id'] = $tareaData->petr_id;
                 $data['facturas'] = $this->getTiposFacturas();
                 $data['productos'] = $this->getProductos();
                 $data['un_medidas'] = $this->getMedidas();
-                $data['inspeccion'] = $this->getPreCargaDatos($tareaData->case_id);
                 
                 $empresas = $data['inspeccion']->empresas->empresa;
 
@@ -276,9 +306,6 @@ class Sicpoatareas extends CI_Model
 
                         }
                     }
-                    $data['preDataCargada'] = true;
-                }else{
-                    $data['preDataCargada'] = false;
                 }
 
                 //Obtengo un array con los ID's de las imagenes seleccionadas
@@ -335,8 +362,12 @@ class Sicpoatareas extends CI_Model
                 }
 
                 //Obtengo la imagen del Acta Infraccion
-                $actaInfraccionInfoId = $formulario['data'][0]->forms->form[1]->info_id;
-
+                foreach($formulario['data'][0]->forms->form as $forms){
+                    if(strpos($forms->nom_tarea, 'Acta infracción')){
+                        $actaInfraccionInfoId = $forms->info_id;
+                    }
+                }
+        
                 if(isset($actaInfraccionInfoId)){
                     $data['imgInfraccion'] = $this->getImgInfraccion($actaInfraccionInfoId);
                 }
@@ -514,7 +545,7 @@ class Sicpoatareas extends CI_Model
                 //Escaneo Documentacion
                 $data['_post_pedidotrabajo_tarea_form'] = array(
         
-                    "nom_tarea" => "$nom_tarea",
+                    "nom_tarea" => "$nom_tarea". " Escaneo Documentación",
                     "task_id" => $task_id,
                     "usuario_app" => $user_app,
                     "case_id" => $case_id,
@@ -524,7 +555,7 @@ class Sicpoatareas extends CI_Model
                 
                 $rsp = $this->guardarForms($data);
 
-                if($form['doc_impositiva'] == 'Parcial'){
+                if($form['doc_impositiva'] == 'Total'){
                     $contrato["erroresDocumentacion"]  = false;
                 }else{
                     $contrato["erroresDocumentacion"]  = true;
@@ -538,7 +569,17 @@ class Sicpoatareas extends CI_Model
 
         //paso 4
         case 'Reprecintado':       
-        
+            
+            $data['_post_pedidotrabajo_tarea_form'] = array(
+                "nom_tarea" => "$nom_tarea",
+                "task_id" => $task_id,
+                "usuario_app" => $user_app,
+                "case_id" => $case_id,
+                "info_id" => $form['frm_info_id']
+            );
+            
+            $rsp = $this->guardarForms($data);
+
             $contrato["erroresDocumentacion"]  = true;
             
             log_message('DEBUG', '#TRAZA | #SICPOA | Sicpoatareas | getContrato()  >> contrato '.json_encode($contrato));
@@ -549,7 +590,17 @@ class Sicpoatareas extends CI_Model
 
         //paso 5
         case 'Carga de Documentación':       
-        
+            
+            $data['_post_pedidotrabajo_tarea_form'] = array(
+                "nom_tarea" => "$nom_tarea",
+                "task_id" => $task_id,
+                "usuario_app" => $user_app,
+                "case_id" => $case_id,
+                "info_id" => $form['frm_info_id']
+            );
+            
+            $rsp = $this->guardarForms($data);
+
             $contrato["erroresDocumentacion"]  = true;
             
             log_message('DEBUG', '#TRAZA | #SICPOA | Sicpoatareas | getContrato()  >> contrato '.json_encode($contrato));
@@ -559,7 +610,17 @@ class Sicpoatareas extends CI_Model
         break;
 
         //paso 6
-        case 'Notificar Infracción en PCC':       
+        case 'Notificar Infracción en PCC':
+            
+            $data['_post_pedidotrabajo_tarea_form'] = array(
+                "nom_tarea" => "$nom_tarea",
+                "task_id" => $task_id,
+                "usuario_app" => $user_app,
+                "case_id" => $case_id,
+                "info_id" => $form['frm_info_id']
+            );
+            
+            $rsp = $this->guardarForms($data);
         
             $contrato["erroresDocumentacion"]  = true;
             
@@ -586,7 +647,7 @@ class Sicpoatareas extends CI_Model
             $res = $this->Forms->obtener($info_id);
 
             foreach ($res->items as $dato) {
-                if(isset($dato->valor4_base64)){
+                if(isset($dato->valor4_base64)  && $dato->tipo_dato == 'image'){
                     $rec = stream_get_contents($dato->valor4_base64);
                     $ext = $this->obtenerExtension($dato->valor);
                     array_push($imagenes, $ext.$rec);
@@ -608,7 +669,7 @@ class Sicpoatareas extends CI_Model
             $res = $this->Forms->obtener($info_id);
 
             foreach ($res->items as $dato) {
-                if(isset($dato->valor4_base64)){
+                if(isset($dato->valor4_base64) && $dato->tipo_dato == 'image'){
                     $rec = stream_get_contents($dato->valor4_base64);
                     $ext = $this->obtenerExtension($dato->valor);
                     array_push($imagenes, $ext.$rec);
@@ -651,7 +712,7 @@ class Sicpoatareas extends CI_Model
 	*/
     public function getDepartamentos(){
         
-        $url = REST_CORE."/tabla/departamentos_sanjuan/empresa/";
+        $url = REST_CORE."/tabla/departamentos_sanjuan/empresa/".empresa();
 
         $aux = $this->rest->callAPI("GET",$url);
         $resp = json_decode($aux['data']);
@@ -668,7 +729,7 @@ class Sicpoatareas extends CI_Model
 	*/
     public function getInfracciones(){
 
-        $url = REST_CORE."/tabla/tipos_infraccion/empresa/";
+        $url = REST_CORE."/tabla/tipos_infraccion/empresa/".empresa();
 
         $aux = $this->rest->callAPI("GET",$url);
         $resp = json_decode($aux['data']);
@@ -700,7 +761,7 @@ class Sicpoatareas extends CI_Model
 	*/
     public function getTiposFacturas(){
         
-        $url = REST_CORE."/tabla/888-tipos_documento/empresa/";
+        $url = REST_CORE."/tabla/tipos_documento/empresa/".empresa();
 
         $aux = $this->rest->callAPI("GET",$url);
         $resp = json_decode($aux['data']);
@@ -716,7 +777,7 @@ class Sicpoatareas extends CI_Model
 	*/
     public function getProductos(){
         
-        $url = REST_CORE."/tabla/888-tipos_producto/empresa/";
+        $url = REST_CORE."/tabla/tipos_producto/empresa/".empresa();
 
         $aux = $this->rest->callAPI("GET",$url);
         $resp = json_decode($aux['data']);
@@ -732,7 +793,7 @@ class Sicpoatareas extends CI_Model
 	*/
     public function getMedidas(){
         
-        $url = REST_CORE."/tabla/888-unidades_medida/empresa/";
+        $url = REST_CORE."/tabla/unidades_medida/empresa/".empresa();
 
         $aux = $this->rest->callAPI("GET",$url);
         $resp = json_decode($aux['data']);
@@ -810,5 +871,25 @@ class Sicpoatareas extends CI_Model
             }
         }
         return $formEscaneo;
+    }
+    /**
+	* Obtengo  patente / dominio cargada en Ingreso Barrera guardada en instancias_formularios
+	* @param array info_id
+	* @return array con patente / dominio guardado en forumlario
+	*/
+    function getPatenteTractor($info_id){
+        $patente = '';
+        $url = REST_FRM."/formulario/".$info_id;
+
+        $aux = $this->rest->callAPI("GET",$url);
+        $resp = json_decode($aux['data'])->formulario->items;
+
+        foreach ($resp->item as $dato) {
+            if($dato->name == 'dominio'){
+                $patente = $dato->valor;
+            }
+        }
+
+        return $patente;
     }
 }

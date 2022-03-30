@@ -6,7 +6,7 @@
 }
 .input-group-addon{
     background-color: #05b513 !important;
-    color: white;
+    color: white !important;
 }
 .form-check-inline{
     display: inline;
@@ -28,9 +28,29 @@
 .btnZoom {
   height: 40px;
 }
+#sec_permisos, #sec_destinos, #sec_termicos{
+    background-color: #88888833;
+}
+.titDataDinamica{
+    font-weight: 700;
+}
 </style>
 <!--_______ FORMULARIO PERMISO DE TRANSITO BOX 1______-->
 <form class="formPreCarga" id="formPreCarga">
+    <div class="row">
+        <?php $this->load->view(SICP.'inspeccion/mosaicoBarrera.php') ?>
+        <!-- The expanding image container -->
+        <div class="col-sm-6 col-md-6 col-xl-6">
+            <div class="contenedor">
+                <!-- Expanded image -->
+                <img src="lib\imageForms\preview.png" id="expandedImg" style="">
+
+                <!-- Zoom Modal Button -->
+                <button type="button" class="btn btn-outline-dark btnZoom" data-toggle="modal" data-target="#mdl-zoomPreview" title="Zoom"><i class="fa fa-search"></i></button>
+            </div>
+        </div>
+    </div>
+    <hr>
     <div class="row">
         <div class="col-md-6">
             <div class="caja" id="boxPermisoTransito">
@@ -40,11 +60,20 @@
                 <!--<div class="box-body"> -->
                 <input type="text" class="form-control hidden" name="petr_id" id="petr_id" value="<?php echo $petr_id?>">
 
+                <!--Permiso-->
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="form-group">
+                        <label for="Permiso">N° de Permiso(<strong style="color: #dd4b39">*</strong>):</label>
+                        <input type="text" class="form-control requerido alfanumerico" id="permi_num" placeholder="Ingrese número de permiso"/>
+                    </div>
+                </div>
+                <!--________________-->
+
                 <!--Solicitud-->
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
-                        <label for="Solicitud">Solicitud N°(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input type="text" class="form-control requerido limitedChars" id="soli_num" placeholder="Ingrese número de solicitud"/>
+                        <label for="Solicitud">N° de Solicitud(<strong style="color: #dd4b39">*</strong>):</label>
+                        <input type="text" class="form-control requerido alfanumerico" id="soli_num" placeholder="Ingrese número de solicitud"/>
                     </div>
                 </div>
                 <!--________________-->
@@ -52,8 +81,26 @@
                 <!-- Lugar de Emisión -->
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
-                        <label for="emision">Lugar de emisión(<strong style="color: #dd4b39">*</strong>):</label>
+                        <label for="emision">Lugar de Emisión(<strong style="color: #dd4b39">*</strong>):</label>
                         <input type="text" class="form-control" id="emision" placeholder="Ingrese lugar de emisión"/>
+                    </div>
+                </div>
+                <!--________________-->
+
+                <!--DOC. Sanitaria Tipo-->
+                <div class="col-md-6 col-sm-6 col-xs-6" style="display: contents;">
+                    <div class="col-md-6 col-sm-6 col-xs-6">
+                        <label for="doc_sanitaria">Doc. Sanitaria Tipo(<strong style="color: #dd4b39">*</strong>):</label>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-6">
+                        <div class="form-check">
+                            <input type="radio" class='form-check-input' name="doc_sanitaria" value="PT"/>
+                            <label class="form-check-label" for="">PT</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="radio" class='form-check-input' name="doc_sanitaria" value="PTR"/>
+                            <label class="form-check-label" for="">PTR</label>
+                        </div>
                     </div>
                 </div>
                 <!--________________-->
@@ -70,48 +117,82 @@
                 <!--Fecha-->
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
-                    <label for="fecha">Fecha(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input type="date" class="form-control" id="fecha" placeholder="Ingrese fecha"/>
+                    <label for="fecha">Fecha del Permiso(<strong style="color: #dd4b39">*</strong>):</label>
+                        <input type="date" class="form-control" id="fecha"/>
+                    </div>
+                </div>
+                <!--________________-->
+                                        
+                <!--Nombre Establecimiento-->
+                <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
+                    <div class="form-group">
+                        <label for="esta_nom" style="font-size:13px !important">Nombre de Establecimiento(<strong style="color: #dd4b39">*</strong>):</label>
+                        <div class="input-group">
+                            <select class="form-control select2 select2-hidden-accesible empresa" name="esta_nom" id="esta_nom">
+                                <option value="" disabled selected></option>
+                            </select>
+                            <span id="add_establecimiento" class="input-group-addon" data-toggle="modal" data-target="#mdl-establecimiento" onclick="$('#tipoEmpresa').val('Establecimiento')"><i class="fa fa-plus"></i></span>
+                        </div>
                     </div>
                 </div>
                 <!--________________-->
 
-                <!--DOC. Sanitaria Tipo-->
+                <!--Establecimiento N°-->
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="form-group">
+                    <label for="esta_num">Establecimiento N°(<strong style="color: #dd4b39">*</strong>):</label>
+                        <input class="form-control" name="esta_num" id="esta_num" placeholder="Ingrese Establecimiento N°" readonly/>
+                    </div>
+                </div>
+                <!--________________-->
+
+                <!--Producto-->
                 <div class="col-md-12 col-sm-12 col-xs-12">
-                        <label for="doc_sanitaria">Doc. Sanitaria Tipo(<strong style="color: #dd4b39">*</strong>):</label>
-                    <div class="form-check form-check-inline">
-                        <input type="radio" class='form-check-input' name="doc_sanitaria" value="PT"/>
-                        <label class="form-check-label" for="">PT</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input type="radio" class='form-check-input' name="doc_sanitaria" value="PTR"/>
-                        <label class="form-check-label" for="">PTR</label>
-                    </div>
+                    <div class="form-group">
+                        <label for="producto">Producto/s(<strong style="color: #dd4b39">*</strong>):</label>
+                        <textarea class="form-control" name="productos" id="producto" placeholder="Ingrese producto/s" required></textarea>
+                    </div>                    
+                </div>
+                <!--________________-->
+
+                <!--Neto-->
+                <div class="col-md-4 col-sm-6 col-xs-6">
+                    <div class="form-group">
+                        <label for="neto">Peso Neto(<strong style="color: #dd4b39">*</strong>):</label>
+                        <input class="form-control onlyNumbers" id="neto" placeholder="Ingrese peso neto"/>
+                    </div>                    
+                </div>
+                <!--________________-->
+
+                <!--Bruto-->
+                <div class="col-md-4 col-sm-6 col-xs-6">
+                    <div class="form-group">
+                        <label for="bruto">Peso Bruto(<strong style="color: #dd4b39">*</strong>):</label>
+                        <input class="form-control onlyNumbers" name="bruto" id="bruto" placeholder="Ingrese peso bruto" />
+                    </div>                    
+                </div>
+                <!--________________-->
+
+                <!--Temperatura-->
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    <div class="form-group">
+                        <label for="temperatura">Temperatura(<strong style="color: #dd4b39">*</strong>):</label>
+                        <input type="number" class="form-control" id="temperatura" placeholder="Ingrese temperatura" />
+                    </div>                    
                 </div>
                 <!--________________-->
 
                 <!--_________________ Agregar_________________-->
+                <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="form-group text-right">
-                        <button type="button" class="btn btn-outline-dark" onclick="agregarPermiso()" >Agregar</button>
-                    </div>                
+                        <button type="button" class="btn btn-primary" onclick="agregarPermiso()" >Agregar Permiso</button>
+                    </div>
+                </div>                
                 <!--__________________________________-->
                 <div class="col-md-12 col-sm-12 col-xs-12 centrar">
-                    <h4>Permisos:</h4>
+                    <h4 class="titDataDinamica">Permisos:</h4>
                     <div id="sec_permisos"></div>
                     <hr>
-                </div>
-
-                <?php $this->load->view(SICP.'inspeccion/mosaicoBarrera.php') ?>
-                <hr>
-                <!-- The expanding image container -->
-                <div class="col-sm-12 col-md-12 col-xl-12">
-                    <div class="contenedor">
-                        <!-- Expanded image -->
-                        <img src="lib\imageForms\preview.png" id="expandedImg" style="">
-
-                        <!-- Zoom Modal Button -->
-                        <button type="button" class="btn btn-outline-dark btnZoom" data-toggle="modal" data-target="#mdl-zoomPreview" title="Zoom"><i class="fa fa-search"></i></button>
-                    </div>
                 </div>
             <!--</div> FIN box-body -->
         
@@ -140,7 +221,7 @@
                         <!-- Nombre CHOFER -->
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <div class="form-group">
-                                <label for="nom_chofer">Nombre Chofer(<strong style="color: #dd4b39">*</strong>):</label>
+                                <label for="nom_chofer">Nombre del Chofer(<strong style="color: #dd4b39">*</strong>):</label>
                                 <input type="text" class="form-control" name="nom_chofer" id="nom_chofer" placeholder="" readonly/>
                             </div>
                         </div>
@@ -149,44 +230,47 @@
                         <!--Patente Tractor-->
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <div class="form-group has-feedback">
-                            <label for="patenteTractor">Patente Tractor(<strong style="color: #dd4b39">*</strong>):</label>
-                                <input class="form-control limited" name="patente_tractor" id="patenteTractor" placeholder="Ingrese Patente Tractor" required/>
+                            <label for="patenteTractor">Patente de Tractor(<strong style="color: #dd4b39">*</strong>):</label>
+                                <input class="form-control limited" name="patente_tractor" id="patenteTractor" placeholder="Ingrese Patente Tractor" value="<?php echo isset($patente) ? $patente : null ?>" required/>
                             </div>
                         </div>
                         <!--________________-->
 
-                        <!--N° SENASA-->
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <div class="form-group">
-                            <label for="num_senasa">N° SENASA(<strong style="color: #dd4b39">*</strong>):</label>
-                                <input type="text" class="form-control limitedChars" name="nro_senasa" id="num_senasa" placeholder="Ingrese N° SENASA" required/>
-                            </div>
-                        </div>
-                        <!--________________-->
-                        
-                        <!--Establecimiento N°-->
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <div class="form-group">
-                            <label for="esta_num">Establecimiento N°(<strong style="color: #dd4b39">*</strong>):</label>
-                                <input class="form-control" name="esta_num" id="esta_num" placeholder="Ingrese Establecimiento N°" readonly/>
-                            </div>
-                        </div>
-                        <!--________________-->
-
-                        <!--Nombre Establecimiento-->
+                        <!--Transportista-->
                         <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
                             <div class="form-group">
-                                <label for="esta_nom">Establecimiento(<strong style="color: #dd4b39">*</strong>):</label>
+                                <label for="transportista">Transportista(<strong style="color: #dd4b39">*</strong>):</label>
                                 <div class="input-group">
-                                    <select class="form-control select2 select2-hidden-accesible empresa" name="esta_nom" id="esta_nom" required>
-                                        <option value="" disabled selected></option>
+                                    <select class="form-control select2 select2-hidden-accesible empresa" name="transportista" id="transportista" required>
+                                        <option value="" disabled selected></option>	
                                     </select>
-                                    <span id="add_establecimiento" class="input-group-addon" data-toggle="modal" data-target="#mdl-empresa" onclick="$('#tipoEmpresa').val('Establecimiento')"><i class="fa fa-plus"></i></span>
+                                    <span id="add_transportista" class="input-group-addon" data-toggle="modal" data-target="#mdl-empresa" onclick="$('#tipoEmpresa').val('Transportista')"><i class="fa fa-plus"></i></span>
                                 </div>
-                            </div>
+                            </div>                    
                         </div>
                         <!--________________-->
 
+                        <!--Teléfono Transportista-->
+                        <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
+                            <div class="form-group">
+                                <label for="telTransportista">Teléfono Transportista:</label>
+                                <input class="form-control limited" name="telTransportista" id="telTransportista" placeholder="Ingrese teléfono" required/>
+                            </div>                    
+                        </div>
+                        <!--________________-->
+
+                        <!--E-mail Transportista-->
+                        <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
+                            <div class="form-group">
+                                <label for="emailTransportista">E-mail Transportista(<strong style="color: #dd4b39">*</strong>):</label>
+                                <input type="text" class="form-control" name="emailTransportista" id="emailTransportista" placeholder="Ingrese correo" required/>
+                            </div>                    
+                        </div>
+                        <!--________________-->
+
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <hr>
+                        </div>
                         <!--Empresa Destino-->
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <div class="form-group">
@@ -214,81 +298,59 @@
                             </div>                    
                         </div>
                         <!--_________________ Agregar_________________-->
-                        <div class="form-group text-right">
-                            <button type="button" class="btn btn-outline-dark" onclick="agregarDestino()" >Agregar</button>
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div style="margin-top: 25px;" class="form-group text-right">
+                                <button type="button" class="btn btn-primary" onclick="agregarDestino()" >Agregar Destino</button>
+                            </div>
                         </div>                
                         <!--__________________________________-->
 
                         <div class="col-md-12 col-sm-12 col-xs-12 centrar">
-                            <h4>Empresa Destino:</h4>
+                            <h4 class="titDataDinamica">Empresa Destino:</h4>
                             <div id="sec_destinos"></div>
                         <hr>
                         </div>
                         <!--________________-->
-                        <!--Transportista-->
-                        <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
-                            <div class="form-group">
-                                <label for="transportista">Transportista(<strong style="color: #dd4b39">*</strong>):</label>
-                                <div class="input-group">
-                                    <select class="form-control select2 select2-hidden-accesible empresa" name="transportista" id="transportista" required>
-                                        <option value="" disabled selected></option>	
-                                    </select>
-                                    <span id="add_transportista" class="input-group-addon" data-toggle="modal" data-target="#mdl-empresa" onclick="$('#tipoEmpresa').val('Transportista')"><i class="fa fa-plus"></i></span>
-                                </div>
-                            </div>                    
-                        </div>
-                        <!--________________-->
-                        <!--Producto-->
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <div class="form-group">
-                                <label for="producto">Producto/s(<strong style="color: #dd4b39">*</strong>):</label>
-                                <input class="form-control" name="productos" id="producto" placeholder="Ingrese producto" required/>
-                            </div>                    
-                        </div>
-                        <!--________________-->
+
                         <!--Termico Patente-->
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <div class="form-group">
-                                <label for="term_patente">Térmico Patente(<strong style="color: #dd4b39">*</strong>):</label>
-                                <input class="form-control limited" id="term_patente" placeholder="Ingrese térmico patente" />
+                                <label for="term_patente">Patente Térmico(<strong style="color: #dd4b39">*</strong>):</label>
+                                <input class="form-control limited" id="term_patente" placeholder="Ingrese patente del térmico" />
                             </div>                    
                         </div>
                         <!--________________-->
-                        <!--Temperatura-->
+
+                        <!--N° SENASA-->
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <div class="form-group">
-                                <label for="temperatura">Temperatura(<strong style="color: #dd4b39">*</strong>):</label>
-                                <input type="number" class="form-control" id="temperatura" placeholder="Ingrese temperatura" />
-                            </div>                    
+                            <label for="num_senasa">N° hab. SENASA(<strong style="color: #dd4b39">*</strong>):</label>
+                                <input type="text" class="form-control limitedChars" name="nro_senasa" id="num_senasa" placeholder="Ingrese N° de habilitación SENASA" required/>
+                            </div>
                         </div>
                         <!--________________-->
+
                         <!--Precintos-->
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <div class="form-group">
-                                <label for="precintos">Precintos N°(<strong style="color: #dd4b39">*</strong>):</label>
+                                <label for="precintos">N° de Precintos(<strong style="color: #dd4b39">*</strong>):</label>
                                 <input class="form-control limited" id="precintos" placeholder="Ingrese precintos" />
                             </div>                    
                         </div>
                         <!--________________-->
                         <!--_________________ Agregar_________________-->
-                        <div class="form-group text-right">
-                            <button type="button" class="btn btn-outline-dark" onclick="agregarTermico()" >Agregar</button>
-                        </div>                
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="form-group text-right">
+                                <button type="button" class="btn btn-primary" onclick="agregarTermico()" >Agregar Térmico</button>
+                            </div>
+                        </div>              
                         <!--__________________________________-->
                         <div class="col-md-12 col-sm-12 col-xs-12 centrar">
-                            <h4>Térmico:</h4>
+                            <h4 class="titDataDinamica">Térmico:</h4>
                             <div id="sec_termicos"></div>
+                            <hr>
                         </div>
                         <!--________________-->
-                        <!--Precintos-->
-                        <div class="col-md-12 col-sm-12 col-xs-12">
-                            <div class="form-group">
-                                <label for="observaciones">Observaciones:</label>
-                                <textarea class="form-control" row="3" name="observaciones" id="observaciones" placeholder="Observaciones" ></textarea>
-                            </div>                    
-                        </div>
-                        <!--________________-->
-                    
                     </div>
                 <!-- </div> -->
 
@@ -398,6 +460,7 @@ $(document).ready(function() {
                     results.push({
                         id: obj.cuit,
                         text: obj.razon_social,
+                        num_esta: obj.num_establecimiento
                     });
                 });
                 return {
@@ -415,7 +478,7 @@ $(document).ready(function() {
             if (empresa.loading) {
                 return "Buscando empresas...";
             }
-
+            
             var $container = $(
                 "<div class='select2-result-repository clearfix'>" +
                 "<div class='select2-result-repository__meta'>" +
@@ -451,7 +514,9 @@ $(document).ready(function() {
     //MÁSCARAS
     //Lugar de Emision A-Z, 0-9 y space
     $("#emision").inputmask({ regex: "[a-zA-Z0-9 ]*" });
-    //Solicitud N° y N° SENASA: 0-9, /, ',' y -
+    //Solicitud N° y N° de Permiso
+    $(".alfanumerico").inputmask({ regex: "[0-9/a-zA-Z -]*" });
+    // N° SENASA: 0-9, /, ',' y -
     $(".limitedChars").inputmask({ regex: "[0-9/,-]*" });
     //PRECINTOS y Patentes: 0-9, A-Z, space, / y -
     $(".limited").inputmask({ regex: "[0-9/a-zA-Z -]*" });
@@ -538,33 +603,48 @@ var editando = false;// Utilizo para que no se pierdan los permisos al editar
 			if(reporte == ''){
                 
                 var soli_num = $("#soli_num").val();
+                var permi_num = $("#permi_num").val();
                 // var descDepo = $("#depo_origen_id option:selected").text();
                 var emision = $('#emision').val();
                 var salida = $('#salida').val();
                 var fecha = $("#fecha").val();
                 var tipo = $('input[name=doc_sanitaria]:checked').val();
+                var origen = $("#esta_nom").select2('data')[0].text;
+                var origen_num = $("#esta_num").val();
+                var productos = $("#producto").val();
+                var neto = $("#neto").val(); 
+                var bruto = $("#bruto").val(); 
+                var temperatura = $("#temperatura").val(); 
 
                 var datos = {};
-                datos.perm_id = soli_num;
+                datos.perm_id = permi_num;
+                datos.soli_num = soli_num;
                 datos.lugar_emision = emision;
                 datos.fecha_hora_salida = fecha +" "+salida;
                 datos.tipo = tipo;
                 datos.case_id = $("#caseId").val(); 
+                datos.origen = origen;
+                datos.origen_num = origen_num;
+                datos.productos = productos;
+                datos.neto = neto;
+                datos.bruto = bruto;
+                datos.temperatura = temperatura;
 
                 var div = `<div class='form-group permTransito' data-json='${JSON.stringify(datos)}'>
                                 <span> 
                                 <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i>
                                 <i class='fa fa-fw fa-edit text-light-blue' style='cursor: pointer;' title='Editar'></i> 
-                                | ${soli_num} - ${tipo} - ${emision} - ${salida} ${fecha}
+                                <i class='fa fa-fw fa-eye text-light-blue' style='cursor: pointer;' title='Ver detalle'></i> 
+                                | <span class='numPermiso'>${soli_num}</span> - ${permi_num}
                                 </span>
                         </div>`;
                 $('#sec_permisos').append(div);
                 //Limpio luego de agregar
-                $("#soli_num").val('');
-                $("#emision").val('');
-                $("#salida").val('');
-                $("#fecha").val('');
-                $('input[name=doc_sanitaria]:checked').prop('checked',false);
+                // $("#soli_num").val('');
+                // $("#emision").val('');
+                // $("#salida").val('');
+                // $("#fecha").val('');
+                // $('input[name=doc_sanitaria]:checked').prop('checked',false);
                 editando = false;
                 alertify.success("Permiso de tránsito agregado correctamente!");
 			}else{
@@ -577,6 +657,12 @@ var editando = false;// Utilizo para que no se pierdan los permisos al editar
 		if($("#soli_num").val() == ""){
 			valida = "Complete Numero de solicitud!";
 		}
+        //Valido que el numero de permiso no se ingreso previamente
+        $(".numPermiso").each(function (i, val) { 
+            if($(val).text() == $("#soli_num").val()){
+                valida = "N° de Permiso ya fue ingresado!";
+            }
+        });
         //Lugar de emision
 		if($("#emision").val() == ""){
 			valida = "Complete Lugar de emision!";
@@ -611,6 +697,22 @@ var editando = false;// Utilizo para que no se pierdan los permisos al editar
             alert("Ya se esta editando un permiso!");
         }
 	});
+
+    $(document).on("click",".fa-eye",function(e) {
+        var data =	JSON.parse($(e.target).closest('div').attr('data-json'));
+        $("#modalVerPermiso").val(data.perm_id);
+        $("#modalVerSolicitud").val(data.soli_num);
+        $("#modalVerEmision").val(data.lugar_emision);
+        $("#modalVerDocSanitaria").val(data.tipo);
+        $("#modalVerHoraSalida").val(data.fecha_hora_salida);
+        $("#modalVerOrigen").val(data.origen);
+        $("#modalVerOrigenNumero").val(data.origen_num);
+        $("#modalVerProductos").val(data.productos);
+        $("#modalVerNeto").val(data.neto);
+        $("#modalVerBruto").val(data.bruto);
+        $("#modalVerTemperatura").val(data.temperatura);
+        $("#mdl-verDetallePermiso").modal('show');
+	});
 //FIN Script's seccion permisos transito
 /***************************************************** */
 /***************************************************** */
@@ -625,7 +727,6 @@ var editando = false;// Utilizo para que no se pierdan los permisos al editar
             var temperatura = $('#temperatura').val();
             var precintos = $('#precintos').val();
             var term_patente = $("#term_patente").val();
-            // var descDepo = $("#depo_origen_id option:selected").text();
 
             var datos = {};
             datos.temperatura = temperatura;
@@ -636,7 +737,7 @@ var editando = false;// Utilizo para que no se pierdan los permisos al editar
             var div = `<div class='form-group termicos' data-json='${JSON.stringify(datos)}'>
                             <span> 
                             <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i> 
-                            | ${term_patente} - ${temperatura} - ${precintos}
+                            | ${term_patente} - ${precintos}
                             </span>
                     </div>`;
             $('#sec_termicos').append(div);
@@ -678,7 +779,7 @@ $('#doc_chofer').on('select2:select', function (e) {
 });
 $('#esta_nom').on('select2:select', function (e) {
     var data = e.params.data;
-    $("#esta_num").val(data.id);
+    $("#esta_num").val(data.num_esta);
 });
 //Cargo listado de depositos para empresa destino seleccionada
 $("#empre_destino").on('change', function(){
@@ -721,7 +822,7 @@ $("#empre_destino").on('change', function(){
 
 //Cierre formulario
 async function cerrarTareaform(){
-    debugger;
+    
     //obtengo el formulario de la inspeccion
     var dataForm = new FormData($('#formPreCarga')[0]);
     dataForm.append('case_id', $("#caseId").val());
@@ -774,31 +875,41 @@ async function cerrarTareaform(){
             processData: false,
             url: "<?php echo SICP; ?>inspeccion/agregarInspeccion",
             success: function(data) {
-                console.log("Se guardo el formulario de PreCarga correctamente");
-                
-                //Guardo los permisos, empresas y termicos
-                $.ajax({
-                    type: 'POST',
-                    data: {permisos, empresas, termicos},
-                    url: "<?php echo SICP; ?>inspeccion/guardarDatosInspeccion",
-                    success: function(data) {
-                        resp = JSON.parse(data);
-                        if(resp.status){
-                            console.log(resp.message);
-                            resolve("Correcto");
-                        }else{
-                            console.log(resp.message);
+                result = JSON.parse(data);
+                if(result.status){
+
+                    console.log("Se guardo el formulario de PreCarga correctamente");
+
+                    //Guardo los permisos, empresas y termicos
+                    $.ajax({
+                        type: 'POST',
+                        data: {permisos, empresas, termicos},
+                        url: "<?php echo SICP; ?>inspeccion/guardarDatosInspeccion",
+                        success: function(data) {
+                            resp = JSON.parse(data);
+                            if(resp.status){
+                                console.log(resp.message);
+                                resolve("Correcto");
+                            }else{
+                                console.log(resp.message);
+                                reject("Error");
+                            }
+                        },
+                        error: function(data) {
+                            wc();
+                            error("Error al guardar los datos anexos al formulario de PreCarga");
                             reject("Error");
                         }
-                    },
-                    error: function(data) {
-                        alert("Error al guardar datos del formulario");
-                        reject("Error");
-                    }
-                });
+                    });
+                }else{
+                    wc();
+                    error("Error al guardar el formulario de PreCarga");
+                    reject("Error");
+                }
 
             },
             error: function(data) {
+                wc();
                 alert("Error al guardar formulario de PreCarga");
                 reject("Error");
             }
@@ -809,14 +920,14 @@ async function cerrarTareaform(){
     
 
 function cerrarTarea() {
-
+    wo();
     if(!frm_validar('#formPreCarga')){
-        console.log("Error al validar Formulario");
-				Swal.fire(
-					'Error..',
-					'Debes completar los campos obligatorios (*)',
-					'error'
-				);
+        Swal.fire(
+            'Error..',
+            'Debes completar los campos obligatorios (*)',
+            'error'
+        );
+        wc();
         return;
     }
     //
@@ -824,10 +935,11 @@ function cerrarTarea() {
     //
     if ( !$('#sec_permisos').children().length > 0 ) { 
         Swal.fire(
-					'Error..',
-					'No se agregaron permisos de tránsito (*)',
-					'error'
-				);
+            'Error..',
+            'No se agregaron permisos de tránsito (*)',
+            'error'
+        );
+        wc();
         return;
     }
     //
@@ -835,22 +947,23 @@ function cerrarTarea() {
     //
     if ( !$('#sec_destinos').children().length > 0 ) {
         Swal.fire(
-					'Error..',
-					'No se agregaron empresas de destino (*)',
-					'error'
-				);
+            'Error..',
+            'No se agregaron empresas de destino (*)',
+            'error'
+        );
+        wc();
         return;
     }
     //
     //VALIDACION TERMICOS
     //
     if ( !$('#sec_termicos').children().length > 0 ) {
-        
         Swal.fire(
-					'Error..',
-					'No se agregaron térmicos (*)',
-					'error'
-				);
+            'Error..',
+            'No se agregaron térmicos (*)',
+            'error'
+        );
+        wc();
         return;
     }
     //Una vez validado el formulario, lo guardo
@@ -869,25 +982,35 @@ function cerrarTarea() {
             processData: false,
             url: '<?php base_url() ?>index.php/<?php echo BPM ?>Proceso/cerrarTarea/' + id,
             success: function(data) {
-                //wc();
-                //back();
-                linkTo('<?php echo BPM ?>Proceso/');
-                setTimeout(() => {
-                Swal.fire(
+                wc();
+                const confirm = Swal.mixin({
+					customClass: {
+						confirmButton: 'btn btn-primary'
+					},
+					buttonsStyling: false
+				});
+
+                confirm.fire({
+                    title: 'Perfecto!',
+                    text: "Se finalizó la tarea correctamente!",
+                    type: 'success',
+                    showCancelButton: false,
+                    confirmButtonText: 'Hecho'
+                }).then((result) => {
                     
-                        'Perfecto!',
-                        'Se finalizó la tarea correctamente!',
-                        'success'
-                    )
-        	  }, 13000);
+                    linkTo('<?php echo BPM ?>Proceso/');
+                    
+                });
 
             },
             error: function(data) {
+                wc();
                 alert("Error al finalizar tarea");
             }
         });
         
     }).catch((err) => {
+        wc();
         console.log(err);
         alert("Error al finalizar tarea");
     });

@@ -70,7 +70,7 @@ class Inspecciones extends CI_Model {
 	*/
     public function buscaEmpresas($dato){
         
-        $url = REST_SICP."/empresas/patron/".$dato;
+        $url = REST_SICP."/empresas/patron/".urlencode($dato);
 
         $aux = $this->rest->callAPI("GET",$url);
         $resp = json_decode($aux['data']);
@@ -143,7 +143,12 @@ class Inspecciones extends CI_Model {
             $aux["tipo"] = $key['tipo'];
             $aux["usuario_app"] = userNick();
             $aux["case_id"] = $key['case_id'];
-
+            $aux["soli_num"] = $key['soli_num'];
+            $aux["origen"] = $key['origen'];
+            $aux["productos"] = $key['productos'];
+            $aux["neto"] = $key['neto'];
+            $aux["bruto"] = $key['bruto'];
+            $aux["temperatura"] = $key['temperatura'];
 
             $batch_req['_post_inspeccion_permiso_batch_req']['_post_inspeccion_permiso'][] = $aux;
         }
@@ -310,7 +315,7 @@ class Inspecciones extends CI_Model {
 	*/
     public function guardarDetallesDocumentos($data){
         
-        $url = REST_SICP."/_post_documento_detalle_batch_req";
+        $url = REST_SICP."/_post_docdetlist_batch_req";
         $batch_req = [];
 
         foreach ($data as $key) {
@@ -324,10 +329,10 @@ class Inspecciones extends CI_Model {
             $aux['tipr_id'] = $key['tipr_id'];
             $aux['unme_id'] = $key['unme_id'];
 
-            $batch_req['_post_documento_detalle_batch_req']['_post_documento_detalle'][] = $aux;
+            $batch_req['_post_docdetlist_batch_req']['_post_docdetlist'][] = $aux;
 
         }
-        //$post['_post_documento_detalle'] = $aux;
+        
         $rsp = $this->rest->callApi('POST', $url, $batch_req);
 
         log_message('DEBUG', "#TRAZA | #SICPOA | Inspecciones | guardarDetallesDocumentos() ".json_encode($rsp));

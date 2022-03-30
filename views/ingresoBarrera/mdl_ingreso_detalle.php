@@ -1,11 +1,4 @@
-<style>
-.modal-dialog,.modal-dialog img { 
-    width:50%;
-    height:75%;
-    margin:2 auto;
-}
-
-</style>
+<div id="cabecera"></div>
 <input id="tarea" data-info="" class="hidden">
 <input type="text" class="form-control hidden" id="asignado" value="">
 <input type="text" class="form-control hidden" id="taskId" value="">
@@ -16,7 +9,7 @@
         <li class="active"><a href="#tab_3" data-toggle="tab" aria-expanded="false">Trazabilidad</a></li>
         <li class="privado"><a href="#tab_2" data-toggle="tab" aria-expanded="false">Comentarios</a></li>
         <!-- <li class="privado"><a href="#tab_1" data-toggle="tab" aria-expanded="true">Información</a></li> -->
-        <!-- <li class="privado"><a href="#tab_5" data-toggle="tab" aria-expanded="true">Formulario</a></li> -->
+        <li class="privado"><a href="#tab_5" data-toggle="tab" aria-expanded="true">Formulario</a></li>
     </ul>
     <div class="tab-content">
   
@@ -33,8 +26,8 @@
         </div>
 
         <!-- /.tab-pane -->
-        <!-- <div class="tab-pane" id="tab_5">
+        <div class="tab-pane" id="tab_5">
             <div id="cargar_form"></div>
-        </div> -->
+        </div>
     </div>
 </div>

@@ -19,6 +19,9 @@ class Reportes extends CI_Controller
     parent::__construct();
     $this->load->model(SICP.'koolreport/Opcionesfiltros');
     $this->load->model(SICP.'Ingresosbarrera');
+    $this->load->helper('sesion_helper');
+    //valido la sesion en caso de inactividad
+    validarInactividad();
   }
 
   /**
