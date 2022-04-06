@@ -66,6 +66,7 @@ var guardarPedidoTrabajo = function(info_id = null) {
     var formData = new FormData($('#'+idForm)[0]);
     formData.append('info_id', info_id);
 
+    wo();
     $.ajax({
         type: 'POST',
         dataType: 'JSON',
@@ -79,13 +80,13 @@ var guardarPedidoTrabajo = function(info_id = null) {
 
             if (rsp.status) {
                 
+                linkTo();
                 Swal.fire(
                     'Guardado!',
                     'El formulario de ingreso por barrera se guardo correctamente',
                     'success'
                 );
-                $('#'+idForm)[0].reset();
-                linkTo('<?php echo BPM ?>Proceso/');
+
 
             } else {
                 Swal.fire(
@@ -95,8 +96,8 @@ var guardarPedidoTrabajo = function(info_id = null) {
                 )
                 console.log("Error al guardar formulario de ingreso por barrera");
             }
+            wc();
         },
-
         error: function(rsp) {
             console.log(rsp); 
             var result = rsp.status.toString(); 
@@ -109,9 +110,6 @@ var guardarPedidoTrabajo = function(info_id = null) {
                 'No se guardo formulario',
                 'error'
             )
-        },
-        complete: function() {
-            wc();
         }
     });
 }
