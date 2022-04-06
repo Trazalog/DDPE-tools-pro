@@ -58,15 +58,14 @@ $('#minimizar_pedido_trabajo').click(function() {
 detectarForm();
 initForm();
 
-var guardarPedidoTrabajo = function() {
+var guardarPedidoTrabajo = function(info_id = null) {
 
     $('#mdl-ingreso').modal('hide')
     var idForm = $("#div_ingreso_barrera").find('form').attr('id');
 
     var formData = new FormData($('#'+idForm)[0]);
-    formData.append('info_id', $('#'+idForm).attr('data-ninfoid'));
+    formData.append('info_id', info_id);
 
-    wo();
     $.ajax({
         type: 'POST',
         dataType: 'JSON',
@@ -75,9 +74,8 @@ var guardarPedidoTrabajo = function() {
         cache: false,
         contentType: false,
         processData: false,
-        success: function(rsp) {
-         console.log(rsp);   
-         var result = rsp.status.toString(); 
+        success: function(rsp) {  
+            var result = rsp.status.toString(); 
 
             if (rsp.status) {
                 
