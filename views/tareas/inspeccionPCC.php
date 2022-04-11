@@ -1315,7 +1315,17 @@ async function cerrarTareaform(){
 
     //obtengo el formulario de la inspeccion
     var dataForm = new FormData($('#formInspeccion')[0]);
-    var frm_info_id = $('#formEscaneoDocu .frm').attr('data-ninfoid');
+    var frm_info_id;
+
+    //Guardo formulario de escaneo documentacion, se valido en cerrarTarea()
+    // $('#formEscaneoDocu .frm-save').click();
+
+    guardaFormEscaneo().then((newInfoID) => {
+        console.log("Info id generado: " + newInfoID);
+        frm_info_id = newInfoID;
+    }).catch((error) => {
+        console.log(error);
+    });
     
     dataForm.append('case_id', $("#caseId").val());
     dataForm.append('info_id_doc', frm_info_id);
@@ -1412,9 +1422,6 @@ async function cerrarTareaform(){
                     success: function(data) {
                         resp = JSON.parse(data);
                         if(resp.status){
-                            //Guardo formulario de escaneo documentacion, se valido en cerrarTarea()
-                            $('#formEscaneoDocu .frm-save').click();
-
                             console.log(resp.message);
                             resolve("Correcto");
                         }else{
@@ -1502,7 +1509,7 @@ function cerrarTarea() {
     }
     //Una vez validado el formulario, lo guardo
     cerrarTareaform().then((result) => {
-    
+        return;// TODO
         var dataForm = new FormData($('#formInspeccion')[0]);
         var frm_info_id = $('#formEscaneoDocu .frm').attr('data-ninfoid');
 
@@ -1564,6 +1571,18 @@ async function limpiarDataPreCargada () {
     });
 
     return await limpiadoCompleto;
+}
+//Invoca a la funcion para guardar formulario dinamico y retorna el info_id generado
+async function guardaFormEscaneo(){
+    let guardadoFormCompleto = new Promise(function(resolve,reject){
+        var infoIDGenerado = frmGuardar($('#formEscaneoDocu').find('form'),false,false);
+        if(_isset(infoIDGenerado)){
+            resolve(infoIDGenerado);
+        }else{
+            reject(infoIDGenerado);
+        }
+    });
+    return await guardadoFormCompleto;
 }
 //FIN Scripts Cierre tarea
 /***************************************************** */
