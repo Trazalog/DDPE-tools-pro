@@ -526,21 +526,21 @@ class Sicpoatareas extends CI_Model
           
             //paso 3
             case 'Alerta de camión que no paso por PCC':
-
+                //Se quito el formulario dinamico del acta infraccion en calle, asique comento el guardado del formulario
                 //Acta infraccion en calle
-                $data['_post_pedidotrabajo_tarea_form'] = array(
+                // $data['_post_pedidotrabajo_tarea_form'] = array(
         
-                    "nom_tarea" => "$nom_tarea"." Acta infracción",
-                    "task_id" => $task_id,
-                    "usuario_app" => $user_app,
-                    "case_id" => $case_id,
-                    "info_id" => $form['acta_info_id']
+                //     "nom_tarea" => "$nom_tarea"." Acta infracción",
+                //     "task_id" => $task_id,
+                //     "usuario_app" => $user_app,
+                //     "case_id" => $case_id,
+                //     "info_id" => $form['frm_info_id']
 
-                );
+                // );
 
-                $resp = $this->guardarForms($data);
+                // $resp = $this->guardarForms($data);
         
-                log_message('DEBUG', '#TRAZA | #SICPOA | Sicpoatareas | getContrato() AlertaPCC  >> Acta infraccion status: '.json_encode($resp['status']));
+                // log_message('DEBUG', '#TRAZA | #SICPOA | Sicpoatareas | getContrato() AlertaPCC  >> Acta infraccion status: '.json_encode($resp['status']));
 
                 //Escaneo Documentacion
                 $data['_post_pedidotrabajo_tarea_form'] = array(
