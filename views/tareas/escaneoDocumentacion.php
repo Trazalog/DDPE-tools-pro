@@ -54,43 +54,35 @@ function agregarArchivos(){
     $(".addFiles").before(modeloInputFile);
     indexFiles++;
 }
-function cerrarTareaform(){
-
+async function cerrarTareaform(){
+    resp = {};
     if (!frm_validar('#formDocumentacion')) {
   
-        Swal.fire(
-            'Oops...',
-            'Debes completar los campos obligatorios (*)',
-            'error'
-        );
+        Swal.fire('Oops...','Debes completar los campos obligatorios (*)','error');
+        resp.confirma = false;
 
-        return false;
+        return new Promise(reject => {reject(resp)});
     }else{
+        resp.confirma = true;
+        resp.info_id = await frmGuardarConPromesa($('#formDocumentacion').find('form'));
+        console.log('Formulario guardado con éxito. Info ID: '+ resp.info_id);
 
-        frmGuardar($('#formDocumentacion').find('form'),false,false);
-        var info_id = $('#formDocumentacion .frm').attr('data-ninfoid');
-        console.log('Formulario guardado con éxito. Info ID: '+ info_id);
-
-        return true; 
+        return new Promise(resolve => {resolve(resp)}); 
     }
-  }
-    
+}
+  
+async function cerrarTarea() {
+    wo();
+   var confirma = await cerrarTareaform();
 
-function cerrarTarea() {
-   var confirma = cerrarTareaform();
-
-    if(!confirma){
+    if(!resp.confirma){
         return;
     }
-
+ 
     var id = $('#taskId').val();
-
-    var frm_info_id = $('#formDocumentacion .frm').attr('data-ninfoid');
-
     var dataForm = new FormData();
    
-    dataForm.append('frm_info_id', frm_info_id);
-
+    dataForm.append('frm_info_id', resp.info_id);
 
     $.ajax({
         type: 'POST',
@@ -100,7 +92,7 @@ function cerrarTarea() {
         processData: false,
         url: '<?php base_url() ?>index.php/<?php echo BPM ?>Proceso/cerrarTarea/' + id,
         success: function(data) {
-            
+            wc();
             const confirm = Swal.mixin({
                 customClass: {
                     confirmButton: 'btn btn-primary'
@@ -122,7 +114,8 @@ function cerrarTarea() {
     
         },
         error: function(data) {
-            alert("Error");
+            wc();
+            error('',"Se produjo un error al cerrar la tarea");
         }
     });
 }
