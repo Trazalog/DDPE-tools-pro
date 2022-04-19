@@ -12,7 +12,7 @@
                 <div class="row">
                     <div class="col-md-12 col-sm-12 col-xs-12">
                         <div class="fotos">
-                        <?php foreach ($imgsDocumentacion as $key => $value) {
+                        <?php foreach ($documentacion['imagenes'] as $key => $value) {
                             $inst_id = array('inst_id' => $value['inst_id']);
                             echo "<div class='iconoBorde'>";
                             echo "<img class='thumbnail fotos' height='51' width='45' data-json='".json_encode($inst_id)."' src='".$value['imagen']."' alt='' onclick='previewModal(this)'>";

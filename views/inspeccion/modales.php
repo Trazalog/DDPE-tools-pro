@@ -240,10 +240,10 @@
                 <!-- Modal body -->
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-md-12">
-                            <div id="zoomPreviewContainer" style="text-align:center">
+                        <div class="col-md-12" style="text-align:center">
+                            <div id="zoomPreviewContainer">
 
-                                <img src="lib\imageForms\preview.png" height="368" id="zoomPreview">
+                                <img src="lib\imageForms\preview.png" height="368" id="zoomPreview" data-magnify-src="">
                             </div>
                         </div>
                         <div class="col-md-12" style="text-align:center; margin-top: 10px">
