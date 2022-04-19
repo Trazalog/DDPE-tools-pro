@@ -327,7 +327,7 @@ function agregarProducto(){
 
         //Caso remito no los tengo en cuenta
         precio_total = "";
-        if($("#tipo_documento").val() != empresa + '-tipos_documentoREMITO'){
+        if(!$("#tipo_documento").val().toUpperCase().includes('REMITO')){
 
             precio_unitario = data.precio_unitario.split(" ");
             precio_total = precio_unitario[1] * data.cantidad;
@@ -491,7 +491,7 @@ function validarCampos(){
 		// if($("#unidades").val() == ""){
 		// 	valida = "Complete unidades!";
 		// }
-        if($("#tipo_documento").val() != empresa + '-tipos_documentoREMITO'){
+        if(! $("#tipo_documento").val().toUpperCase().includes('REMITO')){
             //Precio Unitario
             if($("#precio_unitario").val() == ""){
                 valida = "Complete precio unitario!";
@@ -583,7 +583,7 @@ $(document).on('click','.btnEditar', function () {
 //Fin scripts para manipular data en tabla intermedia
 //
 $("#tipo_documento").on('change', function () {
-    if(this.value == empresa + '-tipos_documentoREMITO'){
+    if(this.value.toUpperCase().includes('REMITO')){
         $("#precio_unitario").prop("readonly", 'readonly');
         $("#descuento").prop("readonly", 'readonly');
         $("#precio_unitario").val("");

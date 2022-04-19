@@ -283,7 +283,7 @@ class Sicpoatareas extends CI_Model
                 $tareaData = $this->getXCaseId($tarea);
 
                 $data['inspeccion'] = $this->getPreCargaDatos($tareaData->case_id);
-                $data['imgsDocumentacion'] = $this->getImgsDocumentacion($data['inspeccion']->info_id_doc);
+                $data['documentacion'] = $this->getDocumentacion($data['inspeccion']->info_id_doc);
                 $data['petr_id'] = $tareaData->petr_id;
                 $data['facturas'] = $this->getTiposFacturas();
                 $data['productos'] = $this->getProductos();
@@ -803,11 +803,11 @@ class Sicpoatareas extends CI_Model
         return $resp->tablas->tabla;
     }
     /**
-	* Obtengo las imagenes cargadas en el escaneo de documentacion guardadas en instancias_formularios
+	* Obtengo imagenes y archivos cargados en el escaneo de documentacion guardadas en instancias_formularios
 	* @param array info_id
 	* @return array Imagenes relacionadas con el info_id
 	*/
-    function getImgsDocumentacion($info_id){
+    function getDocumentacion($info_id){
         if($info_id){
             $documentacion = array();
             $this->load->model(FRM . 'Forms');
@@ -817,9 +817,15 @@ class Sicpoatareas extends CI_Model
                 if(isset($dato->valor4_base64)){
                     $rec = stream_get_contents($dato->valor4_base64);
                     $ext = $this->obtenerExtension($dato->valor);
-                    
-                    $documentacion[$key]['inst_id'] = $dato->inst_id;
-                    $documentacion[$key]['imagen'] = $ext.$rec;
+
+                    if($dato->tipo_dato == 'image'){
+                        $documentacion['imagenes'][$key]['inst_id'] = $dato->inst_id;
+                        $documentacion['imagenes'][$key]['imagen'] = $ext.$rec;
+                    }else{
+                        $documentacion['archivos'][$key]['inst_id'] = $dato->inst_id;
+                        $documentacion['archivos'][$key]['descripcion'] = $dato->valor;
+                        $documentacion['archivos'][$key]['archivo'] = $ext.$rec;
+                    }
                 }
             }
         }

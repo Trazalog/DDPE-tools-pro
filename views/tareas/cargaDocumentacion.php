@@ -20,7 +20,7 @@
                     <th>Destinatario</th>
                     <th>Tipo</th>
                     <th style="width: 10%;">Fecha</th>
-                    <th>Monto Bruto</th>
+                    <th>Precio Total</th>
                     <th>Fotos</th>
                 </thead>
                 <tbody >
@@ -37,7 +37,7 @@
                                 echo '<td>'.$docu->razon_social_destino.' ('.$docu->cuit_destino.')</td>';
                                 echo '<td>'.$docu->tipo_documento.'</td>';
                                 echo '<td>'.$fec_emision.'</td>';
-                                echo '<td>'.$docu->monto.'</td>';
+                                echo '<td>'.floatval($docu->monto).' $</td>';
                                 echo '<td><button type="button" title="Info" class="btn btn-primary btn-circle modalDocs" data-toggle="modal" data-target="#mdl-documentos"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></button></td>';
                                 echo '</tr>';
                             }
@@ -191,7 +191,7 @@ $(document).on('click','.btnEditarDocu', function () {
                 
             //Caso remito no los tengo en cuenta
             precio_total = "";
-            if(datos.tido_id != empresa + '-tipos_documentoREMITO'){
+            if(!datos.tido_id.toUpperCase().includes('REMITO')){
             
                 precio_total = value.precio_unitario * value.cantidad;
                 //Puede poseer o no descuento
