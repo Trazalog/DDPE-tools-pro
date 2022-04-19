@@ -345,9 +345,9 @@ function agregarProducto(){
                 '<td>' + medida + '</td>' +
                 '<td>' + data.cantidad + '</td>' +
                 '<td>' + data.unidades + '</td>' +
-                '<td>' + data.precio_unitario + '</td>' +
+                '<td>$ ' + data.precio_unitario + '</td>' +
                 '<td>' + data.descuento + '</td>' +
-                '<td>' + precio_total + '</td>' +
+                '<td>$ ' + precio_total + '</td>' +
             '</tr>';
 
         //Si la accion es editar y posee dedo_id, puedo editar directamente el detalle del documento
