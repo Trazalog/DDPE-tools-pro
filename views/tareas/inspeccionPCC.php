@@ -1144,26 +1144,40 @@ function validarCamposPermiso(){
     //Hora de salida
     if($("#salida").val() == ""){
         valida = "Seleccione una Hora de salida!";
+        return valida;
     }
     //Fecha
     if($("#fecha").val() == ""){
         valida = "Seleccione una Fecha!";
+        return valida;
     }
     //Documentacion sanitaria
     if($("input[name='doc_sanitaria']:checked").val() == null){
         valida = "Seleccione un tipo de Doc. sanitaria!";
+        return valida;
     }
     //Producto
     if($("#producto").val() == ""){
-        valida = "Seleccione una Producto!";
+        valida = "Seleccione un Producto!";
+        return valida;
     }
-        //Peso Neto
-        if($("#neto").val() == ""){
-        valida = "Seleccione una Peso Neto!";
+    //Peso Neto
+    if($("#netoPermiso").val() == ""){
+        valida = "Seleccione un Peso Neto!";
+        return valida;
     }
     //Peso Bruto
-    if($("#bruto").val() == ""){
-        valida = "Seleccione una Peso Bruto!";
+    if($("#brutoPermiso").val() == ""){
+        valida = "Seleccione un Peso Bruto!";
+        return valida;
+    }
+    bruto = $("#brutoPermiso").val();
+    neto = $("#netoPermiso").val();
+
+    tara = bruto - neto;
+    if(tara < 0){
+        valida = "El peso bruto es menor al peso neto"; 
+        return valida;
     }
     //Temperatura
     if($("#temperatura").val() == ""){

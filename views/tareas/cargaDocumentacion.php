@@ -103,7 +103,7 @@ function actualizaTablaDocumentos(){
                             '<td>' + value.razon_social_destino + " (" + value.cuit_destino + ")" + '</td>' +
                             '<td>' + value.tipo_documento + '</td>' +
                             '<td>' + fec_emision + '</td>' +
-                            '<td>' + monto + '</td>' +
+                            '<td>$ ' + monto + '</td>' +
                             '<td><button type="button" title="Info" class="btn btn-primary btn-circle modalDocs" data-toggle="modal" data-target="#mdl-documentos"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></button></td>' +
                         '</tr>';
                     tabla.row.add($(fila)).draw();
