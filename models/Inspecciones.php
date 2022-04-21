@@ -461,4 +461,27 @@ class Inspecciones extends CI_Model {
 
         return $aux;
     }
+    /**
+        * Agregar batch con los tipos de infracciones
+        * @param array datos termicos
+        * @return 
+	*/
+    public function agregarTiposInfraccion($data){
+
+        $url = REST_SICP."/_post_docdetlist_batch_req"; // TODO
+        $batch_req = [];
+
+        foreach ($data as $key) {
+            $aux['tiin_id'] = $key['cantidad'];
+            $aux['precio_unitario'] =  $key['case_id'];
+            $aux['usuario_app'] = userNick();
+
+            $batch_req['_post_docdetlist_batch_req']['_post_docdetlist'][] = $aux;
+
+        }
+        
+        $rsp = $this->rest->callApi('POST', $url, $batch_req);
+
+        log_message('DEBUG', "#TRAZA | #SICPOA | Inspecciones | agregarTiposInfraccion() ".json_encode($rsp))
+    }
 }
