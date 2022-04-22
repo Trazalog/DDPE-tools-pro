@@ -29,6 +29,9 @@
             <!--_______ Fin 1° COLUMNA ______-->
 
             <!--_______ COMIENZO 2° COLUMNA ______-->
+            <div class="box-tittle centrar">
+                <h3>Datos</h3>
+            </div>
             <div class="col-md-6">
                 <!--Tipo-->
                 <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
@@ -86,7 +89,12 @@
                     </div>                    
                 </div>
                 <!--________________-->
-                <hr>
+                <div class="col-md-12">
+                    <hr>
+                </div>
+                <div class="box-tittle centrar">
+                    <h3>Detalle</h3>
+                </div>
                 <!--Producto-->
                 <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
                     <div class="form-group">
@@ -106,7 +114,7 @@
                     </div>
                 </div>
                 <!--________________-->
-
+                                
                 <!--U. Medida-->
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
@@ -345,7 +353,7 @@ function agregarProducto(){
                 '<td>' + medida + '</td>' +
                 '<td>' + data.cantidad + '</td>' +
                 '<td>' + data.unidades + '</td>' +
-                '<td>$ ' + data.precio_unitario + '</td>' +
+                '<td>' + data.precio_unitario + '</td>' +
                 '<td>' + data.descuento + '</td>' +
                 '<td>$ ' + precio_total + '</td>' +
             '</tr>';
@@ -620,9 +628,11 @@ function cerrarDetalle(){
 }
 
 function guardarDetalle(){
+    wo();
     //VALIDACIONES
     //valido el formulario
     if(!frm_validar('#formDocumentacion')){
+        wc();
         Swal.fire(
             'Error..',
             'Debes completar los campos obligatorios (*)',
@@ -632,6 +642,7 @@ function guardarDetalle(){
     }
     //Valido seleccion de foto
     if(!$('.fotos').hasClass("selected")){
+        wc();
         Swal.fire(
             'Error..',
             'Debe seleccionar una foto!',
@@ -642,6 +653,7 @@ function guardarDetalle(){
     //valído tabla no vacia
     tabla = $('#tabla_productos').DataTable(); 
     if ( ! tabla.data().any() ) {
+        wc();
         Swal.fire(
             'Error..',
             'No se cargaron datos en la tabla!',
@@ -653,20 +665,23 @@ function guardarDetalle(){
     //Accion discrimina si guarda todo junto o solo edita detalles
     if(accion == "nuevo"){
         agregarDocumento().then((result) => {
-
+            wc();
             alertify.success(result);
             cerrarDetalle();
 
         }).catch((err) => {
+            wc();
             console.log(err);
         });
     }else{
         editarDocumento().then((result) => {
+            wc();
             alertify.success(result);
             cerrarDetalle();
 
         }).catch((err) => {
-            alertify.error(result);
+            wc();
+            alertify.error(err);
             console.log(err);
         });
     }
@@ -712,7 +727,7 @@ async function agregarDocumento () {
                         descuento = descuento[0] / 100 ;
 
                         precio_unitario = json.precio_unitario.split(" ");
-                        precio_unitario = precio_unitario[1];
+                        precio_unitario = precio_unitario.pop();
 
                         json.precio_unitario = precio_unitario;
                         json.descuento = descuento;
@@ -726,8 +741,11 @@ async function agregarDocumento () {
                         dataType: "json",
                         url: "<?php echo SICP; ?>inspeccion/guardarDetallesDocumentos",
                         success: function(resp) {
-                            
-                            resolve("Se agrego el documento y su detalle correctamente");
+                            if(resp.status){
+                                resolve("Se agrego el documento y su detalle correctamente");
+                            }else{
+                                reject("Se agrego correctamente el documento, pero fallo al agregar el detalle");
+                            }
                         
                         },
                         error: function(data) {

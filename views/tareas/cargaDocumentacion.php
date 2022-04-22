@@ -188,7 +188,7 @@ $(document).on('click','.btnEditarDocu', function () {
     if(!$.isEmptyObject(detalles)){
        
         $.each(detalles, function (i, value) { 
-                
+            var fila = '';
             //Caso remito no los tengo en cuenta
             precio_total = "";
             if(!datos.tido_id.toUpperCase().includes('REMITO')){
@@ -219,7 +219,6 @@ $(document).on('click','.btnEditarDocu', function () {
                     '<td>' + precio_total + '</td>' +
                 '</tr>';
             tabla.row.add($(fila)).draw();
-                
         });
     }
 
@@ -239,7 +238,7 @@ $(document).on('click','.btnEliminarDocu', function () {
         
         tabla = $('#tabla_documentos').DataTable();
         //Obtengo la fila
-        row = $(this).parents('tr');
+        var row = $(this).parents('tr');
 
         //Data parseada en json
         nodo = tabla.row(row).node();
@@ -258,7 +257,7 @@ $(document).on('click','.btnEliminarDocu', function () {
 
                 if(data.status){
                     
-                    tabla.row( $(this).parents('tr') ).remove().draw(); 
+                    tabla.row( row ).remove().draw(); 
                     alertify.success("Registro eliminado con exito!");
                     console.log("Actualizando tabla con documentos cargados");
 

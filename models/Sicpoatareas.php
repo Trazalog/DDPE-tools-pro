@@ -266,9 +266,7 @@ class Sicpoatareas extends CI_Model
                 $data['escaneoInfoId'] = $escaneoInfoId;// Lo mando a la vista para instaciar formulario en modal
 
                 if(isset($escaneoInfoId)){
-                    $formEscaneo =  $this->getFormEscaneoDocu($escaneoInfoId);
-                    $data['imgsEscaneo'] = $formEscaneo['imagenes'];
-                    $data['datosEscaneo'] = $formEscaneo['datos'];
+                    $data['formEscaneo'] =  $this->getFormEscaneoDocu($escaneoInfoId);
                 }
 
                 return $this->load->view(SICP . 'tareas/reprecintado', $data, true);
@@ -356,9 +354,7 @@ class Sicpoatareas extends CI_Model
                 $data['escaneoInfoId'] = $escaneoInfoId;// Lo mando a la vista para instaciar formulario en modal
 
                 if(isset($escaneoInfoId)){
-                    $formEscaneo =  $this->getFormEscaneoDocu($escaneoInfoId);
-                    $data['imgsEscaneo'] = $formEscaneo['imagenes'];
-                    $data['datosEscaneo'] = $formEscaneo['datos'];
+                    $data['formEscaneo'] =  $this->getFormEscaneoDocu($escaneoInfoId);
                 }
 
                 //Obtengo la imagen del Acta Infraccion
@@ -649,7 +645,7 @@ class Sicpoatareas extends CI_Model
             foreach ($res->items as $dato) {
                 if(isset($dato->valor4_base64)  && $dato->tipo_dato == 'image'){
                     $rec = stream_get_contents($dato->valor4_base64);
-                    $ext = $this->obtenerExtension($dato->valor);
+                    $ext = obtenerExtension($dato->valor);
                     array_push($imagenes, $ext.$rec);
                 }
             }
@@ -671,39 +667,12 @@ class Sicpoatareas extends CI_Model
             foreach ($res->items as $dato) {
                 if(isset($dato->valor4_base64) && $dato->tipo_dato == 'image'){
                     $rec = stream_get_contents($dato->valor4_base64);
-                    $ext = $this->obtenerExtension($dato->valor);
+                    $ext = obtenerExtension($dato->valor);
                     array_push($imagenes, $ext.$rec);
                 }
             }
         }
         return $imagenes;
-    }
-
-    /**
-	* Funcion para obtener la extension del archivo codificado
-	* @param array nombre archivo con su extension
-	* @return array cabecera para la url lsito para usar en atributo src
-	*/
-    function obtenerExtension($archivo){
-        $ext = explode('.',$archivo);
-            switch(strtolower(array_pop($ext))){
-                case 'jpg': $ext = 'data:image/jpg;base64,';break;
-                case 'png': $ext = 'data:image/png;base64,';break;
-                case 'jpeg': $ext = 'data:image/jpeg;base64,';break;
-                case 'pjpeg': $ext = 'data:image/pjpeg;base64,';break;
-                case 'wbmp': $ext = 'data:image/vnd.wap.wbmp;base64,';break;
-                case 'webp': $ext = 'data:image/webp;base64,';break;
-                case 'pdf': $ext = 'data:application/pdf;base64,';break;
-                case 'doc': $ext = 'data:application/msword;base64,';break;
-                case 'xls': $ext = 'data:application/vnd.ms-excel;base64,';break;
-                case 'docx': $ext = 'data:application/vnd.openxmlformats-officedocument.wordprocessingml.document;base64,';break;
-                case 'txt': $ext = 'data:text/plain;base64,';break;
-                case 'csv': $ext = 'data:text/csv;base64,';break;
-                case 'gif': $ext = 'data:image/gif;base64,';break;
-                case 'jfif': $ext = 'data:image/gif;base64,';break;
-                default: $ext = "";
-            }
-        return $ext;
     }
     /**
 	*  Listado de departamentos
@@ -816,7 +785,7 @@ class Sicpoatareas extends CI_Model
             foreach ($res->items as $key => $dato) {
                 if(isset($dato->valor4_base64)){
                     $rec = stream_get_contents($dato->valor4_base64);
-                    $ext = $this->obtenerExtension($dato->valor);
+                    $ext = obtenerExtension($dato->valor);
 
                     if($dato->tipo_dato == 'image'){
                         $documentacion['imagenes'][$key]['inst_id'] = $dato->inst_id;
@@ -845,7 +814,7 @@ class Sicpoatareas extends CI_Model
             foreach ($res->items as $key => $dato) {
                 if(isset($dato->valor4_base64)){
                     $rec = stream_get_contents($dato->valor4_base64);
-                    $ext = $this->obtenerExtension($dato->valor);
+                    $ext = obtenerExtension($dato->valor);
                     
                     array_push($infraccion, $ext.$rec);
                 }
@@ -867,9 +836,16 @@ class Sicpoatareas extends CI_Model
             foreach ($res->items as $key => $dato) {
                 if(isset($dato->valor4_base64)){
                     $rec = stream_get_contents($dato->valor4_base64);
-                    $ext = $this->obtenerExtension($dato->valor);
+                    $ext = obtenerExtension($dato->valor);
                     
-                    $formEscaneo['imagenes'][$key] = $ext.$rec;
+                    if($dato->tipo_dato == 'image'){
+                        $formEscaneo['imagenes'][$key]['inst_id'] = $dato->inst_id;
+                        $formEscaneo['imagenes'][$key]['imagen'] = $ext.$rec;
+                    }else{
+                        $formEscaneo['archivos'][$key]['inst_id'] = $dato->inst_id;
+                        $formEscaneo['archivos'][$key]['descripcion'] = $dato->valor;
+                        $formEscaneo['archivos'][$key]['archivo'] = $ext.$rec;
+                    }
                 }else{
 
                     $formEscaneo['datos'][$dato->name] = $dato->valor;

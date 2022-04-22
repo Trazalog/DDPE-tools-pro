@@ -635,11 +635,11 @@
                     <!--________________-->
                     <!--Bloque Validar-->
                     <div id="bloque_validar" style="display:none;">
-                        <!-- <div class="col-md-6 col-sm-6 col-xs-12 ocultar"> -->
-                            <!-- <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
+                            <div class="form-group">
                                 <label for="tpoInfraccion">Tipos Infracción(<strong style="color: #dd4b39">*</strong>):</label>
-                                <select class="form-control select2 select2-hidden-accesible" name="tpoInfraccion" id="tpoInfraccion" required>
-                                    <option value="" disabled selected>-Seleccionar infracción-</option>	
+                                <select class="form-control select2 select2-hidden-accesible" name="tpoInfraccion[]" id="tpoInfraccion" required style="width: 100%;" multiple>
+                                    <!-- <option value="" disabled selected>-Seleccionar infracción-</option>	 -->
                                     <?php
                                     if(!empty($infracciones)){
                                         foreach ($infracciones as $tipos) {
@@ -648,10 +648,10 @@
                                     }
                                     ?>
                                 </select>
-                            </div> -->
-                        <!-- </div> -->
+                            </div>
+                        </div>
                         <!--Fecha Acta-->
-                        <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="col-md-3 col-sm-6 col-xs-12">
                             <div class="form-group">
                                 <label for="fechaActa">Fecha(<strong style="color: #dd4b39">*</strong>):</label>
                                 <input type="date" class="form-control" name="fechaActa" id="fechaActa" required/>
@@ -659,7 +659,7 @@
                         </div>
                         <!--________________-->
                         <!--Hora Acta-->
-                        <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="col-md-3 col-sm-6 col-xs-12">
                             <div class="form-group">
                                 <label for="horaActa">Hora(<strong style="color: #dd4b39">*</strong>):</label>
                                 <input type="time" class="form-control" name="horaActa" id="horaActa" required/>
@@ -1344,7 +1344,8 @@ $(".neto").on("change", function () {
 async function cerrarTareaform(){
     //obtengo el formulario de la inspeccion
     var dataForm = new FormData($('#formInspeccion')[0]);
-    dataForm.append('case_id', $("#caseId").val());
+    var case_id = $("#caseId").val();
+    dataForm.append('case_id', case_id);
 
     //Guardo formulario de escaneo documentacion, se valido en cerrarTarea()
     var newInfoID = await frmGuardarConPromesa($('#formEscaneoDocu').find('form'));
@@ -1362,7 +1363,7 @@ async function cerrarTareaform(){
     permisos = [];
     $('#sec_permisos div.permTransito').each(function(i, obj) {
         var json = JSON.parse($(obj).attr('data-json'));
-        json.case_id = $("#caseId").val();
+        json.case_id = case_id;
         permisos[i] = json;
     });
 
@@ -1372,14 +1373,14 @@ async function cerrarTareaform(){
         var aux = $(obj).attr('data-json');
         aux = aux.replace("cuit", "empr_id");
         var json = JSON.parse(aux);
-        json.case_id = $("#caseId").val();
+        json.case_id = case_id;
         empresas[i] = json;
     });
     //obtengo origen
     origen = {};
     origen.rol = "ORIGEN";
     origen.empr_id = $("#esta_nom").val();
-    origen.case_id = $("#caseId").val();
+    origen.case_id = case_id;
     origen.depo_id = "";
     empresas.push(origen);
     
@@ -1387,7 +1388,7 @@ async function cerrarTareaform(){
     transp = {};
     transp.rol = "TRANSPORTISTA";
     transp.empr_id = $("#transportista").val();
-    transp.case_id = $("#caseId").val();
+    transp.case_id = case_id;
     transp.depo_id = "";
     empresas.push(transp);
     
@@ -1398,16 +1399,14 @@ async function cerrarTareaform(){
         var aux = $(obj).attr('data-json');
         aux = aux.replace("patente", "term_id");
         var json = JSON.parse(aux);
-        json.case_id = $("#caseId").val();
+        json.case_id = case_id;
         termicos[i] = json;
     });
 
-    //obtengo el tipo de infraccion
+    //obtengo infomacion de la infraccion
     infraccion = {};
     if($('input[name=inspValida]:checked').val() == 'incorrecta'){
-        infraccion.case_id = $("#caseId").val();
-        // infraccion.tiin_id = $("#tpoInfraccion").val(); hasta resolver la parte funcional
-        // infraccion.tiin_id = 'tipos_infraccionPrecinto roto';
+        infraccion.case_id = case_id;
         infraccion.depositario = $("#nyaDepositario").val();
         infraccion.documento = $("#dniActa").val();
         infraccion.domicilio_legal = $("#domiLegalActa").val();
@@ -1421,7 +1420,14 @@ async function cerrarTareaform(){
         infraccion.temperatura_actual = $("#tempCamaraActa").val();
         infraccion.fecha_hora = $("#fechaActa").val() + " " + $("#horaActa").val();
     }
-
+    //Obtengo los tipos de infracciones
+    tiposInfraccion = {};
+    if($('#tpoInfraccion').select2('data').length > 0){
+        tiposInfracciones = $('#tpoInfraccion').select2('data');
+        for (let i = 0; i < tiposInfracciones.length; i++) {
+            tiposInfraccion[i] = {"tiin_id": tiposInfracciones[i].id,"case_id": case_id};
+        }
+    }
     //Guardo la inspeccion
     let guardadoCompleto = new Promise( function(resolve,reject){
             $.ajax({
@@ -1437,7 +1443,7 @@ async function cerrarTareaform(){
                 //Guardo los permisos, empresas, termicos e infraccion si hubiese
                 $.ajax({
                     type: 'POST',
-                    data: {permisos, empresas, termicos, infraccion},
+                    data: {permisos, empresas, termicos, infraccion, detalleInfraccion},
                     url: "<?php echo SICP; ?>inspeccion/guardarDatosInspeccion",
                     success: function(data) {
                         resp = JSON.parse(data);

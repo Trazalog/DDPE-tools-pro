@@ -79,9 +79,6 @@
 .btnZoom {
   height: 40px;
 }
-#add_docu{
-    display: none;
-}
 </style>
 <div class="nav-tabs-custom ">
     <ul class="nav nav-tabs">

@@ -214,7 +214,8 @@ class Inspeccion extends CI_Controller
         $empresas = $this->input->post('empresas');
 		$termicos = $this->input->post('termicos');
 		$infraccion = $this->input->post('infraccion');
-	
+		$tiposInfraccion = $this->input->post('tiposInfraccion');
+		return;
 		//Agrego permisos
 		$rspPermisos = $this->Inspecciones->agregarPermisos($permisos);
 
@@ -231,7 +232,9 @@ class Inspeccion extends CI_Controller
 		if(!empty($infraccion)){
 			$respInfraccion = $this->Inspecciones->agregarInfraccion($infraccion);
 		}
-		
+		if(!empty($tiposInfraccion)){
+			$resptiposInfraccion = $this->Inspecciones->agregarTiposInfraccion($tiposInfraccion);
+		}
         //Armo mensajeria para reportar respuestas de los servicios
 		if ($respTermInspeccion['status'] && $rspPermisos['status'] && $respEmpresas['status']) {
 			$resp['status'] = true;
@@ -241,6 +244,11 @@ class Inspeccion extends CI_Controller
 				$resp['msjInfraccion'] = "Se agrego la infraccion correctamente";
 			}else{
 				$resp['msjInfraccion'] = $respInfraccion['data'];
+			}
+			if($resptiposInfraccion['status']){
+				$resp['msjTiposInfraccion'] = "Se agregaron los tipos de infracciones correctamente";
+			}else{
+				$resp['msjTiposInfraccion'] = $resptiposInfraccion['data'];
 			}
 			echo json_encode($resp);
 		} else {
@@ -254,6 +262,11 @@ class Inspeccion extends CI_Controller
 				$resp['msjInfraccion'] = "Se agrego la infraccion correctamente";
 			}else{
 				$resp['msjInfraccion'] = $respInfraccion['data'];
+			}
+			if($resptiposInfraccion['status']){
+				$resp['msjTiposInfraccion'] = "Se agregaron los tipos de infracciones correctamente";
+			}else{
+				$resp['msjTiposInfraccion'] = $resptiposInfraccion['data'];
 			}
 			echo json_encode($resp);
 		}

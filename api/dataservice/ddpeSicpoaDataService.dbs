@@ -277,6 +277,17 @@
       <param name="fec_desde" sqlType="STRING"/>
       <param name="fec_hasta" sqlType="STRING"/>
    </query>
+   <query id="setDetalleInfraccion" useConfig="SICPOADataSource">
+      <sql>insert into sicpoa.deta_infracciones(&#xd;	case_id,&#xd;	tiin_id,&#xd;	usuario_app)&#xd;values(&#xd;	cast(:case_id as integer),&#xd;	:tiin_id,&#xd;	:usuario_app&#xd;);</sql>
+      <param name="case_id" sqlType="STRING"/>
+      <param name="tiin_id" sqlType="STRING"/>
+      <param name="usuario_app" sqlType="STRING"/>
+   </query>
+   <query id="getDetalleInfraccion" useConfig="SICPOADataSource">
+      <sql>select &#xd;di.tiin_id,&#xd;t.descripcion,&#xd;t.valor,&#xd;di.usuario_app&#xd;from sicpoa.deta_infracciones di &#xd;left join core.tablas t on di.tiin_id = t.tabl_id &#xd;where di.case_id = cast (:case_id as integer)</sql>
+      <result outputType="json">{&#xd;    "detalleinfracciones":{&#xd;       "detalleInfraccion":[&#xd;          {&#xd;            "tiin_id":"$tiin_id",&#xd;            "descripcion":"$descripcion",&#xd;            "valor":"$valor",&#xd;            "usuario_app":"$usuario_app"&#xd;          }&#xd;       ]&#xd;    }&#xd; }</result>
+      <param name="case_id" sqlType="STRING"/>
+   </query>
    <resource method="POST" path="/inspeccion">
       <call-query href="setInspeccion">
          <with-param name="case_id" query-param="case_id"/>
@@ -558,6 +569,13 @@
          <with-param name="tipo_producto" query-param="tipo_producto"/>
          <with-param name="fec_desde" query-param="fec_desde"/>
          <with-param name="fec_hasta" query-param="fec_hasta"/>
+      </call-query>
+   </resource>
+   <resource method="POST" path="/inspeccion/infraccion/detalle">
+      <call-query href="setDetalleInfraccion">
+         <with-param name="case_id" query-param="case_id"/>
+         <with-param name="tiin_id" query-param="tiin_id"/>
+         <with-param name="usuario_app" query-param="usuario_app"/>
       </call-query>
    </resource>
 </data>
