@@ -336,6 +336,7 @@ class Inspecciones extends CI_Model {
         $rsp = $this->rest->callApi('POST', $url, $batch_req);
 
         log_message('DEBUG', "#TRAZA | #SICPOA | Inspecciones | guardarDetallesDocumentos() ".json_encode($rsp));
+        return $rsp;
     }
     /**
 	* Obtengo la informacion de la inspeccion cargada
@@ -482,6 +483,7 @@ class Inspecciones extends CI_Model {
         
         $rsp = $this->rest->callApi('POST', $url, $batch_req);
 
-        log_message('DEBUG', "#TRAZA | #SICPOA | Inspecciones | agregarTiposInfraccion() ".json_encode($rsp))
+        log_message('DEBUG', "#TRAZA | #SICPOA | Inspecciones | agregarTiposInfraccion() ".json_encode($rsp));
+        return $rsp;
     }
 }
