@@ -404,7 +404,7 @@ class Inspecciones extends CI_Model {
         $url = REST_SICP."/documento/detalle";
 
             $aux['cantidad'] = $detalle['cantidad'];
-            $aux['precio_unitario'] =  $detalle['precio_unitario'];
+            $aux['precio_unitario'] =  !empty($detalle['precio_unitario']) ? $detalle['precio_unitario'] : '';
             $aux['descuento'] =  $detalle['descuento'];
             $aux['usuario_app'] = userNick();
             $aux['tipr_id'] = $detalle['tipr_id'];
@@ -430,7 +430,7 @@ class Inspecciones extends CI_Model {
         $url = REST_SICP."/documento/detalle";
 
         $aux['cantidad'] = $data['cantidad'];
-        $aux['precio_unitario'] =  $data['precio_unitario'];
+        $aux['precio_unitario'] =  !empty($data['precio_unitario']) ? $data['precio_unitario'] : '';
         $aux['unidades'] =  $data['unidades'];
         $aux['descuento'] =  $data['descuento'];
         $aux['usuario_app'] = userNick();
