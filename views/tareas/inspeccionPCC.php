@@ -635,10 +635,10 @@
                     <!--________________-->
                     <!--Bloque Validar-->
                     <div id="bloque_validar" style="display:none;">
-                        <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
+                        <!-- <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
                             <div class="form-group">
                                 <label for="tpoInfraccion">Tipos Infracción(<strong style="color: #dd4b39">*</strong>):</label>
-                                <select class="form-control select2 select2-hidden-accesible" name="tpoInfraccion[]" id="tpoInfraccion" required style="width: 100%;" multiple>
+                                <select class="form-control select2 select2-hidden-accesible" name="tpoInfraccion[]" id="tpoInfraccion" required style="width: 100%;" multiple> -->
                                     <!-- <option value="" disabled selected>-Seleccionar infracción-</option>	 -->
                                     <?php
                                     if(!empty($infracciones)){
@@ -647,11 +647,11 @@
                                         }
                                     }
                                     ?>
-                                </select>
+                                <!-- </select>
                             </div>
-                        </div>
+                        </div> -->
                         <!--Fecha Acta-->
-                        <div class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="col-md-6 col-sm-6 col-xs-12">
                             <div class="form-group">
                                 <label for="fechaActa">Fecha(<strong style="color: #dd4b39">*</strong>):</label>
                                 <input type="date" class="form-control" name="fechaActa" id="fechaActa" required/>
@@ -659,7 +659,7 @@
                         </div>
                         <!--________________-->
                         <!--Hora Acta-->
-                        <div class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="col-md-6 col-sm-6 col-xs-12">
                             <div class="form-group">
                                 <label for="horaActa">Hora(<strong style="color: #dd4b39">*</strong>):</label>
                                 <input type="time" class="form-control" name="horaActa" id="horaActa" required/>
@@ -1422,12 +1422,12 @@ async function cerrarTareaform(){
     }
     //Obtengo los tipos de infracciones
     tiposInfraccion = {};
-    if($('#tpoInfraccion').select2('data').length > 0){
-        tiposInfracciones = $('#tpoInfraccion').select2('data');
-        for (let i = 0; i < tiposInfracciones.length; i++) {
-            tiposInfraccion[i] = {"tiin_id": tiposInfracciones[i].id,"case_id": case_id};
-        }
-    }
+    // if($('#tpoInfraccion').select2('data').length > 0){
+    //     tiposInfracciones = $('#tpoInfraccion').select2('data');
+    //     for (let i = 0; i < tiposInfracciones.length; i++) {
+    //         tiposInfraccion[i] = {"tiin_id": tiposInfracciones[i].id,"case_id": case_id};
+    //     }
+    // }
     //Guardo la inspeccion
     let guardadoCompleto = new Promise( function(resolve,reject){
             $.ajax({
