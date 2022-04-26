@@ -177,7 +177,7 @@
 
                 <!--_________________ Agregar_________________-->
                 <div class="form-group text-right">
-                    <button type="button" class="btn btn-outline-dark" onclick="agregarProducto()" >Agregar</button>
+                    <button type="button" class="btn btn-outline-dark" title="Agregar producto a la tabla de detalles" onclick="agregarProducto()" >Agregar Detalle</button>
                 </div>                
                 <!--__________________________________-->
 
@@ -186,7 +186,7 @@
             
             <!--_______ COMIENZO 3° COLUMNA ______-->
             <div class="col-md-12 col-sm-12 col-xs-12 centrar">
-                <h3>Lineas:</h3>
+                <h3>Detalles:</h3>
                 <div id="sec_productos">
                     <!-- ______ TABLA PRODUCTOS ______ -->
                     <table id="tabla_productos" class="table table-bordered table-striped">
@@ -346,6 +346,8 @@ function agregarProducto(){
                 descuento =  precio_total * (aux[0] / 100);
                 precio_total -= descuento;
             }   
+        }else{
+            
         }
         fila = "<tr data-json= '"+ JSON.stringify(data) +"'>" +
                 '<td><button  type="button" title="Editar"  class="btn btn-primary btn-circle btnEditar" data-toggle="modal" data-target="#modaleditar"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>&nbsp<button type="button" title="Eliminar" class="btn btn-primary btn-circle btnEliminar"><span class="glyphicon glyphicon-trash" aria-hidden="true" ></span></button>&nbsp' +
@@ -503,6 +505,10 @@ function validarCampos(){
             //Precio Unitario
             if($("#precio_unitario").val() == ""){
                 valida = "Complete precio unitario!";
+            }
+            //Descuento
+            if($("#descuento").val() == ""){
+                valida = "Complete descuento!";
             }
         }
 		return valida;
@@ -714,6 +720,10 @@ async function agregarDocumento () {
                 //Si es correcto, guardo los detalles de los documentos
                 if(rsp.status){
 
+                    // Uso el valor que dejo en Numero y Tipo para evitar fallo en la FK, en caso de que cambie antes de guardar detalle
+                    num_documento = $("#numero").val();
+                    tipo_factura = $("#tipo_documento").val();
+                    
                     //Loopeo sobre las filas de la tabla
                     //Formateo precio_unitario y descuento porque tiene los prefijos
                     detalles = [];
@@ -722,6 +732,8 @@ async function agregarDocumento () {
                         nodo = this.node();
                         
                         var json = JSON.parse($(nodo).attr('data-json'));
+                        json.num_documento = num_documento;
+                        json.tido_id = tipo_factura;
 
                         descuento = json.descuento.split(" ");
                         descuento = descuento[0] / 100 ;

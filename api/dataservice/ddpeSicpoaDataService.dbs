@@ -212,7 +212,7 @@
       <param name="case_id" sqlType="STRING"/>
    </query>
    <query id="setDetalleDocumento" useConfig="SICPOADataSource">
-      <sql>insert&#xd;	into&#xd;	sicpoa.detalles_documento (cantidad,&#xd;	precio_unitario,&#xd;	descuento,&#xd;        unidades,&#xd;	usuario_app,&#xd;	docu_id,&#xd;	tido_id,&#xd;	tipr_id,&#xd;	unme_id)&#xd;values(cast (:cantidad as float),&#xd;	cast (:precio_unitario as float),&#xd;	cast (:descuento as float),&#xd;        cast (:unidades as integer),&#xd;	:usuario_app,&#xd;	:docu_id,&#xd;	:tido_id,&#xd;	:tipr_id,&#xd;	:unme_id)&#xd;returning dedo_id;</sql>
+      <sql>insert&#xd;	into&#xd;	sicpoa.detalles_documento (cantidad,&#xd;	precio_unitario,&#xd;	descuento,&#xd;        unidades,&#xd;	usuario_app,&#xd;	docu_id,&#xd;	tido_id,&#xd;	tipr_id,&#xd;	unme_id)&#xd;values(cast (:cantidad as float),&#xd;	case when :precio_unitario is null or :precio_unitario = '' then null else cast (:precio_unitario as float) END,&#xd;	case when :descuento IS NULL OR :descuento = '' then null ELSE CAST ( :descuento AS FLOAT ) END,&#xd;    cast (:unidades as integer),&#xd;	:usuario_app,&#xd;	:docu_id,&#xd;	:tido_id,&#xd;	:tipr_id,&#xd;	:unme_id)&#xd;returning dedo_id;</sql>
       <result outputType="json">{"respuesta":{"dedo_id":"$dedo_id"}}</result>
       <param name="cantidad" sqlType="STRING"/>
       <param name="precio_unitario" sqlType="STRING"/>
@@ -225,7 +225,7 @@
       <param name="unidades" sqlType="STRING"/>
    </query>
    <query id="setDetalleDocumentoBatchReq" useConfig="SICPOADataSource">
-      <sql>insert&#xd;	into&#xd;	sicpoa.detalles_documento (cantidad,&#xd;	precio_unitario,&#xd;	descuento,&#xd;        unidades,&#xd;	usuario_app,&#xd;	docu_id,&#xd;	tido_id,&#xd;	tipr_id,&#xd;	unme_id)&#xd;values(cast (:cantidad as float),&#xd;	cast (:precio_unitario as float),&#xd;	cast (:descuento as float),&#xd;        cast (:unidades as integer),&#xd;	:usuario_app,&#xd;	:docu_id,&#xd;	:tido_id,&#xd;	:tipr_id,&#xd;	:unme_id);</sql>
+      <sql>insert&#xd;	into&#xd;	sicpoa.detalles_documento (cantidad,&#xd;	precio_unitario,&#xd;	descuento,&#xd;        unidades,&#xd;	usuario_app,&#xd;	docu_id,&#xd;	tido_id,&#xd;	tipr_id,&#xd;	unme_id)&#xd;values(cast (:cantidad as float),&#xd;	case when :precio_unitario is null or :precio_unitario = '' then null else cast (:precio_unitario as float) END,&#xd;	case when :descuento IS NULL OR :descuento = '' then null ELSE CAST ( :descuento AS FLOAT ) END,&#xd;    cast (:unidades as integer),&#xd;	:usuario_app,&#xd;	:docu_id,&#xd;	:tido_id,&#xd;	:tipr_id,&#xd;	:unme_id);</sql>
       <param name="cantidad" sqlType="STRING"/>
       <param name="precio_unitario" sqlType="STRING"/>
       <param name="descuento" sqlType="STRING"/>
@@ -237,7 +237,7 @@
       <param name="unidades" sqlType="STRING"/>
    </query>
    <query id="updateDocumento" useConfig="SICPOADataSource">
-      <sql>update&#xd;	sicpoa.documentos&#xd;set&#xd;	fec_emision = to_timestamp(:fec_emision,'YYYY-MM-DD') ,&#xd;	usuario_app = :usuario_app,&#xd;	imag_id = cast(:imag_id as integer),&#xd;	empr_id_emisor = cast(:empr_id_emisor as integer),&#xd;	empr_id_destino = cast(:empr_id_destino as integer)&#xd;where&#xd;	num_documento = :num_documento &#xd;	and tido_id = :tido_id ;</sql>
+      <sql>update&#xd;	sicpoa.documentos&#xd;set&#xd;	fec_emision = to_timestamp(:fec_emision,'YYYY-MM-DD') ,&#xd;	usuario_app = :usuario_app,&#xd;	imag_id = cast(:imag_id as integer),&#xd;	empr_id_emisor = :empr_id_emisor,&#xd;	empr_id_destino = :empr_id_destino&#xd;where&#xd;	num_documento = :num_documento &#xd;	and tido_id = :tido_id ;</sql>
       <param name="fec_emision" sqlType="STRING"/>
       <param name="usuario_app" sqlType="STRING"/>
       <param name="imag_id" sqlType="STRING"/>
