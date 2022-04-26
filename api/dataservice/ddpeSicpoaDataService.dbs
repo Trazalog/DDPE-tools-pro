@@ -225,7 +225,7 @@
       <param name="unidades" sqlType="STRING"/>
    </query>
    <query id="setDetalleDocumentoBatchReq" useConfig="SICPOADataSource">
-      <sql>insert&#xd;	into&#xd;	sicpoa.detalles_documento (cantidad,&#xd;	precio_unitario,&#xd;	descuento,&#xd;        unidades,&#xd;	usuario_app,&#xd;	docu_id,&#xd;	tido_id,&#xd;	tipr_id,&#xd;	unme_id)&#xd;values(cast (:cantidad as float),&#xd;	case when :precio_unitario is null or :precio_unitario = '' then null else cast (:precio_unitario as float) END,&#xd;	case when :descuento IS NULL OR :descuento = '' then null ELSE CAST ( :descuento AS FLOAT ) END,&#xd;    cast (:unidades as integer),&#xd;	:usuario_app,&#xd;	:docu_id,&#xd;	:tido_id,&#xd;	:tipr_id,&#xd;	:unme_id)&#xd;returning dedo_id;</sql>
+      <sql>insert&#xd;	into&#xd;	sicpoa.detalles_documento (cantidad,&#xd;	precio_unitario,&#xd;	descuento,&#xd;        unidades,&#xd;	usuario_app,&#xd;	docu_id,&#xd;	tido_id,&#xd;	tipr_id,&#xd;	unme_id)&#xd;values(cast (:cantidad as float),&#xd;	case when :precio_unitario is null or :precio_unitario = '' then null else cast (:precio_unitario as float) END,&#xd;	case when :descuento IS NULL OR :descuento = '' then null ELSE CAST ( :descuento AS FLOAT ) END,&#xd;    cast (:unidades as integer),&#xd;	:usuario_app,&#xd;	:docu_id,&#xd;	:tido_id,&#xd;	:tipr_id,&#xd;	:unme_id);</sql>
       <param name="cantidad" sqlType="STRING"/>
       <param name="precio_unitario" sqlType="STRING"/>
       <param name="descuento" sqlType="STRING"/>
