@@ -27,7 +27,7 @@
                 <div style="text-indent: 30px;">
                     En la ciudad de San Juan, departamento <span class="acta_depto"></span>, localidad <span class="acta_localidad"></span> a los <?php echo date('d'); ?> días del mes de <?php echo $mes; ?> del año <?php echo date('Y'); ?>,
                     siendo las <?php echo date('H'); ?> horas.  Los inspectores del S. V. I. S. <span class="acta_inspectores"></span>, se constituyen en <span class="acta_puntoControl"></span> 
-                    con domicilio en <span class="acta_puntoControlDomicilio"></span> propiedad de <span class="acta_propiedadDe"></span>. Siendo atendidos por <span class="acta_quienAtendio"></span> D.N.I. N° <span class="dniActa"></span> en su carácter de <span class="acta_caracter"></span>.<br>
+                    con domicilio en <span class="acta_puntoControlDomicilio"></span> propiedad de <span class="acta_propiedadDe"></span>. Siendo atendidos por <span class="acta_quienAtendio"></span> D.N.I. N° <span class="dniActa"><?php echo $inspeccion->documento ?></span> en su carácter de <span class="acta_caracter"></span>.<br>
                 </div>
                 <div style="text-indent: 30px;">
                     Proceden a <span class="acta_procedenA"></span>, vehículo patente N° <?php echo $inspeccion->patente_tractor; ?>, N° de habilitación del SENASA <?php echo $inspeccion->nro_senasa ?>, Documentación Sanitaria tipo <?php foreach ($inspeccion->permisos_transito->permiso_transito as $permiso) { echo $permiso->tipo. ". ";} ?>
@@ -42,9 +42,10 @@
                     Observaciones: <?php echo $inspeccion->observaciones ?>.<br><br>
                 </div>
                 <div style="text-indent: 30px;">
-                    Quedando como Depositario Judicial de la mercadería en cuestión, el señor/a <span class="acta_nyaDepositario"></span>, D.N.I. N°  <span class="dniActa"></span>, Teléfono
-                    <span class="telefonoActa"></span>, correo electrónico  <span class="correoActa"></span>, con domicilio legal <span class="direccionLegalActa"></span>,
-                    y domicilio comercial <span class="direccionComercialActa"></span><span class="acta_caractDeposito"></span>, y registrándose las siguientes temperaturas <span class="acta_tempCamaraActa"></span><br>
+                    Quedando como Depositario Judicial de la mercadería en cuestión, el señor/a <span class="acta_nyaDepositario"><?php echo $inspeccion->depositario ?></span>, D.N.I. N°  <span class="dniActa"><?php echo $inspeccion->documento ?></span>, Teléfono
+                    <span class="telefonoActa"><?php echo $inspeccion->telefono ?></span>, correo electrónico  <span class="correoActa"><?php echo $inspeccion->email ?></span>, con domicilio legal <span class="direccionLegalActa"><?php echo $inspeccion->domicilio_legal?></span>,
+                    y domicilio comercial <span class="direccionComercialActa"><?php echo $inspeccion->domicilio_comercial?></span>. Con las características organolépticas que se describen a continuación <span class="acta_caractOrganolepticas"><?php echo $inspeccion->caracteristicas_organolepticas ?></span>, en un depósito
+                    con las siguientes características: <span class="acta_caractDeposito"></span>, y registrándose las siguientes temperaturas <span class="acta_tempCamaraActa"></span> <br>
                     <br>
                     Fecha y Hora: <span class="acta_fecha"></span>, <span class="acta_hora"></span> horas.<br>
                     <div class="firmaDepositario" style="text-align: right;">
@@ -136,9 +137,9 @@
                     Observaciones: <?php echo $inspeccion->observaciones ?>.<br><br>
                 </div>
                 <div style="text-indent: 30px;">
-                    Quedando como Depositario Judicial de la mercadería en cuestión, el señor/a <span class="acta_nyaDepositario"></span>, D.N.I. N°  <span class="dniActa"></span>, Teléfono
-                    <span class="telefonoActa"></span>, correo electrónico  <span class="correoActa"></span>, con domicilio legal <span class="direccionLegalActa"></span>,
-                    y domicilio comercial <span class="direccionComercialActa"></span>. Con las características organolépticas que describen a continuación <span class="acta_caractOrganolepticas"></span>, en un depósito
+                    Quedando como Depositario Judicial de la mercadería en cuestión, el señor/a <span class="acta_nyaDepositario"><?php echo $inspeccion->depositario ?></span>, D.N.I. N°  <span class="dniActa"><?php echo $inspeccion->documento ?></span>, Teléfono
+                    <span class="telefonoActa"><?php echo $inspeccion->telefono ?></span>, correo electrónico  <span class="correoActa"><?php echo $inspeccion->email ?></span>, con domicilio legal <span class="direccionLegalActa"><?php echo $inspeccion->domicilio_legal?></span>,
+                    y domicilio comercial <span class="direccionComercialActa"><?php echo $inspeccion->domicilio_comercial?></span>. Con las características organolépticas que se describen a continuación <span class="acta_caractOrganolepticas"><?php echo $inspeccion->caracteristicas_organolepticas ?></span>, en un depósito
                     con las siguientes características: <span class="acta_caractDeposito"></span>, y registrándose las siguientes temperaturas <span class="acta_tempCamaraActa"></span> <br>
                     <br>
                     Fecha y Hora: <span class="acta_fecha"></span>, <span class="acta_hora"></span> horas.<br>
@@ -216,7 +217,7 @@
                 <div style="text-indent: 30px;">
                     En la ciudad de San Juan, departamento <span class="acta_depto"></span>, localidad <span class="acta_localidad"></span> a los <?php echo date('d'); ?> días del mes de <?php echo $mes; ?> del año <?php echo date('Y'); ?>,
                     siendo las <?php echo date('H'); ?> horas.  Los inspectores del S. V. I. S. <span class="acta_inspectores"></span>, se constituyen en <span class="acta_puntoControl"></span> 
-                    con domicilio en <span class="acta_puntoControlDomicilio"></span> propiedad de <span class="acta_propiedadDe"></span>. Siendo atendidos por <span class="acta_quienAtendio"></span> D.N.I. N° <span class="dniActa"></span> en su carácter de <span class="acta_caracter"></span>.<br>
+                    con domicilio en <span class="acta_puntoControlDomicilio"></span> propiedad de <span class="acta_propiedadDe"></span>. Siendo atendidos por <span class="acta_quienAtendio"></span> D.N.I. N° <span class="dniActa"><?php echo $inspeccion->documento ?></span> en su carácter de <span class="acta_caracter"></span>.<br>
                 </div>
                 <div style="text-indent: 30px;">
                     Proceden a <span class="acta_procedenA"></span>, vehículo patente N° <?php echo $inspeccion->patente_tractor; ?>, N° de habilitación del SENASA <?php echo $inspeccion->nro_senasa ?>, Documentación Sanitaria tipo <?php foreach ($inspeccion->permisos_transito->permiso_transito as $permiso) { echo $permiso->tipo. ". ";} ?>
@@ -231,9 +232,9 @@
                     Observaciones: <?php echo $inspeccion->observaciones ?>.<br><br>
                 </div>
                 <div style="text-indent: 30px;">
-                    Quedando como Depositario Judicial de la mercadería en cuestión, el señor/a <span class="acta_nyaDepositario"></span>, D.N.I. N°  <span class="dniActa"></span>, Teléfono
-                    <span class="telefonoActa"></span>, correo electrónico  <span class="correoActa"></span>, con domicilio legal <span class="direccionLegalActa"></span>,
-                    y domicilio comercial <span class="direccionComercialActa"></span>. Con las características organolépticas que describen a continuación <span class="acta_caractOrganolepticas"></span>, en un depósito
+                    Quedando como Depositario Judicial de la mercadería en cuestión, el señor/a <span class="acta_nyaDepositario"><?php echo $inspeccion->depositario ?></span>, D.N.I. N°  <span class="dniActa"><?php echo $inspeccion->documento ?></span>, Teléfono
+                    <span class="telefonoActa"><?php echo $inspeccion->telefono ?></span>, correo electrónico  <span class="correoActa"><?php echo $inspeccion->email ?></span>, con domicilio legal <span class="direccionLegalActa"><?php echo $inspeccion->domicilio_legal?></span>,
+                    y domicilio comercial <span class="direccionComercialActa"><?php echo $inspeccion->domicilio_comercial?></span>. Con las características organolépticas que se describen a continuación <span class="acta_caractOrganolepticas"><?php echo $inspeccion->caracteristicas_organolepticas ?></span>, en un depósito
                     con las siguientes características: <span class="acta_caractDeposito"></span>, y registrándose las siguientes temperaturas <span class="acta_tempCamaraActa"></span><br>
                     <br>
                     Fecha y Hora: <span class="acta_fecha"></span>, <span class="acta_hora"></span> horas.<br>

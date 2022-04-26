@@ -44,7 +44,7 @@
                 <div style="text-indent: 30px;">
                     Quedando como Depositario Judicial de la mercadería en cuestión, el señor/a <span class="acta_nyaDepositario"></span>, D.N.I. N° <span class="dniActa"></span>, Teléfono
                     <span class="telefonoActa"></span>, correo electrónico <span class="correoActa"></span>, con domicilio legal <span class="direccionLegalActa"></span>,
-                    y domicilio comercial <span class="direccionComercialActa"></span>. Con las características organolépticas que que describen a continuación <span class="acta_caractOrganolepticas"></span>, en un depósito
+                    y domicilio comercial <span class="direccionComercialActa"></span>. Con las características organolépticas que se describen a continuación <span class="acta_caractOrganolepticas"></span>, en un depósito
                     con las siguientes características: <span class="acta_caractDeposito"></span>, y registrándose las siguientes temperaturas <span class="acta_tempCamaraActa"></span><br>
                     <br>
                     Fecha y Hora: <span class="acta_fecha"></span>, <span class="acta_hora"></span> horas.<br>
@@ -139,7 +139,7 @@
                 <div style="text-indent: 30px;">
                     Quedando como Depositario Judicial de la mercadería en cuestión, el señor/a <span class="acta_nyaDepositario"></span>, D.N.I. N° <span class="dniActa"></span>, Teléfono
                     <span class="telefonoActa"></span>, correo electrónico <span class="correoActa"></span>, con domicilio legal <span class="direccionLegalActa"></span>,
-                    y domicilio comercial <span class="direccionComercialActa"></span>. Con las características organolépticas que que describen a continuación <span class="acta_caractOrganolepticas"></span>, en un depósito
+                    y domicilio comercial <span class="direccionComercialActa"></span>. Con las características organolépticas que se describen a continuación <span class="acta_caractOrganolepticas"></span>, en un depósito
                     con las siguientes características: <span class="acta_caractDeposito"></span>, y registrándose las siguientes temperaturas <span class="acta_tempCamaraActa"></span> <br>
                     <br>
                     Fecha y Hora: <span class="acta_fecha"></span>, <span class="acta_hora"></span> horas.<br>
@@ -234,7 +234,7 @@
                 <div style="text-indent: 30px;">
                     Quedando como Depositario Judicial de la mercadería en cuestión, el señor/a <span class="acta_nyaDepositario"></span>, D.N.I. N° <span class="dniActa"></span>, Teléfono
                     <span class="telefonoActa"></span>, correo electrónico <span class="correoActa"></span>, con domicilio legal <span class="direccionLegalActa"></span>,
-                    y domicilio comercial <span class="direccionComercialActa"></span>. Con las características organolépticas que que describen a continuación <span class="acta_caractOrganolepticas"></span>, en un depósito
+                    y domicilio comercial <span class="direccionComercialActa"></span>. Con las características organolépticas que se describen a continuación <span class="acta_caractOrganolepticas"></span>, en un depósito
                     con las siguientes características: <span class="acta_caractDeposito"></span>, y registrándose las siguientes temperaturas <span class="acta_tempCamaraActa"></span><br>
                     <br>
                     Fecha y Hora: <span class="acta_fecha"></span>, <span class="acta_hora"></span> horas.<br>
