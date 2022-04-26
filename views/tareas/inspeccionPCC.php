@@ -1443,7 +1443,7 @@ async function cerrarTareaform(){
                 //Guardo los permisos, empresas, termicos e infraccion si hubiese
                 $.ajax({
                     type: 'POST',
-                    data: {permisos, empresas, termicos, infraccion, detalleInfraccion},
+                    data: {permisos, empresas, termicos, infraccion, tiposInfraccion},
                     url: "<?php echo SICP; ?>inspeccion/guardarDatosInspeccion",
                     success: function(data) {
                         resp = JSON.parse(data);
