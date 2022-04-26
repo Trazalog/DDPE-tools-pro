@@ -215,7 +215,7 @@ class Inspeccion extends CI_Controller
 		$termicos = $this->input->post('termicos');
 		$infraccion = $this->input->post('infraccion');
 		$tiposInfraccion = $this->input->post('tiposInfraccion');
-		return;
+
 		//Agrego permisos
 		$rspPermisos = $this->Inspecciones->agregarPermisos($permisos);
 

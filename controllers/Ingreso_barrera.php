@@ -58,7 +58,7 @@ class Ingreso_barrera extends CI_Controller
         $data['clientes'] = $this->Ingresosbarrera->getClientes(empresa())['data'];
         $puntosControl = $this->Ingresosbarrera->getPuntosControl();
         foreach ($puntosControl  as $key) {
-            if($key->tabl_id == $this->session->userdata['puntoControl']){
+            if($key->tabl_id == $this->session->userdata['puntosControl']){
                 $data['puntoControl'] = $key->valor;
             }
         }
@@ -366,7 +366,7 @@ class Ingreso_barrera extends CI_Controller
 
         $puntosControl = $this->Ingresosbarrera->getPuntosControl();
         foreach ($puntosControl  as $key) {
-            if($key->tabl_id == $this->session->userdata['puntoControl']){
+            if($key->tabl_id == $this->session->userdata['puntosControl']){
                 $data['infoPuntoControl']['domicilio'] = $key->valor2;
                 $data['infoPuntoControl']['nombre'] = $key->descripcion;
             }

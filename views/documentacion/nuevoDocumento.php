@@ -335,7 +335,7 @@ function agregarProducto(){
 
         //Caso remito no los tengo en cuenta
         precio_total = "";
-        if(!$("#tipo_documento").val().toUpperCase().includes('REMITO')){
+        if(!$("#tipo_documento").select2('data')[0].text.toUpperCase().includes('REMITO')){
 
             precio_unitario = data.precio_unitario.split(" ");
             precio_total = precio_unitario[1] * data.cantidad;
@@ -486,7 +486,7 @@ function validarCampos(){
 			valida = "Seleccione unidad de medida!";
 		}
         //Tipo Documento
-		if($("#tipo_documento").val() == null){
+		if($("#tipo_documento").select2('data')[0].text == null){
 			valida = "Seleccione tipo de documento!";
 		}
         //Numero documento
@@ -501,7 +501,7 @@ function validarCampos(){
 		// if($("#unidades").val() == ""){
 		// 	valida = "Complete unidades!";
 		// }
-        if(! $("#tipo_documento").val().toUpperCase().includes('REMITO')){
+        if(! $("#tipo_documento").select2('data')[0].text.toUpperCase().includes('REMITO')){
             //Precio Unitario
             if($("#precio_unitario").val() == ""){
                 valida = "Complete precio unitario!";
@@ -722,7 +722,7 @@ async function agregarDocumento () {
 
                     // Uso el valor que dejo en Numero y Tipo para evitar fallo en la FK, en caso de que cambie antes de guardar detalle
                     num_documento = $("#numero").val();
-                    tipo_factura = $("#tipo_documento").val();
+                    tipo_factura = $("#tipo_documento").select2('data')[0].text;
                     
                     //Loopeo sobre las filas de la tabla
                     //Formateo precio_unitario y descuento porque tiene los prefijos
