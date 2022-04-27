@@ -597,7 +597,7 @@ $(document).on('click','.btnEditar', function () {
 //Fin scripts para manipular data en tabla intermedia
 //
 $("#tipo_documento").on('change', function () {
-    if(this.value.toUpperCase().includes('REMITO')){
+    if($(this).select2('data')[0].text.toUpperCase().includes('REMITO')){
         $("#precio_unitario").prop("readonly", 'readonly');
         $("#descuento").prop("readonly", 'readonly');
         $("#precio_unitario").val("");
