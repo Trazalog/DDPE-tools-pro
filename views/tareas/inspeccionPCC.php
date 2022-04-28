@@ -750,7 +750,7 @@
                         <div class="col-md-4 col-sm-6 col-xs-12">
                             <div class="form-group">
                                 <label for="tempCamaraActa">T° Actual Cámara(<strong style="color: #dd4b39">*</strong>):</label>
-                                <input type="number" class="form-control" name="tempCamaraActa" id="tempCamaraActa" placeholder="Ingrese T° Actual Cámara" required/>
+                                <input class="form-control onlyNumbers" name="tempCamaraActa" id="tempCamaraActa" placeholder="Ingrese T° Actual Cámara" required/>
                             </div>
                         </div>
                         <!--________________-->
@@ -1629,11 +1629,10 @@ function imprimirActa(){
     $(".acta_origenNro").text($("#esta_num").val());
     $(".acta_estaOrigen").text($("#esta_nom").select2('data')[0].text);
     $(".acta_transportista").text($('#transportista').select2('data')[0].text);
-    $(".acta_productos").text($("#producto").val());
     $(".acta_bruto").text($("#bruto").val());
     $(".acta_tara").text($("#tara").val());
     $(".acta_ticket").text($("#ticket").val());
-    $(".acta_tpoDocumentacion").text($("select[name='doc_impo']").val());
+    $(".acta_tpoDocumentacion").text($("select[name='doc_impo']").select2('data')[0].text);
     $(".acta_depto").text($("#depa_idActa").select2('data')[0].text);
     $(".acta_localidad").text($("#localidad").val());
     $(".acta_inspectores").text($("#inspectores").val());
@@ -1657,9 +1656,17 @@ function imprimirActa(){
     $(".acta_fecha").text(dateFormat($("#fechaActa").val()));
     $(".acta_hora").text($("#horaActa").val());
 
-    //Valído
+    //Valído y obtengo los tipos de infracciones
     if($('input[name=inspValida]:checked').val() == 'incorrecta'){
-        // $(".acta_infraccion").text($('#tpoInfraccion').select2('data')[0].text);
+        tiposInfraccion = "";
+        if($('#tpoInfraccion').select2('data').length > 0){
+            tiposInfracciones = $('#tpoInfraccion').select2('data');
+            for (let i = 0; i < tiposInfracciones.length; i++) {
+                tiposInfraccion += tiposInfracciones[i].text + "; ";
+            }
+        }
+
+        $(".acta_tposInfracciones").text(tiposInfraccion.slice(0, -1));
         idActa = '#actaInfraccionPCC';
     }
 
@@ -1689,12 +1696,15 @@ function imprimirActa(){
     $(".acta_destinos").text(infoDestino);
 
     infoPermisos = "";
+    infoProductos = "";
     $('#sec_permisos div.permTransito').each(function(i, obj) {
         aux = $(obj).attr('data-json');
         json = JSON.parse(aux);
         infoPermisos += json.tipo + " ";
+        infoProductos +=  json.productos + "; ";
     });
     $(".acta_docSanitaria").text(infoPermisos);
+    $(".acta_productos").text(infoProductos);
 
     var base = "<?php echo base_url()?>";
     
