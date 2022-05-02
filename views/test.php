@@ -1,8 +1,18 @@
+<style>
+.frm-save {
+    display: none;
+}
+</style>
 <!-- COMIENZO FORM ESCANEO DOCUMENTACION-->
 <div class="panel">
     <div class="panel-body" id="escaneoDocumentacion">
         <div class="row">
             <div id="formDocumentacion" class="frm-new" data-form="11"></div>
+            <div class="form-group">
+                <div class="col-md-6 col-sm-12 col-md-offset-6" style="text-align:right;margin-top: 20px;">
+                    <button type="button" id="btn-accion" class="btn btn-primary btn-guardar" onclick="cierreTest()">Guardar</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -61,5 +71,9 @@ function agregarArchivos(){
                     "</div>";
     $(".addFiles").before(modeloInput);
     indexFiles++;
+}
+function cierreTest(){
+    var queHacerAfter = function(info_id = null){console.log("Todo muy bonito! El info_id generado fue: " + info_id);}
+    frmGuardar($('.frm-new').find('form'),queHacerAfter,true);
 }
 </script>

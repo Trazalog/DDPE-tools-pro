@@ -35,8 +35,8 @@
       <param name="inspectores" sqlType="STRING"/>
    </query>
    <query id="getInspeccion" useConfig="SICPOADataSource">
-      <sql>select &#xd;case_id&#xd;,patente_tractor&#xd;,nro_senasa&#xd;,productos&#xd;,reprecintado&#xd;,bruto&#xd;,tara&#xd;,ticket&#xd;,resultado&#xd;,cant_fajas&#xd;,bruto_reprecintado&#xd;,ticket_reprecintado&#xd;,to_char( i.fec_alta, 'YYYY-MM-DD HH24:MI') fec_alta&#xd;,i.usuario&#xd;,i.usuario_app&#xd;,petr_id&#xd;,chof_id&#xd;,c.nombre chofer&#xd;,inca_id&#xd;,inf.valor4_base64 foto_infraccion_calle&#xd;,observaciones&#xd;,info_id_doc&#xd;from sicpoa.inspecciones i&#xd;left join frm.instancias_formularios inf on inf.inst_id = i.inca_id &#xd;, sicpoa.choferes c&#xd;where i.case_id = cast(:case_id as integer)&#xd;and i.chof_id = c.dni&#xd;and i.eliminado = false</sql>
-      <result outputType="json">{&#xd;   "inspeccion":{&#xd;      "case_id":"$case_id",&#xd;      "patente_tractor":"$patente_tractor",&#xd;      "nro_senasa":"$nro_senasa",&#xd;      "productos":"$productos",&#xd;      "reprecintado":"$reprecintado",&#xd;      "bruto":"$bruto",&#xd;      "tara":"$tara",&#xd;      "ticket":"$ticket",&#xd;      "resultado":"$resultado",&#xd;      "cant_fajas":"$cant_fajas",&#xd;      "bruto_reprecintado":"$bruto_reprecintado",&#xd;      "ticket_reprecintado":"$ticket_reprecintado",&#xd;      "fec_alta":"$fec_alta",&#xd;      "usuario":"$usuario",&#xd;      "usuario_app":"$usuario_app",&#xd;      "petr_id":"$petr_id",&#xd;      "chof_id":"$chof_id",&#xd;      "chofer":"$chofer",&#xd;      "inca_id":"$inca_id",&#xd;      "foto_infraccion_calle":"$foto_infraccion_calle",&#xd;      "observaciones":"$observaciones",&#xd;      "info_id_doc":"$info_id_doc",&#xd;      "@getPermisosTransito":"$case_id-&gt;case_id",      &#xd;      "@getInfracciones":"$case_id-&gt;case_id",&#xd;      "@getEmpresasInspeccion":"$case_id-&gt;case_id",&#xd;      "@getTermicosInspeccion":"$case_id-&gt;case_id",&#xd;      "@getDocumentosInspeccion":"$case_id-&gt;case_id"&#xd;   }&#xd;}</result>
+      <sql>select &#xd;case_id&#xd;,patente_tractor&#xd;,nro_senasa&#xd;,productos&#xd;,reprecintado&#xd;,bruto&#xd;,tara&#xd;,ticket&#xd;,resultado&#xd;,cant_fajas&#xd;,bruto_reprecintado&#xd;,ticket_reprecintado&#xd;,to_char( i.fec_alta, 'YYYY-MM-DD HH24:MI') fec_alta&#xd;,i.usuario&#xd;,i.usuario_app&#xd;,petr_id&#xd;,chof_id&#xd;,c.nombre chofer&#xd;,inca_id&#xd;,inf.valor4_base64 foto_infraccion_calle&#xd;,observaciones&#xd;,info_id_doc&#xd;,tel_transportista&#xd;,email_transportista&#xd;,se_constituye&#xd;,domicilio_constituye&#xd;,propiedad_de &#xd;,atendidos_por &#xd;,caracter_de &#xd;,proceden_a &#xd;,localidad &#xd;,inspectores &#xd;from sicpoa.inspecciones i&#xd;left join frm.instancias_formularios inf on inf.inst_id = i.inca_id &#xd;, sicpoa.choferes c&#xd;where i.case_id = cast(:case_id as integer)&#xd;and i.chof_id = c.dni&#xd;and i.eliminado = false</sql>
+      <result outputType="json">{&#xd;    "inspeccion":{&#xd;       "case_id":"$case_id",&#xd;       "patente_tractor":"$patente_tractor",&#xd;       "nro_senasa":"$nro_senasa",&#xd;       "productos":"$productos",&#xd;       "reprecintado":"$reprecintado",&#xd;       "bruto":"$bruto",&#xd;       "tara":"$tara",&#xd;       "ticket":"$ticket",&#xd;       "resultado":"$resultado",&#xd;       "cant_fajas":"$cant_fajas",&#xd;       "bruto_reprecintado":"$bruto_reprecintado",&#xd;       "ticket_reprecintado":"$ticket_reprecintado",&#xd;       "fec_alta":"$fec_alta",&#xd;       "usuario":"$usuario",&#xd;       "usuario_app":"$usuario_app",&#xd;       "petr_id":"$petr_id",&#xd;       "chof_id":"$chof_id",&#xd;       "chofer":"$chofer",&#xd;       "inca_id":"$inca_id",&#xd;       "foto_infraccion_calle":"$foto_infraccion_calle",&#xd;       "info_id_doc":"$info_id_doc",&#xd;       "observaciones":"$observaciones",&#xd;       "tel_transportista":"$tel_transportista",&#xd;       "email_transportista":"$email_transportista",&#xd;       "se_constituye":"$se_constituye",&#xd;       "domicilio_constituye":"$domicilio_constituye",&#xd;       "propiedad_de":"$propiedad_de",&#xd;       "atendidos_por":"$atendidos_por",&#xd;       "caracter_de":"$caracter_de",&#xd;       "proceden_a":"$proceden_a",&#xd;       "localidad":"$localidad",&#xd;       "inspectores":"$inspectores",&#xd;       "@getPermisosTransito":"$case_id-&gt;case_id",      &#xd;       "@getInfracciones":"$case_id-&gt;case_id",&#xd;       "@getEmpresasInspeccion":"$case_id-&gt;case_id",&#xd;       "@getTermicosInspeccion":"$case_id-&gt;case_id",&#xd;       "@getDocumentosInspeccion":"$case_id-&gt;case_id"&#xd;    }&#xd; }</result>
       <param name="case_id" sqlType="STRING"/>
    </query>
    <query id="getPermisosTransito" useConfig="SICPOADataSource">
@@ -45,8 +45,8 @@
       <param name="case_id" sqlType="STRING"/>
    </query>
    <query id="getInfracciones" useConfig="SICPOADataSource">
-      <sql>select &#xd;to_char(i.fec_alta,'yyyy-mm-dd hh24:mi') fec_alta &#xd;,i.usuario&#xd;,i.usuario_app&#xd;,i.case_id&#xd;,i.tiin_id&#xd;,t.valor tipo_infraccion&#xd;from sicpoa.infracciones i &#xd;     ,core.tablas t &#xd;where i.case_id = cast (:case_id as integer)&#xd;and t.tabl_id = i.tiin_id</sql>
-      <result outputType="json">{&#xd;   "infracciones":{&#xd;      "infraccion":[&#xd;         {&#xd;            "fec_alta":"$fec_alta",&#xd;            "usuario":"$usuario",&#xd;            "usuario_app":"$usuario_app",&#xd;            "case_id":"$case_id",&#xd;            "tiin_id":"$tiin_id",&#xd;            "tipo_infraccion":"$tipo_infraccion"&#xd;         }&#xd;      ]&#xd;   }&#xd;}</result>
+      <sql>select &#xd;to_char(i.fec_alta,'yyyy-mm-dd hh24:mi') fec_alta &#xd;,i.usuario&#xd;,i.usuario_app&#xd;,i.case_id&#xd;,i.depositario &#xd;,i.documento &#xd;,i.domicilio_legal &#xd;,i.domicilio_comercial &#xd;,i.telefono &#xd;,i.temperatura_actual &#xd;,i.email &#xd;,i.detalle_infraccion &#xd;,i.caracteristicas_organolepticas &#xd;,i.caracteristicas_deposito &#xd;,i.tipo_camara&#xd;from sicpoa.infracciones i &#xd;where i.case_id = cast (:case_id as integer)</sql>
+      <result outputType="json">{&#xd;    "infracciones":{&#xd;       "infraccion":[&#xd;          {&#xd;             "fec_alta":"$fec_alta",&#xd;             "usuario":"$usuario",&#xd;             "usuario_app":"$usuario_app",&#xd;             "case_id":"$case_id",&#xd;             "depositario":"$depositario",&#xd;             "documento":"$documento",&#xd;             "domicilio_legal":"$domicilio_legal",&#xd;             "domicilio_comercial":"$domicilio_comercial",&#xd;             "telefono":"$telefono",&#xd;             "temperatura_actual":"$temperatura_actual",&#xd;             "email":"$email",&#xd;             "detalle_infraccion":"$detalle_infraccion",&#xd;             "caracteristicas_organolepticas":"$caracteristicas_organolepticas",&#xd;             "caracteristicas_deposito":"$caracteristicas_deposito",&#xd;             "tipo_camara":"$tipo_camara"&#xd;          }&#xd;       ]&#xd;    }&#xd; }</result>
       <param name="case_id" sqlType="STRING"/>
    </query>
    <query id="getChofer" useConfig="SICPOADataSource">
@@ -212,7 +212,7 @@
       <param name="case_id" sqlType="STRING"/>
    </query>
    <query id="setDetalleDocumento" useConfig="SICPOADataSource">
-      <sql>insert&#xd;	into&#xd;	sicpoa.detalles_documento (cantidad,&#xd;	precio_unitario,&#xd;	descuento,&#xd;        unidades,&#xd;	usuario_app,&#xd;	docu_id,&#xd;	tido_id,&#xd;	tipr_id,&#xd;	unme_id)&#xd;values(cast (:cantidad as float),&#xd;	cast (:precio_unitario as float),&#xd;	cast (:descuento as float),&#xd;        cast (:unidades as integer),&#xd;	:usuario_app,&#xd;	:docu_id,&#xd;	:tido_id,&#xd;	:tipr_id,&#xd;	:unme_id)&#xd;returning dedo_id;</sql>
+      <sql>insert&#xd;	into&#xd;	sicpoa.detalles_documento (cantidad,&#xd;	precio_unitario,&#xd;	descuento,&#xd;        unidades,&#xd;	usuario_app,&#xd;	docu_id,&#xd;	tido_id,&#xd;	tipr_id,&#xd;	unme_id)&#xd;values(cast (:cantidad as float),&#xd;	case when :precio_unitario is null or :precio_unitario = '' then null else cast (:precio_unitario as float) END,&#xd;	case when :descuento IS NULL OR :descuento = '' then null ELSE CAST ( :descuento AS FLOAT ) END,&#xd;    cast (:unidades as integer),&#xd;	:usuario_app,&#xd;	:docu_id,&#xd;	:tido_id,&#xd;	:tipr_id,&#xd;	:unme_id)&#xd;returning dedo_id;</sql>
       <result outputType="json">{"respuesta":{"dedo_id":"$dedo_id"}}</result>
       <param name="cantidad" sqlType="STRING"/>
       <param name="precio_unitario" sqlType="STRING"/>
@@ -225,7 +225,7 @@
       <param name="unidades" sqlType="STRING"/>
    </query>
    <query id="setDetalleDocumentoBatchReq" useConfig="SICPOADataSource">
-      <sql>insert&#xd;	into&#xd;	sicpoa.detalles_documento (cantidad,&#xd;	precio_unitario,&#xd;	descuento,&#xd;        unidades,&#xd;	usuario_app,&#xd;	docu_id,&#xd;	tido_id,&#xd;	tipr_id,&#xd;	unme_id)&#xd;values(cast (:cantidad as float),&#xd;	cast (:precio_unitario as float),&#xd;	cast (:descuento as float),&#xd;        cast (:unidades as integer),&#xd;	:usuario_app,&#xd;	:docu_id,&#xd;	:tido_id,&#xd;	:tipr_id,&#xd;	:unme_id);</sql>
+      <sql>insert&#xd;	into&#xd;	sicpoa.detalles_documento (cantidad,&#xd;	precio_unitario,&#xd;	descuento,&#xd;    unidades,&#xd;	usuario_app,&#xd;	docu_id,&#xd;	tido_id,&#xd;	tipr_id,&#xd;	unme_id)&#xd;select &#xd;	cast (:cantidad as float),&#xd;	case when param.precio_unitario is null or param.precio_unitario = '' then null else cast (param.precio_unitario as float) END,&#xd;	case when param.descuento IS NULL OR param.descuento = '' then null ELSE CAST ( param.descuento as float) end,&#xd;	cast (:unidades as integer),&#xd;	:usuario_app,&#xd;	:docu_id,&#xd;	:tido_id,&#xd;	:tipr_id,&#xd;	:unme_id&#xd;from (&#xd;select :precio_unitario precio_unitario,&#xd;:descuento descuento) param</sql>
       <param name="cantidad" sqlType="STRING"/>
       <param name="precio_unitario" sqlType="STRING"/>
       <param name="descuento" sqlType="STRING"/>
@@ -237,7 +237,7 @@
       <param name="unidades" sqlType="STRING"/>
    </query>
    <query id="updateDocumento" useConfig="SICPOADataSource">
-      <sql>update&#xd;	sicpoa.documentos&#xd;set&#xd;	fec_emision = to_timestamp(:fec_emision,'YYYY-MM-DD') ,&#xd;	usuario_app = :usuario_app,&#xd;	imag_id = cast(:imag_id as integer),&#xd;	empr_id_emisor = cast(:empr_id_emisor as integer),&#xd;	empr_id_destino = cast(:empr_id_destino as integer)&#xd;where&#xd;	num_documento = :num_documento &#xd;	and tido_id = :tido_id ;</sql>
+      <sql>update&#xd;	sicpoa.documentos&#xd;set&#xd;	fec_emision = to_timestamp(:fec_emision,'YYYY-MM-DD') ,&#xd;	usuario_app = :usuario_app,&#xd;	imag_id = cast(:imag_id as integer),&#xd;	empr_id_emisor = :empr_id_emisor,&#xd;	empr_id_destino = :empr_id_destino&#xd;where&#xd;	num_documento = :num_documento &#xd;	and tido_id = :tido_id ;</sql>
       <param name="fec_emision" sqlType="STRING"/>
       <param name="usuario_app" sqlType="STRING"/>
       <param name="imag_id" sqlType="STRING"/>
@@ -276,6 +276,17 @@
       <param name="tipo_producto" sqlType="STRING"/>
       <param name="fec_desde" sqlType="STRING"/>
       <param name="fec_hasta" sqlType="STRING"/>
+   </query>
+   <query id="setDetalleInfraccion" useConfig="SICPOADataSource">
+      <sql>insert into sicpoa.deta_infracciones(&#xd;	case_id,&#xd;	tiin_id,&#xd;	usuario_app)&#xd;values(&#xd;	cast(:case_id as integer),&#xd;	:tiin_id,&#xd;	:usuario_app&#xd;);</sql>
+      <param name="case_id" sqlType="STRING"/>
+      <param name="tiin_id" sqlType="STRING"/>
+      <param name="usuario_app" sqlType="STRING"/>
+   </query>
+   <query id="getDetalleInfraccion" useConfig="SICPOADataSource">
+      <sql>select &#xd;di.tiin_id,&#xd;t.descripcion,&#xd;t.valor,&#xd;di.usuario_app&#xd;from sicpoa.deta_infracciones di &#xd;left join core.tablas t on di.tiin_id = t.tabl_id &#xd;where di.case_id = cast (:case_id as integer)</sql>
+      <result outputType="json">{&#xd;    "detalleinfracciones":{&#xd;       "detalleInfraccion":[&#xd;          {&#xd;            "tiin_id":"$tiin_id",&#xd;            "descripcion":"$descripcion",&#xd;            "valor":"$valor",&#xd;            "usuario_app":"$usuario_app"&#xd;          }&#xd;       ]&#xd;    }&#xd; }</result>
+      <param name="case_id" sqlType="STRING"/>
    </query>
    <resource method="POST" path="/inspeccion">
       <call-query href="setInspeccion">
@@ -558,6 +569,13 @@
          <with-param name="tipo_producto" query-param="tipo_producto"/>
          <with-param name="fec_desde" query-param="fec_desde"/>
          <with-param name="fec_hasta" query-param="fec_hasta"/>
+      </call-query>
+   </resource>
+   <resource method="POST" path="/inspeccion/infraccion/detalle">
+      <call-query href="setDetalleInfraccion">
+         <with-param name="case_id" query-param="case_id"/>
+         <with-param name="tiin_id" query-param="tiin_id"/>
+         <with-param name="usuario_app" query-param="usuario_app"/>
       </call-query>
    </resource>
 </data>

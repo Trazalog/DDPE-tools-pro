@@ -20,7 +20,7 @@
                     <th>Destinatario</th>
                     <th>Tipo</th>
                     <th style="width: 10%;">Fecha</th>
-                    <th>Monto Bruto</th>
+                    <th>Precio Total</th>
                     <th>Fotos</th>
                 </thead>
                 <tbody >
@@ -37,7 +37,7 @@
                                 echo '<td>'.$docu->razon_social_destino.' ('.$docu->cuit_destino.')</td>';
                                 echo '<td>'.$docu->tipo_documento.'</td>';
                                 echo '<td>'.$fec_emision.'</td>';
-                                echo '<td>'.$docu->monto.'</td>';
+                                echo '<td>'.floatval($docu->monto).' $</td>';
                                 echo '<td><button type="button" title="Info" class="btn btn-primary btn-circle modalDocs" data-toggle="modal" data-target="#mdl-documentos"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></button></td>';
                                 echo '</tr>';
                             }
@@ -103,7 +103,7 @@ function actualizaTablaDocumentos(){
                             '<td>' + value.razon_social_destino + " (" + value.cuit_destino + ")" + '</td>' +
                             '<td>' + value.tipo_documento + '</td>' +
                             '<td>' + fec_emision + '</td>' +
-                            '<td>' + monto + '</td>' +
+                            '<td>$ ' + monto + '</td>' +
                             '<td><button type="button" title="Info" class="btn btn-primary btn-circle modalDocs" data-toggle="modal" data-target="#mdl-documentos"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></button></td>' +
                         '</tr>';
                     tabla.row.add($(fila)).draw();
@@ -188,10 +188,10 @@ $(document).on('click','.btnEditarDocu', function () {
     if(!$.isEmptyObject(detalles)){
        
         $.each(detalles, function (i, value) { 
-                
+            var fila = '';
             //Caso remito no los tengo en cuenta
             precio_total = "";
-            if(datos.tido_id != empresa + '-tipos_documentoREMITO'){
+            if(!datos.tido_id.toUpperCase().includes('REMITO')){
             
                 precio_total = value.precio_unitario * value.cantidad;
                 //Puede poseer o no descuento
@@ -219,7 +219,6 @@ $(document).on('click','.btnEditarDocu', function () {
                     '<td>' + precio_total + '</td>' +
                 '</tr>';
             tabla.row.add($(fila)).draw();
-                
         });
     }
 
@@ -239,7 +238,7 @@ $(document).on('click','.btnEliminarDocu', function () {
         
         tabla = $('#tabla_documentos').DataTable();
         //Obtengo la fila
-        row = $(this).parents('tr');
+        var row = $(this).parents('tr');
 
         //Data parseada en json
         nodo = tabla.row(row).node();
@@ -258,7 +257,7 @@ $(document).on('click','.btnEliminarDocu', function () {
 
                 if(data.status){
                     
-                    tabla.row( $(this).parents('tr') ).remove().draw(); 
+                    tabla.row( row ).remove().draw(); 
                     alertify.success("Registro eliminado con exito!");
                     console.log("Actualizando tabla con documentos cargados");
 

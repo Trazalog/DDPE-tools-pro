@@ -29,6 +29,9 @@
             <!--_______ Fin 1° COLUMNA ______-->
 
             <!--_______ COMIENZO 2° COLUMNA ______-->
+            <div class="box-tittle centrar">
+                <h3>Datos</h3>
+            </div>
             <div class="col-md-6">
                 <!--Tipo-->
                 <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
@@ -86,7 +89,12 @@
                     </div>                    
                 </div>
                 <!--________________-->
-                <hr>
+                <div class="col-md-12">
+                    <hr>
+                </div>
+                <div class="box-tittle centrar">
+                    <h3>Detalle</h3>
+                </div>
                 <!--Producto-->
                 <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
                     <div class="form-group">
@@ -106,7 +114,7 @@
                     </div>
                 </div>
                 <!--________________-->
-
+                                
                 <!--U. Medida-->
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
@@ -169,7 +177,7 @@
 
                 <!--_________________ Agregar_________________-->
                 <div class="form-group text-right">
-                    <button type="button" class="btn btn-outline-dark" onclick="agregarProducto()" >Agregar</button>
+                    <button type="button" class="btn btn-outline-dark" title="Agregar producto a la tabla de detalles" onclick="agregarProducto()" >Agregar Detalle</button>
                 </div>                
                 <!--__________________________________-->
 
@@ -178,7 +186,7 @@
             
             <!--_______ COMIENZO 3° COLUMNA ______-->
             <div class="col-md-12 col-sm-12 col-xs-12 centrar">
-                <h3>Lineas:</h3>
+                <h3>Detalles:</h3>
                 <div id="sec_productos">
                     <!-- ______ TABLA PRODUCTOS ______ -->
                     <table id="tabla_productos" class="table table-bordered table-striped">
@@ -327,7 +335,7 @@ function agregarProducto(){
 
         //Caso remito no los tengo en cuenta
         precio_total = "";
-        if($("#tipo_documento").val() != empresa + '-tipos_documentoREMITO'){
+        if(!$("#tipo_documento").select2('data')[0].text.toUpperCase().includes('REMITO')){
 
             precio_unitario = data.precio_unitario.split(" ");
             precio_total = precio_unitario[1] * data.cantidad;
@@ -338,6 +346,8 @@ function agregarProducto(){
                 descuento =  precio_total * (aux[0] / 100);
                 precio_total -= descuento;
             }   
+        }else{
+            
         }
         fila = "<tr data-json= '"+ JSON.stringify(data) +"'>" +
                 '<td><button  type="button" title="Editar"  class="btn btn-primary btn-circle btnEditar" data-toggle="modal" data-target="#modaleditar"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>&nbsp<button type="button" title="Eliminar" class="btn btn-primary btn-circle btnEliminar"><span class="glyphicon glyphicon-trash" aria-hidden="true" ></span></button>&nbsp' +
@@ -347,7 +357,7 @@ function agregarProducto(){
                 '<td>' + data.unidades + '</td>' +
                 '<td>' + data.precio_unitario + '</td>' +
                 '<td>' + data.descuento + '</td>' +
-                '<td>' + precio_total + '</td>' +
+                '<td>$ ' + precio_total + '</td>' +
             '</tr>';
 
         //Si la accion es editar y posee dedo_id, puedo editar directamente el detalle del documento
@@ -476,7 +486,7 @@ function validarCampos(){
 			valida = "Seleccione unidad de medida!";
 		}
         //Tipo Documento
-		if($("#tipo_documento").val() == null){
+		if($("#tipo_documento").select2('data')[0].text == null){
 			valida = "Seleccione tipo de documento!";
 		}
         //Numero documento
@@ -491,10 +501,14 @@ function validarCampos(){
 		// if($("#unidades").val() == ""){
 		// 	valida = "Complete unidades!";
 		// }
-        if($("#tipo_documento").val() != empresa + '-tipos_documentoREMITO'){
+        if(! $("#tipo_documento").select2('data')[0].text.toUpperCase().includes('REMITO')){
             //Precio Unitario
             if($("#precio_unitario").val() == ""){
                 valida = "Complete precio unitario!";
+            }
+            //Descuento
+            if($("#descuento").val() == ""){
+                valida = "Complete descuento!";
             }
         }
 		return valida;
@@ -583,7 +597,7 @@ $(document).on('click','.btnEditar', function () {
 //Fin scripts para manipular data en tabla intermedia
 //
 $("#tipo_documento").on('change', function () {
-    if(this.value == empresa + '-tipos_documentoREMITO'){
+    if(this.value.toUpperCase().includes('REMITO')){
         $("#precio_unitario").prop("readonly", 'readonly');
         $("#descuento").prop("readonly", 'readonly');
         $("#precio_unitario").val("");
@@ -620,9 +634,11 @@ function cerrarDetalle(){
 }
 
 function guardarDetalle(){
+    wo();
     //VALIDACIONES
     //valido el formulario
     if(!frm_validar('#formDocumentacion')){
+        wc();
         Swal.fire(
             'Error..',
             'Debes completar los campos obligatorios (*)',
@@ -632,6 +648,7 @@ function guardarDetalle(){
     }
     //Valido seleccion de foto
     if(!$('.fotos').hasClass("selected")){
+        wc();
         Swal.fire(
             'Error..',
             'Debe seleccionar una foto!',
@@ -642,6 +659,7 @@ function guardarDetalle(){
     //valído tabla no vacia
     tabla = $('#tabla_productos').DataTable(); 
     if ( ! tabla.data().any() ) {
+        wc();
         Swal.fire(
             'Error..',
             'No se cargaron datos en la tabla!',
@@ -653,20 +671,23 @@ function guardarDetalle(){
     //Accion discrimina si guarda todo junto o solo edita detalles
     if(accion == "nuevo"){
         agregarDocumento().then((result) => {
-
+            wc();
             alertify.success(result);
             cerrarDetalle();
 
         }).catch((err) => {
+            wc();
             console.log(err);
         });
     }else{
         editarDocumento().then((result) => {
+            wc();
             alertify.success(result);
             cerrarDetalle();
 
         }).catch((err) => {
-            alertify.error(result);
+            wc();
+            alertify.error(err);
             console.log(err);
         });
     }
@@ -699,6 +720,10 @@ async function agregarDocumento () {
                 //Si es correcto, guardo los detalles de los documentos
                 if(rsp.status){
 
+                    // Uso el valor que dejo en Numero y Tipo para evitar fallo en la FK, en caso de que cambie antes de guardar detalle
+                    num_documento = $("#numero").val();
+                    tipo_factura = $("#tipo_documento").select2('data')[0].text;
+                    
                     //Loopeo sobre las filas de la tabla
                     //Formateo precio_unitario y descuento porque tiene los prefijos
                     detalles = [];
@@ -707,12 +732,14 @@ async function agregarDocumento () {
                         nodo = this.node();
                         
                         var json = JSON.parse($(nodo).attr('data-json'));
+                        json.num_documento = num_documento;
+                        json.tido_id = tipo_factura;
 
                         descuento = json.descuento.split(" ");
                         descuento = descuento[0] / 100 ;
 
                         precio_unitario = json.precio_unitario.split(" ");
-                        precio_unitario = precio_unitario[1];
+                        precio_unitario = precio_unitario.pop();
 
                         json.precio_unitario = precio_unitario;
                         json.descuento = descuento;
@@ -726,8 +753,11 @@ async function agregarDocumento () {
                         dataType: "json",
                         url: "<?php echo SICP; ?>inspeccion/guardarDetallesDocumentos",
                         success: function(resp) {
-                            
-                            resolve("Se agrego el documento y su detalle correctamente");
+                            if(resp.status){
+                                resolve("Se agrego el documento y su detalle correctamente");
+                            }else{
+                                reject("Se agrego correctamente el documento, pero fallo al agregar el detalle");
+                            }
                         
                         },
                         error: function(data) {

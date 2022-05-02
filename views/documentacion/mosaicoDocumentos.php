@@ -91,11 +91,29 @@
         <input type="hidden" name="imag_id" id="imag_id">
 
         <div class="fotos">
-          <?php foreach ($imgsDocumentacion as $key => $value) {
+          <?php foreach ($documentacion['imagenes'] as $key => $value) {
               $inst_id = array('inst_id' => $value['inst_id']);
               echo "<div class='iconoBorde'>";
-              echo "<img class='thumbnail fotos documentacion ". (in_array($value['inst_id'],$imag_ids) ? "selected used" : null) ."' height='51' width='45' data-json='".json_encode($inst_id)."' src='".$value['imagen']."' alt='' onclick='preview(this)'>";
+              echo "<img class='thumbnail fotos documentacion ". (in_array($value['inst_id'],$imag_ids) ? "used" : null) ."' height='51' width='45' data-json='".json_encode($inst_id)."' src='".$value['imagen']."' alt='' onclick='preview(this)'>";
               echo "<span style='display:none' id='".$value['inst_id']."' class='delete iconoDocs'></span>";
+              echo "</div>";
+          } ?>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <label>Seleccione un archivo (<strong style="color: #dd4b39">*</strong>)</label>
+    </div>
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="fotos">
+          <?php foreach ($documentacion['archivos'] as $key => $value) {
+              $inst_id = array('inst_id' => $value['inst_id']);
+              echo "<div class='iconoBorde'>";
+              echo "<a download='".$value['descripcion']."' href='".$value['archivo']."' class='help-button col-sm-4 download' title='Descargar Archivo' download>";
+              echo "<img class='thumbnail fotos documentacion ". (in_array($value['inst_id'],$imag_ids) ? "used" : null) ."' height='51' width='45' data-json='".json_encode($inst_id)."' src='lib\imageForms\previewPDF.svg' alt='' onclick='previewFile(this)'>";
+              echo "<span style='display:none' id='".$value['inst_id']."' class='delete iconoDocs'></span>";
+              echo "</a>";
               echo "</div>";
           } ?>
         </div>
@@ -105,7 +123,7 @@
 <div class="col-sm-12 col-md-12 col-xl-12">
     <div class="contenedor">
       <!-- Visor imagen expandido -->
-      <img src="lib\imageForms\preview.png" id="expandedImg" style="">
+      <img src="lib\imageForms\preview.png" id="expandedImg" style="" data-magnify-src="">
       
       <!-- Zoom Modal Button -->
       <button type="button" class="btn btn-outline-dark btnZoom" data-toggle="modal" data-target="#mdl-zoomPreview" title="Zoom"><i class="fa fa-search"></i></button>
@@ -135,8 +153,31 @@ function preview(imgs) {
       //Asigno el inst_id de la imagen seleccionada
       data = JSON.parse($(".fotos .selected").attr('data-json'));
       $("#imag_id").val(data.inst_id);
+
+      //Instancio la lupa con la url de la imagen
+      $('#expandedImg').magnify({
+        speed: 200,
+        src: imgs.src
+      });
     }else{
       alertify.error("Esta foto ya fue transcripta!");
+    }
+}
+// No genero vista previa, solo actualiza imag_id 
+function previewFile(imgs) {
+    if(!$(imgs).hasClass("used")){
+      //Quito clase selected
+      $('.fotos').removeClass("selected");
+
+      //Marco la foto seleccionada
+      $(imgs).toggleClass("selected");
+
+      //Asigno el inst_id de la imagen seleccionada
+      data = JSON.parse($(".fotos .selected").attr('data-json'));
+      $("#imag_id").val(data.inst_id);
+
+    }else{
+      alertify.error("Este documento ya fue transcripto!");
     }
 }
 </script>

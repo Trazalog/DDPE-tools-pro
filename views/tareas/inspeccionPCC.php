@@ -208,7 +208,7 @@
                             <div class="col-md-12 col-sm-12 col-xs-12 ocultar">
                                 <div class="form-group">
                                     <label for="producto">Producto/s(<strong style="color: #dd4b39">*</strong>):</label>
-                                    <textarea class="form-control" name="productos" id="producto" placeholder="Ingrese producto/s" required></textarea>
+                                    <textarea class="form-control" name="productos" id="producto" placeholder="Ingrese producto/s"></textarea>
                                 </div>                    
                             </div>
                             <!--________________-->
@@ -326,7 +326,7 @@
                             <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
                                 <div class="form-group">
                                     <label for="telTransportista">Teléfono Transportista:</label>
-                                    <input class="form-control limited" name="telTransportista" id="telTransportista" placeholder="Ingrese teléfono" required/>
+                                    <input class="form-control limited" name="telTransportista" id="telTransportista" placeholder="Ingrese teléfono" value="<?php echo isset($preCargaDatos->tel_transportista) ? $preCargaDatos->tel_transportista : '' ?>" required/>
                                 </div>                    
                             </div>
                             <!--________________-->
@@ -335,7 +335,7 @@
                             <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
                                 <div class="form-group">
                                     <label for="emailTransportista">E-mail Transportista(<strong style="color: #dd4b39">*</strong>):</label>
-                                    <input type="text" class="form-control" name="emailTransportista" id="emailTransportista" placeholder="Ingrese correo" required/>
+                                    <input type="text" class="form-control" name="emailTransportista" id="emailTransportista" placeholder="Ingrese correo" value="<?php echo isset($preCargaDatos->email_transportista) ? $preCargaDatos->email_transportista : '' ?>" required/>
                                 </div>                    
                             </div>
                             <!--________________-->
@@ -373,7 +373,7 @@
                             <div class="col-md-12 col-sm-12 col-xs-12 ocultar">
                                 <div class="form-group">
                                     <label for="productosDestino">Producto/s para la empresa de destino(<strong style="color: #dd4b39">*</strong>):</label>
-                                    <textarea class="form-control" name="productosDestino" id="productosDestino" placeholder="Ingrese producto/s para la empresa de destino" required></textarea>
+                                    <textarea class="form-control" name="productosDestino" id="productosDestino" placeholder="Ingrese producto/s para la empresa de destino"></textarea>
                                 </div>                    
                             </div>
                             <!--________________-->
@@ -607,11 +607,11 @@
                         <div class="form-group">
                             <label for="inspValida">¿Inspección correcta?:</label>
                             <div class="form-check form-check-inline">
-                                <input type="radio" class='form-check-input' name="inspValida" value="correcta" onchange="showValidar(this)"/>
+                                <input type="radio" class='form-check-input' name="inspValida" value="correcta" onchange="showValidar(this)" required/>
                                 <label class="form-check-label" for="">Sí</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input type="radio" class='form-check-input' name="inspValida" value="incorrecta" onchange="showValidar(this)"/>
+                                <input type="radio" class='form-check-input' name="inspValida" value="incorrecta" onchange="showValidar(this)" required/>
                                 <label class="form-check-label" for="">No</label>
                             </div>
                         </div>
@@ -635,11 +635,11 @@
                     <!--________________-->
                     <!--Bloque Validar-->
                     <div id="bloque_validar" style="display:none;">
-                        <!-- <div class="col-md-6 col-sm-6 col-xs-12 ocultar"> -->
-                            <!-- <div class="form-group">
+                        <!-- <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
+                            <div class="form-group">
                                 <label for="tpoInfraccion">Tipos Infracción(<strong style="color: #dd4b39">*</strong>):</label>
-                                <select class="form-control select2 select2-hidden-accesible" name="tpoInfraccion" id="tpoInfraccion" required>
-                                    <option value="" disabled selected>-Seleccionar infracción-</option>	
+                                <select class="form-control select2 select2-hidden-accesible" name="tpoInfraccion[]" id="tpoInfraccion" required style="width: 100%;" multiple> -->
+                                    <!-- <option value="" disabled selected>-Seleccionar infracción-</option>	 -->
                                     <?php
                                     if(!empty($infracciones)){
                                         foreach ($infracciones as $tipos) {
@@ -647,9 +647,9 @@
                                         }
                                     }
                                     ?>
-                                </select>
-                            </div> -->
-                        <!-- </div> -->
+                                <!-- </select>
+                            </div>
+                        </div> -->
                         <!--Fecha Acta-->
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <div class="form-group">
@@ -1144,14 +1144,44 @@ function validarCamposPermiso(){
     //Hora de salida
     if($("#salida").val() == ""){
         valida = "Seleccione una Hora de salida!";
+        return valida;
     }
     //Fecha
     if($("#fecha").val() == ""){
         valida = "Seleccione una Fecha!";
+        return valida;
     }
     //Documentacion sanitaria
     if($("input[name='doc_sanitaria']:checked").val() == null){
         valida = "Seleccione un tipo de Doc. sanitaria!";
+        return valida;
+    }
+    //Producto
+    if($("#producto").val() == ""){
+        valida = "Seleccione un Producto!";
+        return valida;
+    }
+    //Peso Neto
+    if($("#netoPermiso").val() == ""){
+        valida = "Seleccione un Peso Neto!";
+        return valida;
+    }
+    //Peso Bruto
+    if($("#brutoPermiso").val() == ""){
+        valida = "Seleccione un Peso Bruto!";
+        return valida;
+    }
+    bruto = $("#brutoPermiso").val();
+    neto = $("#netoPermiso").val();
+
+    tara = bruto - neto;
+    if(tara < 0){
+        valida = "El peso bruto es menor al peso neto"; 
+        return valida;
+    }
+    //Temperatura
+    if($("#temperatura").val() == ""){
+        valida = "Seleccione una Temperatura!";
     }
     return valida;
 }
@@ -1312,13 +1342,14 @@ $(".neto").on("change", function () {
 //Guardado de formulario y limpieza de datos en BD
 //Cierre formulario
 async function cerrarTareaform(){
-
     //obtengo el formulario de la inspeccion
     var dataForm = new FormData($('#formInspeccion')[0]);
-    var frm_info_id = $('#formEscaneoDocu .frm').attr('data-ninfoid');
-    
-    dataForm.append('case_id', $("#caseId").val());
-    dataForm.append('info_id_doc', frm_info_id);
+    var case_id = $("#caseId").val();
+    dataForm.append('case_id', case_id);
+
+    //Guardo formulario de escaneo documentacion, se valido en cerrarTarea()
+    var newInfoID = await frmGuardarConPromesa($('#formEscaneoDocu').find('form'));
+    dataForm.append('info_id_doc', newInfoID);
 
     //Limpio la data pre cargada si existiera para evitar errores
     limpiarDataPreCargada().then((result) => {
@@ -1332,7 +1363,7 @@ async function cerrarTareaform(){
     permisos = [];
     $('#sec_permisos div.permTransito').each(function(i, obj) {
         var json = JSON.parse($(obj).attr('data-json'));
-        json.case_id = $("#caseId").val();
+        json.case_id = case_id;
         permisos[i] = json;
     });
 
@@ -1342,14 +1373,14 @@ async function cerrarTareaform(){
         var aux = $(obj).attr('data-json');
         aux = aux.replace("cuit", "empr_id");
         var json = JSON.parse(aux);
-        json.case_id = $("#caseId").val();
+        json.case_id = case_id;
         empresas[i] = json;
     });
     //obtengo origen
     origen = {};
     origen.rol = "ORIGEN";
     origen.empr_id = $("#esta_nom").val();
-    origen.case_id = $("#caseId").val();
+    origen.case_id = case_id;
     origen.depo_id = "";
     empresas.push(origen);
     
@@ -1357,7 +1388,7 @@ async function cerrarTareaform(){
     transp = {};
     transp.rol = "TRANSPORTISTA";
     transp.empr_id = $("#transportista").val();
-    transp.case_id = $("#caseId").val();
+    transp.case_id = case_id;
     transp.depo_id = "";
     empresas.push(transp);
     
@@ -1368,16 +1399,14 @@ async function cerrarTareaform(){
         var aux = $(obj).attr('data-json');
         aux = aux.replace("patente", "term_id");
         var json = JSON.parse(aux);
-        json.case_id = $("#caseId").val();
+        json.case_id = case_id;
         termicos[i] = json;
     });
 
-    //obtengo el tipo de infraccion
+    //obtengo infomacion de la infraccion
     infraccion = {};
     if($('input[name=inspValida]:checked').val() == 'incorrecta'){
-        infraccion.case_id = $("#caseId").val();
-        // infraccion.tiin_id = $("#tpoInfraccion").val(); hasta resolver la parte funcional
-        infraccion.tiin_id = 'tipos_infraccionPrecinto roto';
+        infraccion.case_id = case_id;
         infraccion.depositario = $("#nyaDepositario").val();
         infraccion.documento = $("#dniActa").val();
         infraccion.domicilio_legal = $("#domiLegalActa").val();
@@ -1391,7 +1420,14 @@ async function cerrarTareaform(){
         infraccion.temperatura_actual = $("#tempCamaraActa").val();
         infraccion.fecha_hora = $("#fechaActa").val() + " " + $("#horaActa").val();
     }
-
+    //Obtengo los tipos de infracciones
+    tiposInfraccion = {};
+    // if($('#tpoInfraccion').select2('data').length > 0){
+    //     tiposInfracciones = $('#tpoInfraccion').select2('data');
+    //     for (let i = 0; i < tiposInfracciones.length; i++) {
+    //         tiposInfraccion[i] = {"tiin_id": tiposInfracciones[i].id,"case_id": case_id};
+    //     }
+    // }
     //Guardo la inspeccion
     let guardadoCompleto = new Promise( function(resolve,reject){
             $.ajax({
@@ -1407,16 +1443,14 @@ async function cerrarTareaform(){
                 //Guardo los permisos, empresas, termicos e infraccion si hubiese
                 $.ajax({
                     type: 'POST',
-                    data: {permisos, empresas, termicos, infraccion},
+                    data: {permisos, empresas, termicos, infraccion, tiposInfraccion},
                     url: "<?php echo SICP; ?>inspeccion/guardarDatosInspeccion",
                     success: function(data) {
                         resp = JSON.parse(data);
                         if(resp.status){
-                            //Guardo formulario de escaneo documentacion, se valido en cerrarTarea()
-                            $('#formEscaneoDocu .frm-save').click();
-
                             console.log(resp.message);
-                            resolve("Correcto");
+                            resp.info_id = newInfoID;
+                            resolve(resp);
                         }else{
                             console.log(resp.message);
                             reject("Error");
@@ -1502,11 +1536,9 @@ function cerrarTarea() {
     }
     //Una vez validado el formulario, lo guardo
     cerrarTareaform().then((result) => {
-    
-        var dataForm = new FormData($('#formInspeccion')[0]);
-        var frm_info_id = $('#formEscaneoDocu .frm').attr('data-ninfoid');
 
-        dataForm.append('frm_info_id', frm_info_id);
+        var dataForm = new FormData($('#formInspeccion')[0]);
+        dataForm.append('frm_info_id', result.info_id);
         dataForm.append('doc_impositiva', $("select[name=doc_impo]").val());
         
         var id = $('#taskId').val();
@@ -1702,7 +1734,6 @@ $("#btn-cierreEscaneo").on('click', function() {
     $("#mosaicoDocumentos img").remove();
 
     $("#formEscaneoDocu").find("input[type=file]").each(function(index, field){
-        debugger;
         if ($(field)[0].files[0]) {
             (function(){
                 let file = $(field)[0].files[0];

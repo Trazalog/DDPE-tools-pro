@@ -113,9 +113,7 @@
                     </div>
                     <hr>
                 </div>
-                <?php $this->load->view(SICP.'inspeccion/mosaicoBarrera.php') ?>
-                <hr>
-                <?php $this->load->view(SICP.'inspeccion/mosaicoDocumentacion.php') ?>
+                <?php $this->load->view(SICP.'reprecintado/mosaicoReprecintado.php') ?>
             </div><!-- FIN box-primary -->
         </div>
         <!--_______ FIN FORMULARIO PERMISO DE TRANSITO BOX 1 ______-->
@@ -250,7 +248,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group has-feedback">
                         <label for="cant_documentos">Cantidad de Documentos:</label>
-                        <input class="form-control" name="cant_doc" id="cant_documentos" value="<?php echo isset($datosEscaneo['cant_doc']) ? $datosEscaneo['cant_doc'] : null ?>" readonly/>
+                        <input class="form-control" name="cant_doc" id="cant_documentos" value="<?php echo isset($formEscaneo['datos']['cant_doc']) ? $formEscaneo['datos']['cant_doc'] : null ?>" readonly/>
                     </div>
                 </div>
                 <!--________________-->
@@ -259,7 +257,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                         <label for="doc_impositiva">Doc. Impositiva:</label>
-                        <input class="form-control" name="doc_impo" id="doc_impositiva" value="<?php echo isset($datosEscaneo['doc_impo']) ? $datosEscaneo['doc_impo'] : null ?>" readonly/>
+                        <input class="form-control" name="doc_impo" id="doc_impositiva" value="<?php echo isset($formEscaneo['datos']['doc_impo']) ? $formEscaneo['datos']['doc_impo'] : null ?>" readonly/>
                     </div>
                 </div>
                 <!--________________-->
