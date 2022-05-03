@@ -469,15 +469,15 @@ class Inspecciones extends CI_Model {
 	*/
     public function agregarTiposInfraccion($data){
 
-        $url = REST_SICP."/_post_docdetlist_batch_req"; // TODO
+        $url = REST_SICP."/_post_inspeccion_infraccion_detalle_batch_req";
         $batch_req = [];
 
         foreach ($data as $key) {
-            $aux['tiin_id'] = $key['cantidad'];
-            $aux['precio_unitario'] =  $key['case_id'];
+            $aux['tiin_id'] = $key['tiin_id'];
+            $aux['case_id'] =  $key['case_id'];
             $aux['usuario_app'] = userNick();
 
-            $batch_req['_post_docdetlist_batch_req']['_post_docdetlist'][] = $aux;
+            $batch_req['_post_inspeccion_infraccion_detalle_batch_req']['_post_inspeccion_infraccion_detalle'][] = $aux;
 
         }
         

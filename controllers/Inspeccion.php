@@ -243,12 +243,14 @@ class Inspeccion extends CI_Controller
 			if($respInfraccion['status']){
 				$resp['msjInfraccion'] = "Se agrego la infraccion correctamente";
 			}else{
-				$resp['msjInfraccion'] = $respInfraccion['data'];
+				$resp['msjInfraccion']['data'] = $respInfraccion['data'];
+				$resp['msjInfraccion']['message'] = "Se produjo un error al guardar los datos de la infracción";
 			}
 			if($resptiposInfraccion['status']){
 				$resp['msjTiposInfraccion'] = "Se agregaron los tipos de infracciones correctamente";
 			}else{
-				$resp['msjTiposInfraccion'] = $resptiposInfraccion['data'];
+				$resp['msjTiposInfraccion']['data'] = $resptiposInfraccion['data'];
+				$resp['msjTiposInfraccion']['message'] = "Se produjo un error al guardar los tipos de infracciones";
 			}
 			echo json_encode($resp);
 		} else {

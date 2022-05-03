@@ -65,10 +65,9 @@
       <param name="case_id" sqlType="STRING"/>
    </query>
    <query id="setInfraccionInspeccion" useConfig="SICPOADataSource">
-      <sql>insert into&#xd;	sicpoa.infracciones (&#xd;	usuario_app,&#xd;	case_id,&#xd;	tiin_id,&#xd;	depositario,&#xd;	documento,&#xd;	domicilio_legal,&#xd;	domicilio_comercial,&#xd;	telefono,&#xd;	email,&#xd;	detalle_infraccion,&#xd;	caracteristicas_organolepticas,&#xd;	caracteristicas_deposito,&#xd;	tipo_camara,&#xd;	temperatura_actual,&#xd;	fecha_hora)&#xd;values(&#xd;	:usuario_app,&#xd;	cast(:case_id as integer),&#xd;	:tiin_id,&#xd;	:depositario,&#xd;	:documento,&#xd;	:domicilio_legal,&#xd;	:domicilio_comercial,&#xd;	:telefono,&#xd;	:email,&#xd;	:detalle_infraccion,&#xd;	:caracteristicas_organolepticas,&#xd;	:caracteristicas_deposito,&#xd;	:tipo_camara,&#xd;	cast(:temperatura_actual as float),&#xd;	to_timestamp(cast(:fecha_hora as text),'YYYY-MM-DD HH24:MI:SS')&#xd;);</sql>
+      <sql>insert into&#xd;	sicpoa.infracciones (&#xd;	usuario_app,&#xd;	case_id,&#xd;	depositario,&#xd;	documento,&#xd;	domicilio_legal,&#xd;	domicilio_comercial,&#xd;	telefono,&#xd;	email,&#xd;	detalle_infraccion,&#xd;	caracteristicas_organolepticas,&#xd;	caracteristicas_deposito,&#xd;	tipo_camara,&#xd;	temperatura_actual,&#xd;	fecha_hora)&#xd;values(&#xd;	:usuario_app,&#xd;	cast(:case_id as integer),&#xd;	:depositario,&#xd;	:documento,&#xd;	:domicilio_legal,&#xd;	:domicilio_comercial,&#xd;	:telefono,&#xd;	:email,&#xd;	:detalle_infraccion,&#xd;	:caracteristicas_organolepticas,&#xd;	:caracteristicas_deposito,&#xd;	:tipo_camara,&#xd;	cast(:temperatura_actual as float),&#xd;	to_timestamp(cast(:fecha_hora as text),'YYYY-MM-DD HH24:MI:SS')&#xd;);</sql>
       <param name="usuario_app" sqlType="STRING"/>
       <param name="case_id" sqlType="STRING"/>
-      <param name="tiin_id" sqlType="STRING"/>
       <param name="depositario" sqlType="STRING"/>
       <param name="documento" sqlType="STRING"/>
       <param name="domicilio_legal" sqlType="STRING"/>
@@ -330,7 +329,6 @@
       <call-query href="setInfraccionInspeccion">
          <with-param name="usuario_app" query-param="usuario_app"/>
          <with-param name="case_id" query-param="case_id"/>
-         <with-param name="tiin_id" query-param="tiin_id"/>
          <with-param name="depositario" query-param="depositario"/>
          <with-param name="documento" query-param="documento"/>
          <with-param name="domicilio_legal" query-param="domicilio_legal"/>
