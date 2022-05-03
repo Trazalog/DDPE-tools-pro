@@ -722,7 +722,7 @@ async function agregarDocumento () {
 
                     // Uso el valor que dejo en Numero y Tipo para evitar fallo en la FK, en caso de que cambie antes de guardar detalle
                     num_documento = $("#numero").val();
-                    tipo_factura = $("#tipo_documento").select2('data')[0].text;
+                    tipo_factura = $("#tipo_documento").select2('data')[0].id;
                     
                     //Loopeo sobre las filas de la tabla
                     //Formateo precio_unitario y descuento porque tiene los prefijos
