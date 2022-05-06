@@ -609,7 +609,8 @@ var editando = false;// Utilizo para que no se pierdan los permisos al editar
                 var salida = $('#salida').val();
                 var fecha = $("#fecha").val();
                 var tipo = $('input[name=doc_sanitaria]:checked').val();
-                var origen = $("#esta_nom").select2('data')[0].text;
+                var origen = $("#esta_nom").select2('data')[0].id;
+                var origen_nom = $("#esta_nom").select2('data')[0].text;
                 var origen_num = $("#esta_num").val();
                 var productos = $("#producto").val();
                 var neto = $("#neto").val(); 
@@ -624,6 +625,7 @@ var editando = false;// Utilizo para que no se pierdan los permisos al editar
                 datos.tipo = tipo;
                 datos.case_id = $("#caseId").val(); 
                 datos.origen = origen;
+                datos.origen_nom = origen_nom;
                 datos.origen_num = origen_num;
                 datos.productos = productos;
                 datos.neto = neto;
@@ -705,7 +707,8 @@ var editando = false;// Utilizo para que no se pierdan los permisos al editar
         $("#modalVerEmision").val(data.lugar_emision);
         $("#modalVerDocSanitaria").val(data.tipo);
         $("#modalVerHoraSalida").val(data.fecha_hora_salida);
-        $("#modalVerOrigen").val(data.origen);
+        $("#modalVerOrigen").val(data.origen_nom);
+        $("#modalVerOrigenCuit").val(data.origen);
         $("#modalVerOrigenNumero").val(data.origen_num);
         $("#modalVerProductos").val(data.productos);
         $("#modalVerNeto").val(data.neto);
