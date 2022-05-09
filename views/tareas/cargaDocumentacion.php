@@ -31,13 +31,13 @@
                                 $fec_emision = date("d-m-Y",strtotime($aux[0]));
                                 
                                 echo "<tr data-json='".json_encode($docu)."' >";
-                                echo '<td><button  type="button" title="Editar"  class="btn btn-primary btn-circle btnEditarDocu"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>&nbsp<button type="button" title="Eliminar" class="btn btn-primary btn-circle btnEliminarDocu"><span class="glyphicon glyphicon-trash" aria-hidden="true" ></span></button>&nbsp';
+                                echo '<td><button  type="button" title="Editar"  class="btn btn-primary btn-circle btnEditarDocu" onclick="editarDetalleDocumento(this)"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>&nbsp<button type="button" title="Eliminar" class="btn btn-primary btn-circle btnEliminarDocu" onclick="eliminarDocumento(this)"><span class="glyphicon glyphicon-trash" aria-hidden="true" ></span></button>&nbsp';
                                 echo '<td>'.$docu->num_documento.'</td>';
                                 echo '<td>'.$docu->razon_social.' ('.$docu->cuit.')</td>';
                                 echo '<td>'.$docu->razon_social_destino.' ('.$docu->cuit_destino.')</td>';
                                 echo '<td>'.$docu->tipo_documento.'</td>';
                                 echo '<td>'.$fec_emision.'</td>';
-                                echo '<td>'.floatval($docu->monto).' $</td>';
+                                echo '<td>'.number_format($docu->monto,2).' $</td>';
                                 echo '<td><button type="button" title="Info" class="btn btn-primary btn-circle modalDocs" data-toggle="modal" data-target="#mdl-documentos"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></button></td>';
                                 echo '</tr>';
                             }
@@ -93,11 +93,11 @@ function actualizaTablaDocumentos(){
                     if(value.monto == null){
                         monto = "";
                     }else{
-                        monto = value.monto;
+                        monto = parseFloat(value.monto).toFixed(2);
                     }
 
                     fila = "<tr data-json= '"+ JSON.stringify(value) +"'>" +
-                            '<td><button  type="button" title="Editar"  class="btn btn-primary btn-circle btnEditarDocu"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>&nbsp<button type="button" title="Eliminar" class="btn btn-primary btn-circle btnEliminarDocu"><span class="glyphicon glyphicon-trash" aria-hidden="true" ></span></button>&nbsp' +
+                            '<td><button  type="button" title="Editar" class="btn btn-primary btn-circle btnEditarDocu" onclick="editarDetalleDocumento(this)"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>&nbsp<button type="button" title="Eliminar" class="btn btn-primary btn-circle btnEliminarDocu" onclick="eliminarDocumento(this)"><span class="glyphicon glyphicon-trash" aria-hidden="true" ></span></button>&nbsp' +
                             '<td>' + value.num_documento + '</td>' +
                             '<td>' + value.razon_social + " (" + value.cuit + ")" + '</td>' +
                             '<td>' + value.razon_social_destino + " (" + value.cuit_destino + ")" + '</td>' +
@@ -109,8 +109,6 @@ function actualizaTablaDocumentos(){
                     tabla.row.add($(fila)).draw();
                 });
                 console.log("Actualizando tabla con documentos cargados");
-
-
             }else{
                 console.log("No hay documentos cargados para esta inspección");
             } 
@@ -141,13 +139,13 @@ $("#btnAgregar").on('click', function () {
 //
 //Muestra pantalla de editar un documento
 //
-$(document).on('click','.btnEditarDocu', function () {
+function editarDetalleDocumento(tag) {
     $("#tablaDocumentosBox").hide();
     $('#formAgregarDoc').show();
     accion = "editar";
 
     tabla = $('#tabla_productos').DataTable();
-    datos = JSON.parse($(this).parents('tr').attr('data-json'));
+    datos = JSON.parse($(tag).parents('tr').attr('data-json'));
 
     //Asigno los valores a los inputs y combos
     $('#numero').val(datos.num_documento);
@@ -191,14 +189,14 @@ $(document).on('click','.btnEditarDocu', function () {
             var fila = '';
             //Caso remito no los tengo en cuenta
             precio_total = "";
-            if(!datos.tido_id.toUpperCase().includes('REMITO')){
+            if(!datos.tipo_documento.toUpperCase().includes('REMITO')){
             
                 precio_total = value.precio_unitario * value.cantidad;
                 //Puede poseer o no descuento
                 if(value.descuento){
                     descuento = precio_total * value.descuento;
-                    value.descuento = value.descuento * 100;
-                    precio_total -= descuento;
+                    value.descuento = parseFloat(value.descuento * 100).toFixed(2);
+                    precio_total = parseFloat(precio_total - descuento).toFixed(2);
                 }   
             }else{
                 value.precio_unitario = "";
@@ -216,7 +214,7 @@ $(document).on('click','.btnEditarDocu', function () {
                     '<td>' + value.unidades + '</td>' +
                     '<td>$ ' + value.precio_unitario + '</td>' +
                     '<td>' + value.descuento + ' %</td>' +
-                    '<td>' + precio_total + '</td>' +
+                    '<td>$' + precio_total + '</td>' +
                 '</tr>';
             tabla.row.add($(fila)).draw();
         });
@@ -228,11 +226,11 @@ $(document).on('click','.btnEditarDocu', function () {
     $("#btnCerrarVistaNotificacion").text("Volver");
     $("#btnHecho").attr("onclick","guardarDetalle()");
     $("#btnCerrarVistaNotificacion").attr("onclick","cerrarDetalle()");
-});
+}
 //
 //Eliminar registro tabla intermedia
 //
-$(document).on('click','.btnEliminarDocu', function () {
+function eliminarDocumento(tag) {
 
     if (confirm('¿Desea borrar el registro?')) {
         
@@ -270,7 +268,7 @@ $(document).on('click','.btnEliminarDocu', function () {
             }
         });
     }
-});
+}
 //
 //FIN SCRIPTS MANIPULACION TABLA
 //SCRIPT CIERRE TAREA
