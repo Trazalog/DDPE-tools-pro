@@ -31,8 +31,10 @@ class Ingreso_barrera extends CI_Controller
 
         //obtengo la data de la instancia del formulario dinamico
         //Le asigno la patente del ingreso por barrera
-        foreach ($data['pedidos'] as $key) {
-            $key->patente = $this->Ingresosbarrera->getFormIngresoBarrera($key->info_id)->formulario->items->item[4]->valor;
+        if(!empty($data['pedidos'])){
+            foreach ($data['pedidos'] as $key) {
+                $key->patente = $this->Ingresosbarrera->getFormIngresoBarrera($key->info_id)->formulario->items->item[4]->valor;
+            }
         }
         $url_info= $_SERVER["REQUEST_URI"];
 
