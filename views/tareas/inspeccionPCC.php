@@ -235,7 +235,7 @@
                             <div class="col-md-4 col-sm-6 col-xs-12">
                                 <div class="form-group">
                                     <label for="temperatura">Temperatura(<strong style="color: #dd4b39">*</strong>):</label>
-                                    <input type="number" class="form-control" id="temperatura" placeholder="Ingrese temperatura" />
+                                    <input class="form-control onlyNumbersT" id="temperatura" placeholder="Ingrese temperatura" />
                                 </div>                    
                             </div>
                             <!--________________-->
@@ -259,7 +259,7 @@
                                                 <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i>
                                                 <i class='fa fa-fw fa-edit text-light-blue' style='cursor: pointer;' title='Editar'></i>
                                                 <i class='fa fa-fw fa-eye text-light-blue' style='cursor: pointer;' title='Ver detalle'></i> 
-                                                <?php echo "| <span class='numPermiso'>$key->soli_num</span> - $key->perm_id" ?>
+                                                <?php echo "| <span class='numPermiso'>$key->soli_num</span> - $key->perm_num" ?>
                                             </span>
                                         </div>
                                     <?php
@@ -750,7 +750,7 @@
                         <div class="col-md-4 col-sm-6 col-xs-12">
                             <div class="form-group">
                                 <label for="tempCamaraActa">T° Actual Cámara(<strong style="color: #dd4b39">*</strong>):</label>
-                                <input class="form-control onlyNumbers" name="tempCamaraActa" id="tempCamaraActa" placeholder="Ingrese T° Actual Cámara" required/>
+                                <input class="form-control onlyNumbersT" name="tempCamaraActa" id="tempCamaraActa" placeholder="Ingrese T° Actual Cámara" required/>
                             </div>
                         </div>
                         <!--________________-->
@@ -990,6 +990,8 @@ $(document).ready(function() {
     $(".limited").inputmask({ regex: "[0-9/a-zA-Z -]*" });
     //Bruto y Tara
     $(".onlyNumbers").inputmask({ regex: "[0-9.,]*" });
+    //Temperaturas
+    $(".onlyNumbersT").inputmask({ regex: "[0-9.,-]*" });
 
     //Renombro el BOTON de guardar
     $('#btnHecho').text('Imprimir acta');
@@ -1082,8 +1084,7 @@ function agregarPermiso(){
         var salida = $('#salida').val();
         var fecha = $("#fecha").val();
         var tipo = $('input[name=doc_sanitaria]:checked').val();
-        var origen = $("#esta_nom").select2('data')[0].id;
-        var origen_nom = $("#esta_nom").select2('data')[0].text;
+        var origen = $("#esta_nom").select2('data')[0].text;
         var origen_num = $("#esta_num").val();
         var productos = $("#producto").val();
         var netoPermiso = $("#netoPermiso").val(); 
@@ -1097,7 +1098,6 @@ function agregarPermiso(){
         datos.fecha_hora_salida = fecha +" "+salida;
         datos.tipo = tipo;
         datos.origen = origen;
-        datos.origen_nom = origen_nom;
         datos.origen_num = origen_num;
         datos.productos = productos;
         datos.neto = netoPermiso;
@@ -1210,8 +1210,7 @@ $(document).on("click",".fa-eye",function(e) {
     $("#modalVerEmision").val(data.lugar_emision);
     $("#modalVerDocSanitaria").val(data.tipo);
     $("#modalVerHoraSalida").val(data.fecha_hora_salida);
-    $("#modalVerOrigen").val(data.origen_nom);
-    $("#modalVerOrigenCuit").val(data.origen);
+    $("#modalVerOrigen").val(data.origen);
     $("#modalVerOrigenNumero").val(data.origen_num);
     $("#modalVerProductos").val(data.productos);
     $("#modalVerNeto").val(data.neto);
