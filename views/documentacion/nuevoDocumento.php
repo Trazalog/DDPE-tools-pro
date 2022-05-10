@@ -343,8 +343,8 @@ function agregarProducto(){
             //Puede poseer o no descuento
             if(data.descuento){
                 aux = data.descuento.split(" ");
-                descuento =  precio_total * (aux[0] / 100);
-                precio_total -= descuento;
+                descuento =  parseFloat(precio_total * (aux[0] / 100)).toFixed(2);
+                precio_total = parseFloat(precio_total - descuento).toFixed(2);
             }   
         }else{
             
