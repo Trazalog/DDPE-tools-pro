@@ -383,10 +383,14 @@ class Ingreso_barrera extends CI_Controller
             $data['imgsEscaneo'] = $formEscaneo['imagenes'];
             $data['datosEscaneo'] = $formEscaneo['datos'];
         }
-        if($data['inspeccion']->resultado == 'incorrecta'){
-            $this->load->view(SICP . "actas/acta_infraccion", $data);
+        if(!empty($data['inspeccion']->resultado)){
+            if($data['inspeccion']->resultado == 'incorrecta'){
+                $this->load->view(SICP . "actas/acta_infraccion", $data);
+            }else{
+                $this->load->view(SICP . "actas/acta_inspeccion", $data);
+            }
         }else{
-            $this->load->view(SICP . "actas/acta_inspeccion", $data);
+            $this->load->view(SICP . "actas/acta_error");
         }
     }
 
