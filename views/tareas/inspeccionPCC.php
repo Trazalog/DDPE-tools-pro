@@ -259,7 +259,7 @@
                                                 <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i>
                                                 <i class='fa fa-fw fa-edit text-light-blue' style='cursor: pointer;' title='Editar'></i>
                                                 <i class='fa fa-fw fa-eye text-light-blue' style='cursor: pointer;' title='Ver detalle'></i> 
-                                                <?php echo "| <span class='numPermiso'>$key->soli_num</span> - $key->perm_num" ?>
+                                                <?php echo "| <span class='numPermiso'>$key->soli_num</span> - $key->perm_id" ?>
                                             </span>
                                         </div>
                                     <?php
