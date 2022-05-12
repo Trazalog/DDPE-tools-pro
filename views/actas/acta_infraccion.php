@@ -35,7 +35,7 @@
                     <span class="acta_telTransportista"><?php echo $inspeccion->tel_transportista ?></span> correo electrónico del transportista <span class="acta_emailTransportista"><?php echo $inspeccion->email_transportista ?></span> 
                     destinos <?php foreach ($destinos as $destino) { echo $destino->razon_social. ", ". $destino->altura. ", ".$destino->calle. ", ". $destino->departamento. ". ";} ?> producto/s <?php foreach ($inspeccion->permisos_transito->permiso_transito as $permiso) { echo $permiso->productos. " ";} ?>,
                     temperatura <?php foreach ($inspeccion->termicos->termico as $termico) { echo $termico->temperatura. " ";} ?>, precintos <?php foreach ($inspeccion->termicos->termico as $termico) { echo $termico->precintos. " ";} ?>, Peso Bruto <?php echo $inspeccion->bruto ?>, 
-                    Tara <?php echo $inspeccion->tara ?> kg, N° de Ticket <?php echo $inspeccion->ticket ?>. Tipo de documentación <span class="acta_tpoDocumentacion"><?php echo $datosEscaneo['doc_impo']['descripcion']; ?></span>.
+                    Tara <?php echo $inspeccion->tara ?> kg, N° de Ticket <?php echo $inspeccion->ticket ?>. Tipo de documentación <span class="acta_tpoDocumentacion"><?php echo $datosEscaneo['doc_impo']['valor']; ?></span>.
                 </div>
                 <div style="text-indent: 30px;">
                     Se constatan las siguientes infracciones: <span class="acta_tposInfracciones"><?php foreach ($inspeccion->infracciones->infraccion->detalleInfracciones->detalleInfraccion as $tiposInfracciones) { echo $tiposInfracciones->valor. ". ";} ?></span>
@@ -45,12 +45,12 @@
                     Observaciones: <?php echo $inspeccion->observaciones ?>.<br><br>
                 </div>
                 <div style="text-indent: 30px;">
-                    Quedando como Depositario Judicial de la mercadería en cuestión, el señor/a <span class="acta_nyaDepositario"><?php echo $inspeccion->infracciones->infraccion->depositario ?></span>, D.N.I. N°  <?php echo $inspeccion->infracciones->infraccion->documento ?><span class="dniActa"><?php echo $inspeccion->infracciones->infraccion->documento ?></span>, Teléfono
+                    Quedando como Depositario Judicial de la mercadería en cuestión, el señor/a <span class="acta_nyaDepositario"><?php echo $inspeccion->infracciones->infraccion->depositario ?></span>, D.N.I. N° <span class="dniActa"><?php echo $inspeccion->infracciones->infraccion->documento ?></span>, Teléfono
                     <span class="telefonoActa"><?php echo $inspeccion->infracciones->infraccion->telefono ?></span>, correo electrónico  <span class="correoActa"><?php echo $inspeccion->infracciones->infraccion->email ?></span>, con domicilio legal <span class="direccionLegalActa"><?php echo $inspeccion->infracciones->infraccion->domicilio_legal?></span>,
                     y domicilio comercial <span class="direccionComercialActa"><?php echo $inspeccion->infracciones->infraccion->domicilio_comercial?></span>. Con las características organolépticas que se describen a continuación <span class="acta_caractOrganolepticas"><?php echo $inspeccion->infracciones->infraccion->caracteristicas_organolepticas ?></span>, en un depósito
                     con las siguientes características: <span class="acta_caractDeposito"><?php echo $inspeccion->infracciones->infraccion->caracteristicas_deposito ?></span>, y registrándose la siguiente temperatura <span class="acta_tempCamaraActa"><?php echo $inspeccion->infracciones->infraccion->temperatura_actual?></span><br>
                     <br>
-                    Fecha y Hora: <span class="acta_fecha"></span>, <span class="acta_hora"></span> horas.<br>
+                    Fecha y Hora: <span class="acta_fecha"><?php echo date('d-m-Y'); ?></span>, <span class="acta_hora"><?php echo date('H:i'); ?></span> horas.<br>
                     <div class="firmaDepositario" style="text-align: right;">
                         <div style="text-align: center;">
                             <p>. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .</p>
@@ -143,12 +143,12 @@
                     Observaciones: <?php echo $inspeccion->observaciones ?>.<br><br>
                 </div>
                 <div style="text-indent: 30px;">
-                Quedando como Depositario Judicial de la mercadería en cuestión, el señor/a <span class="acta_nyaDepositario"><?php echo $inspeccion->infracciones->infraccion->depositario ?></span>, D.N.I. N°  <?php echo $inspeccion->infracciones->infraccion->documento ?><span class="dniActa"><?php echo $inspeccion->infracciones->infraccion->documento ?></span>, Teléfono
+                Quedando como Depositario Judicial de la mercadería en cuestión, el señor/a <span class="acta_nyaDepositario"><?php echo $inspeccion->infracciones->infraccion->depositario ?></span>, D.N.I. N° <span class="dniActa"><?php echo $inspeccion->infracciones->infraccion->documento ?></span>, Teléfono
                     <span class="telefonoActa"><?php echo $inspeccion->infracciones->infraccion->telefono ?></span>, correo electrónico  <span class="correoActa"><?php echo $inspeccion->infracciones->infraccion->email ?></span>, con domicilio legal <span class="direccionLegalActa"><?php echo $inspeccion->infracciones->infraccion->domicilio_legal?></span>,
                     y domicilio comercial <span class="direccionComercialActa"><?php echo $inspeccion->infracciones->infraccion->domicilio_comercial?></span>. Con las características organolépticas que se describen a continuación <span class="acta_caractOrganolepticas"><?php echo $inspeccion->infracciones->infraccion->caracteristicas_organolepticas ?></span>, en un depósito
                     con las siguientes características: <span class="acta_caractDeposito"><?php echo $inspeccion->infracciones->infraccion->caracteristicas_deposito ?></span>, y registrándose la siguiente temperatura <span class="acta_tempCamaraActa"><?php echo $inspeccion->infracciones->infraccion->temperatura_actual?></span><br>
                     <br>
-                    Fecha y Hora: <span class="acta_fecha"></span>, <span class="acta_hora"></span> horas.<br>
+                    Fecha y Hora: <span class="acta_fecha"><?php echo date('d-m-Y'); ?></span>, <span class="acta_hora"><?php echo date('H:i'); ?></span> horas.<br>
                     <div class="firmaDepositario" style="text-align: right;">
                         <div style="text-align: center;">
                             <p>. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .</p>
@@ -241,12 +241,12 @@
                     Observaciones: <?php echo $inspeccion->observaciones ?>.<br><br>
                 </div>
                 <div style="text-indent: 30px;">
-                    Quedando como Depositario Judicial de la mercadería en cuestión, el señor/a <span class="acta_nyaDepositario"><?php echo $inspeccion->infracciones->infraccion->depositario ?></span>, D.N.I. N°  <?php echo $inspeccion->infracciones->infraccion->documento ?><span class="dniActa"><?php echo $inspeccion->infracciones->infraccion->documento ?></span>, Teléfono
+                    Quedando como Depositario Judicial de la mercadería en cuestión, el señor/a <span class="acta_nyaDepositario"><?php echo $inspeccion->infracciones->infraccion->depositario ?></span>, D.N.I. N° <span class="dniActa"><?php echo $inspeccion->infracciones->infraccion->documento ?></span>, Teléfono
                     <span class="telefonoActa"><?php echo $inspeccion->infracciones->infraccion->telefono ?></span>, correo electrónico  <span class="correoActa"><?php echo $inspeccion->infracciones->infraccion->email ?></span>, con domicilio legal <span class="direccionLegalActa"><?php echo $inspeccion->infracciones->infraccion->domicilio_legal?></span>,
                     y domicilio comercial <span class="direccionComercialActa"><?php echo $inspeccion->infracciones->infraccion->domicilio_comercial?></span>. Con las características organolépticas que se describen a continuación <span class="acta_caractOrganolepticas"><?php echo $inspeccion->infracciones->infraccion->caracteristicas_organolepticas ?></span>, en un depósito
                     con las siguientes características: <span class="acta_caractDeposito"><?php echo $inspeccion->infracciones->infraccion->caracteristicas_deposito ?></span>, y registrándose la siguiente temperatura <span class="acta_tempCamaraActa"><?php echo $inspeccion->infracciones->infraccion->temperatura_actual?></span><br>
                     <br>
-                    Fecha y Hora: <span class="acta_fecha"></span>, <span class="acta_hora"></span> horas.<br>
+                    Fecha y Hora: <span class="acta_fecha"><?php echo date('d-m-Y'); ?></span>, <span class="acta_hora"><?php echo date('H:i'); ?></span> horas.<br>
                     <div class="firmaDepositario" style="text-align: right;">
                         <div style="text-align: center;">
                             <p>. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .</p>
