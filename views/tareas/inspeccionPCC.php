@@ -235,7 +235,7 @@
                             <div class="col-md-4 col-sm-6 col-xs-12">
                                 <div class="form-group">
                                     <label for="temperatura">Temperatura(<strong style="color: #dd4b39">*</strong>):</label>
-                                    <input type="number" class="form-control" id="temperatura" placeholder="Ingrese temperatura" />
+                                    <input class="form-control onlyNumbersT" id="temperatura" placeholder="Ingrese temperatura" />
                                 </div>                    
                             </div>
                             <!--________________-->
@@ -259,7 +259,7 @@
                                                 <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i>
                                                 <i class='fa fa-fw fa-edit text-light-blue' style='cursor: pointer;' title='Editar'></i>
                                                 <i class='fa fa-fw fa-eye text-light-blue' style='cursor: pointer;' title='Ver detalle'></i> 
-                                                <?php echo "| <span class='numPermiso'>$key->perm_id</span> - $key->tipo - $key->lugar_emision - $key->fecha_hora_salida" ?>
+                                                <?php echo "| <span class='numPermiso'>$key->soli_num</span> - $key->perm_id" ?>
                                             </span>
                                         </div>
                                     <?php
@@ -635,10 +635,10 @@
                     <!--________________-->
                     <!--Bloque Validar-->
                     <div id="bloque_validar" style="display:none;">
-                        <!-- <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
+                        <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
                             <div class="form-group">
                                 <label for="tpoInfraccion">Tipos Infracción(<strong style="color: #dd4b39">*</strong>):</label>
-                                <select class="form-control select2 select2-hidden-accesible" name="tpoInfraccion[]" id="tpoInfraccion" required style="width: 100%;" multiple> -->
+                                <select class="form-control select2 select2-hidden-accesible" name="tpoInfraccion[]" id="tpoInfraccion" required style="width: 100%;" multiple>
                                     <!-- <option value="" disabled selected>-Seleccionar infracción-</option>	 -->
                                     <?php
                                     if(!empty($infracciones)){
@@ -647,11 +647,11 @@
                                         }
                                     }
                                     ?>
-                                <!-- </select>
+                                </select>
                             </div>
-                        </div> -->
+                        </div>
                         <!--Fecha Acta-->
-                        <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="col-md-3 col-sm-6 col-xs-12">
                             <div class="form-group">
                                 <label for="fechaActa">Fecha(<strong style="color: #dd4b39">*</strong>):</label>
                                 <input type="date" class="form-control" name="fechaActa" id="fechaActa" required/>
@@ -659,7 +659,7 @@
                         </div>
                         <!--________________-->
                         <!--Hora Acta-->
-                        <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="col-md-3 col-sm-6 col-xs-12">
                             <div class="form-group">
                                 <label for="horaActa">Hora(<strong style="color: #dd4b39">*</strong>):</label>
                                 <input type="time" class="form-control" name="horaActa" id="horaActa" required/>
@@ -750,7 +750,7 @@
                         <div class="col-md-4 col-sm-6 col-xs-12">
                             <div class="form-group">
                                 <label for="tempCamaraActa">T° Actual Cámara(<strong style="color: #dd4b39">*</strong>):</label>
-                                <input type="number" class="form-control" name="tempCamaraActa" id="tempCamaraActa" placeholder="Ingrese T° Actual Cámara" required/>
+                                <input class="form-control onlyNumbersT" name="tempCamaraActa" id="tempCamaraActa" placeholder="Ingrese T° Actual Cámara" required/>
                             </div>
                         </div>
                         <!--________________-->
@@ -990,6 +990,8 @@ $(document).ready(function() {
     $(".limited").inputmask({ regex: "[0-9/a-zA-Z -]*" });
     //Bruto y Tara
     $(".onlyNumbers").inputmask({ regex: "[0-9.,]*" });
+    //Temperaturas
+    $(".onlyNumbersT").inputmask({ regex: "[0-9.,-]*" });
 
     //Renombro el BOTON de guardar
     $('#btnHecho').text('Imprimir acta');
@@ -1082,7 +1084,8 @@ function agregarPermiso(){
         var salida = $('#salida').val();
         var fecha = $("#fecha").val();
         var tipo = $('input[name=doc_sanitaria]:checked').val();
-        var origen = $("#esta_nom").select2('data')[0].text;
+        var origen = $("#esta_nom").select2('data')[0].id;
+        var origen_nom = $("#esta_nom").select2('data')[0].text;
         var origen_num = $("#esta_num").val();
         var productos = $("#producto").val();
         var netoPermiso = $("#netoPermiso").val(); 
@@ -1096,6 +1099,7 @@ function agregarPermiso(){
         datos.fecha_hora_salida = fecha +" "+salida;
         datos.tipo = tipo;
         datos.origen = origen;
+        datos.origen_nom = origen_nom;
         datos.origen_num = origen_num;
         datos.productos = productos;
         datos.neto = netoPermiso;
@@ -1208,7 +1212,8 @@ $(document).on("click",".fa-eye",function(e) {
     $("#modalVerEmision").val(data.lugar_emision);
     $("#modalVerDocSanitaria").val(data.tipo);
     $("#modalVerHoraSalida").val(data.fecha_hora_salida);
-    $("#modalVerOrigen").val(data.origen);
+    $("#modalVerOrigen").val(data.origen_nom);
+    $("#modalVerOrigenCuit").val(data.origen);
     $("#modalVerOrigenNumero").val(data.origen_num);
     $("#modalVerProductos").val(data.productos);
     $("#modalVerNeto").val(data.neto);
@@ -1422,12 +1427,12 @@ async function cerrarTareaform(){
     }
     //Obtengo los tipos de infracciones
     tiposInfraccion = {};
-    // if($('#tpoInfraccion').select2('data').length > 0){
-    //     tiposInfracciones = $('#tpoInfraccion').select2('data');
-    //     for (let i = 0; i < tiposInfracciones.length; i++) {
-    //         tiposInfraccion[i] = {"tiin_id": tiposInfracciones[i].id,"case_id": case_id};
-    //     }
-    // }
+    if($('#tpoInfraccion').select2('data').length > 0){
+        tiposInfracciones = $('#tpoInfraccion').select2('data');
+        for (let i = 0; i < tiposInfracciones.length; i++) {
+            tiposInfraccion[i] = {"tiin_id": tiposInfracciones[i].id,"case_id": case_id};
+        }
+    }
     //Guardo la inspeccion
     let guardadoCompleto = new Promise( function(resolve,reject){
             $.ajax({
@@ -1629,11 +1634,10 @@ function imprimirActa(){
     $(".acta_origenNro").text($("#esta_num").val());
     $(".acta_estaOrigen").text($("#esta_nom").select2('data')[0].text);
     $(".acta_transportista").text($('#transportista').select2('data')[0].text);
-    $(".acta_productos").text($("#producto").val());
     $(".acta_bruto").text($("#bruto").val());
     $(".acta_tara").text($("#tara").val());
     $(".acta_ticket").text($("#ticket").val());
-    $(".acta_tpoDocumentacion").text($("select[name='doc_impo']").val());
+    $(".acta_tpoDocumentacion").text($("select[name='doc_impo']").select2('data')[0].text);
     $(".acta_depto").text($("#depa_idActa").select2('data')[0].text);
     $(".acta_localidad").text($("#localidad").val());
     $(".acta_inspectores").text($("#inspectores").val());
@@ -1657,9 +1661,17 @@ function imprimirActa(){
     $(".acta_fecha").text(dateFormat($("#fechaActa").val()));
     $(".acta_hora").text($("#horaActa").val());
 
-    //Valído
+    //Valído y obtengo los tipos de infracciones
     if($('input[name=inspValida]:checked').val() == 'incorrecta'){
-        // $(".acta_infraccion").text($('#tpoInfraccion').select2('data')[0].text);
+        tiposInfraccion = "";
+        if($('#tpoInfraccion').select2('data').length > 0){
+            tiposInfracciones = $('#tpoInfraccion').select2('data');
+            for (let i = 0; i < tiposInfracciones.length; i++) {
+                tiposInfraccion += tiposInfracciones[i].text + "; ";
+            }
+        }
+
+        $(".acta_tposInfracciones").text(tiposInfraccion.slice(0, -1));
         idActa = '#actaInfraccionPCC';
     }
 
@@ -1689,12 +1701,15 @@ function imprimirActa(){
     $(".acta_destinos").text(infoDestino);
 
     infoPermisos = "";
+    infoProductos = "";
     $('#sec_permisos div.permTransito').each(function(i, obj) {
         aux = $(obj).attr('data-json');
         json = JSON.parse(aux);
         infoPermisos += json.tipo + " ";
+        infoProductos +=  json.productos + "; ";
     });
     $(".acta_docSanitaria").text(infoPermisos);
+    $(".acta_productos").text(infoProductos);
 
     var base = "<?php echo base_url()?>";
     
@@ -1721,7 +1736,6 @@ function imprimirActa(){
                     confirmButtonText: 'Hecho'
                 }).then((result) => {
                     linkTo('<?php echo BPM ?>Proceso/');
-                    
                 });
         }
     });

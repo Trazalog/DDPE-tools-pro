@@ -343,8 +343,8 @@ function agregarProducto(){
             //Puede poseer o no descuento
             if(data.descuento){
                 aux = data.descuento.split(" ");
-                descuento =  precio_total * (aux[0] / 100);
-                precio_total -= descuento;
+                descuento =  parseFloat(precio_total * (aux[0] / 100)).toFixed(2);
+                precio_total = parseFloat(precio_total - descuento).toFixed(2);
             }   
         }else{
             
@@ -597,7 +597,7 @@ $(document).on('click','.btnEditar', function () {
 //Fin scripts para manipular data en tabla intermedia
 //
 $("#tipo_documento").on('change', function () {
-    if(this.value.toUpperCase().includes('REMITO')){
+    if($(this).select2('data')[0].text.toUpperCase().includes('REMITO')){
         $("#precio_unitario").prop("readonly", 'readonly');
         $("#descuento").prop("readonly", 'readonly');
         $("#precio_unitario").val("");
@@ -722,7 +722,7 @@ async function agregarDocumento () {
 
                     // Uso el valor que dejo en Numero y Tipo para evitar fallo en la FK, en caso de que cambie antes de guardar detalle
                     num_documento = $("#numero").val();
-                    tipo_factura = $("#tipo_documento").select2('data')[0].text;
+                    tipo_factura = $("#tipo_documento").select2('data')[0].id;
                     
                     //Loopeo sobre las filas de la tabla
                     //Formateo precio_unitario y descuento porque tiene los prefijos

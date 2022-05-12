@@ -847,8 +847,16 @@ class Sicpoatareas extends CI_Model
                         $formEscaneo['archivos'][$key]['archivo'] = $ext.$rec;
                     }
                 }else{
-
-                    $formEscaneo['datos'][$dato->name] = $dato->valor;
+                    if(!empty($dato->valor)){
+                        if($dato->tipo_dato == 'select'){
+                            foreach ($dato->values as $key => $valor) {
+                                if($dato->valor == $valor->value){
+                                    $formEscaneo['datos'][$dato->name]['descripcion'] = $valor->valor;
+                                }
+                            }
+                        }
+                        $formEscaneo['datos'][$dato->name]['valor'] = $dato->valor;
+                    }
                 }
             }
         }

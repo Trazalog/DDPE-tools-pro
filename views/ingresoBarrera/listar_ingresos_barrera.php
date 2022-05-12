@@ -17,6 +17,7 @@
 					</thead>
 					<tbody>
 						<?php
+            if(!empty($pedidos)){
 							foreach($pedidos as $rsp){
 
 								$petr_id = $rsp->petr_id;
@@ -77,7 +78,10 @@
                     break;
                 }
 								echo '</tr>';
-						}
+						  }
+            }else{
+              echo "<tr><td>No hay datos para mostrar</td></tr>";
+            }
 						?>
 					</tbody>
 				</table>

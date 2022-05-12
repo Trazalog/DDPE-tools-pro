@@ -34,9 +34,12 @@
                     Proceden a <span class="acta_procedenA"></span>, vehículo patente N° <span class="acta_patenteTractor"></span>, N° de habilitación del SENASA <span class="acta_numSenasa"></span>, Documentación Sanitaria tipo <span class="acta_docSanitaria"></span>
                     Establecimiento N° <span class="acta_origenNro"></span>, nombre del Establecimiento de Origen <span class="acta_estaOrigen"></span>, Transportista <span class="acta_transportista"></span>, teléfono del transportista 
                     <span class="acta_telTransportista"></span> correo electrónico del transportista <span class="acta_emailTransportista"></span> 
-                    destinos <span class="acta_destinos"></span> producto/s <span class="acta_productos"></span>, temperatura <span class="acta_temperaturas"></span>, precintos <span class="acta_precintos"></span>, Peso Bruto <span class="acta_bruto"></span>, 
+                    destinos <span class="acta_destinos"></span> producto/s <span class="acta_productos"></span> temperatura <span class="acta_temperaturas"></span>, precintos <span class="acta_precintos"></span>, Peso Bruto <span class="acta_bruto"></span>, 
                     Tara <span class="acta_tara"></span> kg, N° de Ticket <span class="acta_ticket"></span>. Tipo de documentación <span class="acta_tpoDocumentacion"></span>.
-                </div> 
+                </div>
+                <div style="text-indent: 30px;">
+                    Se constatan las siguientes infracciones: <span class="acta_tposInfracciones"></span>
+                </div>
                 <br>
                 <div style="text-indent: 30px;">
                     Observaciones: <span class="acta_observaciones"></span>.<br><br>
@@ -45,7 +48,7 @@
                     Quedando como Depositario Judicial de la mercadería en cuestión, el señor/a <span class="acta_nyaDepositario"></span>, D.N.I. N° <span class="dniActa"></span>, Teléfono
                     <span class="telefonoActa"></span>, correo electrónico <span class="correoActa"></span>, con domicilio legal <span class="direccionLegalActa"></span>,
                     y domicilio comercial <span class="direccionComercialActa"></span>. Con las características organolépticas que se describen a continuación <span class="acta_caractOrganolepticas"></span>, en un depósito
-                    con las siguientes características: <span class="acta_caractDeposito"></span>, y registrándose las siguientes temperaturas <span class="acta_tempCamaraActa"></span><br>
+                    con las siguientes características: <span class="acta_caractDeposito"></span>, y registrándose la siguiente temperatura <span class="acta_tempCamaraActa"></span><br>
                     <br>
                     Fecha y Hora: <span class="acta_fecha"></span>, <span class="acta_hora"></span> horas.<br>
                     <div class="firmaDepositario" style="text-align: right;">
@@ -129,9 +132,12 @@
                     Proceden a <span class="acta_procedenA"></span>, vehículo patente N° <span class="acta_patenteTractor"></span>, N° de habilitación del SENASA <span class="acta_numSenasa"></span>, Documentación Sanitaria tipo <span class="acta_docSanitaria"></span>
                     Establecimiento N° <span class="acta_origenNro"></span>, nombre del Establecimiento de Origen <span class="acta_estaOrigen"></span>, Transportista <span class="acta_transportista"></span>, teléfono del transportista 
                     <span class="acta_telTransportista"></span> correo electrónico del transportista <span class="acta_emailTransportista"></span> 
-                    destinos <span class="acta_destinos"></span> producto/s <span class="acta_productos"></span>, temperatura <span class="acta_temperaturas"></span>, precintos <span class="acta_precintos"></span>, Peso Bruto <span class="acta_bruto"></span>, 
+                    destinos <span class="acta_destinos"></span> producto/s <span class="acta_productos"></span> temperatura <span class="acta_temperaturas"></span>, precintos <span class="acta_precintos"></span>, Peso Bruto <span class="acta_bruto"></span>, 
                     Tara <span class="acta_tara"></span> kg, N° de Ticket <span class="acta_ticket"></span>. Tipo de documentación <span class="acta_tpoDocumentacion"></span>.
-                </div> 
+                </div>
+                <div style="text-indent: 30px;">
+                    Se constatan las siguientes infracciones: <span class="acta_tposInfracciones"></span>
+                </div>
                 <br>
                 <div style="text-indent: 30px;">
                     Observaciones: <span class="acta_observaciones"></span>.<br><br>
@@ -140,7 +146,7 @@
                     Quedando como Depositario Judicial de la mercadería en cuestión, el señor/a <span class="acta_nyaDepositario"></span>, D.N.I. N° <span class="dniActa"></span>, Teléfono
                     <span class="telefonoActa"></span>, correo electrónico <span class="correoActa"></span>, con domicilio legal <span class="direccionLegalActa"></span>,
                     y domicilio comercial <span class="direccionComercialActa"></span>. Con las características organolépticas que se describen a continuación <span class="acta_caractOrganolepticas"></span>, en un depósito
-                    con las siguientes características: <span class="acta_caractDeposito"></span>, y registrándose las siguientes temperaturas <span class="acta_tempCamaraActa"></span> <br>
+                    con las siguientes características: <span class="acta_caractDeposito"></span>, y registrándose la siguiente temperatura <span class="acta_tempCamaraActa"></span> <br>
                     <br>
                     Fecha y Hora: <span class="acta_fecha"></span>, <span class="acta_hora"></span> horas.<br>
                     <div class="firmaDepositario" style="text-align: right;">
@@ -224,9 +230,12 @@
                     Proceden a <span class="acta_procedenA"></span>, vehículo patente N° <span class="acta_patenteTractor"></span>, N° de habilitación del SENASA <span class="acta_numSenasa"></span>, Documentación Sanitaria tipo <span class="acta_docSanitaria"></span>
                     Establecimiento N° <span class="acta_origenNro"></span>, nombre del Establecimiento de Origen <span class="acta_estaOrigen"></span>, Transportista <span class="acta_transportista"></span>, teléfono del transportista 
                     <span class="acta_telTransportista"></span> correo electrónico del transportista <span class="acta_emailTransportista"></span> 
-                    destinos <span class="acta_destinos"></span> producto/s <span class="acta_productos"></span>, temperatura <span class="acta_temperaturas"></span>, precintos <span class="acta_precintos"></span>, Peso Bruto <span class="acta_bruto"></span>, 
+                    destinos <span class="acta_destinos"></span> producto/s <span class="acta_productos"></span> temperatura <span class="acta_temperaturas"></span>, precintos <span class="acta_precintos"></span>, Peso Bruto <span class="acta_bruto"></span>, 
                     Tara <span class="acta_tara"></span> kg, N° de Ticket <span class="acta_ticket"></span>. Tipo de documentación <span class="acta_tpoDocumentacion"></span>.
                 </div> 
+                <div style="text-indent: 30px;">
+                    Se constatan las siguientes infracciones: <span class="acta_tposInfracciones"></span>
+                </div>
                 <br>
                 <div style="text-indent: 30px;">
                     Observaciones: <span class="acta_observaciones"></span>.<br><br>
@@ -235,7 +244,7 @@
                     Quedando como Depositario Judicial de la mercadería en cuestión, el señor/a <span class="acta_nyaDepositario"></span>, D.N.I. N° <span class="dniActa"></span>, Teléfono
                     <span class="telefonoActa"></span>, correo electrónico <span class="correoActa"></span>, con domicilio legal <span class="direccionLegalActa"></span>,
                     y domicilio comercial <span class="direccionComercialActa"></span>. Con las características organolépticas que se describen a continuación <span class="acta_caractOrganolepticas"></span>, en un depósito
-                    con las siguientes características: <span class="acta_caractDeposito"></span>, y registrándose las siguientes temperaturas <span class="acta_tempCamaraActa"></span><br>
+                    con las siguientes características: <span class="acta_caractDeposito"></span>, y registrándose la siguiente temperatura <span class="acta_tempCamaraActa"></span><br>
                     <br>
                     Fecha y Hora: <span class="acta_fecha"></span>, <span class="acta_hora"></span> horas.<br>
                     <div class="firmaDepositario" style="text-align: right;">

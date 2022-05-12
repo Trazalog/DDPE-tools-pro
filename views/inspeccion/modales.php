@@ -283,67 +283,73 @@
                         <div class="col-md-6 col-sm-6 col-sx-12">
                             <div class="form-group">
                                 <label>N° de Permiso:</label>
-                                <input id="modalVerPermiso" class="form-control" type="text" name="modalVerPermiso" readonly>
+                                <input id="modalVerPermiso" class="form-control" type="text" readonly>
                             </div>
                         </div>
                         <div class="col-md-6 col-sm-6 col-sx-12">
                             <div class="form-group">
                                 <label>N° de Solicitud:</label>
-                                <input id="modalVerSolicitud" class="form-control" type="text" name="modalVerSolicitud" readonly>
+                                <input id="modalVerSolicitud" class="form-control" type="text" readonly>
                             </div>
                         </div>
                         <div class="col-md-6 col-sm-6 col-sx-12">
                             <div class="form-group">
                                 <label>Lugar de Emisión:</label>
-                                <input id="modalVerEmision" class="form-control" type="text" name="modalVerEmision" readonly>
+                                <input id="modalVerEmision" class="form-control" type="text" readonly>
                             </div>
                         </div>
                         <div class="col-md-6 col-sm-6 col-sx-12">
                             <div class="form-group">
                                 <label>Doc. Sanitaria Tipo:</label>
-                                <input id="modalVerDocSanitaria" class="form-control" type="text" name="modalVerDocSanitaria" readonly>
+                                <input id="modalVerDocSanitaria" class="form-control" type="text" readonly>
                             </div>
                         </div>
                         <div class="col-md-6 col-sm-6 col-sx-12">
                             <div class="form-group">
                                 <label>Hora de Salida:</label>
-                                <input id="modalVerHoraSalida" class="form-control" type="text" name="modalVerHoraSalida" readonly>
+                                <input id="modalVerHoraSalida" class="form-control" type="text" readonly>
                             </div>
                         </div>
                         <div class="col-md-6 col-sm-6 col-sx-12">
                             <div class="form-group">
                                 <label>Nombre de Establecimiento:</label>
-                                <input id="modalVerOrigen" class="form-control" type="text" name="modalVerOrigen" readonly>
+                                <input id="modalVerOrigen" class="form-control" type="text" readonly>
                             </div>
                         </div>
                         <div class="col-md-6 col-sm-6 col-sx-12">
                             <div class="form-group">
                                 <label>Establecimiento N°:</label>
-                                <input id="modalVerOrigenNumero" class="form-control" type="text" name="modalVerOrigenNumero" readonly>
+                                <input id="modalVerOrigenNumero" class="form-control" type="text" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-sx-12">
+                            <div class="form-group">
+                                <label>CUIT del Establecimiento:</label>
+                                <input id="modalVerOrigenCuit" class="form-control" type="text" readonly>
                             </div>
                         </div>
                         <div class="col-md-6 col-sm-6 col-sx-12">
                             <div class="form-group">
                                 <label>Producto/s:</label>
-                                <input id="modalVerProductos" class="form-control" type="text" name="modalVerProductos" readonly>
+                                <input id="modalVerProductos" class="form-control" type="text" readonly>
                             </div>
                         </div>
                         <div class="col-md-6 col-sm-6 col-sx-12">
                             <div class="form-group">
                                 <label>Peso Neto:</label>
-                                <input id="modalVerNeto" class="form-control" type="text" name="modalVerNeto" readonly>
+                                <input id="modalVerNeto" class="form-control" type="text" readonly>
                             </div>
                         </div>
                         <div class="col-md-6 col-sm-6 col-sx-12">
                             <div class="form-group">
                                 <label>Peso Bruto:</label>
-                                <input id="modalVerBruto" class="form-control" type="text" name="modalVerBruto" readonly>
+                                <input id="modalVerBruto" class="form-control" type="text" readonly>
                             </div>
                         </div>
                         <div class="col-md-6 col-sm-6 col-sx-12">
                             <div class="form-group">
                                 <label>Temperatura:</label>
-                                <input id="modalVerTemperatura" class="form-control" type="text" name="modalVerTemperatura" readonly>
+                                <input id="modalVerTemperatura" class="form-control" type="text" readonly>
                             </div>
                         </div>
                     </div>
