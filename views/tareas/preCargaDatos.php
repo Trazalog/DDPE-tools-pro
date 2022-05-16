@@ -520,6 +520,11 @@ $(document).ready(function() {
     $(".limitedChars").inputmask({ regex: "[0-9/,-]*" });
     //PRECINTOS y Patentes: 0-9, A-Z, space, / y -
     $(".limited").inputmask({ regex: "[0-9/a-zA-Z -]*" });
+    //Fechas
+    $('.formatoFecha').inputmask({
+        alias: "datetime",
+        inputFormat: "dd/mm/yyyy"
+    });
 
 });//FIN document.ready
 /******************************************************************************* */
