@@ -995,7 +995,7 @@ $(document).ready(function() {
     //Fechas
     $('.formatoFecha').inputmask({
         alias: "datetime",
-        inputFormat: "dd/mm/yyyy"
+        inputFormat: "dd-mm-yyyy"
     });
 
     //Renombro el BOTON de guardar

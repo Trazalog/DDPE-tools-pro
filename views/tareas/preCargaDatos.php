@@ -523,7 +523,7 @@ $(document).ready(function() {
     //Fechas
     $('.formatoFecha').inputmask({
         alias: "datetime",
-        inputFormat: "dd/mm/yyyy"
+        inputFormat: "dd-mm-yyyy"
     });
 
 });//FIN document.ready
