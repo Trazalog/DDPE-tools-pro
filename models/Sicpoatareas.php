@@ -853,7 +853,7 @@ class Sicpoatareas extends CI_Model
                         if($dato->tipo_dato == 'select'){
                             foreach ($dato->values as $key => $valor) {
                                 if($dato->valor == $valor->value){
-                                    $formEscaneo['datos'][$dato->name]['descripcion'] = $valor->valor;
+                                    $formEscaneo['datos'][$dato->name]['descripcion'] = $valor->label;
                                 }
                             }
                         }
