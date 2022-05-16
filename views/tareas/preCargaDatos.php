@@ -118,7 +118,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                     <label for="fecha">Fecha del Permiso(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input type="date" class="form-control" id="fecha"/>
+                        <input class="form-control formatoFecha" id="fecha"/>
                     </div>
                 </div>
                 <!--________________-->
