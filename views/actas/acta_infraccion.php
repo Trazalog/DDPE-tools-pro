@@ -35,7 +35,7 @@
                     <span class="acta_telTransportista"><?php echo $inspeccion->tel_transportista ?></span> correo electrónico del transportista <span class="acta_emailTransportista"><?php echo $inspeccion->email_transportista ?></span> 
                     destinos <?php foreach ($destinos as $destino) { echo $destino->razon_social. ", ". $destino->altura. ", ".$destino->calle. ", ". $destino->departamento. ". ";} ?> producto/s <?php foreach ($inspeccion->permisos_transito->permiso_transito as $permiso) { echo $permiso->productos. " ";} ?>,
                     temperatura <?php foreach ($inspeccion->termicos->termico as $termico) { echo $termico->temperatura. " ";} ?>, precintos <?php foreach ($inspeccion->termicos->termico as $termico) { echo $termico->precintos. " ";} ?>, Peso Bruto <?php echo $inspeccion->bruto ?>, 
-                    Tara <?php echo $inspeccion->tara ?> kg, N° de Ticket <?php echo $inspeccion->ticket ?>. Tipo de documentación <span class="acta_tpoDocumentacion"><?php echo $datosEscaneo['doc_impo']['valor']; ?></span>.
+                    Tara <?php echo $inspeccion->tara ?> kg, N° de Ticket <?php echo $inspeccion->ticket ?>. Tipo de documentación <span class="acta_tpoDocumentacion"><?php echo $datosEscaneo['doc_impo']['descripcion']; ?></span>.
                 </div>
                 <div style="text-indent: 30px;">
                     Se constatan las siguientes infracciones: <span class="acta_tposInfracciones"><?php foreach ($inspeccion->infracciones->infraccion->detalleInfracciones->detalleInfraccion as $tiposInfracciones) { echo $tiposInfracciones->valor. ". ";} ?></span>

@@ -575,7 +575,6 @@ function imprimirActa(){
     $(".acta_bruto").text($("#bruto").val());
     $(".acta_tara").text($("#tara").val());
     $(".acta_ticket").text($("#ticket").val());
-    // $(".acta_tpoDocumentacion").text($("select[name='doc_impo']").val());
     $(".acta_depto").text($("#depa_idActa").val());
     $(".acta_localidad").text($("#localidad").val());
     $(".acta_inspectores").text($("#inspectores").val());
@@ -591,13 +590,11 @@ function imprimirActa(){
     $(".dniActa").text($("#dniActa").val());
     $(".telefonoActa").text($("#telefonoActa").val());
     $(".correoActa").text($("#correoActa").val());
-    $(".direccionLegalActa").text($("#domiLegalActa").val());
-    $(".direccionComercialActa").text($("#domiComercialActa").val());
-    $(".acta_caractOrganolepticas").text($("#caractOrganolepticasActa").val());
-    $(".acta_caractDeposito").text($("#caractDeposito").val());
-    $(".acta_tempCamaraActa").text($("#tempCamaraActa").val());
-    // $(".acta_fecha").text(dateFormat($("#fechaActa").val()));
-    // $(".acta_hora").text($("#horaActa").val());
+    // $(".direccionLegalActa").text($("#domiLegalActa").val());
+    // $(".direccionComercialActa").text($("#domiComercialActa").val());
+    // $(".acta_caractOrganolepticas").text($("#caractOrganolepticasActa").val());
+    // $(".acta_caractDeposito").text($("#caractDeposito").val());
+    // $(".acta_tempCamaraActa").text($("#tempCamaraActa").val());
 
     //Valído
     if($('input[name=inspValida]:checked').val() == 'incorrecta'){
@@ -612,42 +609,6 @@ function imprimirActa(){
         $(".acta_tposInfracciones").text(tiposInfraccion.slice(0, -1));
         idActa = '#actaInfraccion';
     }
-
-
-    infoTemperatura = "";
-    $('#sec_termicos div.termicos').each(function(i, obj) {
-        aux = $(obj).attr('data-json');
-        json = JSON.parse(aux);
-        infoTemperatura += json.temperatura + " ";
-    });
-    $(".acta_temperaturas").text(infoTemperatura);
-
-    infoPrecintos = "";
-    $('#sec_termicos div.termicos').each(function(i, obj) {
-        aux = $(obj).attr('data-json');
-        json = JSON.parse(aux);
-        infoPrecintos += json.precintos + " ";
-    });
-    $(".acta_precintos").text(infoPrecintos);
-
-    infoDestino = "";
-    $('#sec_destinos div.empreDestino').each(function(i, obj) {
-        aux = $(obj).attr('data-json');
-        json = JSON.parse(aux);
-        infoDestino += json.razon_social+". ";
-    });
-    $(".acta_destinos").text(infoDestino);
-
-    infoPermisos = "";
-    infoProductos = "";
-    $('#sec_permisos div.permTransito').each(function(i, obj) {
-        aux = $(obj).attr('data-json');
-        json = JSON.parse(aux);
-        infoPermisos += json.tipo + " ";
-        infoProductos +=  json.productos + "; ";
-    });
-    $(".acta_docSanitaria").text(infoPermisos);
-    $(".acta_productos").text(infoProductos);
 
     var base = "<?php echo base_url()?>";
 
@@ -673,7 +634,6 @@ function imprimirActa(){
                     showCancelButton: false,
                     confirmButtonText: 'Hecho'
                 }).then((result) => {
-                    
                     linkTo('<?php echo BPM ?>Proceso/');
                     
                 });
