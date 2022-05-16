@@ -992,6 +992,11 @@ $(document).ready(function() {
     $(".onlyNumbers").inputmask({ regex: "[0-9.,]*" });
     //Temperaturas
     $(".onlyNumbersT").inputmask({ regex: "[0-9.,-]*" });
+    //Fechas
+    $('.formatoFecha').inputmask({
+        alias: "datetime",
+        inputFormat: "dd/mm/yyyy"
+    });
 
     //Renombro el BOTON de guardar
     $('#btnHecho').text('Imprimir acta');
