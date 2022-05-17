@@ -176,7 +176,7 @@
                             <div class="col-md-6 col-sm-6 col-xs-12">
                                 <div class="form-group">
                                 <label for="fecha">Fecha del Permiso(<strong style="color: #dd4b39">*</strong>):</label>
-                                    <input type="date" class="form-control" id="fecha" placeholder="Ingrese fecha"/>
+                                    <input class="form-control formatoFecha" id="fecha"/>
                                 </div>
                             </div>
                             <!--________________-->
@@ -992,6 +992,11 @@ $(document).ready(function() {
     $(".onlyNumbers").inputmask({ regex: "[0-9.,]*" });
     //Temperaturas
     $(".onlyNumbersT").inputmask({ regex: "[0-9.,-]*" });
+    //Fechas
+    $('.formatoFecha').inputmask({
+        alias: "datetime",
+        inputFormat: "dd-mm-yyyy"
+    });
 
     //Renombro el BOTON de guardar
     $('#btnHecho').text('Imprimir acta');

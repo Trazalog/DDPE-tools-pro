@@ -122,7 +122,7 @@
                             <div style="margin-top: 50px;" class="col-md-12 col-sm-12 col-xs-12">
                                 <div class="form-group">
                                     <label for="inspectores">Inspectores(<strong style="color: #dd4b39">*</strong>):</label>
-                                    <input class="form-control" name="inspectores" id="inspectores" placeholder="Ingrese Inspectores" />
+                                    <input class="form-control" name="inspectores" id="inspectores" placeholder="Ingrese Inspectores" value="<?php echo $inspeccion->inspectores ?>"/>
                                 </div>                    
                             </div>
                             <!--________________-->
@@ -323,7 +323,7 @@
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 <div class="form-group">
                                     <label for="observaciones">Observaciones:</label>
-                                    <textarea class="form-control" name="observaciones" id="observaciones" placeholder="Observaciones"><?php echo isset($preCargaDatos->observaciones) ? $preCargaDatos->observaciones : null; ?></textarea>
+                                    <textarea class="form-control" name="observaciones" id="observaciones" placeholder="Observaciones"></textarea>
                                 </div>                    
                             </div>
                             <!--________________-->
@@ -344,22 +344,21 @@
                             <!--________________-->
                             <!--Bloque Validar-->
                             <div id="bloque_validar" style="display:none;">
-                                <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
-                                    <div class="form-group">
-                                        <label for="tpoInfraccion">Tipos Infracción(<strong style="color: #dd4b39">*</strong>):</label>
-                                        <select class="form-control select2 select2-hidden-accesible" name="tpoInfraccion" id="tpoInfraccion" required>
-                                            <option value="" disabled selected>-Seleccionar infracción-</option>	
-                                            <?php
-                                            if(!empty($infracciones)){
-                                                foreach ($infracciones as $tipos) {
-                                                    echo "<option data-json='".json_encode($tipos)."' value='".$tipos->tabl_id."'>".$tipos->descripcion."</option>";
-                                                }
+                            <div class="col-md-12 col-sm-12 col-xs-12 ocultar">
+                                <div class="form-group">
+                                    <label for="tpoInfraccion">Tipos Infracción(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <select class="form-control select2 select2-hidden-accesible" name="tpoInfraccion[]" id="tpoInfraccion" required style="width: 100%;" multiple>
+                                        <?php
+                                        if(!empty($infracciones)){
+                                            foreach ($infracciones as $tipos) {
+                                                echo "<option data-json='".json_encode($tipos)."' value='".$tipos->tabl_id."'>".$tipos->descripcion."</option>";
                                             }
-                                            ?>
-                                        </select>
-                                    </div>
+                                        }
+                                        ?>
+                                    </select>
                                 </div>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
+                            </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12">
                                     <div class="form-group">
                                         <label for="cant_fajas">Cantidad de fajas(<strong style="color: #dd4b39">*</strong>):</label>
                                         <input type="number" class="form-control" name="cant_fajas" id="cant_fajas" placeholder="Ingrese N° fajas" required/>
@@ -405,6 +404,7 @@
 //Instancias select2 combo box
 //
 $(document).ready(function() {
+    $('.select2').select2();
     //Seccion de trigger para los cambios
     //Mustra bloque validar si es correcta
     // showValidar($('#resultado').val());
@@ -572,11 +572,9 @@ function imprimirActa(){
     $(".acta_origenNro").text($("#esta_num").val());
     $(".acta_estaOrigen").text($("#esta_nom").val());
     $(".acta_transportista").text($('#transportista').val());
-    $(".acta_productos").text($("#producto").val());
     $(".acta_bruto").text($("#bruto").val());
     $(".acta_tara").text($("#tara").val());
     $(".acta_ticket").text($("#ticket").val());
-    $(".acta_tpoDocumentacion").text($("select[name='doc_impo']").val());
     $(".acta_depto").text($("#depa_idActa").val());
     $(".acta_localidad").text($("#localidad").val());
     $(".acta_inspectores").text($("#inspectores").val());
@@ -592,54 +590,28 @@ function imprimirActa(){
     $(".dniActa").text($("#dniActa").val());
     $(".telefonoActa").text($("#telefonoActa").val());
     $(".correoActa").text($("#correoActa").val());
-    $(".direccionLegalActa").text($("#domiLegalActa").val());
-    $(".direccionComercialActa").text($("#domiComercialActa").val());
-    $(".acta_caractOrganolepticas").text($("#caractOrganolepticasActa").val());
-    $(".acta_caractDeposito").text($("#caractDeposito").val());
-    $(".acta_tempCamaraActa").text($("#tempCamaraActa").val());
-    $(".acta_fecha").text(dateFormat($("#fechaActa").val()));
-    $(".acta_hora").text($("#horaActa").val());
+    // $(".direccionLegalActa").text($("#domiLegalActa").val());
+    // $(".direccionComercialActa").text($("#domiComercialActa").val());
+    // $(".acta_caractOrganolepticas").text($("#caractOrganolepticasActa").val());
+    // $(".acta_caractDeposito").text($("#caractDeposito").val());
+    // $(".acta_tempCamaraActa").text($("#tempCamaraActa").val());
 
     //Valído
     if($('input[name=inspValida]:checked').val() == 'incorrecta'){
-        // $(".acta_infraccion").text($('#tpoInfraccion').select2('data')[0].text);
+        tiposInfraccion = "";
+        if($('#tpoInfraccion').select2('data').length > 0){
+            tiposInfracciones = $('#tpoInfraccion').select2('data');
+            for (let i = 0; i < tiposInfracciones.length; i++) {
+                tiposInfraccion += tiposInfracciones[i].text + "; ";
+            }
+        }
+        
+        $(".acta_tposInfracciones").text(tiposInfraccion.slice(0, -1));
         idActa = '#actaInfraccion';
     }
 
-
-    infoTemperatura = "";
-    $('#sec_termicos div.termicos').each(function(i, obj) {
-        aux = $(obj).attr('data-json');
-        json = JSON.parse(aux);
-        infoTemperatura += json.temperatura + " ";
-    });
-    $(".acta_temperaturas").text(infoTemperatura);
-
-    infoPrecintos = "";
-    $('#sec_termicos div.termicos').each(function(i, obj) {
-        aux = $(obj).attr('data-json');
-        json = JSON.parse(aux);
-        infoPrecintos += json.precintos + " ";
-    });
-    $(".acta_precintos").text(infoPrecintos);
-
-    infoDestino = "";
-    $('#sec_destinos div.empreDestino').each(function(i, obj) {
-        aux = $(obj).attr('data-json');
-        json = JSON.parse(aux);
-        infoDestino += json.razon_social+". ";
-    });
-    $(".acta_destinos").text(infoDestino);
-
-    infoPermisos = "";
-    $('#sec_permisos div.permTransito').each(function(i, obj) {
-        aux = $(obj).attr('data-json');
-        json = JSON.parse(aux);
-        infoPermisos += json.tipo + " ";
-    });
-    $(".acta_docSanitaria").text(infoPermisos);
-    
     var base = "<?php echo base_url()?>";
+
     $(idActa).printThis({
         debug: false,
         importCSS: false,
@@ -662,7 +634,6 @@ function imprimirActa(){
                     showCancelButton: false,
                     confirmButtonText: 'Hecho'
                 }).then((result) => {
-                    
                     linkTo('<?php echo BPM ?>Proceso/');
                     
                 });

@@ -139,7 +139,7 @@ class Inspecciones extends CI_Model {
         foreach ($data as $key) {
             $aux["perm_id"] = $key['perm_id'];
             $aux["lugar_emision"] = $key['lugar_emision'];
-            $aux["fecha_hora_salida"] = $key['fecha_hora_salida'];
+            $aux["fecha_hora_salida"] = date_format(date_create($key['fecha_hora_salida']),'Y-m-d H:i:s');
             $aux["tipo"] = $key['tipo'];
             $aux["usuario_app"] = userNick();
             $aux["case_id"] = $key['case_id'];
