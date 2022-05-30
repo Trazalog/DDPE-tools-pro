@@ -639,7 +639,6 @@
                             <div class="form-group">
                                 <label for="tpoInfraccion">Tipos Infracción(<strong style="color: #dd4b39">*</strong>):</label>
                                 <select class="form-control select2 select2-hidden-accesible" name="tpoInfraccion[]" id="tpoInfraccion" required style="width: 100%;" multiple>
-                                    <!-- <option value="" disabled selected>-Seleccionar infracción-</option>	 -->
                                     <?php
                                     if(!empty($infracciones)){
                                         foreach ($infracciones as $tipos) {
@@ -1458,26 +1457,23 @@ async function cerrarTareaform(){
                     success: function(data) {
                         resp = JSON.parse(data);
                         if(resp.status){
-                            console.log(resp.message);
                             resp.info_id = newInfoID;
                             resolve(resp);
                         }else{
                             console.log(resp.message);
-                            reject("Error");
+                            reject(resp);
                         }
                     },
                     error: function(data) {
                         wc();
-                        alert("Error al guardar datos del formulario");
-                        reject("Error");
+                        reject(data);
                     }
                 });
 
             },
             error: function(data) {
                 wc();
-                alert("Error al guardar formulario de la inspección");
-                reject("Error");
+                reject(data);
             }
         });
     });
@@ -1573,8 +1569,7 @@ function cerrarTarea() {
         
     }).catch((err) => {
         wc();
-        console.log(err);
-        alert("Error al finalizar tarea");
+        error("Error!",err.message);
     });
 }
 //

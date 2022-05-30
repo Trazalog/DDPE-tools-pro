@@ -897,29 +897,26 @@ async function cerrarTareaform(){
                             resp = JSON.parse(data);
                             if(resp.status){
                                 console.log(resp.message);
-                                resolve("Correcto");
+                                resolve(resp);
                             }else{
                                 console.log(resp.message);
-                                reject("Error");
+                                reject(resp);
                             }
                         },
                         error: function(data) {
                             wc();
-                            error("Error al guardar los datos anexos al formulario de PreCarga");
-                            reject("Error");
+                            reject(data);
                         }
                     });
                 }else{
                     wc();
-                    error("Error al guardar el formulario de PreCarga");
-                    reject("Error");
+                    reject(result);
                 }
 
             },
             error: function(data) {
                 wc();
-                alert("Error al guardar formulario de PreCarga");
-                reject("Error");
+                reject(data);
             }
         });
     });
@@ -1019,8 +1016,7 @@ function cerrarTarea() {
         
     }).catch((err) => {
         wc();
-        console.log(err);
-        alert("Error al finalizar tarea");
+        error("Error!",err.message);
     });
 }
 </script>

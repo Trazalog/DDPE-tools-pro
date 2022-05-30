@@ -254,8 +254,32 @@ class Inspeccion extends CI_Controller
 			}
 			echo json_encode($resp);
 		} else {
+			/*En caso de fallar alguna operacion de guardado de los datos anexos a la inspeccion, armo un arreglo con la respuesta correspondiente.
+			para luego informarla al usuario en la pantalla */
 			$resp['status'] = false;
-			$resp['message'] = "Se produjo un error guardando los datos";
+			$resp['message'] = "Se produjo un error guardando los datos: ";
+			if(!$respTermInspeccion['status']){
+				if(stripos($respTermInspeccion['data'], "inspecciones_termicos_pk")){ 
+					$resp['message'] .= "<br> -> <b>Error</b> al agregar los termicos asociados a la inspección.<br> <b>Información duplicada!</b> <br>";
+				}else{
+					$resp['message'] .= "<br> -> <b>Error</b> al agregar los termicos asociados a la inspección.<br>";
+				}
+			}
+			if(!$rspPermisos['status']){
+				if(stripos($rspPermisos['data'], "permisos_transito_pk")){ 
+					$resp['message'] .= "<br> -> <b>Error</b> al agregar los permisos de tránsito.<br> <b>Información duplicada!</b> <br>";
+				}else{
+					$resp['message'] .= "<br> -> <b>Error</b> al agregar los permisos de tránsito. <br>";
+				}
+			}
+			if(!$respEmpresas['status']){
+				if(stripos($respEmpresas['data'], "inspecciones_empresas_pk")){ 
+					$resp['message'] .= "<br> -> <b>Error</b> al agregar los permisos de tránsito.<br> <b>Información duplicada!</b> <br>";
+				}else{
+					$resp['message'] .= "<br> -> <b>Error</b> al agregar los permisos de tránsito. <br>";
+				}
+			}
+			$resp['message'] .= "<br>Por favor, revise la información cargada.";
 			$resp['permisos'] = $rspPermisos['data'];
 			$resp['empresas'] = $respEmpresas['data'];
 			$resp['termicos'] = $respTermInspeccion['data'];

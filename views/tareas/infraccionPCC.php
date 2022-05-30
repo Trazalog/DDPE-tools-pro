@@ -115,6 +115,9 @@
                 </div>
                 <?php $this->load->view(SICP.'reprecintado/mosaicoReprecintado.php') ?>
             </div><!-- FIN box-primary -->
+            <div class="col-md-6 col-sm-12 col-xs-12">
+                
+            </div>
         </div>
         <!--_______ FIN FORMULARIO PERMISO DE TRANSITO BOX 1 ______-->
 
@@ -248,7 +251,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group has-feedback">
                         <label for="cant_documentos">Cantidad de Documentos:</label>
-                        <input class="form-control" name="cant_doc" id="cant_documentos" value="<?php echo isset($formEscaneo['datos']['cant_doc']) ? $formEscaneo['datos']['cant_doc'] : null ?>" readonly/>
+                        <input class="form-control" name="cant_doc" id="cant_documentos" value="<?php echo isset($formEscaneo['datos']['cant_doc']) ? $formEscaneo['datos']['cant_doc']['valor'] : null ?>" readonly/>
                     </div>
                 </div>
                 <!--________________-->
@@ -257,7 +260,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                         <label for="doc_impositiva">Doc. Impositiva:</label>
-                        <input class="form-control" name="doc_impo" id="doc_impositiva" value="<?php echo isset($formEscaneo['datos']['doc_impo']) ? $formEscaneo['datos']['doc_impo'] : null ?>" readonly/>
+                        <input class="form-control" name="doc_impo" id="doc_impositiva" value="<?php echo isset($formEscaneo['doc_impo']['descripcion']) ? $formEscaneo['doc_impo']['descripcion'] : null ?>" readonly/>
                     </div>
                 </div>
                 <!--________________-->
@@ -354,8 +357,12 @@
                 <div id="bloque_validar" style="display:none;">
                     <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
                         <div class="form-group">
-                            <label for="tpoInfraccion">Tipo infracción:</label>
-                            <input type="text" class="form-control" name="tpoInfraccion" id="tpoInfraccion" value="<?php echo isset($inspeccion->infracciones->infraccion) ? $inspeccion->infracciones->infraccion[0]->tipo_infraccion : null; ?>" readonly/>
+                            <label for="tpoInfraccion">Tipos de infracciones:</label>
+                            <ul>
+                            <?php if(isset($inspeccion->infracciones->infraccion)){
+                                foreach ($inspeccion->infracciones->infraccion->detalleInfracciones->detalleInfraccion as $tiposInfracciones) { echo "<li>".$tiposInfracciones->valor. ".</li>";}
+                            } ?>
+                            </ul>
                         </div>
                     </div>
                     <div class="col-md-6 col-sm-6 col-xs-12">
