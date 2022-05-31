@@ -173,6 +173,7 @@ class Inspecciones extends CI_Model {
             $aux["case_id"] = $key['case_id'];
             $aux["usuario_app"] = userNick();
             $aux["depo_id"] = $key['depo_id'];
+            $aux["productos"] = $key['productos'];
 
 
             $batch_req['_post_inspeccion_empresa_batch_req']['_post_inspeccion_empresa'][] = $aux;

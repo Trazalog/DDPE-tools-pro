@@ -363,6 +363,48 @@
     </div>
 </div>
 <!-- FIN MODAL VER PERMISO -->
+<!-- Modal VER DESTINO -->
+<div class="modal modal-fade" id="mdl-verDetalleDestino">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Detalle del destino</h4>
+            </div>
+            <form id="formVerDetalleDestino" action="#">
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6 col-sx-12">
+                            <div class="form-group">
+                                <label>Empresa Destino:</label>
+                                <input id="modalVerDestino" class="form-control" type="text" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-sx-12">
+                            <div class="form-group">
+                                <label>Depósito Destino:</label>
+                                <input id="modalVerDepositoDestino" class="form-control" type="text" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-sm-12 col-sx-12">
+                            <div class="form-group">
+                                <label>Producto/s para la empresa destino:</label>
+                                <textarea id="modalVerProductosDestino" class="form-control" readonly></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn" data-dismiss="modal">Cerrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- FIN MODAL VER DESTINO -->
 <script>
     //SCRIPTS MODAL ZOOM VISTA PREVIA
     //Scripts para hacer zoom en la imagen seleccionada

@@ -620,6 +620,7 @@ function cerrarDetalle(){
     $('#producto').val(null).trigger('change');
     $('#medidas').val(null).trigger('change');
     $('#tipo_documento').val(null).trigger('change');
+    $('#destino').val(null).trigger('change');
     $('.fotos').removeClass("selected");
     $('.iconoDocs').hide();//oculta el icono de seleccionada
 
