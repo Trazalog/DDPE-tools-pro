@@ -453,8 +453,10 @@
                                     ?>
                                         <div class='form-group termicos' data-json='<?php echo json_encode($key) ?>'>
                                             <span> 
+                                                <i class='fa fa-fw fa-eye text-light-blue' style='cursor: pointer;' title='Ver detalle' onclick='verTermico(this)'></i> 
+                                                <i class='fa fa-fw fa-edit text-light-blue' style='cursor: pointer;' title='Editar' onclick='editarTermico(this)'></i>
                                                 <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i>
-                                                <?php echo "| $key->patente - $key->temperatura - $key->precintos" ?>
+                                                <?php echo "| $key->patente - $key->nro_senasa - $key->precintos" ?>
                                             </span>
                                         </div>
                                     <?php
@@ -590,7 +592,7 @@
                     <div class="col-md-12 col-sm-12 col-xs-6">
                         <div class="form-group">
                             <label for="procedenAccion">Proceden a:</label>
-                            <textarea class="form-control" name="procedenAccion" id="procedenAccion" value="<?php echo isset($preCargaDatos->proceden_a) ? $preCargaDatos->proceden_a : null ?>"></textarea>
+                            <textarea class="form-control" name="procedenAccion" id="procedenAccion"><?php echo isset($preCargaDatos->proceden_a) ? $preCargaDatos->proceden_a : null ?></textarea>
                         </div>                    
                     </div>
                     <!--________________-->
@@ -948,14 +950,15 @@ $(document).ready(function() {
 
     dniOpc = new Option(chofer, dni_chofer, true, true);
     opcion = {'id': dni_chofer, 'text': chofer};
-
-    $('#doc_chofer').append(dniOpc).trigger('change');
-    $('#doc_chofer').trigger({
-        type: 'select2:select',
-        params: {
-            data: opcion
-        }
-    });
+    if(_isset(dni_chofer)){
+        $('#doc_chofer').append(dniOpc).trigger('change');
+        $('#doc_chofer').trigger({
+            type: 'select2:select',
+            params: {
+                data: opcion
+            }
+        });
+    }
     //EMPRESA ORIGEN
     // empr_origen = "<?php echo isset($origen) ? $origen->cuit : null ?>";
     // empr_origen_nombre = "<?php echo isset($origen) ? $origen->razon_social : null ?>";
@@ -972,13 +975,17 @@ $(document).ready(function() {
     //         data: opcion
     //     }
     // });
-
+    
     //EMPRESA TRANSPORTISTA
     empr_trasnp = "<?php echo isset($transportista) ? $transportista->cuit : null ?>";
     empr_trasnp_nombre = "<?php echo isset($transportista) ? $transportista->razon_social : null ?>";
 
     transpOpc = new Option(empr_trasnp_nombre, empr_trasnp, true, true);
-    $('#transportista').append(transpOpc).trigger('change');
+    if(_isset(empr_trasnp)) $('#transportista').append(transpOpc).trigger('change');
+
+    //DEPARTAMENTO
+    depa_id = "<?php echo isset($preCargaDatos->depa_id) ? $preCargaDatos->depa_id : null ?>";
+    if(_isset(depa_id)) $("#depa_idActa").val(depa_id).trigger('change');
 
     //MÁSCARAS
     //Lugar de Emision A-Z, 0-9 y space
@@ -1081,7 +1088,6 @@ $(document).on("click",".fa-trash",function(e) {
 function editarDestino(tag){
     if(!editandoDestino){
         var data =	JSON.parse($(tag).closest('div').attr('data-json'));
-        console.log(data);
         emprVal = data.cuit;
         emprNombre = data.razon_social;
     
@@ -1294,33 +1300,36 @@ function verPermiso(tag){
 //
 //Scripts Termico
 //
+var editandoTermico = false;
 function agregarTermico(){
     //Informamos el campo vacio 
     var reporte = validarCamposTermico();
                             
     if(reporte == ''){
-        var temperatura = $('#temperatura').val();
+        var nro_senasa = $('#num_senasa').val();
         var precintos = $('#precintos').val();
         var term_patente = $("#term_patente").val();
-        // var descDepo = $("#depo_origen_id option:selected").text();
 
         var datos = {};
-        datos.temperatura = temperatura;
+        datos.nro_senasa = nro_senasa;
         datos.precintos = precintos;
         datos.term_id = term_patente;
 
         var div = `<div class='form-group termicos' data-json='${JSON.stringify(datos)}'>
-                        <span> 
+                        <span>
+                        <i class='fa fa-fw fa-eye text-light-blue' style='cursor: pointer;' title='Ver detalle' onclick='verTermico(this)'></i> 
+                        <i class='fa fa-fw fa-edit text-light-blue' style='cursor: pointer;' title='Editar' onclick='editarTermico(this)'></i> 
                         <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i> 
-                        | ${term_patente} - ${temperatura} - ${precintos}
+                        | ${term_patente} - ${precintos}
                         </span>
                 </div>`;
         $('#sec_termicos').append(div);
         //Limpio luego de agregar
         $("#term_patente").val('');
-        $("#temperatura").val('');
+        $("#nroSenasa").val('');
         $("#precintos").val('');
         alertify.success("Térmico agregado correctamente!");
+        editandoTermico = false;
     }else{
         notificar('Nota',reporte,'warning');
     }
@@ -1331,15 +1340,40 @@ function validarCamposTermico(){
     if($("#term_patente").val() == ""){
         valida = "Complete Térmico Patente!";
     }
-    //Temperatura
-    if($("#temperatura").val() == ""){
-        valida = "Complete Temperatura!";
+    //Número SENASA
+    if($("#num_senasa").val() == ""){
+        valida = "Complete N° de Habilitación SENASA!";
     }
     //Precintos
     if($("#precintos").val() == ""){
         valida = "Complete Precintos!";
     }
     return valida;
+}
+function editarTermico(tag){
+    if(!editandoTermico){
+        var data =	$(tag).closest('div').attr('data-json');
+        aux = data.replace("patente", "term_id");
+        var json = JSON.parse(aux);
+
+        $("#term_patente").val(json.term_id);
+        $("#nroSenasa").val(json.nro_senasa);
+        $("#precintos").val(json.precintos);
+        $(tag).closest('div').remove();
+        editandoTermico = true;
+    }else{
+        notificar('',"Ya se esta editando una empresa de destino!",'warning');
+    }
+}
+function verTermico(tag){
+    var data =	$(tag).closest('div').attr('data-json');
+    aux = data.replace("patente", "term_id");
+    var json = JSON.parse(aux);
+
+    $("#modalVerPatenteTermico").val(json.term_id);
+    $("#modalVerSENASATermico").val(json.nro_senasa);
+    $("#modalVerNroPrecintos").val(json.precintos);
+    $("#mdl-verDetalleTermico").modal('show');
 }
 //FIN Script's seccion termico
 /***************************************************** */
@@ -1449,12 +1483,13 @@ async function cerrarTareaform(){
         empresas[i] = json;
     });
     //obtengo origen
-    origen = {};
-    origen.rol = "ORIGEN";
-    origen.empr_id = $("#esta_nom").val();
-    origen.case_id = case_id;
-    origen.depo_id = "";
-    empresas.push(origen);
+    //EL ORIGEN ES MULTIPLE AHORA, SE CARGA EN LOS PERMISOS DE TRANSITO
+    // origen = {};
+    // origen.rol = "ORIGEN";
+    // origen.empr_id = $("#esta_nom").val();
+    // origen.case_id = case_id;
+    // origen.depo_id = "";
+    // empresas.push(origen);
     
     //obtengo transportista
     transp = {};
@@ -1611,25 +1646,25 @@ function cerrarTarea() {
         dataForm.append('doc_impositiva', $("select[name=doc_impo]").val());
         
         var id = $('#taskId').val();
+        //SACAR!!!!! SOLO TESTING
+        // $.ajax({
+        //     type: 'POST',
+        //     data: dataForm,
+        //     cache: false,
+        //     contentType: false,
+        //     processData: false,
+        //     url: '<?php base_url() ?>index.php/<?php echo BPM ?>Proceso/cerrarTarea/' + id,
+        //     success: function(data) {
+        //         wc();
+        //         imprimirActa();
 
-        $.ajax({
-            type: 'POST',
-            data: dataForm,
-            cache: false,
-            contentType: false,
-            processData: false,
-            url: '<?php base_url() ?>index.php/<?php echo BPM ?>Proceso/cerrarTarea/' + id,
-            success: function(data) {
-                wc();
-                imprimirActa();
-
-            },
-            error: function(data) {
-                wc();
-                alert("Error al finalizar tarea");
-            }
-        });
-        
+        //     },
+        //     error: function(data) {
+        //         wc();
+        //         alert("Error al finalizar tarea");
+        //     }
+        // });
+        imprimirActa();
     }).catch((err) => {
         wc();
         error("Error!",err.message);
@@ -1798,7 +1833,8 @@ function imprimirActa(){
                     showCancelButton: false,
                     confirmButtonText: 'Hecho'
                 }).then((result) => {
-                    linkTo('<?php echo BPM ?>Proceso/');
+                    //SACAR!!!!! SOLO TESTING
+                    // linkTo('<?php echo BPM ?>Proceso/');
                 });
         }
     });

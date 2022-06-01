@@ -258,6 +258,7 @@ class Inspeccion extends CI_Controller
 			para luego informarla al usuario en la pantalla */
 			$resp['status'] = false;
 			$resp['message'] = "Se produjo un error guardando los datos: ";
+			//EVALUO RESPUESTA TERMICOS
 			if(!$respTermInspeccion['status']){
 				if(stripos($respTermInspeccion['data'], "inspecciones_termicos_pk")){ 
 					$resp['message'] .= "<br> -> <b>Error</b> al agregar los termicos asociados a la inspección.<br> <b>Información duplicada!</b> <br>";
@@ -265,6 +266,7 @@ class Inspeccion extends CI_Controller
 					$resp['message'] .= "<br> -> <b>Error</b> al agregar los termicos asociados a la inspección.<br>";
 				}
 			}
+			//EVALUO RESPUESTA PERMISOS DE TRANSITO
 			if(!$rspPermisos['status']){
 				if(stripos($rspPermisos['data'], "permisos_transito_pk")){ 
 					$resp['message'] .= "<br> -> <b>Error</b> al agregar los permisos de tránsito.<br> <b>Información duplicada!</b> <br>";
@@ -272,11 +274,12 @@ class Inspeccion extends CI_Controller
 					$resp['message'] .= "<br> -> <b>Error</b> al agregar los permisos de tránsito. <br>";
 				}
 			}
+			//EVALUO RESPUESTA EMPRESAS DE DESTINO
 			if(!$respEmpresas['status']){
 				if(stripos($respEmpresas['data'], "inspecciones_empresas_pk")){ 
-					$resp['message'] .= "<br> -> <b>Error</b> al agregar los permisos de tránsito.<br> <b>Información duplicada!</b> <br>";
+					$resp['message'] .= "<br> -> <b>Error</b> al agregar las empresas de destino.<br> <b>Información duplicada!</b> <br>";
 				}else{
-					$resp['message'] .= "<br> -> <b>Error</b> al agregar los permisos de tránsito. <br>";
+					$resp['message'] .= "<br> -> <b>Error</b> al agregar las empresas de destino. <br>";
 				}
 			}
 			$resp['message'] .= "<br>Por favor, revise la información cargada.";

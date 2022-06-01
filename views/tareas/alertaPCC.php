@@ -379,6 +379,8 @@
                                     ?>
                                         <div class='form-group empreDestino' data-json='<?php echo json_encode($key) ?>'>
                                             <span> 
+                                            <i class='fa fa-fw fa-eye text-light-blue' style='cursor: pointer;' title='Ver detalle' onclick="verDestino(this)"></i> 
+                                                <i class='fa fa-fw fa-edit text-light-blue' style='cursor: pointer;' title='Editar' onclick='editarDestino(this)'></i> 
                                                 <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i>
                                                 <?php echo "| $key->razon_social - $key->calle - $key->altura" ?>
                                             </span>
@@ -433,9 +435,11 @@
                                         foreach ($preCargaDatos->termicos->termico as $key) {
                                     ?>
                                         <div class='form-group termicos' data-json='<?php echo json_encode($key) ?>'>
-                                            <span> 
+                                            <span>
+                                            <i class='fa fa-fw fa-eye text-light-blue' style='cursor: pointer;' title='Ver detalle' onclick='verTermico(this)'></i> 
+                                                <i class='fa fa-fw fa-edit text-light-blue' style='cursor: pointer;' title='Editar' onclick='editarTermico(this)'></i> 
                                                 <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i>
-                                                <?php echo "| $key->patente - $key->temperatura - $key->precintos" ?>
+                                                <?php echo "| $key->patente - $key->nro_senasa - $key->precintos" ?>
                                             </span>
                                         </div>
                                     <?php
@@ -858,21 +862,21 @@ $(document).ready(function() {
         }
     });
     //EMPRESA ORIGEN
-    empr_origen = "<?php echo isset($origen) ? $origen->cuit : null ?>";
-    empr_origen_nombre = "<?php echo isset($origen) ? $origen->razon_social : null ?>";
-    empr_origen_num = "<?php echo isset($origen) ? $origen->num_establecimiento : null ?>";
+    // empr_origen = "<?php echo isset($origen) ? $origen->cuit : null ?>";
+    // empr_origen_nombre = "<?php echo isset($origen) ? $origen->razon_social : null ?>";
+    // empr_origen_num = "<?php echo isset($origen) ? $origen->num_establecimiento : null ?>";
     
-    opcion = {'id': empr_origen, 'text': empr_origen_nombre, 'num_esta': empr_origen_num};
+    // opcion = {'id': empr_origen, 'text': empr_origen_nombre, 'num_esta': empr_origen_num};
 
-    emprOpc = new Option(empr_origen_nombre, empr_origen, true, true);
+    // emprOpc = new Option(empr_origen_nombre, empr_origen, true, true);
 
-    $('#esta_nom').append(emprOpc).trigger('change');
-    $('#esta_nom').trigger({
-        type: 'select2:select',
-        params: {
-            data: opcion
-        }
-    });
+    // $('#esta_nom').append(emprOpc).trigger('change');
+    // $('#esta_nom').trigger({
+    //     type: 'select2:select',
+    //     params: {
+    //         data: opcion
+    //     }
+    // });
 
     //EMPRESA TRANSPORTISTA
     empr_trasnp = "<?php echo isset($transportista) ? $transportista->cuit : null ?>";
@@ -916,6 +920,7 @@ $(document).on("keydown", ".choferes", function(e) {
 //
 //Script's seccion destino
 //
+var editandoDestino = false;// Utilizo para que no se pierdan los permisos al editar
 function agregarDestino(){
     //Informamos el campo vacio 
     var reporte = validarCamposDestino();
@@ -928,9 +933,16 @@ function agregarDestino(){
         datos.rol = "DESTINO";
         datos.empr_id = $("#empre_destino").val();
         datos.depo_id = $("#depo_destino").val();
+        datos.razon_social = empre_destino;
+        datos.productos = $("#productosDestino").val();
+        direccion = depo_destino.split(" - ");
+        datos.calle = direccion[0];
+        datos.altura = direccion[1];
 
         var div = `<div class='form-group empreDestino' data-json='${JSON.stringify(datos)}'>
                         <span> 
+                        <i class='fa fa-fw fa-eye text-light-blue' style='cursor: pointer;' title='Ver detalle' onclick='verDestino(this)'></i> 
+                        <i class='fa fa-fw fa-edit text-light-blue' style='cursor: pointer;' title='Editar' onclick='editarDestino(this)'></i>
                         <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i>
                         | ${empre_destino} - ${depo_destino}
                         </span>
@@ -939,9 +951,11 @@ function agregarDestino(){
         //Limpio luego de agregar
         $('#empre_destino').val(null).trigger('change');
         $('#depo_destino').val(null).trigger('change');
+        $("#productosDestino").val('');
         alertify.success("Destino agregado correctamente!");
+        editandoDestino = false;
     }else{
-        alert(reporte);
+        notificar('Nota',reporte,'warning');
     }
 }
 function validarCamposDestino(){
@@ -962,6 +976,37 @@ $(document).on("click",".fa-trash",function(e) {
         $(e.target).closest('div').remove();		
     }
 });
+function editarDestino(tag){
+    if(!editandoDestino){
+        var data =	JSON.parse($(tag).closest('div').attr('data-json'));
+        emprVal = data.cuit;
+        emprNombre = data.razon_social;
+    
+        opcion = {'id': emprVal, 'text': emprNombre};
+
+        emprOpc = new Option(emprNombre, emprVal, true, true);
+
+        $('#empre_destino').append(emprOpc).trigger('change');
+        $('#empre_destino').trigger({
+            type: 'select2:select',
+            params: {
+                data: opcion
+            }
+        });
+        $(tag).closest('div').remove();
+        editandoDestino = true;
+    }else{
+        notificar('',"Ya se esta editando una empresa de destino!",'warning');
+    }
+}
+function verDestino(tag){
+    var data =	JSON.parse($(tag).closest('div').attr('data-json'));
+    
+    $("#modalVerDestino").val(data.razon_social);
+    $("#modalVerDepositoDestino").val(data.calle + " - " + data.altura);
+    $("#modalVerProductosDestino").val(data.productos);
+    $("#mdl-verDetalleDestino").modal('show');
+}
 //
 //FIN Script's seccion destino
 /****************************************************** */
@@ -1022,14 +1067,14 @@ function agregarPermiso(){
         alertify.success("Permiso de tránsito agregado correctamente!");
 
     }else{
-        alert(reporte);
+        notificar('Nota',reporte,'warning');
     }
 }
 function validarCamposPermiso(){
     var valida = '';
     //Numero de solicitud
     if($("#soli_num").val() == ""){
-        valida = "Complete Numero de solicitud!";
+        valida = "Complete Número de solicitud!";
     }
     //Valido que el numero de permiso no se ingreso previamente
     $(".numPermiso").each(function (i, val) { 
@@ -1072,54 +1117,94 @@ function validarCamposPermiso(){
     return valida;
 }
 
-$(document).on("click",".fa-edit",function(e) {
+function editarPermiso(tag){
     if(!editando){
-        var data =	JSON.parse($(e.target).closest('div').attr('data-json'));
-        $("#soli_num").val(data.perm_id);
+        var data =	JSON.parse($(tag).closest('div').attr('data-json'));
+        $("#soli_num").val(data.soli_num);
+        $("#permi_num").val(data.perm_id);
         $("#emision").val(data.lugar_emision);
         aux = data.fecha_hora_salida.split(" ");
         $("#salida").val(aux[1]);
         $("#fecha").val(aux[0]);
         $("input[name=doc_sanitaria][value='"+data.tipo+"']").prop("checked",true);
-        $(e.target).closest('div').remove();
+        $("#producto").val(data.productos);
+        $("#netoPermiso").val(data.neto);
+        $("#brutoPermiso").val(data.bruto);
+        $("#temperatura").val(data.temperatura);
+        emprVal = data.origen;
+        emprNombre = data.origen_nom;
+        emprNum = data.origen_num;
+    
+        opcion = {'id': emprVal, 'text': emprNombre, 'num_esta': emprNum};
+
+        emprOpc = new Option(emprNombre, emprVal, true, true);
+
+        $('#esta_nom').append(emprOpc).trigger('change');
+        $('#esta_nom').trigger({
+            type: 'select2:select',
+            params: {
+                data: opcion
+            }
+        });
+        $(tag).closest('div').remove();
         editando = true;
     }else{
-        alert("Ya se esta editando un permiso!");
+        notificar('',"Ya se esta editando un permiso!",'warning');
     }
-});
+}
+function verPermiso(tag){
+    var data =	JSON.parse($(tag).closest('div').attr('data-json'));
+    $("#modalVerPermiso").val(data.perm_id);
+    $("#modalVerSolicitud").val(data.soli_num);
+    $("#modalVerEmision").val(data.lugar_emision);
+    $("#modalVerDocSanitaria").val(data.tipo);
+    $("#modalVerHoraSalida").val(data.fecha_hora_salida);
+    $("#modalVerOrigen").val(data.origen_nom);
+    $("#modalVerOrigenCuit").val(data.origen);
+    $("#modalVerOrigenNumero").val(data.origen_num);
+    $("#modalVerProductos").val(data.productos);
+    $("#modalVerNeto").val(data.neto);
+    $("#modalVerBruto").val(data.bruto);
+    $("#modalVerTemperatura").val(data.temperatura);
+    $("#mdl-verDetallePermiso").modal('show');
+}
 //FIN Script's seccion permisos transito
 /***************************************************** */
 /***************************************************** */
 //
 //Scripts Termico
 //
+var editandoTermico = false;
 function agregarTermico(){
     //Informamos el campo vacio 
     var reporte = validarCamposTermico();
                             
     if(reporte == ''){
-        var temperatura = $('#temperatura').val();
+        var nro_senasa = $('#num_senasa').val();
         var precintos = $('#precintos').val();
         var term_patente = $("#term_patente").val();
         // var descDepo = $("#depo_origen_id option:selected").text();
 
         var datos = {};
-        datos.temperatura = temperatura;
+        datos.nro_senasa = nro_senasa;
         datos.precintos = precintos;
         datos.term_id = term_patente;
 
         var div = `<div class='form-group termicos' data-json='${JSON.stringify(datos)}'>
                         <span> 
+                        <i class='fa fa-fw fa-eye text-light-blue' style='cursor: pointer;' title='Ver detalle' onclick='verTermico(this)'></i> 
+                        <i class='fa fa-fw fa-edit text-light-blue' style='cursor: pointer;' title='Editar' onclick='editarTermico(this)'></i>
                         <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i> 
-                        | ${term_patente} - ${temperatura} - ${precintos}
+                        | ${term_patente} - ${precintos}
                         </span>
                 </div>`;
         $('#sec_termicos').append(div);
         //Limpio luego de agregar
         $("#term_patente").val('');
-        $("#temperatura").val('');
+        $("#nroSenasa").val('');
         $("#precintos").val('');
         alertify.success("Térmico agregado correctamente!");
+        editandoTermico = false;
     }else{
         alert(reporte);
     }
@@ -1130,15 +1215,40 @@ function validarCamposTermico(){
     if($("#term_patente").val() == ""){
         valida = "Complete Térmico Patente!";
     }
-    //Temperatura
-    if($("#temperatura").val() == ""){
-        valida = "Complete Temperatura!";
+    //Número SENASA
+    if($("#num_senasa").val() == ""){
+        valida = "Complete N° de Habilitación SENASA!";
     }
     //Precintos
     if($("#precintos").val() == ""){
         valida = "Complete Precintos!";
     }
     return valida;
+}
+function editarTermico(tag){
+    if(!editandoTermico){
+        var data =	$(tag).closest('div').attr('data-json');
+        aux = data.replace("patente", "term_id");
+        var json = JSON.parse(aux);
+
+        $("#term_patente").val(json.term_id);
+        $("#nroSenasa").val(json.nro_senasa);
+        $("#precintos").val(json.precintos);
+        $(tag).closest('div').remove();
+        editandoTermico = true;
+    }else{
+        notificar('',"Ya se esta editando una empresa de destino!",'warning');
+    }
+}
+function verTermico(tag){
+    var data =	$(tag).closest('div').attr('data-json');
+    aux = data.replace("patente", "term_id");
+    var json = JSON.parse(aux);
+
+    $("#modalVerPatenteTermico").val(json.term_id);
+    $("#modalVerSENASATermico").val(json.nro_senasa);
+    $("#modalVerNroPrecintos").val(json.precintos);
+    $("#mdl-verDetalleTermico").modal('show');
 }
 //FIN Script's seccion termico
 /***************************************************** */
