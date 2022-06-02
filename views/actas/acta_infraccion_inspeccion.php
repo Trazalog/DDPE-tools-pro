@@ -31,8 +31,8 @@
                 </div>
                 <br>
                 <div style="text-indent: 30px;">
-                    Proceden a <span class="acta_procedenA"></span>, vehículo patente N° <span class="acta_patenteTractor"></span>, N° de habilitación del SENASA <span class="acta_numSenasa"></span>, Documentación Sanitaria tipo <span class="acta_docSanitaria"></span>
-                    Establecimiento N° <span class="acta_origenNro"></span>, nombre del Establecimiento de Origen <span class="acta_estaOrigen"></span>, Transportista <span class="acta_transportista"></span>, teléfono del transportista 
+                    Proceden a <span class="acta_procedenA"></span>, vehículo patente N° <span class="acta_patenteTractor"></span>, N° de habilitación del SENASA <span class="acta_numSenasa"></span> Documentación Sanitaria tipo <span class="acta_docSanitaria"></span>
+                    Establecimiento N° <span class="acta_origenNumeros"></span>, nombre del Establecimiento de Origen <span class="acta_origenNombres"></span> Transportista <span class="acta_transportista"></span>, teléfono del transportista 
                     <span class="acta_telTransportista"></span> correo electrónico del transportista <span class="acta_emailTransportista"></span> 
                     destinos <span class="acta_destinos"></span> producto/s <span class="acta_productos"></span> temperatura <span class="acta_temperaturas"></span>, precintos <span class="acta_precintos"></span>, Peso Bruto <span class="acta_bruto"></span>, 
                     Tara <span class="acta_tara"></span> kg, N° de Ticket <span class="acta_ticket"></span>. Tipo de documentación <span class="acta_tpoDocumentacion"></span>.
@@ -129,8 +129,8 @@
                 </div>
                 <br>
                 <div style="text-indent: 30px;">
-                    Proceden a <span class="acta_procedenA"></span>, vehículo patente N° <span class="acta_patenteTractor"></span>, N° de habilitación del SENASA <span class="acta_numSenasa"></span>, Documentación Sanitaria tipo <span class="acta_docSanitaria"></span>
-                    Establecimiento N° <span class="acta_origenNro"></span>, nombre del Establecimiento de Origen <span class="acta_estaOrigen"></span>, Transportista <span class="acta_transportista"></span>, teléfono del transportista 
+                    Proceden a <span class="acta_procedenA"></span>, vehículo patente N° <span class="acta_patenteTractor"></span>, N° de habilitación del SENASA <span class="acta_numSenasa"></span> Documentación Sanitaria tipo <span class="acta_docSanitaria"></span>
+                    Establecimiento N° <span class="acta_origenNumeros"></span>, nombre del Establecimiento de Origen <span class="acta_origenNombres"></span> Transportista <span class="acta_transportista"></span>, teléfono del transportista 
                     <span class="acta_telTransportista"></span> correo electrónico del transportista <span class="acta_emailTransportista"></span> 
                     destinos <span class="acta_destinos"></span> producto/s <span class="acta_productos"></span> temperatura <span class="acta_temperaturas"></span>, precintos <span class="acta_precintos"></span>, Peso Bruto <span class="acta_bruto"></span>, 
                     Tara <span class="acta_tara"></span> kg, N° de Ticket <span class="acta_ticket"></span>. Tipo de documentación <span class="acta_tpoDocumentacion"></span>.
@@ -227,8 +227,8 @@
                 </div>
                 <br>
                 <div style="text-indent: 30px;">
-                    Proceden a <span class="acta_procedenA"></span>, vehículo patente N° <span class="acta_patenteTractor"></span>, N° de habilitación del SENASA <span class="acta_numSenasa"></span>, Documentación Sanitaria tipo <span class="acta_docSanitaria"></span>
-                    Establecimiento N° <span class="acta_origenNro"></span>, nombre del Establecimiento de Origen <span class="acta_estaOrigen"></span>, Transportista <span class="acta_transportista"></span>, teléfono del transportista 
+                    Proceden a <span class="acta_procedenA"></span>, vehículo patente N° <span class="acta_patenteTractor"></span>, N° de habilitación del SENASA <span class="acta_numSenasa"></span> Documentación Sanitaria tipo <span class="acta_docSanitaria"></span>
+                    Establecimiento N° <span class="acta_origenNumeros"></span>, nombre del Establecimiento de Origen <span class="acta_origenNombres"></span> Transportista <span class="acta_transportista"></span>, teléfono del transportista 
                     <span class="acta_telTransportista"></span> correo electrónico del transportista <span class="acta_emailTransportista"></span> 
                     destinos <span class="acta_destinos"></span> producto/s <span class="acta_productos"></span> temperatura <span class="acta_temperaturas"></span>, precintos <span class="acta_precintos"></span>, Peso Bruto <span class="acta_bruto"></span>, 
                     Tara <span class="acta_tara"></span> kg, N° de Ticket <span class="acta_ticket"></span>. Tipo de documentación <span class="acta_tpoDocumentacion"></span>.

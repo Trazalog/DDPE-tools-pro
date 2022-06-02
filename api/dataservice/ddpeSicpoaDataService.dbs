@@ -35,8 +35,8 @@
       <param name="inspectores" sqlType="STRING"/>
    </query>
    <query id="getInspeccion" useConfig="SICPOADataSource">
-      <sql>select &#xd;case_id&#xd;,patente_tractor&#xd;,nro_senasa&#xd;,productos&#xd;,reprecintado&#xd;,bruto&#xd;,tara&#xd;,ticket&#xd;,resultado&#xd;,cant_fajas&#xd;,bruto_reprecintado&#xd;,ticket_reprecintado&#xd;,to_char( i.fec_alta, 'YYYY-MM-DD HH24:MI') fec_alta&#xd;,i.usuario&#xd;,i.usuario_app&#xd;,petr_id&#xd;,chof_id&#xd;,c.nombre chofer&#xd;,inca_id&#xd;,inf.valor4_base64 foto_infraccion_calle&#xd;,observaciones&#xd;,info_id_doc&#xd;,tel_transportista&#xd;,email_transportista&#xd;,se_constituye&#xd;,domicilio_constituye&#xd;,propiedad_de &#xd;,atendidos_por &#xd;,caracter_de &#xd;,proceden_a &#xd;,localidad &#xd;,inspectores&#xd;,(select t.descripcion from core.tablas t where t.tabl_id = i.departamento) departamento&#xd;from sicpoa.inspecciones i&#xd;left join frm.instancias_formularios inf on inf.inst_id = i.inca_id &#xd;, sicpoa.choferes c&#xd;where i.case_id = cast(:case_id as integer)&#xd;and i.chof_id = c.dni&#xd;and i.eliminado = false</sql>
-      <result outputType="json">{&#xd;    "inspeccion":{&#xd;       "case_id":"$case_id",&#xd;       "patente_tractor":"$patente_tractor",&#xd;       "nro_senasa":"$nro_senasa",&#xd;       "productos":"$productos",&#xd;       "reprecintado":"$reprecintado",&#xd;       "bruto":"$bruto",&#xd;       "tara":"$tara",&#xd;       "ticket":"$ticket",&#xd;       "resultado":"$resultado",&#xd;       "cant_fajas":"$cant_fajas",&#xd;       "bruto_reprecintado":"$bruto_reprecintado",&#xd;       "ticket_reprecintado":"$ticket_reprecintado",&#xd;       "fec_alta":"$fec_alta",&#xd;       "usuario":"$usuario",&#xd;       "usuario_app":"$usuario_app",&#xd;       "petr_id":"$petr_id",&#xd;       "chof_id":"$chof_id",&#xd;       "chofer":"$chofer",&#xd;       "inca_id":"$inca_id",&#xd;       "foto_infraccion_calle":"$foto_infraccion_calle",&#xd;       "info_id_doc":"$info_id_doc",&#xd;       "observaciones":"$observaciones",&#xd;       "tel_transportista":"$tel_transportista",&#xd;       "email_transportista":"$email_transportista",&#xd;       "se_constituye":"$se_constituye",&#xd;       "domicilio_constituye":"$domicilio_constituye",&#xd;       "propiedad_de":"$propiedad_de",&#xd;       "atendidos_por":"$atendidos_por",&#xd;       "caracter_de":"$caracter_de",&#xd;       "proceden_a":"$proceden_a",&#xd;       "localidad":"$localidad",&#xd;       "departamento":"$departamento",&#xd;       "inspectores":"$inspectores",&#xd;       "@getPermisosTransito":"$case_id-&gt;case_id",      &#xd;       "@getInfracciones":"$case_id-&gt;case_id",&#xd;       "@getEmpresasInspeccion":"$case_id-&gt;case_id",&#xd;       "@getTermicosInspeccion":"$case_id-&gt;case_id",&#xd;       "@getDocumentosInspeccion":"$case_id-&gt;case_id"&#xd;    }&#xd; }</result>
+      <sql>select &#xd;case_id&#xd;,patente_tractor&#xd;,nro_senasa&#xd;,productos&#xd;,reprecintado&#xd;,bruto&#xd;,tara&#xd;,ticket&#xd;,resultado&#xd;,cant_fajas&#xd;,bruto_reprecintado&#xd;,ticket_reprecintado&#xd;,to_char( i.fec_alta, 'YYYY-MM-DD HH24:MI') fec_alta&#xd;,i.usuario&#xd;,i.usuario_app&#xd;,petr_id&#xd;,chof_id&#xd;,c.nombre chofer&#xd;,inca_id&#xd;,inf.valor4_base64 foto_infraccion_calle&#xd;,observaciones&#xd;,info_id_doc&#xd;,tel_transportista&#xd;,email_transportista&#xd;,se_constituye&#xd;,domicilio_constituye&#xd;,propiedad_de &#xd;,atendidos_por &#xd;,caracter_de &#xd;,proceden_a &#xd;,localidad &#xd;,inspectores&#xd;,(select t.descripcion from core.tablas t where t.tabl_id = i.departamento) departamento&#xd;,departamento depa_id&#xd;from sicpoa.inspecciones i&#xd;left join frm.instancias_formularios inf on inf.inst_id = i.inca_id &#xd;, sicpoa.choferes c&#xd;where i.case_id = cast(:case_id as integer)&#xd;and i.chof_id = c.dni&#xd;and i.eliminado = false</sql>
+      <result outputType="json">{&#xd;    "inspeccion":{&#xd;       "case_id":"$case_id",&#xd;       "patente_tractor":"$patente_tractor",&#xd;       "nro_senasa":"$nro_senasa",&#xd;       "productos":"$productos",&#xd;       "reprecintado":"$reprecintado",&#xd;       "bruto":"$bruto",&#xd;       "tara":"$tara",&#xd;       "ticket":"$ticket",&#xd;       "resultado":"$resultado",&#xd;       "cant_fajas":"$cant_fajas",&#xd;       "bruto_reprecintado":"$bruto_reprecintado",&#xd;       "ticket_reprecintado":"$ticket_reprecintado",&#xd;       "fec_alta":"$fec_alta",&#xd;       "usuario":"$usuario",&#xd;       "usuario_app":"$usuario_app",&#xd;       "petr_id":"$petr_id",&#xd;       "chof_id":"$chof_id",&#xd;       "chofer":"$chofer",&#xd;       "inca_id":"$inca_id",&#xd;       "foto_infraccion_calle":"$foto_infraccion_calle",&#xd;       "info_id_doc":"$info_id_doc",&#xd;       "observaciones":"$observaciones",&#xd;       "tel_transportista":"$tel_transportista",&#xd;       "email_transportista":"$email_transportista",&#xd;       "se_constituye":"$se_constituye",&#xd;       "domicilio_constituye":"$domicilio_constituye",&#xd;       "propiedad_de":"$propiedad_de",&#xd;       "atendidos_por":"$atendidos_por",&#xd;       "caracter_de":"$caracter_de",&#xd;       "proceden_a":"$proceden_a",&#xd;       "localidad":"$localidad",&#xd;       "departamento":"$departamento",&#xd;       "depa_id":"$depa_id",&#xd;       "inspectores":"$inspectores",&#xd;       "@getPermisosTransito":"$case_id-&gt;case_id",      &#xd;       "@getInfracciones":"$case_id-&gt;case_id",&#xd;       "@getEmpresasInspeccion":"$case_id-&gt;case_id",&#xd;       "@getTermicosInspeccion":"$case_id-&gt;case_id",&#xd;       "@getDocumentosInspeccion":"$case_id-&gt;case_id"&#xd;    }&#xd; }</result>
       <param name="case_id" sqlType="STRING"/>
    </query>
    <query id="getPermisosTransito" useConfig="SICPOADataSource">
@@ -55,13 +55,13 @@
       <param name="chof_id" sqlType="STRING"/>
    </query>
    <query id="getEmpresasInspeccion" useConfig="SICPOADataSource">
-      <sql>select &#xd;ie.rol &#xd;,e.cuit&#xd;,e.razon_social &#xd;,e.num_establecimiento&#xd;,d.calle &#xd;,d.altura &#xd;,d.depa_id&#xd;,d.depo_id&#xd;,t.valor departamento&#xd;from sicpoa.inspecciones_empresas ie &#xd;join sicpoa.empresas e on ie.empr_id = e.cuit &#xd;left join sicpoa.depositos d on ie.depo_id = d.depo_id&#xd;left join core.tablas t on d.depa_id = t.tabl_id &#xd;where ie.case_id = cast(:case_id as integer)</sql>
-      <result outputType="json">{&#xd;   "empresas":{&#xd;      "empresa":[&#xd;         {&#xd;            "rol":"$rol",&#xd;            "cuit":"$cuit",&#xd;            "razon_social":"$razon_social",&#xd;            "num_establecimiento":"$num_establecimiento",&#xd;            "depo_id":"$depo_id",&#xd;            "calle":"$calle",&#xd;            "altura":"$altura",&#xd;            "depa_id":"$depa_id",&#xd;            "departamento":"$departamento"&#xd;         }&#xd;      ]&#xd;   }&#xd;}</result>
+      <sql>select &#xd;ie.rol &#xd;,e.cuit&#xd;,e.razon_social &#xd;,e.num_establecimiento&#xd;,d.calle &#xd;,d.altura &#xd;,d.depa_id&#xd;,d.depo_id&#xd;,t.valor departamento&#xd;,ie.productos &#xd;from sicpoa.inspecciones_empresas ie &#xd;join sicpoa.empresas e on ie.empr_id = e.cuit &#xd;left join sicpoa.depositos d on ie.depo_id = d.depo_id&#xd;left join core.tablas t on d.depa_id = t.tabl_id &#xd;where ie.case_id = cast(:case_id as integer)</sql>
+      <result outputType="json">{&#xd;   "empresas":{&#xd;      "empresa":[&#xd;         {&#xd;            "rol":"$rol",&#xd;            "cuit":"$cuit",&#xd;            "razon_social":"$razon_social",&#xd;            "num_establecimiento":"$num_establecimiento",&#xd;            "depo_id":"$depo_id",&#xd;            "calle":"$calle",&#xd;            "altura":"$altura",&#xd;            "depa_id":"$depa_id",&#xd;            "departamento":"$departamento",&#xd;            "productos":"$productos",&#xd;         }&#xd;      ]&#xd;   }&#xd;}</result>
       <param name="case_id" sqlType="STRING"/>
    </query>
    <query id="getTermicosInspeccion" useConfig="SICPOADataSource">
-      <sql>select &#xd;t.patente &#xd;,it.precintos &#xd;,it.temperatura &#xd;from sicpoa.inspecciones_termicos it &#xd;join sicpoa.termicos t on it.term_id = t.patente &#xd;and it.case_id = cast(:case_id as integer)</sql>
-      <result outputType="json">{&#xd;   "termicos":{&#xd;      "termico":[&#xd;         {&#xd;            "patente":"$patente",&#xd;            "precintos":"$precintos",&#xd;            "temperatura":"$temperatura"&#xd;         }&#xd;      ]&#xd;   }&#xd;}</result>
+      <sql>select &#xd;t.patente &#xd;,it.precintos &#xd;,it.nro_senasa &#xd;from sicpoa.inspecciones_termicos it &#xd;join sicpoa.termicos t on it.term_id = t.patente &#xd;and it.case_id = cast(:case_id as integer)</sql>
+      <result outputType="json">{&#xd;   "termicos":{&#xd;      "termico":[&#xd;         {&#xd;            "patente":"$patente",&#xd;            "precintos":"$precintos",&#xd;            "nro_senasa":"$nro_senasa"&#xd;         }&#xd;      ]&#xd;   }&#xd;}</result>
       <param name="case_id" sqlType="STRING"/>
    </query>
    <query id="setInfraccionInspeccion" useConfig="SICPOADataSource">
@@ -101,24 +101,25 @@
       <param name="case_id" sqlType="STRING"/>
    </query>
    <query id="setEmpresaInspeccion" useConfig="SICPOADataSource">
-      <sql>insert&#xd;	into&#xd;	sicpoa.inspecciones_empresas (rol,&#xd;	empr_id,&#xd;	case_id,&#xd;	usuario_app,&#xd;	depo_id)&#xd;select&#xd;	:rol,&#xd;	:empr_id,&#xd;	cast(:case_id as integer),&#xd;	:usuario_app,&#xd;	case&#xd;		when param.depo_id is null&#xd;		or param.depo_id = '' then null&#xd;		else cast(param.depo_id as integer) end&#xd;from (select	:depo_id depo_id) param ;</sql>
+      <sql>insert&#xd;	into&#xd;	sicpoa.inspecciones_empresas (rol,&#xd;	empr_id,&#xd;	case_id,&#xd;	usuario_app,&#xd;	productos,&#xd;	depo_id)&#xd;select&#xd;	:rol,&#xd;	:empr_id,&#xd;	cast(:case_id as integer),&#xd;	:usuario_app,&#xd;	:productos,&#xd;	case&#xd;		when param.depo_id is null&#xd;		or param.depo_id = '' then null&#xd;		else cast(param.depo_id as integer) end&#xd;from (select	:depo_id depo_id) param ;</sql>
       <param name="rol" sqlType="STRING"/>
       <param name="empr_id" sqlType="STRING"/>
       <param name="case_id" sqlType="STRING"/>
       <param name="usuario_app" sqlType="STRING"/>
       <param name="depo_id" sqlType="STRING"/>
+      <param name="productos" sqlType="STRING"/>
    </query>
    <query id="deleteEmpresaInspeccion" useConfig="SICPOADataSource">
       <sql>delete from sicpoa.inspecciones_empresas&#xd;WHERE case_id = cast(:case_id as integer)</sql>
       <param name="case_id" sqlType="STRING"/>
    </query>
    <query id="setTermicoInspeccion" useConfig="SICPOADataSource">
-      <sql>insert&#xd;	into&#xd;	sicpoa.inspecciones_termicos (temperatura,&#xd;	precintos,&#xd;	usuario_app,&#xd;	case_id,&#xd;	term_id)&#xd;values(cast(:temperatura as float),&#xd;	:precintos,&#xd;	:usuario_app,&#xd;	cast( :case_id as integer),&#xd;	:term_id);</sql>
-      <param name="temperatura" sqlType="STRING"/>
+      <sql>insert&#xd;	into&#xd;	sicpoa.inspecciones_termicos (&#xd;	precintos,&#xd;	usuario_app,&#xd;	case_id,&#xd;	term_id,&#xd;	nro_senasa)&#xd;values(&#xd;	:precintos,&#xd;	:usuario_app,&#xd;	cast( :case_id as integer),&#xd;	:term_id,&#xd;	:nro_senasa);</sql>
       <param name="precintos" sqlType="STRING"/>
       <param name="usuario_app" sqlType="STRING"/>
       <param name="case_id" sqlType="STRING"/>
       <param name="term_id" sqlType="STRING"/>
+      <param name="nro_senasa" sqlType="STRING"/>
    </query>
    <query id="getEmpresasXPatron" useConfig="SICPOADataSource">
       <sql>select *&#xd;from sicpoa.empresas e  &#xd;,(select lower(:patron) patron ) param&#xd;where e.cuit like '%'||param.patron||'%'&#xd;or lower(e.razon_social) like '%'||param.patron||'%'&#xd;or e.num_establecimiento like '%'||param.patron||'%'</sql>
@@ -371,6 +372,7 @@
          <with-param name="case_id" query-param="case_id"/>
          <with-param name="usuario_app" query-param="usuario_app"/>
          <with-param name="depo_id" query-param="depo_id"/>
+         <with-param name="productos" query-param="productos"/>
       </call-query>
    </resource>
    <resource method="DELETE" path="/inspeccion/empresa">
@@ -380,7 +382,7 @@
    </resource>
    <resource method="POST" path="/inspeccion/termico">
       <call-query href="setTermicoInspeccion">
-         <with-param name="temperatura" query-param="temperatura"/>
+         <with-param name="nro_senasa" query-param="nro_senasa"/>
          <with-param name="precintos" query-param="precintos"/>
          <with-param name="usuario_app" query-param="usuario_app"/>
          <with-param name="case_id" query-param="case_id"/>

@@ -423,7 +423,7 @@
                             <div class="col-md-6 col-sm-6 col-xs-12">
                                 <div class="form-group">
                                     <label for="num_senasa">N° hab. SENASA(<strong style="color: #dd4b39">*</strong>):</label>
-                                    <input class="form-control limitedChars" name="nro_senasa" id="num_senasa" placeholder="Ingrese N° SENASA" value="<?php echo isset($preCargaDatos->nro_senasa) ? $preCargaDatos->nro_senasa : null ?>" required/>
+                                    <input class="form-control limitedChars" name="nro_senasa" id="num_senasa" placeholder="Ingrese N° SENASA"/>
                                 </div>
                             </div>
                             <!--________________-->
@@ -456,7 +456,7 @@
                                                 <i class='fa fa-fw fa-eye text-light-blue' style='cursor: pointer;' title='Ver detalle' onclick='verTermico(this)'></i> 
                                                 <i class='fa fa-fw fa-edit text-light-blue' style='cursor: pointer;' title='Editar' onclick='editarTermico(this)'></i>
                                                 <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i>
-                                                <?php echo "| $key->patente - $key->nro_senasa - $key->precintos" ?>
+                                                <?php echo "| $key->patente - $key->precintos" ?>
                                             </span>
                                         </div>
                                     <?php
@@ -1064,7 +1064,7 @@ function agregarDestino(){
         alertify.success("Destino agregado correctamente!");
         editandoDestino = false;
     }else{
-        notificar('Nota',reporte,'warning');
+        notificar('Cuidado',reporte,'warning');
     }
 }
 function validarCamposDestino(){
@@ -1090,11 +1090,22 @@ function editarDestino(tag){
         var data =	JSON.parse($(tag).closest('div').attr('data-json'));
         emprVal = data.cuit;
         emprNombre = data.razon_social;
-    
+        depo_direccion = data.calle + " - " + data.altura;
+        depo_id = data.depo_id;
+
         opcion = {'id': emprVal, 'text': emprNombre};
+        // opcDepo = {'id': depo_id, 'text': depo_direccion};
 
         emprOpc = new Option(emprNombre, emprVal, true, true);
-
+        // emprDepo = new Option(depo_direccion, depo_id, true, true);
+        
+        // $('#depo_destino').append(emprDepo).trigger('change');
+        // $('#depo_destino').trigger({
+        //     type: 'select2:select',
+        //     params: {
+        //         data: opcion
+        //     }
+        // });
         $('#empre_destino').append(emprOpc).trigger('change');
         $('#empre_destino').trigger({
             type: 'select2:select',
@@ -1102,10 +1113,11 @@ function editarDestino(tag){
                 data: opcion
             }
         });
+        $("#productosDestino").val(data.productos);
         $(tag).closest('div').remove();
         editandoDestino = true;
     }else{
-        notificar('',"Ya se esta editando una empresa de destino!",'warning');
+        notificar('Cuidado',"Ya se esta editando una empresa de <b>DESTINO</b>!",'warning');
     }
 }
 function verDestino(tag){
@@ -1179,7 +1191,7 @@ function agregarPermiso(){
         alertify.success("Permiso de tránsito agregado correctamente!");
         
     }else{
-        notificar('Nota',reporte,'warning');
+        notificar('Cuidado',reporte,'warning');
     }
 }
 function validarCamposPermiso(){
@@ -1275,7 +1287,7 @@ function editarPermiso(tag){
         $(tag).closest('div').remove();
         editando = true;
     }else{
-        notificar('',"Ya se esta editando un permiso!",'warning');
+        notificar('Cuidado',"Ya se esta editando un <b>PERMISO DE TRÁNSITO</b>!",'warning');
     }
 }
 function verPermiso(tag){
@@ -1326,12 +1338,12 @@ function agregarTermico(){
         $('#sec_termicos').append(div);
         //Limpio luego de agregar
         $("#term_patente").val('');
-        $("#nroSenasa").val('');
+        $("#num_senasa").val('');
         $("#precintos").val('');
         alertify.success("Térmico agregado correctamente!");
         editandoTermico = false;
     }else{
-        notificar('Nota',reporte,'warning');
+        notificar('Cuidado',reporte,'warning');
     }
 }
 function validarCamposTermico(){
@@ -1357,12 +1369,12 @@ function editarTermico(tag){
         var json = JSON.parse(aux);
 
         $("#term_patente").val(json.term_id);
-        $("#nroSenasa").val(json.nro_senasa);
+        $("#num_senasa").val(json.nro_senasa);
         $("#precintos").val(json.precintos);
         $(tag).closest('div').remove();
         editandoTermico = true;
     }else{
-        notificar('',"Ya se esta editando una empresa de destino!",'warning');
+        notificar('Cuidado',"Ya se esta editando un <b>TÉRMICO</b>!",'warning');
     }
 }
 function verTermico(tag){
@@ -1646,25 +1658,23 @@ function cerrarTarea() {
         dataForm.append('doc_impositiva', $("select[name=doc_impo]").val());
         
         var id = $('#taskId').val();
-        //SACAR!!!!! SOLO TESTING
-        // $.ajax({
-        //     type: 'POST',
-        //     data: dataForm,
-        //     cache: false,
-        //     contentType: false,
-        //     processData: false,
-        //     url: '<?php base_url() ?>index.php/<?php echo BPM ?>Proceso/cerrarTarea/' + id,
-        //     success: function(data) {
-        //         wc();
-        //         imprimirActa();
+        $.ajax({
+            type: 'POST',
+            data: dataForm,
+            cache: false,
+            contentType: false,
+            processData: false,
+            url: '<?php base_url() ?>index.php/<?php echo BPM ?>Proceso/cerrarTarea/' + id,
+            success: function(data) {
+                wc();
+                imprimirActa();
 
-        //     },
-        //     error: function(data) {
-        //         wc();
-        //         alert("Error al finalizar tarea");
-        //     }
-        // });
-        imprimirActa();
+            },
+            error: function(data) {
+                wc();
+                alert("Error al finalizar tarea");
+            }
+        });
     }).catch((err) => {
         wc();
         error("Error!",err.message);
@@ -1726,11 +1736,11 @@ function imprimirActa(){
     $(".acta_chofer").text($("#nom_chofer").val());
     $(".acta_dniChofer").text($("#doc_chofer").val());
     $(".acta_patenteTractor").text($("#patenteTractor").val());
-    $(".acta_numSenasa").text($("#num_senasa").val());
+    // $(".acta_numSenasa").text();
     $(".acta_cantFajas").text($("#cant_fajas").val());
     $(".acta_observaciones").text($("#observaciones").val());
-    $(".acta_origenNro").text($("#esta_num").val());
-    $(".acta_estaOrigen").text($("#esta_nom").select2('data')[0].text);
+    // $(".acta_origenNro").text($("#esta_num").val());
+    // $(".acta_estaOrigen").text($("#esta_nom").select2('data')[0].text);
     $(".acta_transportista").text($('#transportista').select2('data')[0].text);
     $(".acta_bruto").text($("#bruto").val());
     $(".acta_tara").text($("#tara").val());
@@ -1783,12 +1793,15 @@ function imprimirActa(){
     $(".acta_temperaturas").text(infoTemperatura);
 
     infoPrecintos = "";
+    infoSenasa = "";
     $('#sec_termicos div.termicos').each(function(i, obj) {
         aux = $(obj).attr('data-json');
         json = JSON.parse(aux);
         infoPrecintos += json.precintos + " ";
+        infoSenasa += json.nro_senasa + "; ";
     });
     $(".acta_precintos").text(infoPrecintos);
+    $(".acta_numSenasa").text(infoSenasa);
 
     infoDestino = "";
     $('#sec_destinos div.empreDestino').each(function(i, obj) {
@@ -1800,14 +1813,20 @@ function imprimirActa(){
 
     infoPermisos = "";
     infoProductos = "";
+    infoOrigen = "";
+    infoOrigenNums = "";
     $('#sec_permisos div.permTransito').each(function(i, obj) {
         aux = $(obj).attr('data-json');
         json = JSON.parse(aux);
-        infoPermisos += json.tipo + " ";
+        infoPermisos += json.tipo + "; ";
         infoProductos +=  json.productos + "; ";
+        infoOrigen += json.origen_nom + "; ";
+        infoOrigenNums += json.origen_num + "; ";
     });
     $(".acta_docSanitaria").text(infoPermisos);
     $(".acta_productos").text(infoProductos);
+    $(".acta_origenNombres").text(infoOrigen);
+    $(".acta_origenNumeros").text(infoOrigenNums);
 
     var base = "<?php echo base_url()?>";
     
@@ -1833,8 +1852,7 @@ function imprimirActa(){
                     showCancelButton: false,
                     confirmButtonText: 'Hecho'
                 }).then((result) => {
-                    //SACAR!!!!! SOLO TESTING
-                    // linkTo('<?php echo BPM ?>Proceso/');
+                    linkTo('<?php echo BPM ?>Proceso/');
                 });
         }
     });

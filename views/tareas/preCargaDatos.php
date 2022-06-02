@@ -297,6 +297,15 @@
                                 </div>
                             </div>                    
                         </div>
+                        <!--Producto-->
+                        <div class="col-md-12 col-sm-12 col-xs-12 ocultar">
+                            <div class="form-group">
+                                <label for="productosDestino">Producto/s para la empresa de destino(<strong style="color: #dd4b39">*</strong>):</label>
+                                <textarea class="form-control" name="productosDestino" id="productosDestino" placeholder="Ingrese producto/s para la empresa de destino"></textarea>
+                            </div>                    
+                        </div>
+                        <!--________________-->
+                        
                         <!--_________________ Agregar_________________-->
                         <div class="col-md-12 col-sm-12 col-xs-12">
                             <div style="margin-top: 25px;" class="form-group text-right">
@@ -582,7 +591,7 @@ function agregarDestino(){
         alertify.success("Destino agregado correctamente!");
         editandoDestino = false;
     }else{
-        notificar('Nota',reporte,'warning');
+        notificar('Cuidado',reporte,'warning');
     }
 }
 function validarCamposDestino(){
@@ -608,11 +617,22 @@ function editarDestino(tag){
         var data =	JSON.parse($(tag).closest('div').attr('data-json'));
         emprVal = data.cuit;
         emprNombre = data.razon_social;
-    
+        depo_direccion = data.calle + " - " + data.altura;
+        depo_id = data.depo_id;
+
         opcion = {'id': emprVal, 'text': emprNombre};
+        // opcDepo = {'id': depo_id, 'text': depo_direccion};
 
         emprOpc = new Option(emprNombre, emprVal, true, true);
-
+        // emprDepo = new Option(depo_direccion, depo_id, true, true);
+        
+        // $('#depo_destino').append(emprDepo).trigger('change');
+        // $('#depo_destino').trigger({
+        //     type: 'select2:select',
+        //     params: {
+        //         data: opcion
+        //     }
+        // });
         $('#empre_destino').append(emprOpc).trigger('change');
         $('#empre_destino').trigger({
             type: 'select2:select',
@@ -620,10 +640,11 @@ function editarDestino(tag){
                 data: opcion
             }
         });
+        $("#productosDestino").val(data.productos);
         $(tag).closest('div').remove();
         editandoDestino = true;
     }else{
-        notificar('',"Ya se esta editando una empresa de destino!",'warning');
+        notificar('Cuidado',"Ya se esta editando una empresa de <b>DESTINO</b>!",'warning');
     }
 }
 function verDestino(tag){
@@ -696,7 +717,7 @@ function agregarPermiso(){
         editando = false;
         alertify.success("Permiso de tránsito agregado correctamente!");
     }else{
-        notificar('Nota',reporte,'warning');
+        notificar('Cuidado',reporte,'warning');
     }
 }
 function validarCamposPermiso(){
@@ -762,7 +783,7 @@ function editarPermiso(tag){
         $(tag).closest('div').remove();
         editando = true;
     }else{
-        notificar('',"Ya se esta editando un permiso!",'warning');
+        notificar('Cuidado',"Ya se esta editando un <b>PERMISO DE TRÁNSITO</b>!",'warning');
     }
 }
 function verPermiso(tag){
@@ -804,7 +825,9 @@ function agregarTermico(){
         datos.term_id = term_patente;
 
         var div = `<div class='form-group termicos' data-json='${JSON.stringify(datos)}'>
-                        <span> 
+                        <span>
+                        <i class='fa fa-fw fa-eye text-light-blue' style='cursor: pointer;' title='Ver detalle' onclick='verTermico(this)'></i> 
+                        <i class='fa fa-fw fa-edit text-light-blue' style='cursor: pointer;' title='Editar' onclick='editarTermico(this)'></i>  
                         <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i> 
                         | ${term_patente} - ${nro_senasa}
                         </span>
@@ -812,12 +835,12 @@ function agregarTermico(){
         $('#sec_termicos').append(div);
         //Limpio luego de agregar
         $("#term_patente").val('');
-        $("#temperatura").val('');
+        $("#num_senasa").val('');
         $("#precintos").val('');
         alertify.success("Térmico agregado correctamente!");
         editandoTermico = false;
     }else{
-        notificar('Nota',reporte,'warning');
+        notificar('Cuidado',reporte,'warning');
     }
 }
 function validarCamposTermico(){
@@ -843,12 +866,12 @@ function editarTermico(tag){
         var json = JSON.parse(aux);
 
         $("#term_patente").val(json.term_id);
-        $("#nroSenasa").val(json.nro_senasa);
+        $("#num_senasa").val(json.nro_senasa);
         $("#precintos").val(json.precintos);
         $(tag).closest('div').remove();
         editandoTermico = true;
     }else{
-        notificar('',"Ya se esta editando una empresa de destino!",'warning');
+        notificar('Cuidado',"Ya se esta editando un <b>TÉRMICO</b>!",'warning');
     }
 }
 function verTermico(tag){

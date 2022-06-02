@@ -194,7 +194,7 @@ class Inspecciones extends CI_Model {
 
         $batch_req = [];
         foreach ($data as $key) {
-            $aux["temperatura"] = $key['temperatura'];
+            $aux["nro_senasa"] = $key['nro_senasa'];
             $aux["precintos"] = $key['precintos'];
             $aux["usuario_app"] = userNick();
             $aux["case_id"] = $key['case_id'];
