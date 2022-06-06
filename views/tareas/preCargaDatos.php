@@ -297,6 +297,15 @@
                                 </div>
                             </div>                    
                         </div>
+                        <!--Producto-->
+                        <div class="col-md-12 col-sm-12 col-xs-12 ocultar">
+                            <div class="form-group">
+                                <label for="productosDestino">Producto/s para la empresa de destino(<strong style="color: #dd4b39">*</strong>):</label>
+                                <textarea class="form-control" name="productosDestino" id="productosDestino" placeholder="Ingrese producto/s para la empresa de destino"></textarea>
+                            </div>                    
+                        </div>
+                        <!--________________-->
+                        
                         <!--_________________ Agregar_________________-->
                         <div class="col-md-12 col-sm-12 col-xs-12">
                             <div style="margin-top: 25px;" class="form-group text-right">
@@ -546,6 +555,7 @@ $(document).on("keydown", ".choferes", function(e) {
 //
 //Script's seccion destino
 //
+var editandoDestino = false;// Utilizo para que no se pierdan los permisos al editar
 function agregarDestino(){
     //Informamos el campo vacio 
     var reporte = validarCamposDestino();
@@ -559,9 +569,16 @@ function agregarDestino(){
         datos.empr_id = $("#empre_destino").val();
         datos.case_id = $("#caseId").val();
         datos.depo_id = $("#depo_destino").val();
+        datos.razon_social = empre_destino;
+        datos.productos = $("#productosDestino").val();
+        direccion = depo_destino.split(" - ");
+        datos.calle = direccion[0];
+        datos.altura = direccion[1];
 
         var div = `<div class='form-group empreDestino' data-json='${JSON.stringify(datos)}'>
-                        <span> 
+                        <span>
+                        <i class='fa fa-fw fa-eye text-light-blue' style='cursor: pointer;' title='Ver detalle' onclick='verDestino(this)'></i> 
+                        <i class='fa fa-fw fa-edit text-light-blue' style='cursor: pointer;' title='Editar' onclick='editarDestino(this)'></i> 
                         <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i>
                         | ${empre_destino} - ${depo_destino}
                         </span>
@@ -570,9 +587,11 @@ function agregarDestino(){
         //Limpio luego de agregar
         $('#empre_destino').val(null).trigger('change');
         $('#depo_destino').val(null).trigger('change');
+        $("#productosDestino").val('');
         alertify.success("Destino agregado correctamente!");
+        editandoDestino = false;
     }else{
-        alert(reporte);
+        notificar('Cuidado',reporte,'warning');
     }
 }
 function validarCamposDestino(){
@@ -593,6 +612,49 @@ $(document).on("click",".fa-trash",function(e) {
         $(e.target).closest('div').remove();		
     }
 });
+function editarDestino(tag){
+    if(!editandoDestino){
+        var data =	JSON.parse($(tag).closest('div').attr('data-json'));
+        emprVal = data.cuit;
+        emprNombre = data.razon_social;
+        depo_direccion = data.calle + " - " + data.altura;
+        depo_id = data.depo_id;
+
+        opcion = {'id': emprVal, 'text': emprNombre};
+        // opcDepo = {'id': depo_id, 'text': depo_direccion};
+
+        emprOpc = new Option(emprNombre, emprVal, true, true);
+        // emprDepo = new Option(depo_direccion, depo_id, true, true);
+        
+        // $('#depo_destino').append(emprDepo).trigger('change');
+        // $('#depo_destino').trigger({
+        //     type: 'select2:select',
+        //     params: {
+        //         data: opcion
+        //     }
+        // });
+        $('#empre_destino').append(emprOpc).trigger('change');
+        $('#empre_destino').trigger({
+            type: 'select2:select',
+            params: {
+                data: opcion
+            }
+        });
+        $("#productosDestino").val(data.productos);
+        $(tag).closest('div').remove();
+        editandoDestino = true;
+    }else{
+        notificar('Cuidado',"Ya se esta editando una empresa de <b>DESTINO</b>!",'warning');
+    }
+}
+function verDestino(tag){
+    var data =	JSON.parse($(tag).closest('div').attr('data-json'));
+    
+    $("#modalVerDestino").val(data.razon_social);
+    $("#modalVerDepositoDestino").val(data.calle + " - " + data.altura);
+    $("#modalVerProductosDestino").val(data.productos);
+    $("#mdl-verDetalleDestino").modal('show');
+}
 //
 //FIN Script's seccion destino
 /****************************************************** */
@@ -601,179 +663,227 @@ $(document).on("click",".fa-trash",function(e) {
 //Scripts Permisos transito
 //
 var editando = false;// Utilizo para que no se pierdan los permisos al editar
-    function agregarPermiso(){
-			//Informamos el campo vacio 
-			var reporte = validarCamposPermiso();
-									
-			if(reporte == ''){
-                
-                var soli_num = $("#soli_num").val();
-                var permi_num = $("#permi_num").val();
-                // var descDepo = $("#depo_origen_id option:selected").text();
-                var emision = $('#emision').val();
-                var salida = $('#salida').val();
-                var fecha = $("#fecha").val();
-                var tipo = $('input[name=doc_sanitaria]:checked').val();
-                var origen = $("#esta_nom").select2('data')[0].id;
-                var origen_nom = $("#esta_nom").select2('data')[0].text;
-                var origen_num = $("#esta_num").val();
-                var productos = $("#producto").val();
-                var neto = $("#neto").val(); 
-                var bruto = $("#bruto").val(); 
-                var temperatura = $("#temperatura").val(); 
+function agregarPermiso(){
+    //Informamos el campo vacio 
+    var reporte = validarCamposPermiso();
+                            
+    if(reporte == ''){
+        
+        var soli_num = $("#soli_num").val();
+        var permi_num = $("#permi_num").val();
+        // var descDepo = $("#depo_origen_id option:selected").text();
+        var emision = $('#emision').val();
+        var salida = $('#salida').val();
+        var fecha = $("#fecha").val();
+        var tipo = $('input[name=doc_sanitaria]:checked').val();
+        var origen = $("#esta_nom").select2('data')[0].id;
+        var origen_nom = $("#esta_nom").select2('data')[0].text;
+        var origen_num = $("#esta_num").val();
+        var productos = $("#producto").val();
+        var neto = $("#neto").val(); 
+        var bruto = $("#bruto").val(); 
+        var temperatura = $("#temperatura").val(); 
 
-                var datos = {};
-                datos.perm_id = permi_num;
-                datos.soli_num = soli_num;
-                datos.lugar_emision = emision;
-                datos.fecha_hora_salida = fecha +" "+salida;
-                datos.tipo = tipo;
-                datos.case_id = $("#caseId").val(); 
-                datos.origen = origen;
-                datos.origen_nom = origen_nom;
-                datos.origen_num = origen_num;
-                datos.productos = productos;
-                datos.neto = neto;
-                datos.bruto = bruto;
-                datos.temperatura = temperatura;
+        var datos = {};
+        datos.perm_id = permi_num;
+        datos.soli_num = soli_num;
+        datos.lugar_emision = emision;
+        datos.fecha_hora_salida = fecha +" "+salida;
+        datos.tipo = tipo;
+        datos.case_id = $("#caseId").val(); 
+        datos.origen = origen;
+        datos.origen_nom = origen_nom;
+        datos.origen_num = origen_num;
+        datos.productos = productos;
+        datos.neto = neto;
+        datos.bruto = bruto;
+        datos.temperatura = temperatura;
 
-                var div = `<div class='form-group permTransito' data-json='${JSON.stringify(datos)}'>
-                                <span> 
-                                <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i>
-                                <i class='fa fa-fw fa-edit text-light-blue' style='cursor: pointer;' title='Editar'></i> 
-                                <i class='fa fa-fw fa-eye text-light-blue' style='cursor: pointer;' title='Ver detalle'></i> 
-                                | <span class='numPermiso'>${soli_num}</span> - ${permi_num}
-                                </span>
-                        </div>`;
-                $('#sec_permisos').append(div);
-                //Limpio luego de agregar
-                // $("#soli_num").val('');
-                // $("#emision").val('');
-                // $("#salida").val('');
-                // $("#fecha").val('');
-                // $('input[name=doc_sanitaria]:checked').prop('checked',false);
-                editando = false;
-                alertify.success("Permiso de tránsito agregado correctamente!");
-			}else{
-					alert(reporte);
-			}
-	}
-    function validarCamposPermiso(){
-        var valida = '';
-        //Numero de solicitud
-		if($("#soli_num").val() == ""){
-			valida = "Complete Numero de solicitud!";
-		}
-        //Valido que el numero de permiso no se ingreso previamente
-        $(".numPermiso").each(function (i, val) { 
-            if($(val).text() == $("#soli_num").val()){
-                valida = "N° de Permiso ya fue ingresado!";
+        var div = `<div class='form-group permTransito' data-json='${JSON.stringify(datos)}'>
+                        <span> 
+                        <i class='fa fa-fw fa-eye text-light-blue' style='cursor: pointer;' title='Ver detalle' onclick='verPermiso(this)'></i> 
+                        <i class='fa fa-fw fa-edit text-light-blue' style='cursor: pointer;' title='Editar' onclick='editarPermiso(this)'></i> 
+                        <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i>
+                        | <span class='numPermiso'>${soli_num}</span> - ${permi_num}
+                        </span>
+                </div>`;
+        $('#sec_permisos').append(div);
+        //Limpio luego de agregar
+        // $("#soli_num").val('');
+        // $("#emision").val('');
+        // $("#salida").val('');
+        // $("#fecha").val('');
+        // $('input[name=doc_sanitaria]:checked').prop('checked',false);
+        editando = false;
+        alertify.success("Permiso de tránsito agregado correctamente!");
+    }else{
+        notificar('Cuidado',reporte,'warning');
+    }
+}
+function validarCamposPermiso(){
+    var valida = '';
+    //Numero de solicitud
+    if($("#soli_num").val() == ""){
+        valida = "Complete Numero de solicitud!";
+    }
+    //Valido que el numero de permiso no se ingreso previamente
+    $(".numPermiso").each(function (i, val) { 
+        if($(val).text() == $("#soli_num").val()){
+            valida = "N° de Permiso ya fue ingresado!";
+        }
+    });
+    //Lugar de emision
+    if($("#emision").val() == ""){
+        valida = "Complete Lugar de emision!";
+    }
+    //Hora de salida
+    if($("#salida").val() == ""){
+        valida = "Seleccione una Hora de salida!";
+    }
+    //Fecha
+    if($("#fecha").val() == ""){
+        valida = "Seleccione una Fecha!";
+    }
+    //Documentacion sanitaria
+    if($("input[name='doc_sanitaria']:checked").val() == null){
+        valida = "Seleccione un tipo de Doc. sanitaria!";
+    }
+    return valida;
+}
+
+function editarPermiso(tag){
+    if(!editando){
+        var data =	JSON.parse($(tag).closest('div').attr('data-json'));
+        $("#soli_num").val(data.soli_num);
+        $("#permi_num").val(data.perm_id);
+        $("#emision").val(data.lugar_emision);
+        aux = data.fecha_hora_salida.split(" ");
+        $("#salida").val(aux[1]);
+        $("#fecha").val(aux[0]);
+        $("input[name=doc_sanitaria][value='"+data.tipo+"']").prop("checked",true);
+        $("#producto").val(data.productos);
+        $("#netoPermiso").val(data.neto);
+        $("#brutoPermiso").val(data.bruto);
+        $("#temperatura").val(data.temperatura);
+        emprVal = data.origen;
+        emprNombre = data.origen_nom;
+        emprNum = data.origen_num;
+
+        opcion = {'id': emprVal, 'text': emprNombre, 'num_esta': emprNum};
+
+        emprOpc = new Option(emprNombre, emprVal, true, true);
+
+        $('#esta_nom').append(emprOpc).trigger('change');
+        $('#esta_nom').trigger({
+            type: 'select2:select',
+            params: {
+                data: opcion
             }
         });
-        //Lugar de emision
-		if($("#emision").val() == ""){
-			valida = "Complete Lugar de emision!";
-		}
-        //Hora de salida
-		if($("#salida").val() == ""){
-			valida = "Seleccione una Hora de salida!";
-		}
-        //Fecha
-		if($("#fecha").val() == ""){
-			valida = "Seleccione una Fecha!";
-		}
-        //Documentacion sanitaria
-		if($("input[name='doc_sanitaria']:checked").val() == null){
-			valida = "Seleccione un tipo de Doc. sanitaria!";
-		}
-		return valida;
+        $(tag).closest('div').remove();
+        editando = true;
+    }else{
+        notificar('Cuidado',"Ya se esta editando un <b>PERMISO DE TRÁNSITO</b>!",'warning');
     }
-
-    $(document).on("click",".fa-edit",function(e) {
-        if(!editando){
-            var data =	JSON.parse($(e.target).closest('div').attr('data-json'));
-            $("#soli_num").val(data.perm_id);
-            $("#emision").val(data.lugar_emision);
-            aux = data.fecha_hora_salida.split(" ");
-            $("#salida").val(aux[1]);
-            $("#fecha").val(aux[0]);
-            $("input[name=doc_sanitaria][value='"+data.tipo+"']").prop("checked",true);
-            $(e.target).closest('div').remove();
-            editando = true;
-        }else{
-            alert("Ya se esta editando un permiso!");
-        }
-	});
-
-    $(document).on("click",".fa-eye",function(e) {
-        var data =	JSON.parse($(e.target).closest('div').attr('data-json'));
-        $("#modalVerPermiso").val(data.perm_id);
-        $("#modalVerSolicitud").val(data.soli_num);
-        $("#modalVerEmision").val(data.lugar_emision);
-        $("#modalVerDocSanitaria").val(data.tipo);
-        $("#modalVerHoraSalida").val(data.fecha_hora_salida);
-        $("#modalVerOrigen").val(data.origen_nom);
-        $("#modalVerOrigenCuit").val(data.origen);
-        $("#modalVerOrigenNumero").val(data.origen_num);
-        $("#modalVerProductos").val(data.productos);
-        $("#modalVerNeto").val(data.neto);
-        $("#modalVerBruto").val(data.bruto);
-        $("#modalVerTemperatura").val(data.temperatura);
-        $("#mdl-verDetallePermiso").modal('show');
-	});
+}
+function verPermiso(tag){
+    var data =	JSON.parse($(tag).closest('div').attr('data-json'));
+    $("#modalVerPermiso").val(data.perm_id);
+    $("#modalVerSolicitud").val(data.soli_num);
+    $("#modalVerEmision").val(data.lugar_emision);
+    $("#modalVerDocSanitaria").val(data.tipo);
+    $("#modalVerHoraSalida").val(data.fecha_hora_salida);
+    $("#modalVerOrigen").val(data.origen_nom);
+    $("#modalVerOrigenCuit").val(data.origen);
+    $("#modalVerOrigenNumero").val(data.origen_num);
+    $("#modalVerProductos").val(data.productos);
+    $("#modalVerNeto").val(data.neto);
+    $("#modalVerBruto").val(data.bruto);
+    $("#modalVerTemperatura").val(data.temperatura);
+    $("#mdl-verDetallePermiso").modal('show');
+}
 //FIN Script's seccion permisos transito
 /***************************************************** */
 /***************************************************** */
 //
 //Scripts Termico
 //
-    function agregarTermico(){
-        //Informamos el campo vacio 
-        var reporte = validarCamposTermico();
-                                
-        if(reporte == ''){
-            var temperatura = $('#temperatura').val();
-            var precintos = $('#precintos').val();
-            var term_patente = $("#term_patente").val();
+var editandoTermico = false;
+function agregarTermico(){
+    //Informamos el campo vacio 
+    var reporte = validarCamposTermico();
+                            
+    if(reporte == ''){
+        var nro_senasa = $('#num_senasa').val();
+        var precintos = $('#precintos').val();
+        var term_patente = $("#term_patente").val();
 
-            var datos = {};
-            datos.temperatura = temperatura;
-            datos.precintos = precintos;
-            datos.case_id = $("#caseId").val();
-            datos.term_id = term_patente;
+        var datos = {};
+        datos.nro_senasa = nro_senasa;
+        datos.precintos = precintos;
+        datos.case_id = $("#caseId").val();
+        datos.term_id = term_patente;
 
-            var div = `<div class='form-group termicos' data-json='${JSON.stringify(datos)}'>
-                            <span> 
-                            <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i> 
-                            | ${term_patente} - ${precintos}
-                            </span>
-                    </div>`;
-            $('#sec_termicos').append(div);
-            //Limpio luego de agregar
-            $("#term_patente").val('');
-            $("#temperatura").val('');
-            $("#precintos").val('');
-            alertify.success("Térmico agregado correctamente!");
-        }else{
-            alert(reporte);
-        }
-	}
-    function validarCamposTermico(){
-        var valida = '';
-        //Térmico Patente
-		if($("#term_patente").val() == ""){
-			valida = "Complete Térmico Patente!";
-		}
-        //Temperatura
-		if($("#temperatura").val() == ""){
-			valida = "Complete Temperatura!";
-		}
-        //Precintos
-		if($("#precintos").val() == ""){
-			valida = "Complete Precintos!";
-		}
-		return valida;
+        var div = `<div class='form-group termicos' data-json='${JSON.stringify(datos)}'>
+                        <span>
+                        <i class='fa fa-fw fa-eye text-light-blue' style='cursor: pointer;' title='Ver detalle' onclick='verTermico(this)'></i> 
+                        <i class='fa fa-fw fa-edit text-light-blue' style='cursor: pointer;' title='Editar' onclick='editarTermico(this)'></i>  
+                        <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i> 
+                        | ${term_patente} - ${nro_senasa}
+                        </span>
+                </div>`;
+        $('#sec_termicos').append(div);
+        //Limpio luego de agregar
+        $("#term_patente").val('');
+        $("#num_senasa").val('');
+        $("#precintos").val('');
+        alertify.success("Térmico agregado correctamente!");
+        editandoTermico = false;
+    }else{
+        notificar('Cuidado',reporte,'warning');
     }
+}
+function validarCamposTermico(){
+    var valida = '';
+    //Térmico Patente
+    if($("#term_patente").val() == ""){
+        valida = "Complete Térmico Patente!";
+    }
+    //Número SENASA
+    if($("#num_senasa").val() == ""){
+        valida = "Complete N° de Habilitación SENASA!";
+    }
+    //Precintos
+    if($("#precintos").val() == ""){
+        valida = "Complete Precintos!";
+    }
+    return valida;
+}
+function editarTermico(tag){
+    if(!editandoTermico){
+        var data =	$(tag).closest('div').attr('data-json');
+        aux = data.replace("patente", "term_id");
+        var json = JSON.parse(aux);
+
+        $("#term_patente").val(json.term_id);
+        $("#num_senasa").val(json.nro_senasa);
+        $("#precintos").val(json.precintos);
+        $(tag).closest('div').remove();
+        editandoTermico = true;
+    }else{
+        notificar('Cuidado',"Ya se esta editando un <b>TÉRMICO</b>!",'warning');
+    }
+}
+function verTermico(tag){
+    var data =	$(tag).closest('div').attr('data-json');
+    aux = data.replace("patente", "term_id");
+    var json = JSON.parse(aux);
+
+    $("#modalVerPatenteTermico").val(json.term_id);
+    $("#modalVerSENASATermico").val(json.nro_senasa);
+    $("#modalVerNroPrecintos").val(json.precintos);
+    $("#mdl-verDetalleTermico").modal('show');
+}
 //FIN Script's seccion termico
 /***************************************************** */
 /***************************************************** */
@@ -836,6 +946,13 @@ async function cerrarTareaform(){
     dataForm.append('case_id', $("#caseId").val());
     correcto = ""; //Confirma que todo se guardo correctamente para cerrar tarea
 
+    //Limpio la data pre cargada si existiera para evitar errores
+    limpiarDataPreCargada().then((result) => {
+        console.log(result);
+    }).catch((err) => {
+        console.log(err);
+    });
+
     //Guardo los datos del formulario para no perderlos en reload
     //obtengo los permisos
     permisos = [];
@@ -851,12 +968,13 @@ async function cerrarTareaform(){
         empresas[i] = json;
     });
     //obtengo origen
-    origen = {};
-    origen.rol = "ORIGEN";
-    origen.empr_id = $("#esta_nom").val();
-    origen.case_id = $("#caseId").val();
-    origen.depo_id = "";
-    empresas.push(origen);
+    //EL ORIGEN ES MULTIPLE AHORA, SE CARGA EN LOS PERMISOS DE TRANSITO
+    // origen = {};
+    // origen.rol = "ORIGEN";
+    // origen.empr_id = $("#esta_nom").val();
+    // origen.case_id = $("#caseId").val();
+    // origen.depo_id = "";
+    // empresas.push(origen);
     
     //obtengo transportista
     transp = {};
@@ -897,29 +1015,26 @@ async function cerrarTareaform(){
                             resp = JSON.parse(data);
                             if(resp.status){
                                 console.log(resp.message);
-                                resolve("Correcto");
+                                resolve(resp);
                             }else{
                                 console.log(resp.message);
-                                reject("Error");
+                                reject(resp);
                             }
                         },
                         error: function(data) {
                             wc();
-                            error("Error al guardar los datos anexos al formulario de PreCarga");
-                            reject("Error");
+                            reject(data);
                         }
                     });
                 }else{
                     wc();
-                    error("Error al guardar el formulario de PreCarga");
-                    reject("Error");
+                    reject(result);
                 }
 
             },
             error: function(data) {
                 wc();
-                alert("Error al guardar formulario de PreCarga");
-                reject("Error");
+                reject(data);
             }
         });
     });
@@ -1019,8 +1134,37 @@ function cerrarTarea() {
         
     }).catch((err) => {
         wc();
-        console.log(err);
-        alert("Error al finalizar tarea");
+        error("Error!",err.message);
     });
+}
+//
+// Limpio Informacion pre cargada para no tener errores con PK de las tablas
+async function limpiarDataPreCargada () {
+    let limpiadoCompleto = new Promise( function(resolve,reject){
+        caseId = {"case_id" : $("#caseId").val()};
+        $.ajax({
+            type: 'POST',
+            data: {caseId},
+            cache: false,
+            dataType: "json",
+            url: "<?php echo SICP; ?>inspeccion/limpiarDataPreCargada",
+            success: function(data) { 
+
+                if(data.status){
+                    console.log(data.message);
+                    resolve("Se limpio la data pre - cargada correctamente");
+                }else{
+                    console.log(data.message);
+                    reject("Error al limpiar la data pre - cargada");
+                }
+                 
+            },
+            error: function(data) {
+                reject("Error al limpiar la data pre - cargada");
+            }
+        });
+    });
+
+    return await limpiadoCompleto;
 }
 </script>

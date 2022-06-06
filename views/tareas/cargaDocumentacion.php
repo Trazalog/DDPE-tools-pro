@@ -236,7 +236,7 @@ function eliminarDocumento(tag) {
         
         tabla = $('#tabla_documentos').DataTable();
         //Obtengo la fila
-        var row = $(this).parents('tr');
+        var row = $(tag).parents('tr');
 
         //Data parseada en json
         nodo = tabla.row(row).node();
