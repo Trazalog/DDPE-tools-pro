@@ -102,9 +102,23 @@
                             foreach ($inspeccion->permisos_transito->permiso_transito as $key) {
                         ?>
                             <div class='form-group dataTemporal' data-json='<?php echo json_encode($key) ?>'>
-                                <span> 
-                                    <?php echo "$key->perm_id - $key->tipo - $key->lugar_emision - $key->fecha_hora_salida" ?>
+                                <span data-toggle="collapse" href="#<?php echo $key->perm_id ?>" role="button" aria-expanded="false" aria-controls="<?php echo $key->perm_id ?>"> 
+                                    <?php echo "<b>$key->perm_id - $key->soli_num</b>" ?>
                                 </span>
+                                <div class="collapse" id="<?php echo $key->perm_id ?>">
+                                    <div class="card card-body">
+                                        <ul style="list-style-type: none;">
+                                            <li>Tipo Doc.: <b><?php echo $key->perm_id ?></b></li>
+                                            <li>Origen: <b><?php echo $key->origen_nom ?> - <?php echo $key->origen_num ?></b></li>
+                                            <li>Lugar descripcion Emisión.: <b><?php echo $key->lugar_emision ?></b></li>
+                                            <li>N° Solicitud: <b><?php echo $key->soli_num ?></b></li>
+                                            <li>Bruto: <b><?php echo $key->bruto ?></b></li>
+                                            <li>Neto: <b><?php echo $key->neto ?></b></li>
+                                            <li>Temperatura: <b><?php echo $key->temperatura ?></b></li>
+                                            <li>Productos: <b><?php echo $key->productos ?></b></li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
                         <?php
                             }
@@ -152,30 +166,30 @@
                 <!--________________-->
 
                 <!--N° SENASA-->
-                <div class="col-md-6 col-sm-6 col-xs-12">
+                <!-- <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                         <label for="num_senasa">N° SENASA:</label>
                         <input class="form-control limitedChars" name="nro_senasa" id="num_senasa" value="<?php echo isset($inspeccion->nro_senasa) ? $inspeccion->nro_senasa : null ?>" readonly/>
                     </div>
-                </div>
+                </div> -->
                 <!--________________-->
                 
                 <!--Establecimiento N°-->
-                <div class="col-md-6 col-sm-6 col-xs-12">
+                <!-- <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                         <label for="esta_num">Establecimiento N°:</label>
                         <input class="form-control" name="esta_num" id="esta_num" value="<?php echo isset($origen->cuit) ? $origen->cuit : null ?>" readonly/>
                     </div>
-                </div>
+                </div> -->
                 <!--________________-->
 
                 <!--Nombre Establecimiento-->
-                <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
+                <!-- <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
                     <div class="form-group">
                         <label for="esta_nom">Establecimiento:</label>
                         <input class="form-control" name="esta_nom" id="esta_nom" value="<?php echo isset($origen->razon_social) ? $origen->razon_social : null ?>" readonly/>
                     </div>
-                </div>
+                </div> -->
                 <!--________________-->
 
                 <!--Seccion Destinos-->
@@ -209,13 +223,31 @@
                 </div>
                 <!--________________-->
 
+                <!--Teléfono Transportista-->
+                <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
+                    <div class="form-group">
+                        <label for="telTransportista">Teléfono Transportista:</label>
+                        <input class="form-control limited" name="telTransportista" id="telTransportista" placeholder="Ingrese teléfono" value="<?php echo isset($inspeccion->tel_transportista) ? $inspeccion->tel_transportista : '' ?>" readonly/>
+                    </div>                    
+                </div>
+                <!--________________-->
+
+                <!--E-mail Transportista-->
+                <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
+                    <div class="form-group">
+                        <label for="emailTransportista">E-mail Transportista(<strong style="color: #dd4b39">*</strong>):</label>
+                        <input type="text" class="form-control" name="emailTransportista" id="emailTransportista" placeholder="Ingrese correo" value="<?php echo isset($inspeccion->email_transportista) ? $inspeccion->email_transportista : '' ?>" readonly/>
+                    </div>                    
+                </div>
+                <!--________________-->
+
                 <!--Producto-->
-                <div class="col-md-6 col-sm-6 col-xs-12">
+                <!-- <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                         <label for="producto">Producto/s:</label>
                         <input class="form-control" name="productos" id="producto" value="<?php echo isset($inspeccion->productos) ? $inspeccion->productos : null; ?>" readonly/>
                     </div>                    
-                </div>
+                </div> -->
                 <!--________________-->
 
                 <!--Seccion termicos-->
@@ -251,7 +283,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group has-feedback">
                         <label for="cant_documentos">Cantidad de Documentos:</label>
-                        <input class="form-control" name="cant_doc" id="cant_documentos" value="<?php echo isset($formEscaneo['datos']['cant_doc']) ? $formEscaneo['datos']['cant_doc']['valor'] : null ?>" readonly/>
+                        <input class="form-control" name="cant_doc" id="cant_documentos" value="<?php echo isset($datosEscaneo['cant_doc']['valor']) ? $datosEscaneo['cant_doc']['valor'] : null ?>" readonly/>
                     </div>
                 </div>
                 <!--________________-->
@@ -260,7 +292,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                         <label for="doc_impositiva">Doc. Impositiva:</label>
-                        <input class="form-control" name="doc_impo" id="doc_impositiva" value="<?php echo isset($formEscaneo['doc_impo']['descripcion']) ? $formEscaneo['doc_impo']['descripcion'] : null ?>" readonly/>
+                        <input class="form-control" name="doc_impo" id="doc_impositiva" value="<?php echo isset($datosEscaneo['doc_impo']['descripcion']) ? $datosEscaneo['doc_impo']['descripcion'] : null ?>" readonly/>
                     </div>
                 </div>
                 <!--________________-->

@@ -266,9 +266,7 @@ class Sicpoatareas extends CI_Model
                 $data['escaneoInfoId'] = $escaneoInfoId;// Lo mando a la vista para instaciar formulario en modal
 
                 if(isset($escaneoInfoId)){
-                    $formEscaneo =  $this->getFormEscaneoDocu($escaneoInfoId);
-                    $data['imgsEscaneo'] = $formEscaneo['imagenes'];
-                    $data['datosEscaneo'] = $formEscaneo['datos'];
+                    $data['formEscaneo'] =  $this->getFormEscaneoDocu($escaneoInfoId);
                 }
                 
                 return $this->load->view(SICP . 'tareas/reprecintado', $data, true);
@@ -409,7 +407,7 @@ class Sicpoatareas extends CI_Model
                 $data['escaneoInfoId'] = $escaneoInfoId;// Lo mando a la vista para instaciar formulario en modal
 
                 if(isset($escaneoInfoId)){
-                    $data['imgsEscaneo'] = $this->getImgsEscaneoDocu($escaneoInfoId);
+                    $data['formEscaneo'] =  $this->getFormEscaneoDocu($escaneoInfoId);
                 }
 
                 return $this->load->view(SICP . 'tareas/infraccionPCC', $data, true);
