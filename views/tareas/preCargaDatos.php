@@ -147,10 +147,35 @@
                 <!--________________-->
 
                 <!--Producto-->
-                <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
+                    <div class="form-group">
+                        <label for="producto">Producto(<strong style="color: #dd4b39">*</strong>):</label>
+                        <div class="input-group" style="width: 100%">
+                            <select class="form-control select2 select2-hidden-accesible producto" name="tipr_id" id="producto" style="width: 100%">
+                                <option value="" disabled selected>- Seleccionar -</option>
+                                <?php
+                                    if(!empty($productos)){ 
+                                        foreach ($productos as $prod) {
+                                            echo "<option data-json='".json_encode($prod)."' value='".$prod->tabl_id."'>".$prod->descripcion."</option>";
+                                        }
+                                    }
+                                ?>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="form-group">
                         <label for="producto">Producto/s(<strong style="color: #dd4b39">*</strong>):</label>
                         <textarea class="form-control" name="productos" id="producto" placeholder="Ingrese producto/s" required></textarea>
+                    </div>                    
+                </div> -->
+                <!--________________-->
+                <!--Kilos-->
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="form-group">
+                        <label for="kilo">Kilos(<strong style="color: #dd4b39">*</strong>):</label>
+                        <input class="form-control onlyNumbers" id="kilo" placeholder="Ingrese kilos"/>
                     </div>                    
                 </div>
                 <!--________________-->
@@ -298,12 +323,12 @@
                             </div>                    
                         </div>
                         <!--Producto-->
-                        <div class="col-md-12 col-sm-12 col-xs-12 ocultar">
+                        <!-- <div class="col-md-12 col-sm-12 col-xs-12 ocultar">
                             <div class="form-group">
                                 <label for="productosDestino">Producto/s para la empresa de destino(<strong style="color: #dd4b39">*</strong>):</label>
                                 <textarea class="form-control" name="productosDestino" id="productosDestino" placeholder="Ingrese producto/s para la empresa de destino"></textarea>
                             </div>                    
-                        </div>
+                        </div> -->
                         <!--________________-->
                         
                         <!--_________________ Agregar_________________-->

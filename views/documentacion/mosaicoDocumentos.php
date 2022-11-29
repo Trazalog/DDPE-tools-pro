@@ -94,14 +94,14 @@
           <?php foreach ($documentacion['imagenes'] as $key => $value) {
               $inst_id = array('inst_id' => $value['inst_id']);
               echo "<div class='iconoBorde'>";
-              echo "<img class='thumbnail fotos documentacion ". (in_array($value['inst_id'],$imag_ids) ? "used" : null) ."' height='51' width='45' data-json='".json_encode($inst_id)."' src='".$value['imagen']."' alt='' onclick='preview(this)'>";
+              echo "<img class='thumbnail fotos documentacion ". (in_array($value['inst_id'],$imag_ids) ? "used" : null) ."' height='51' width='45' data-json='".json_encode($inst_id)."' src='".$value['imagen']."' alt='".$value['descripcion']."' onclick='preview(this)'>";
               echo "<span style='display:none' id='".$value['inst_id']."' class='delete iconoDocs'></span>";
               echo "</div>";
           } ?>
         </div>
     </div>
 </div>
-<div class="row">
+<div class="row" style="display:none">
     <div class="col-md-12 col-sm-12 col-xs-12">
         <label>Seleccione un archivo (<strong style="color: #dd4b39">*</strong>)</label>
     </div>
@@ -126,7 +126,14 @@
       <img src="lib\imageForms\preview.png" id="expandedImg" style="" data-magnify-src="">
       
       <!-- Zoom Modal Button -->
-      <button type="button" class="btn btn-outline-dark btnZoom" data-toggle="modal" data-target="#mdl-zoomPreview" title="Zoom"><i class="fa fa-search"></i></button>
+      <div class="botoneraAcciones" style="width: 4%;">
+        <button type="button" class="btn btn-outline-dark btnZoom" data-toggle="modal" data-target="#mdl-zoomPreview" title="Zoom"><i class="fa fa-search"></i></button>
+        <a id="linkDescargaImagen" style="color: black;" download='' href='' title='Descargar Archivo' download>
+          <button type="button" class="btn btn-outline-dark btnZoom" data-toggle="modal" title="Descargar">
+            <i class="fa fa-download"></i>
+          </button>
+        </a>
+      </div>
     </div>
 </div>
 <!--________________-->
@@ -134,6 +141,7 @@
 <script>
 function preview(imgs) {
     if(!$(imgs).hasClass("used")){
+      debugger;
       //Quito clase selected
       $('.fotos').removeClass("selected");
 
@@ -149,7 +157,8 @@ function preview(imgs) {
       // Le asigno la misma src al elemento de la vista previa y al zoom
       expandImg.src = imgs.src;
       zoomImg.src = imgs.src;//VISTA PREVIA ZOOM MODAL
-
+      $("#linkDescargaImagen").attr('href',imgs.src);
+      $("#linkDescargaImagen").attr('download',$(imgs).attr('alt'));
       //Asigno el inst_id de la imagen seleccionada
       data = JSON.parse($(".fotos .selected").attr('data-json'));
       $("#imag_id").val(data.inst_id);
