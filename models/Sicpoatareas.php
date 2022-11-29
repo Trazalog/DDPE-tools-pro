@@ -110,6 +110,7 @@ class Sicpoatareas extends CI_Model
                 $data['patente'] =  $this->getPatenteTractor($tareaData->info_id);
                 $data['departamentos'] = $this->getDepartamentos();
                 $data['petr_id'] = $tareaData->petr_id;
+                $data['productos'] = $this->getProductos();
 
                 return $this->load->view(SICP . 'tareas/preCargaDatos', $data, true);
         
@@ -138,6 +139,7 @@ class Sicpoatareas extends CI_Model
                 $data['infracciones'] = $this->getInfracciones();
                 $data['preCargaDatos'] = $this->getPreCargaDatos($tareaData->case_id);
                 $data['patente'] =  $this->getPatenteTractor($tareaData->info_id);
+                $data['productos'] = $this->getProductos();
 
                 $puntosControl = $this->Ingresosbarrera->getPuntosControl();
                 foreach ($puntosControl  as $key) {
