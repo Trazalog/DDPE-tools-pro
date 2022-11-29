@@ -773,6 +773,7 @@ class Sicpoatareas extends CI_Model
     }
     /**
 	* Obtengo imagenes y archivos cargados en el escaneo de documentacion guardadas en instancias_formularios
+    * NOTA: Se quito por requisito la visualizacion de archivos.
 	* @param array info_id
 	* @return array Imagenes relacionadas con el info_id
 	*/
@@ -790,11 +791,13 @@ class Sicpoatareas extends CI_Model
                     if($dato->tipo_dato == 'image'){
                         $documentacion['imagenes'][$key]['inst_id'] = $dato->inst_id;
                         $documentacion['imagenes'][$key]['imagen'] = $ext.$rec;
-                    }else{
-                        $documentacion['archivos'][$key]['inst_id'] = $dato->inst_id;
-                        $documentacion['archivos'][$key]['descripcion'] = $dato->valor;
-                        $documentacion['archivos'][$key]['archivo'] = $ext.$rec;
+                        $documentacion['imagenes'][$key]['descripcion'] = $dato->valor;
                     }
+                    // }else{
+                    //     $documentacion['archivos'][$key]['inst_id'] = $dato->inst_id;
+                    //     $documentacion['archivos'][$key]['descripcion'] = $dato->valor;
+                    //     $documentacion['archivos'][$key]['archivo'] = $ext.$rec;
+                    // }
                 }
             }
         }
