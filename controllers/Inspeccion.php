@@ -398,7 +398,7 @@ class Inspeccion extends CI_Controller
     public function agregarDocumento(){
 		log_message('DEBUG', "#TRAZA | #SICPOA | Inspeccion | agregarDocumento()");
 		
-		$data['fec_emision'] = date('Y-m-d');
+		$data['fec_emision'] = date('Y-m-d',strtotime($this->input->post('fec_emision')));
 		$data['num_documento'] =  !empty($this->input->post('num_documento'))? $this->input->post('num_documento') : "";
         $data['usuario_app'] = userNick();
 		$data['tido_id'] =  !empty($this->input->post('tido_id'))? $this->input->post('tido_id') : "";
@@ -510,7 +510,7 @@ class Inspeccion extends CI_Controller
     public function editarDocumento(){
 		log_message('DEBUG', "#TRAZA | #SICPOA | Inspeccion | editarDocumento()");
 
-		$data['fec_emision'] = date('Y-m-d');
+		$data['fec_emision'] = date('Y-m-d',strtotime($this->input->post('fec_emision')));
 		$data['num_documento'] =  !empty($this->input->post('num_documento'))? $this->input->post('num_documento') : "";
         $data['usuario_app'] = userNick();
 		$data['tido_id'] =  !empty($this->input->post('tido_id'))? $this->input->post('tido_id') : "";

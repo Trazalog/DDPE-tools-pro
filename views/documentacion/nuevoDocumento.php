@@ -92,11 +92,8 @@
                 <!--Fecha de comprobante-->
                 <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
                     <div class="form-group has-feedback">
-                        <!-- <label for="fec_emision">Fecha del comprobante(<strong style="color: #dd4b39">*</strong>):</label> -->
                         <label for="fec_emision">Fecha del comprobante(<strong style="color: #dd4b39">*</strong>):</label>
-                        <!-- <div class="form-group"> -->
-                            <input class="form-control formatoFecha" id="fec_emision"/>
-                        <!-- </div> -->
+                        <input class="form-control formatoFecha" id="fec_emision" name="fec_emision"/>
                     </div>                    
                 </div>
                 <!--________________-->
