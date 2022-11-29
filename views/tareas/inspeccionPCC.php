@@ -1784,13 +1784,13 @@ function imprimirActa(){
     }
 
 
-    infoTemperatura = "";
-    $('#sec_termicos div.termicos').each(function(i, obj) {
-        aux = $(obj).attr('data-json');
-        json = JSON.parse(aux);
-        infoTemperatura += json.temperatura + " ";
-    });
-    $(".acta_temperaturas").text(infoTemperatura);
+    // infoTemperatura = "";
+    // $('#sec_termicos div.termicos').each(function(i, obj) {
+    //     aux = $(obj).attr('data-json');
+    //     json = JSON.parse(aux);
+    //     infoTemperatura += json.temperatura + " ";
+    // });
+    // $(".acta_temperaturas").text(infoTemperatura);
 
     infoPrecintos = "";
     infoSenasa = "";
@@ -1815,6 +1815,7 @@ function imprimirActa(){
     infoProductos = "";
     infoOrigen = "";
     infoOrigenNums = "";
+    infoTemperatura = "";
     $('#sec_permisos div.permTransito').each(function(i, obj) {
         aux = $(obj).attr('data-json');
         json = JSON.parse(aux);
@@ -1822,12 +1823,14 @@ function imprimirActa(){
         infoProductos +=  json.productos + "; ";
         infoOrigen += json.origen_nom + "; ";
         infoOrigenNums += json.origen_num + "; ";
+        infoTemperatura += json.temperatura + "; ";
     });
     $(".acta_docSanitaria").text(infoPermisos);
     $(".acta_productos").text(infoProductos);
     $(".acta_origenNombres").text(infoOrigen);
     $(".acta_origenNumeros").text(infoOrigenNums);
-
+    $(".acta_temperaturas").text(infoTemperatura);
+    
     var base = "<?php echo base_url()?>";
     
     $(idActa).printThis({
