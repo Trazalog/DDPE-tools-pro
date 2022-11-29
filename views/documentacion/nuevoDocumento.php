@@ -89,9 +89,19 @@
                     </div>                    
                 </div>
                 <!--________________-->
-                <div class="col-md-12">
+                <!--Fecha de comprobante-->
+                <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
+                    <div class="form-group has-feedback">
+                        <label for="fec_emision">Fecha del comprobante(<strong style="color: #dd4b39">*</strong>):</label>
+                        <input class="form-control formatoFecha" id="fec_emision" name="fec_emision"/>
+                    </div>                    
+                </div>
+                <!--________________-->
+                <div class="col-md-6 col-sm-6 col-xs-12">
                     <hr>
                 </div>
+            </div>
+            <div class="col-md-6">
                 <div class="box-tittle centrar">
                     <h3>Detalle</h3>
                 </div>
@@ -306,6 +316,11 @@ $(document).ready(function () {
     $("#cantidad").inputmask("numeric");
     $("#unidades").inputmask("numeric");
     $("#precio_unitario").inputmask({alias: "numeric" ,prefix: "$ "});
+    //Fechas
+    $('.formatoFecha').inputmask({
+        alias: "datetime",
+        inputFormat: "dd-mm-yyyy"
+    });
 });
 /******************************************************************************* */
 //Scripts para manipular data en tabla intermedia
@@ -433,6 +448,7 @@ function agregarProducto(){
                             $('#unidades').val('');
                             $('#precio_unitario').val('');
                             $('#descuento').val('');
+                            $('#fec_emision').val('');
 
                             alertify.success("Se editó el detalle correctamente");
                         }else{
