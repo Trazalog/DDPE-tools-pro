@@ -151,7 +151,7 @@
                     <div class="form-group">
                         <label for="producto">Producto(<strong style="color: #dd4b39">*</strong>):</label>
                         <div class="input-group" style="width: 100%">
-                            <select class="form-control select2 select2-hidden-accesible producto" name="tipr_id" id="producto" style="width: 100%">
+                            <select class="form-control select2 select2-hidden-accesible producto" name="tipr_id" id="tipr_id" style="width: 100%">
                                 <option value="" disabled selected>- Seleccionar -</option>
                                 <?php
                                     if(!empty($productos)){ 
@@ -174,8 +174,8 @@
                 <!--Kilos-->
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
-                        <label for="kilo">Kilos(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input class="form-control onlyNumbers" id="kilo" placeholder="Ingrese kilos"/>
+                        <label for="kilos">Kilos(<strong style="color: #dd4b39">*</strong>):</label>
+                        <input class="form-control onlyNumbers" name="kilos" id="kilos" placeholder="Ingrese kilos"/>
                     </div>                    
                 </div>
                 <!--________________-->
@@ -704,7 +704,9 @@ function agregarPermiso(){
         var origen = $("#esta_nom").select2('data')[0].id;
         var origen_nom = $("#esta_nom").select2('data')[0].text;
         var origen_num = $("#esta_num").val();
-        var productos = $("#producto").val();
+        // var productos = $("#producto").val();
+        var tipr_id = $("#tipr_id").select2('data')[0].text;
+        var kilos = $("#kilos").val(); 
         var neto = $("#neto").val(); 
         var bruto = $("#bruto").val(); 
         var temperatura = $("#temperatura").val(); 
@@ -719,7 +721,9 @@ function agregarPermiso(){
         datos.origen = origen;
         datos.origen_nom = origen_nom;
         datos.origen_num = origen_num;
-        datos.productos = productos;
+        // datos.productos = productos;
+        datos.tipr_id = tipr_id;
+        datos.kilos = kilos;
         datos.neto = neto;
         datos.bruto = bruto;
         datos.temperatura = temperatura;
