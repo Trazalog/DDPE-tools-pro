@@ -205,12 +205,39 @@
                             <!--________________-->
 
                             <!--Producto-->
-                            <div class="col-md-12 col-sm-12 col-xs-12 ocultar">
+                            <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
+                                <div class="form-group">
+                                    <label for="producto">Producto(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <div class="input-group" style="width: 100%">
+                                        <select class="form-control select2 select2-hidden-accesible producto" name="tipr_id" id="tipr_id" style="width: 100%">
+                                            <option value="" disabled selected>- Seleccionar -</option>
+                                            <?php
+                                                if(!empty($productos)){ 
+                                                    foreach ($productos as $prod) {
+                                                        echo "<option data-json='".json_encode($prod)."' value='".$prod->tabl_id."'>".$prod->descripcion."</option>";
+                                                    }
+                                                }
+                                            ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Kilos-->
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label for="kilos">Kilos(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <input class="form-control onlyNumbers" name="kilos" id="kilos" placeholder="Ingrese kilos"/>
+                                </div>                    
+                            </div>
+                            <!--________________-->
+
+                            <!--Producto-->
+                            <!-- <div class="col-md-12 col-sm-12 col-xs-12 ocultar">
                                 <div class="form-group">
                                     <label for="producto">Producto/s(<strong style="color: #dd4b39">*</strong>):</label>
                                     <textarea class="form-control" name="productos" id="producto" placeholder="Ingrese producto/s"></textarea>
                                 </div>                    
-                            </div>
+                            </div> -->
                             <!--________________-->
 
                             <!--Neto-->
@@ -370,12 +397,12 @@
                             </div>
 
                             <!--Producto-->
-                            <div class="col-md-12 col-sm-12 col-xs-12 ocultar">
+                            <!-- <div class="col-md-12 col-sm-12 col-xs-12 ocultar">
                                 <div class="form-group">
                                     <label for="productosDestino">Producto/s para la empresa de destino(<strong style="color: #dd4b39">*</strong>):</label>
                                     <textarea class="form-control" name="productosDestino" id="productosDestino" placeholder="Ingrese producto/s para la empresa de destino"></textarea>
                                 </div>                    
-                            </div>
+                            </div> -->
                             <!--________________-->
 
                             <!--_________________ Agregar_________________-->
@@ -1152,7 +1179,9 @@ function agregarPermiso(){
         var origen = $("#esta_nom").select2('data')[0].id;
         var origen_nom = $("#esta_nom").select2('data')[0].text;
         var origen_num = $("#esta_num").val();
-        var productos = $("#producto").val();
+        // var productos = $("#producto").val();
+        var tipr_id = $("#tipr_id").select2('data')[0].text;
+        var kilos = $("#kilos").val(); 
         var netoPermiso = $("#netoPermiso").val(); 
         var brutoPermiso = $("#brutoPermiso").val(); 
         var temperatura = $("#temperatura").val(); 
@@ -1166,7 +1195,9 @@ function agregarPermiso(){
         datos.origen = origen;
         datos.origen_nom = origen_nom;
         datos.origen_num = origen_num;
-        datos.productos = productos;
+        // datos.productos = productos;
+        datos.tipr_id = tipr_id;
+        datos.kilos = kilos;
         datos.neto = netoPermiso;
         datos.bruto = brutoPermiso;
         datos.temperatura = temperatura;
