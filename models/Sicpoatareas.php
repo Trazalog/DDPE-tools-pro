@@ -193,6 +193,7 @@ class Sicpoatareas extends CI_Model
                 $data['infracciones'] = $this->getInfracciones();
                 $data['preCargaDatos'] = $this->getPreCargaDatos($tareaData->case_id);
                 $data['patente'] =  $this->getPatenteTractor($tareaData->info_id);
+                $data['productos'] = $this->getProductos();
 
                 $empresas = $data['preCargaDatos']->empresas->empresa;
 
