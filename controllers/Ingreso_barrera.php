@@ -365,6 +365,12 @@ class Ingreso_barrera extends CI_Controller
                 }
             }
         }
+        //Formateo la fecha de inspeccion para los input's
+        $fecAux = explode(' ', $data['inspeccion']->fec_inspeccion);
+        $data['horaInspeccion'] = $fecAux[1];
+        $data['diaInspeccion'] = date('d',strtotime($fecAux[0]));
+        $data['mesInspeccion'] = date('m',strtotime($fecAux[0]));
+        $data['anioInspeccion'] = date('Y',strtotime($fecAux[0]));
 
         $puntosControl = $this->Ingresosbarrera->getPuntosControl();
         foreach ($puntosControl  as $key) {

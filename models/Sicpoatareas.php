@@ -166,7 +166,10 @@ class Sicpoatareas extends CI_Model
                         }
                     }
                 }
-                
+                //Formateo la fecha de inspeccion para los input's
+                $fecAux = explode(' ',$data['preCargaDatos']->fec_inspeccion);
+                $data['horaInspeccion'] = $fecAux[1];
+                $data['fechaInspeccion'] = $fecAux[0];
                 //Es el info_id del formulario de escaneo documentacion
                 //que puede o no estar cargado a la hora de la inspeccion
                 $formulario = $this->Ingresosbarrera->getFormularios($tareaData->petr_id);
