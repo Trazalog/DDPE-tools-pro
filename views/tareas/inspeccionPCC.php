@@ -571,34 +571,51 @@
                     <!--________________-->
 
                     <!--Se constituyen en-->
-                    <div class="col-md-6 col-sm-6 col-xs-6">
+                    <div class="col-md-5 col-sm-6 col-xs-6">
                         <div class="form-group">
                             <label for="dondeConstituyen">Se constituyen en(<strong style="color: #dd4b39">*</strong>):</label>
-                            <input class="form-control" name="dondeConstituyen" id="dondeConstituyen" value="Dirección de Desarrollo Pecuario" readonly/>
+                            <input class="form-control" name="dondeConstituyen" id="dondeConstituyen" value="Punto de control de productos cárnicos y derivados de la Pcia. de San Juan" readonly/>
                         </div>                    
                     </div>
                     <!--________________-->
 
                     <!--Con domicilio en-->
-                    <div class="col-md-6 col-sm-6 col-xs-6">
+                    <div class="col-md-3 col-sm-6 col-xs-6">
                         <div class="form-group">
                             <label for="domicilio">Con domicilio en(<strong style="color: #dd4b39">*</strong>):</label>
-                            <input class="form-control" name="domicilio" id="domicilio" placeholder="Ingrese Domicilio" value="<?php echo isset($preCargaDatos->domicilio_constituye) ? $preCargaDatos->domicilio_constituye : null ?>" required/>
+                            <input class="form-control" name="domicilio" id="domicilio" placeholder="Ingrese Domicilio" value="<?php echo isset($preCargaDatos->domicilio_constituye) ? $preCargaDatos->domicilio_constituye : 'Calle 11 y Punta del Monte.' ?>" required/>
                         </div>                    
                     </div>
                     <!--________________-->
-                    
+
                     <!--Propiedad de-->
                     <div class="col-md-4 col-sm-4 col-xs-6">
                         <div class="form-group">
                             <label for="propiedad">Propiedad de(<strong style="color: #dd4b39">*</strong>):</label>
-                            <input class="form-control" name="propiedad" id="propiedad" placeholder="Ingrese a quién pertenece" value="<?php echo isset($preCargaDatos->propiedad_de) ? $preCargaDatos->propiedad_de : null ?>" required/>
+                            <input class="form-control" name="propiedad" id="propiedad" placeholder="Ingrese a quién pertenece" value="<?php echo isset($preCargaDatos->propiedad_de) ? $preCargaDatos->propiedad_de : 'DDP' ?>" required/>
                         </div>                    
+                    </div>
+                    <!--________________-->
+
+                    <!--Fecha Acta Inspeccion-->
+                    <div class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label for="fechaActaInspeccion">Fecha inspección(<strong style="color: #dd4b39">*</strong>):</label>
+                            <input type="date" class="form-control" name="fechaActaInspeccion" id="fechaActaInspeccion" value="<?php echo isset($fechaInspeccion) ? $fechaInspeccion : null ?>" required/>
+                        </div>
+                    </div>
+                    <!--________________-->
+                    <!--Hora Acta Inspeccion-->
+                    <div class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label for="horaActaInspeccion">Hora inspección(<strong style="color: #dd4b39">*</strong>):</label>
+                            <input type="time" class="form-control" name="horaActaInspeccion" id="horaActaInspeccion" value="<?php echo isset($horaInspeccion) ? $horaInspeccion : null ?>" required/>
+                        </div>
                     </div>
                     <!--________________-->
                     
                     <!--Siendo atendido por-->
-                    <div class="col-md-4 col-sm-4 col-xs-6">
+                    <div class="col-md-6 col-sm-4 col-xs-6">
                         <div class="form-group">
                             <label for="quienAtendio">Siendo atendido por(<strong style="color: #dd4b39">*</strong>):</label>
                             <input class="form-control" name="quienAtendio" id="quienAtendio" placeholder="Ingrese por quién fue atendido" value="<?php echo isset($preCargaDatos->atendidos_por) ? $preCargaDatos->atendidos_por : null ?>" required/>
@@ -607,16 +624,16 @@
                     <!--________________-->
                     
                     <!--En su caracter de-->
-                    <div class="col-md-4 col-sm-4 col-xs-6">
+                    <div class="col-md-5 col-sm-4 col-xs-6">
                         <div class="form-group">
                             <label for="caracterAtendio">En su carácter de(<strong style="color: #dd4b39">*</strong>):</label>
-                            <input class="form-control" name="caracterAtendio" id="caracterAtendio" placeholder="Ingrese el caracter del que atendió" value="<?php echo isset($preCargaDatos->caracter_de) ? $preCargaDatos->caracter_de : null ?>" required/>
+                            <input class="form-control" name="caracterAtendio" id="caracterAtendio" placeholder="Ingrese el caracter del que atendió" value="<?php echo isset($preCargaDatos->caracter_de) ? $preCargaDatos->caracter_de : 'Chofer' ?>" required/>
                         </div>                    
                     </div>
                     <!--________________-->
 
                     <!--Proceden a-->
-                    <div class="col-md-12 col-sm-12 col-xs-6">
+                    <div class="col-md-7 col-sm-12 col-xs-6">
                         <div class="form-group">
                             <label for="procedenAccion">Proceden a:</label>
                             <textarea class="form-control" name="procedenAccion" id="procedenAccion"><?php echo isset($preCargaDatos->proceden_a) ? $preCargaDatos->proceden_a : null ?></textarea>
@@ -1013,6 +1030,10 @@ $(document).ready(function() {
     //DEPARTAMENTO
     depa_id = "<?php echo isset($preCargaDatos->depa_id) ? $preCargaDatos->depa_id : null ?>";
     if(_isset(depa_id)) $("#depa_idActa").val(depa_id).trigger('change');
+
+    //TIPO PRODUCTO
+    tipr_id = "<?php echo isset($preCargaDatos->tipr_id) ? $preCargaDatos->tipr_id : null ?>";
+    if(_isset(tipr_id)) $("#tipr_id").val(tipr_id).trigger('change');
 
     //MÁSCARAS
     //Lugar de Emision A-Z, 0-9 y space
@@ -1428,6 +1449,7 @@ function verTermico(tag){
 $('#doc_chofer').on('select2:select', function (e) {
     var data = e.params.data;
     $("#nom_chofer").val(data.text);
+    $("#quienAtendio").val(data.text);
 });
 $('#esta_nom').on('select2:select', function (e) {
     var data = e.params.data;
@@ -1495,7 +1517,8 @@ async function cerrarTareaform(){
     var dataForm = new FormData($('#formInspeccion')[0]);
     var case_id = $("#caseId").val();
     dataForm.append('case_id', case_id);
-
+    dataForm.append('fec_inspeccion', $("#fechaActaInspeccion").val() + " " + $("#horaActaInspeccion").val());
+    
     //Guardo formulario de escaneo documentacion, se valido en cerrarTarea()
     var newInfoID = await frmGuardarConPromesa($('#formEscaneoDocu').find('form'));
     dataForm.append('info_id_doc', newInfoID);
@@ -1799,6 +1822,10 @@ function imprimirActa(){
     $(".acta_tempCamaraActa").text($("#tempCamaraActa").val());
     $(".acta_fecha").text(dateFormat($("#fechaActa").val()));
     $(".acta_hora").text($("#horaActa").val());
+    $(".acta_diaInspeccion").text(moment($("#fechaActaInspeccion").val()).format('D'));
+    $(".acta_mesInspeccion").text(moment($("#fechaActaInspeccion").val()).format('MMMM'));
+    $(".acta_anioInspeccion").text(moment($("#fechaActaInspeccion").val()).format('Y'));
+    $(".acta_horaInspeccion").text($("#horaActaInspeccion").val());
 
     //Valído y obtengo los tipos de infracciones
     if($('input[name=inspValida]:checked').val() == 'incorrecta'){

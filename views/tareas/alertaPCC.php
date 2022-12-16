@@ -569,7 +569,7 @@
                     <div class="col-md-6 col-sm-6 col-xs-6">
                         <div class="form-group">
                             <label for="dondeConstituyen">Se constituyen en(<strong style="color: #dd4b39">*</strong>):</label>
-                            <input class="form-control" name="dondeConstituyen" id="dondeConstituyen" value="Dirección de Desarrollo Pecuario" readonly/>
+                            <input class="form-control" name="dondeConstituyen" id="dondeConstituyen" value="Punto de control de productos cárnicos y derivados de la Pcia. de San Juan" readonly/>
                         </div>                    
                     </div>
                     <!--________________-->
@@ -578,7 +578,7 @@
                     <div class="col-md-6 col-sm-6 col-xs-6">
                         <div class="form-group">
                             <label for="domicilio">Con domicilio en(<strong style="color: #dd4b39">*</strong>):</label>
-                            <input class="form-control" name="domicilio" id="domicilio" placeholder="Ingrese Domicilio" required/>
+                            <input class="form-control" name="domicilio" id="domicilio" placeholder="Ingrese Domicilio" value="Calle 11 y Punta del Monte" required/>
                         </div>                    
                     </div>
                     <!--________________-->
@@ -587,7 +587,7 @@
                     <div class="col-md-4 col-sm-4 col-xs-6">
                         <div class="form-group">
                             <label for="propiedad">Propiedad de(<strong style="color: #dd4b39">*</strong>):</label>
-                            <input class="form-control" name="propiedad" id="propiedad" placeholder="Ingrese a quién pertenece" required/>
+                            <input class="form-control" name="propiedad" id="propiedad" placeholder="Ingrese a quién pertenece" value="DDP" required/>
                         </div>                    
                     </div>
                     <!--________________-->
@@ -605,7 +605,7 @@
                     <div class="col-md-4 col-sm-4 col-xs-6">
                         <div class="form-group">
                             <label for="caracterAtendio">En su carácter de(<strong style="color: #dd4b39">*</strong>):</label>
-                            <input class="form-control" name="caracterAtendio" id="caracterAtendio" placeholder="Ingrese el caracter del que atendió" required/>
+                            <input class="form-control" name="caracterAtendio" id="caracterAtendio" placeholder="Ingrese el caracter del que atendió" value="Chofer" required/>
                         </div>                    
                     </div>
                     <!--________________-->
@@ -1365,6 +1365,7 @@ function verTermico(tag){
 $('#doc_chofer').on('select2:select', function (e) {
     var data = e.params.data;
     $("#nom_chofer").val(data.text);
+    $("#quienAtendio").val(data.text);
 });
 $('#esta_nom').on('select2:select', function (e) {
     var data = e.params.data;

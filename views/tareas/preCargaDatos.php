@@ -923,6 +923,7 @@ function verTermico(tag){
 $('#doc_chofer').on('select2:select', function (e) {
     var data = e.params.data;
     $("#nom_chofer").val(data.text);
+    $("#quienAtendio").val(data.text);
 });
 $('#esta_nom').on('select2:select', function (e) {
     var data = e.params.data;
