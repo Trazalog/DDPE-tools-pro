@@ -509,6 +509,16 @@ class Sicpoatareas extends CI_Model
                 
                 $rsp = $this->guardarForms($data);
 
+                $data['_post_pedidotrabajo_tarea_form'] = array(
+                    "nom_tarea" => "$nom_tarea Foto acta en papel",
+                    "task_id" => $task_id,
+                    "usuario_app" => $user_app,
+                    "case_id" => $case_id,
+                    "info_id" => $form['info_id_acta']
+                );
+                
+                $rsp = $this->guardarForms($data);
+
                 if($form['doc_impositiva'] == 'Total'){
                     $contrato["erroresDocumentacion"]  = false;
                 }else{
