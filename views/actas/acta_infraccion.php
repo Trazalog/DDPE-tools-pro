@@ -25,8 +25,8 @@
         <div style="margin-bottom: 35px;width: 100%; float:left">
             <div class="bodyActa" style="">
                 <div style="text-indent: 30px;">
-                    En la ciudad de San Juan, departamento <span class="acta_depto"><?php echo $inspeccion->departamento ?></span>, localidad <span class="acta_localidad"><?php echo $inspeccion->localidad ?></span> a los <?php echo date('d'); ?> días del mes de <?php echo $mes; ?> del año <?php echo date('Y'); ?>,
-                    siendo las <?php echo date('H'); ?> horas.  Los inspectores del S. V. I. S. <span class="acta_inspectores"><?php echo $inspeccion->inspectores ?></span>, se constituyen en <span class="acta_puntoControl"><?php echo $inspeccion->se_constituye ?></span> 
+                    En la ciudad de San Juan, departamento <span class="acta_depto"><?php echo $inspeccion->departamento ?></span>, localidad <span class="acta_localidad"><?php echo $inspeccion->localidad ?></span> a los <span class="acta_diaInspeccion"><?php echo $diaInspeccion; ?></span> días del mes de <span class="acta_mesInspeccion"><?php echo $mesInspeccion; ?></span> del año <span class="acta_anioInspeccion"><?php echo $anioInspeccion; ?></span>,
+                    siendo las <span class="acta_horaInspeccion"><?php echo date('H'); ?></span> horas.  Los inspectores del S. V. I. S. <span class="acta_inspectores"><?php echo $inspeccion->inspectores ?></span>, se constituyen en <span class="acta_puntoControl"><?php echo $inspeccion->se_constituye ?></span> 
                     con domicilio en <span class="acta_puntoControlDomicilio"><?php echo $inspeccion->domicilio_constituye ?></span> propiedad de <span class="acta_propiedadDe"><?php echo $inspeccion->propiedad_de ?></span>. Siendo atendidos por <span class="acta_quienAtendio"><?php echo $inspeccion->atendidos_por ?></span> D.N.I. N° <span class="dniActa"><?php echo $inspeccion->chof_id ?></span> en su carácter de <span class="acta_caracter"><?php echo $inspeccion->caracter_de ?></span>.<br>
                 </div>
                 <div style="text-indent: 30px;">
@@ -123,8 +123,8 @@
         <div style="margin-bottom: 35px;width: 100%; float:left">
             <div class="bodyActa" style="">
                 <div style="text-indent: 30px;">
-                    En la ciudad de San Juan, departamento <span class="acta_depto"><?php echo $inspeccion->departamento ?></span>, localidad <span class="acta_localidad"><?php echo $inspeccion->localidad ?></span> a los <?php echo date('d'); ?> días del mes de <?php echo $mes; ?> del año <?php echo date('Y'); ?>,
-                    siendo las <?php echo date('H'); ?> horas.  Los inspectores del S. V. I. S. <span class="acta_inspectores"><?php echo $inspeccion->inspectores ?></span>, se constituyen en <span class="acta_puntoControl"><?php echo $inspeccion->se_constituye ?></span> 
+                    En la ciudad de San Juan, departamento <span class="acta_depto"><?php echo $inspeccion->departamento ?></span>, localidad <span class="acta_localidad"><?php echo $inspeccion->localidad ?></span> a los <span class="acta_diaInspeccion"><?php echo $diaInspeccion; ?></span> días del mes de <span class="acta_mesInspeccion"><?php echo $mesInspeccion; ?></span> del año <span class="acta_anioInspeccion"><?php echo $anioInspeccion; ?></span>,
+                    siendo las <span class="acta_horaInspeccion"><?php echo date('H'); ?></span> horas.  Los inspectores del S. V. I. S. <span class="acta_inspectores"><?php echo $inspeccion->inspectores ?></span>, se constituyen en <span class="acta_puntoControl"><?php echo $inspeccion->se_constituye ?></span> 
                     con domicilio en <span class="acta_puntoControlDomicilio"><?php echo $inspeccion->domicilio_constituye ?></span> propiedad de <span class="acta_propiedadDe"><?php echo $inspeccion->propiedad_de ?></span>. Siendo atendidos por <span class="acta_quienAtendio"><?php echo $inspeccion->atendidos_por ?></span> D.N.I. N° <span class="dniActa"><?php echo $inspeccion->chof_id ?></span> en su carácter de <span class="acta_caracter"><?php echo $inspeccion->caracter_de ?></span>.<br>
                 </div>
                 <div style="text-indent: 30px;">
@@ -221,8 +221,8 @@
         <div style="margin-bottom: 35px;width: 100%; float:left">
             <div class="bodyActa" style="">
                 <div style="text-indent: 30px;">
-                    En la ciudad de San Juan, departamento <span class="acta_depto"><?php echo $inspeccion->departamento ?></span>, localidad <span class="acta_localidad"><?php echo $inspeccion->localidad ?></span> a los <?php echo date('d'); ?> días del mes de <?php echo $mes; ?> del año <?php echo date('Y'); ?>,
-                    siendo las <?php echo date('H'); ?> horas.  Los inspectores del S. V. I. S. <span class="acta_inspectores"><?php echo $inspeccion->inspectores ?></span>, se constituyen en <span class="acta_puntoControl"><?php echo $inspeccion->se_constituye ?></span> 
+                    En la ciudad de San Juan, departamento <span class="acta_depto"><?php echo $inspeccion->departamento ?></span>, localidad <span class="acta_localidad"><?php echo $inspeccion->localidad ?></span> a los <span class="acta_diaInspeccion"><?php echo $diaInspeccion; ?></span> días del mes de <span class="acta_mesInspeccion"><?php echo $mesInspeccion; ?></span> del año <span class="acta_anioInspeccion"><?php echo $anioInspeccion; ?></span>,
+                    siendo las <span class="acta_horaInspeccion"><?php echo date('H'); ?></span> horas.  Los inspectores del S. V. I. S. <span class="acta_inspectores"><?php echo $inspeccion->inspectores ?></span>, se constituyen en <span class="acta_puntoControl"><?php echo $inspeccion->se_constituye ?></span> 
                     con domicilio en <span class="acta_puntoControlDomicilio"><?php echo $inspeccion->domicilio_constituye ?></span> propiedad de <span class="acta_propiedadDe"><?php echo $inspeccion->propiedad_de ?></span>. Siendo atendidos por <span class="acta_quienAtendio"><?php echo $inspeccion->atendidos_por ?></span> D.N.I. N° <span class="dniActa"><?php echo $inspeccion->chof_id ?></span> en su carácter de <span class="acta_caracter"><?php echo $inspeccion->caracter_de ?></span>.<br>
                 </div>
                 <div style="text-indent: 30px;">

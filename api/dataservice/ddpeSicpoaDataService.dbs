@@ -2,41 +2,9 @@
    <config enableOData="false" id="SICPOADataSource">
       <property name="carbon_datasource_name">ToolsDataSource</property>
    </config>
-   <query id="setInspeccion" useConfig="SICPOADataSource">
-      <sql>INSERT INTO sicpoa.inspecciones (&#xd;	case_id,&#xd;	patente_tractor,&#xd;	nro_senasa,&#xd;	productos,&#xd;	reprecintado,&#xd;	bruto,&#xd;	tara,&#xd;	ticket,&#xd;	resultado,&#xd;	cant_fajas,&#xd;	bruto_reprecintado,&#xd;	ticket_reprecintado,&#xd;	usuario_app,&#xd;	petr_id,&#xd;	chof_id,&#xd;	inca_id,&#xd;	observaciones,&#xd;	info_id_doc,&#xd;	tel_transportista,&#xd;	email_transportista,&#xd;	se_constituye,&#xd;	domicilio_constituye,&#xd;	propiedad_de,&#xd;	atendidos_por,&#xd;	caracter_de,&#xd;	proceden_a,&#xd;	departamento,&#xd;	inspectores,&#xd;	localidad&#xd;) &#xd;SELECT cast (:case_id AS INTEGER ),&#xd;	:patente_tractor,&#xd;	:nro_senasa,&#xd;	:productos,&#xd;	CAST ( :reprecintado AS BOOLEAN ),&#xd;	case when param.bruto IS NULL OR param.bruto = '' then null ELSE CAST ( param.bruto AS FLOAT ) END,&#xd;	case when param.tara IS NULL OR param.tara = '' then NULL ELSE CAST ( param.tara AS FLOAT ) END,&#xd;    :ticket,&#xd;    :resultado,&#xd;    case when param.cant_fajas IS null or param.cant_fajas = '' then null ELSE CAST ( param.cant_fajas AS INTEGER ) END,&#xd;    case when param.bruto_reprecintado IS NULL OR param.bruto_reprecintado = '' then NULL ELSE CAST ( param.bruto_reprecintado AS FLOAT ) END,&#xd;    :ticket_reprecintado,&#xd;    :usuario_app,&#xd;    CAST ( :petr_id AS INTEGER ),&#xd;    CAST ( :chof_id AS INTEGER ),&#xd;    case when param.inca_id is null or param.inca_id = '' then NULL ELSE CAST ( param.inca_id AS INTEGER ) END,&#xd;    :observaciones,&#xd;    case when param.info_id_doc IS NULL OR param.info_id_doc = '' then null else CAST ( param.info_id_doc AS INTEGER ) END,&#xd;    :tel_transportista,&#xd;    :email_transportista,&#xd;    :se_constituye,&#xd;    :domicilio_constituye,&#xd;    :propiedad_de,&#xd;    :atendidos_por,&#xd;    :caracter_de,&#xd;    :proceden_a,&#xd;    case when param.departamento is null or param.departamento = '' then null else param.departamento end,&#xd;    :inspectores,		&#xd;    :localidad&#xd;    FROM&#xd;    ( SELECT :bruto bruto, :tara tara, :bruto_reprecintado bruto_reprecintado, :inca_id inca_id,:cant_fajas cant_fajas,:info_id_doc info_id_doc, :departamento departamento) param &#xd;   ON conflict ( case_id ) DO&#xd;        UPDATE &#xd;            SET patente_tractor = excluded.patente_tractor,&#xd;            nro_senasa = excluded.nro_senasa,&#xd;            productos = excluded.productos,&#xd;            reprecintado = CAST ( excluded.reprecintado AS BOOLEAN ),&#xd;            bruto = CAST ( excluded.bruto AS FLOAT ),&#xd;            tara = CAST ( excluded.tara AS FLOAT ),&#xd;            ticket = excluded.ticket,&#xd;            resultado = excluded.resultado,&#xd;            cant_fajas = CAST ( excluded.cant_fajas AS INTEGER ),&#xd;            bruto_reprecintado = CAST ( excluded.bruto_reprecintado AS FLOAT ),&#xd;            ticket_reprecintado = excluded.ticket_reprecintado,&#xd;            usuario_app = excluded.usuario_app,&#xd;            petr_id = CAST ( excluded.petr_id AS INTEGER ),&#xd;            chof_id = excluded.chof_id,&#xd;            inca_id = excluded.inca_id,&#xd;            observaciones = excluded.observaciones,&#xd;            info_id_doc = excluded.info_id_doc,&#xd;            tel_transportista = excluded.tel_transportista,&#xd;            email_transportista = excluded.email_transportista,&#xd;            se_constituye = excluded.se_constituye,&#xd;            domicilio_constituye = excluded.domicilio_constituye,&#xd;            propiedad_de = excluded.propiedad_de,&#xd;            atendidos_por = excluded.atendidos_por,&#xd;            caracter_de = excluded.caracter_de,&#xd;            proceden_a = excluded.proceden_a,&#xd;            departamento = excluded.departamento,&#xd;            localidad = excluded.localidad,&#xd;            inspectores = excluded.inspectores</sql>
-      <param name="case_id" sqlType="STRING"/>
-      <param name="patente_tractor" sqlType="STRING"/>
-      <param name="nro_senasa" sqlType="STRING"/>
-      <param name="productos" sqlType="STRING"/>
-      <param name="reprecintado" sqlType="STRING"/>
-      <param name="bruto" sqlType="STRING"/>
-      <param name="tara" sqlType="STRING"/>
-      <param name="ticket" sqlType="STRING"/>
-      <param name="resultado" sqlType="STRING"/>
-      <param name="cant_fajas" sqlType="STRING"/>
-      <param name="bruto_reprecintado" sqlType="STRING"/>
-      <param name="ticket_reprecintado" sqlType="STRING"/>
-      <param name="usuario_app" sqlType="STRING"/>
-      <param name="petr_id" sqlType="STRING"/>
-      <param name="chof_id" sqlType="STRING"/>
-      <param name="inca_id" sqlType="STRING"/>
-      <param name="observaciones" sqlType="STRING"/>
-      <param name="info_id_doc" sqlType="STRING"/>
-      <param name="tel_transportista" sqlType="STRING"/>
-      <param name="email_transportista" sqlType="STRING"/>
-      <param name="se_constituye" sqlType="STRING"/>
-      <param name="domicilio_constituye" sqlType="STRING"/>
-      <param name="propiedad_de" sqlType="STRING"/>
-      <param name="atendidos_por" sqlType="STRING"/>
-      <param name="caracter_de" sqlType="STRING"/>
-      <param name="proceden_a" sqlType="STRING"/>
-      <param name="departamento" sqlType="STRING"/>
-      <param name="localidad" sqlType="STRING"/>
-      <param name="inspectores" sqlType="STRING"/>
-   </query>
    <query id="getInspeccion" useConfig="SICPOADataSource">
-      <sql>select &#xd;case_id&#xd;,patente_tractor&#xd;,nro_senasa&#xd;,productos&#xd;,reprecintado&#xd;,bruto&#xd;,tara&#xd;,ticket&#xd;,resultado&#xd;,cant_fajas&#xd;,bruto_reprecintado&#xd;,ticket_reprecintado&#xd;,to_char( i.fec_alta, 'YYYY-MM-DD HH24:MI') fec_alta&#xd;,i.usuario&#xd;,i.usuario_app&#xd;,petr_id&#xd;,chof_id&#xd;,c.nombre chofer&#xd;,inca_id&#xd;,inf.valor4_base64 foto_infraccion_calle&#xd;,observaciones&#xd;,info_id_doc&#xd;,tel_transportista&#xd;,email_transportista&#xd;,se_constituye&#xd;,domicilio_constituye&#xd;,propiedad_de &#xd;,atendidos_por &#xd;,caracter_de &#xd;,proceden_a &#xd;,localidad &#xd;,inspectores&#xd;,(select t.descripcion from core.tablas t where t.tabl_id = i.departamento) departamento&#xd;,departamento depa_id&#xd;from sicpoa.inspecciones i&#xd;left join frm.instancias_formularios inf on inf.inst_id = i.inca_id &#xd;, sicpoa.choferes c&#xd;where i.case_id = cast(:case_id as integer)&#xd;and i.chof_id = c.dni&#xd;and i.eliminado = false</sql>
-      <result outputType="json">{&#xd;    "inspeccion":{&#xd;       "case_id":"$case_id",&#xd;       "patente_tractor":"$patente_tractor",&#xd;       "nro_senasa":"$nro_senasa",&#xd;       "productos":"$productos",&#xd;       "reprecintado":"$reprecintado",&#xd;       "bruto":"$bruto",&#xd;       "tara":"$tara",&#xd;       "ticket":"$ticket",&#xd;       "resultado":"$resultado",&#xd;       "cant_fajas":"$cant_fajas",&#xd;       "bruto_reprecintado":"$bruto_reprecintado",&#xd;       "ticket_reprecintado":"$ticket_reprecintado",&#xd;       "fec_alta":"$fec_alta",&#xd;       "usuario":"$usuario",&#xd;       "usuario_app":"$usuario_app",&#xd;       "petr_id":"$petr_id",&#xd;       "chof_id":"$chof_id",&#xd;       "chofer":"$chofer",&#xd;       "inca_id":"$inca_id",&#xd;       "foto_infraccion_calle":"$foto_infraccion_calle",&#xd;       "info_id_doc":"$info_id_doc",&#xd;       "observaciones":"$observaciones",&#xd;       "tel_transportista":"$tel_transportista",&#xd;       "email_transportista":"$email_transportista",&#xd;       "se_constituye":"$se_constituye",&#xd;       "domicilio_constituye":"$domicilio_constituye",&#xd;       "propiedad_de":"$propiedad_de",&#xd;       "atendidos_por":"$atendidos_por",&#xd;       "caracter_de":"$caracter_de",&#xd;       "proceden_a":"$proceden_a",&#xd;       "localidad":"$localidad",&#xd;       "departamento":"$departamento",&#xd;       "depa_id":"$depa_id",&#xd;       "inspectores":"$inspectores",&#xd;       "@getPermisosTransito":"$case_id-&gt;case_id",      &#xd;       "@getInfracciones":"$case_id-&gt;case_id",&#xd;       "@getEmpresasInspeccion":"$case_id-&gt;case_id",&#xd;       "@getTermicosInspeccion":"$case_id-&gt;case_id",&#xd;       "@getDocumentosInspeccion":"$case_id-&gt;case_id"&#xd;    }&#xd; }</result>
+      <sql>select &#xd;case_id&#xd;,patente_tractor&#xd;,nro_senasa&#xd;,productos&#xd;,reprecintado&#xd;,bruto&#xd;,tara&#xd;,ticket&#xd;,resultado&#xd;,cant_fajas&#xd;,bruto_reprecintado&#xd;,ticket_reprecintado&#xd;,to_char( i.fec_alta, 'YYYY-MM-DD HH24:MI') fec_alta&#xd;,i.usuario&#xd;,i.usuario_app&#xd;,petr_id&#xd;,chof_id&#xd;,c.nombre chofer&#xd;,inca_id&#xd;,inf.valor4_base64 foto_infraccion_calle&#xd;,observaciones&#xd;,info_id_doc&#xd;,tel_transportista&#xd;,email_transportista&#xd;,se_constituye&#xd;,domicilio_constituye&#xd;,propiedad_de &#xd;,atendidos_por &#xd;,caracter_de &#xd;,proceden_a &#xd;,localidad &#xd;,inspectores&#xd;,(select t.descripcion from core.tablas t where t.tabl_id = i.departamento) departamento&#xd;,departamento depa_id&#xd;,i.tipr_id&#xd;,to_char(i.fec_inspeccion, 'YYYY-MM-DD HH24:MI') fec_inspeccion&#xd;from sicpoa.inspecciones i&#xd;left join frm.instancias_formularios inf on inf.inst_id = i.inca_id &#xd;, sicpoa.choferes c&#xd;where i.case_id = cast(:case_id as integer)&#xd;and i.chof_id = c.dni&#xd;and i.eliminado = false</sql>
+      <result outputType="json">{&#xd;    "inspeccion":{&#xd;       "case_id":"$case_id",&#xd;       "patente_tractor":"$patente_tractor",&#xd;       "nro_senasa":"$nro_senasa",&#xd;       "productos":"$productos",&#xd;       "reprecintado":"$reprecintado",&#xd;       "bruto":"$bruto",&#xd;       "tara":"$tara",&#xd;       "ticket":"$ticket",&#xd;       "resultado":"$resultado",&#xd;       "cant_fajas":"$cant_fajas",&#xd;       "bruto_reprecintado":"$bruto_reprecintado",&#xd;       "ticket_reprecintado":"$ticket_reprecintado",&#xd;       "fec_alta":"$fec_alta",&#xd;       "usuario":"$usuario",&#xd;       "usuario_app":"$usuario_app",&#xd;       "petr_id":"$petr_id",&#xd;       "chof_id":"$chof_id",&#xd;       "chofer":"$chofer",&#xd;       "inca_id":"$inca_id",&#xd;       "foto_infraccion_calle":"$foto_infraccion_calle",&#xd;       "info_id_doc":"$info_id_doc",&#xd;       "observaciones":"$observaciones",&#xd;       "tel_transportista":"$tel_transportista",&#xd;       "email_transportista":"$email_transportista",&#xd;       "se_constituye":"$se_constituye",&#xd;       "domicilio_constituye":"$domicilio_constituye",&#xd;       "propiedad_de":"$propiedad_de",&#xd;       "atendidos_por":"$atendidos_por",&#xd;       "caracter_de":"$caracter_de",&#xd;       "proceden_a":"$proceden_a",&#xd;       "localidad":"$localidad",&#xd;       "departamento":"$departamento",&#xd;       "depa_id":"$depa_id",&#xd;       "inspectores":"$inspectores",&#xd;       "tipr_id":"$tipr_id",&#xd;       "fec_inspeccion":"$fec_inspeccion",&#xd;       "@getPermisosTransito":"$case_id-&gt;case_id",      &#xd;       "@getInfracciones":"$case_id-&gt;case_id",&#xd;       "@getEmpresasInspeccion":"$case_id-&gt;case_id",&#xd;       "@getTermicosInspeccion":"$case_id-&gt;case_id",&#xd;       "@getDocumentosInspeccion":"$case_id-&gt;case_id"&#xd;    }&#xd; }</result>
       <param name="case_id" sqlType="STRING"/>
    </query>
    <query id="getPermisosTransito" useConfig="SICPOADataSource">
@@ -82,7 +50,7 @@
       <param name="fecha_hora" sqlType="STRING"/>
    </query>
    <query id="setPermisosInspeccion" useConfig="SICPOADataSource">
-      <sql>insert&#xd;	into&#xd;	sicpoa.permisos_transito (perm_id,&#xd;	lugar_emision,&#xd;	fecha_hora_salida,&#xd;	tipo,&#xd;	usuario_app,&#xd;	case_id,&#xd;    soli_num,&#xd;    origen,&#xd;    neto,&#xd;    bruto,&#xd;    temperatura,&#xd;    productos)&#xd;values(:perm_id,&#xd;	:lugar_emision,&#xd;	to_timestamp(:fecha_hora_salida,'YYYY-MM-DD HH24:MI'),&#xd;	:tipo,&#xd;	:usuario_app,&#xd;	cast(:case_id as integer),&#xd;    :soli_num,&#xd;    :origen,&#xd;    :neto,&#xd;    :bruto,&#xd;    cast(:temperatura as float),&#xd;    :productos);</sql>
+      <sql>insert&#xd;	into&#xd;	sicpoa.permisos_transito (perm_id,&#xd;	lugar_emision,&#xd;	fecha_hora_salida,&#xd;	tipo,&#xd;	usuario_app,&#xd;	case_id,&#xd;    soli_num,&#xd;    origen,&#xd;    neto,&#xd;    bruto,&#xd;    temperatura,&#xd;    productos)&#xd;values(:perm_id,&#xd;	:lugar_emision,&#xd;	to_timestamp(:fecha_hora_salida,'YYYY-MM-DD HH24:MI'),&#xd;	:tipo,&#xd;	:usuario_app,&#xd;	cast(:case_id as integer),&#xd;    :soli_num,&#xd;    :origen,&#xd;    cast(:neto as float),&#xd;    :bruto,&#xd;    cast(:temperatura as float),&#xd;    :productos);</sql>
       <param name="perm_id" sqlType="STRING"/>
       <param name="lugar_emision" sqlType="STRING"/>
       <param name="fecha_hora_salida" sqlType="STRING"/>
@@ -212,8 +180,8 @@
       <param name="case_id" sqlType="STRING"/>
    </query>
    <query id="setDetalleDocumento" useConfig="SICPOADataSource">
-      <sql>insert&#xd;	into&#xd;	sicpoa.detalles_documento (cantidad,&#xd;	precio_unitario,&#xd;	descuento,&#xd;        unidades,&#xd;	usuario_app,&#xd;	docu_id,&#xd;	tido_id,&#xd;	tipr_id,&#xd;	unme_id)&#xd;values(cast (:cantidad as float),&#xd;	case when :precio_unitario is null or :precio_unitario = '' then null else cast (:precio_unitario as float) END,&#xd;	case when :descuento IS NULL OR :descuento = '' then null ELSE CAST ( :descuento AS FLOAT ) END,&#xd;    cast (:unidades as integer),&#xd;	:usuario_app,&#xd;	:docu_id,&#xd;	:tido_id,&#xd;	:tipr_id,&#xd;	:unme_id)&#xd;returning dedo_id;</sql>
-      <result outputType="json">{"respuesta":{"dedo_id":"$dedo_id"}}</result>
+      <sql>insert into sicpoa.detalles_documento (cantidad,precio_unitario,descuento,unidades,usuario_app,docu_id,tido_id,tipr_id,unme_id)&#xd;values(cast (:cantidad as float),&#xd;case when :precio_unitario is null or :precio_unitario = '' then null else cast (:precio_unitario as float) END,&#xd;case when :descuento IS NULL OR :descuento = '' then null ELSE CAST ( :descuento AS FLOAT ) END,&#xd;cast (:unidades as integer),&#xd;:usuario_app,&#xd;:docu_id,&#xd;:tido_id,&#xd;:tipr_id,&#xd;:unme_id)&#xd;returning dedo_id;</sql>
+      <result outputType="json">{&#xd;    "respuesta": {&#xd;        "dedo_id": "$dedo_id"&#xd;    }&#xd;}</result>
       <param name="cantidad" sqlType="STRING"/>
       <param name="precio_unitario" sqlType="STRING"/>
       <param name="descuento" sqlType="STRING"/>
@@ -267,8 +235,8 @@
       <param name="dedo_id" sqlType="STRING"/>
    </query>
    <query id="getInspeccionAvanzada" useConfig="SICPOADataSource">
-      <sql>select&#xd;	i.case_id ,&#xd;	I.fec_alta ,&#xd;	(I.bruto - I.tara) as neto ,&#xd;	CH.nombre ,&#xd;	(&#xd;		select&#xd;			string_agg(T.patente, ', ')&#xd;		from&#xd;			sicpoa.inspecciones_termicos IT,&#xd;			sicpoa.termicos T&#xd;		where&#xd;			I.case_id = IT.case_id&#xd;			and IT.term_id = T.patente) termicos,&#xd;	I.resultado ,&#xd;	ieo.empr_id as cuit_origen,&#xd;	eo.razon_social razon_social_origen,&#xd;	(&#xd;		select&#xd;			string_agg(concat(&#xd;                  e.razon_social,&#xd;                  ' (', ied.empr_id, ')'&#xd;			           , case&#xd;                    when ied.depo_id is not null&#xd;                    then concat(' - '&#xd;                                , d.calle , ' '&#xd;                                , d.altura , ' '&#xd;                                , t.valor)&#xd;			              else ''&#xd;                  end)&#xd;			            , ', ')&#xd;		from&#xd;			sicpoa.inspecciones_empresas ied&#xd;		left join sicpoa.depositos d on	d.depo_id = ied.depo_id&#xd;		left join core.tablas t on tabl_id = d.depa_id ,&#xd;			sicpoa.empresas e&#xd;		where&#xd;			ied.case_id = i.case_id&#xd;			and ied.rol = 'DESTINO'&#xd;			and ied.empr_id = e.cuit) as destinos,&#xd;	iet.empr_id as cuit_transpote,&#xd;	et.razon_social razon_social_transporte,&#xd;	( select string_agg( t.descripcion ,', ')&#xd;	  from sicpoa.documentos d&#xd;	  ,sicpoa.detalles_documento dd &#xd;	  ,core.tablas t&#xd;	  where dd.docu_id = d.num_documento &#xd;	  and dd.tido_id = d.tido_id&#xd;	  and t.tabl_id = dd.tipr_id&#xd;	  and d.case_id =i.case_id ) tipos_productos&#xd;from&#xd;	sicpoa.inspecciones I&#xd;left join sicpoa.inspecciones_empresas ieo on&#xd;	ieo.case_id = i.case_id&#xd;	and ieo.rol = 'ORIGEN'	&#xd;left join sicpoa.empresas eo on&#xd;	eo.cuit = ieo.empr_id&#xd;left join sicpoa.inspecciones_empresas iet on&#xd;	iet.case_id = i.case_id&#xd;	and iet.rol = 'TRANSPORTISTA'	&#xd;left join sicpoa.empresas et on&#xd;	et.cuit = iet.empr_id ,&#xd;	sicpoa.choferes CH&#xd;  , (select :cuit_origen cuit_origen, :cuit_destino cuit_destino, :cuit_transporte cuit_transporte, :resultado resultado, :tipo_producto tipo_producto, :fec_desde fec_desde, :fec_hasta fec_hasta ) param&#xd;where&#xd;	I.chof_id = CH.dni&#xd;	and date_trunc('day',I.fec_alta) &lt;= to_date(case when param.fec_hasta is null or param.fec_hasta = '' then '2100-01-01' else param.fec_hasta end ,'YYYY-MM-DD') &#xd;	and date_trunc('day',I.fec_alta) &gt;= to_date(case when param.fec_desde is null or param.fec_desde = '' then '1899-01-01' else param.fec_desde end,'YYYY-MM-DD')&#xd;	and (param.resultado = 'TODOS' or param.resultado = i.resultado)&#xd;  and (param.tipo_producto = 'TODOS' or param.tipo_producto in (select dd.tipr_id&#xd;                                                                  from sicpoa.documentos d&#xd;                                                                  ,sicpoa.detalles_documento dd&#xd;                                                                  where dd.docu_id = d.num_documento&#xd;                                                                  and dd.tido_id = d.tido_id ))&#xd;	and (param.cuit_origen = 'TODOS' or param.cuit_origen = ieo.empr_id)&#xd;	and (param.cuit_destino = 'TODOS' or param.cuit_destino in (select ie.empr_id&#xd;                                                                from sicpoa.inspecciones_empresas ie&#xd;                                                                where ie.case_id = i.case_id&#xd;                                                                and ie.rol='DESTINO'))&#xd;	and (param.cuit_transporte = 'TODOS' or param.cuit_transporte = iet.empr_id )&#xd;order by I.fec_alta DESC</sql>
-      <result outputType="json">{&#xd;  "inspecciones": {&#xd;      "inspeccion": [&#xd;          {&#xd;          "case_id": "$case_id",&#xd;          "fec_alta": "$fec_alta",&#xd;          "neto": "$neto",&#xd;          "nombre": "$nombre",&#xd;          "termicos": "$termicos",&#xd;          "resultado": "$resultado",&#xd;          "cuit_origen": "$cuit_origen",&#xd;          "razon_social_origen": "$razon_social_origen",&#xd;          "destinos": "$destinos",&#xd;          "cuit_transpote": "$cuit_transpote",&#xd;          "razon_social_transporte": "$razon_social_transporte",&#xd;          "tipos_productos": "$tipos_productos"&#xd;          }&#xd;      ]&#xd;      }&#xd;}</result>
+      <sql>select&#xd;	i.case_id ,&#xd;	I.fec_alta ,&#xd;	(I.bruto - I.tara) as neto ,&#xd;	CH.nombre ,&#xd;	(&#xd;		select&#xd;			string_agg(T.patente, ', ')&#xd;		from&#xd;			sicpoa.inspecciones_termicos IT,&#xd;			sicpoa.termicos T&#xd;		where&#xd;			I.case_id = IT.case_id&#xd;			and IT.term_id = T.patente) termicos,&#xd;	I.resultado ,&#xd;	ieo.empr_id as cuit_origen,&#xd;	eo.razon_social razon_social_origen,&#xd;	(&#xd;		select&#xd;			string_agg(concat(&#xd;                  e.razon_social,&#xd;                  ' (', ied.empr_id, ')'&#xd;			           , case&#xd;                    when ied.depo_id is not null&#xd;                    then concat(' - '&#xd;                                , d.calle , ' '&#xd;                                , d.altura , ' '&#xd;                                , t.valor)&#xd;			              else ''&#xd;                  end)&#xd;			            , ', ')&#xd;		from&#xd;			sicpoa.inspecciones_empresas ied&#xd;		left join sicpoa.depositos d on	d.depo_id = ied.depo_id&#xd;		left join core.tablas t on tabl_id = d.depa_id ,&#xd;			sicpoa.empresas e&#xd;		where&#xd;			ied.case_id = i.case_id&#xd;			and ied.rol = 'DESTINO'&#xd;			and ied.empr_id = e.cuit) as destinos,&#xd;	iet.empr_id as cuit_transpote,&#xd;	et.razon_social razon_social_transporte,&#xd;	( select string_agg( t.descripcion ,', ')&#xd;	  from sicpoa.documentos d&#xd;	  ,sicpoa.detalles_documento dd &#xd;	  ,core.tablas t&#xd;	  where dd.docu_id = d.num_documento &#xd;	  and dd.tido_id = d.tido_id&#xd;	  and t.tabl_id = dd.tipr_id&#xd;	  and d.case_id =i.case_id ) tipos_productos,&#xd;	(&#xd;		select coalesce(sum(pt.neto), 0) &#xd;		from sicpoa.permisos_transito pt&#xd;		where I.case_id = pt.case_id&#xd;		group by pt.case_id&#xd;	) as neto_total_permiso&#xd;from&#xd;	sicpoa.inspecciones I&#xd;left join sicpoa.inspecciones_empresas ieo on&#xd;	ieo.case_id = i.case_id&#xd;	and ieo.rol = 'ORIGEN'	&#xd;left join sicpoa.empresas eo on&#xd;	eo.cuit = ieo.empr_id&#xd;left join sicpoa.inspecciones_empresas iet on&#xd;	iet.case_id = i.case_id&#xd;	and iet.rol = 'TRANSPORTISTA'	&#xd;left join sicpoa.empresas et on&#xd;	et.cuit = iet.empr_id ,&#xd;	sicpoa.choferes CH&#xd;  , (select :cuit_origen cuit_origen, :cuit_destino cuit_destino, :cuit_transporte cuit_transporte, :resultado resultado, :tipo_producto tipo_producto, :fec_desde fec_desde, :fec_hasta fec_hasta ) param&#xd;where&#xd;	I.chof_id = CH.dni&#xd;	and date_trunc('day',I.fec_alta) &lt;= to_date(case when param.fec_hasta is null or param.fec_hasta = '' then '2100-01-01' else param.fec_hasta end ,'YYYY-MM-DD') &#xd;	and date_trunc('day',I.fec_alta) &gt;= to_date(case when param.fec_desde is null or param.fec_desde = '' then '1899-01-01' else param.fec_desde end,'YYYY-MM-DD')&#xd;	and (param.resultado = 'TODOS' or param.resultado = i.resultado)&#xd;  and (param.tipo_producto = 'TODOS' or param.tipo_producto in (select dd.tipr_id&#xd;                                                                  from sicpoa.documentos d&#xd;                                                                  ,sicpoa.detalles_documento dd&#xd;                                                                  where dd.docu_id = d.num_documento&#xd;                                                                  and dd.tido_id = d.tido_id ))&#xd;	and (param.cuit_origen = 'TODOS' or param.cuit_origen = ieo.empr_id)&#xd;	and (param.cuit_destino = 'TODOS' or param.cuit_destino in (select ie.empr_id&#xd;                                                                from sicpoa.inspecciones_empresas ie&#xd;                                                                where ie.case_id = i.case_id&#xd;                                                                and ie.rol='DESTINO'))&#xd;	and (param.cuit_transporte = 'TODOS' or param.cuit_transporte = iet.empr_id )&#xd;order by I.fec_alta desc</sql>
+      <result outputType="json">{&#xd;  "inspecciones": {&#xd;      "inspeccion": [&#xd;          {&#xd;          "case_id": "$case_id",&#xd;          "fec_alta": "$fec_alta",&#xd;          "neto": "$neto",&#xd;          "nombre": "$nombre",&#xd;          "termicos": "$termicos",&#xd;          "resultado": "$resultado",&#xd;          "cuit_origen": "$cuit_origen",&#xd;          "razon_social_origen": "$razon_social_origen",&#xd;          "destinos": "$destinos",&#xd;          "cuit_transpote": "$cuit_transpote",&#xd;          "razon_social_transporte": "$razon_social_transporte",&#xd;          "tipos_productos": "$tipos_productos",&#xd;          "neto_total_permiso": "$neto_total_permiso"&#xd;          }&#xd;      ]&#xd;      }&#xd;}</result>
       <param name="cuit_origen" sqlType="STRING"/>
       <param name="cuit_destino" sqlType="STRING"/>
       <param name="cuit_transporte" sqlType="STRING"/>
@@ -288,39 +256,40 @@
       <result outputType="json">{&#xd;    "detalleInfracciones":{&#xd;       "detalleInfraccion":[&#xd;          {&#xd;            "tiin_id":"$tiin_id",&#xd;            "descripcion":"$descripcion",&#xd;            "valor":"$valor",&#xd;            "usuario_app":"$usuario_app"&#xd;          }&#xd;       ]&#xd;    }&#xd; }</result>
       <param name="case_id" sqlType="STRING"/>
    </query>
-   <resource method="POST" path="/inspeccion">
-      <call-query href="setInspeccion">
-         <with-param name="case_id" query-param="case_id"/>
-         <with-param name="patente_tractor" query-param="patente_tractor"/>
-         <with-param name="nro_senasa" query-param="nro_senasa"/>
-         <with-param name="productos" query-param="productos"/>
-         <with-param name="reprecintado" query-param="reprecintado"/>
-         <with-param name="bruto" query-param="bruto"/>
-         <with-param name="tara" query-param="tara"/>
-         <with-param name="ticket" query-param="ticket"/>
-         <with-param name="resultado" query-param="resultado"/>
-         <with-param name="cant_fajas" query-param="cant_fajas"/>
-         <with-param name="bruto_reprecintado" query-param="bruto_reprecintado"/>
-         <with-param name="ticket_reprecintado" query-param="ticket_reprecintado"/>
-         <with-param name="usuario_app" query-param="usuario_app"/>
-         <with-param name="petr_id" query-param="petr_id"/>
-         <with-param name="chof_id" query-param="chof_id"/>
-         <with-param name="inca_id" query-param="inca_id"/>
-         <with-param name="observaciones" query-param="observaciones"/>
-         <with-param name="info_id_doc" query-param="info_id_doc"/>
-         <with-param name="tel_transportista" query-param="tel_transportista"/>
-         <with-param name="email_transportista" query-param="email_transportista"/>
-         <with-param name="se_constituye" query-param="se_constituye"/>
-         <with-param name="domicilio_constituye" query-param="domicilio_constituye"/>
-         <with-param name="propiedad_de" query-param="propiedad_de"/>
-         <with-param name="atendidos_por" query-param="atendidos_por"/>
-         <with-param name="caracter_de" query-param="caracter_de"/>
-         <with-param name="proceden_a" query-param="proceden_a"/>
-         <with-param name="departamento" query-param="departamento"/>
-         <with-param name="localidad" query-param="localidad"/>
-         <with-param name="inspectores&#x9;&#x9;" query-param="inspectores&#x9;&#x9;"/>
-      </call-query>
-   </resource>
+   <query id="setInspeccion" useConfig="SICPOADataSource">
+      <sql>INSERT INTO sicpoa.inspecciones (&#xd;  case_id,&#xd;  patente_tractor,&#xd;  nro_senasa,&#xd;  reprecintado,&#xd;  bruto,&#xd;  tara,&#xd;  ticket,&#xd;  resultado,&#xd;  cant_fajas,&#xd;  bruto_reprecintado,&#xd;  ticket_reprecintado,&#xd;  usuario_app,&#xd;  petr_id,&#xd;  chof_id,&#xd;  inca_id,&#xd;  observaciones,&#xd;  info_id_doc,&#xd;  tel_transportista,&#xd;  email_transportista,&#xd;  se_constituye,&#xd;  domicilio_constituye,&#xd;  propiedad_de,&#xd;  atendidos_por,&#xd;  caracter_de,&#xd;  proceden_a,&#xd;  departamento,&#xd;  inspectores,&#xd;  localidad,&#xd;  tipr_id,&#xd;  kilos,&#xd;  fec_inspeccion&#xd;) &#xd;SELECT &#xd;  cast (:case_id AS INTEGER), &#xd;  :patente_tractor, &#xd;  :nro_senasa, &#xd;  CAST (:reprecintado AS BOOLEAN), &#xd;  case when param.bruto IS NULL &#xd;  OR param.bruto = '' then null ELSE CAST (param.bruto AS FLOAT) END, &#xd;  case when param.tara IS NULL &#xd;  OR param.tara = '' then NULL ELSE CAST (param.tara AS FLOAT) END, &#xd;  :ticket, &#xd;  :resultado, &#xd;  case when param.cant_fajas IS null &#xd;  or param.cant_fajas = '' then null ELSE CAST (param.cant_fajas AS INTEGER) END, &#xd;  case when param.bruto_reprecintado IS NULL &#xd;  OR param.bruto_reprecintado = '' then NULL ELSE CAST (param.bruto_reprecintado AS FLOAT) END, &#xd;  :ticket_reprecintado, &#xd;  :usuario_app, &#xd;  CAST (:petr_id AS INTEGER), &#xd;  CAST (:chof_id AS INTEGER), &#xd;  case when param.inca_id is null &#xd;  or param.inca_id = '' then NULL ELSE CAST (param.inca_id AS INTEGER) END, &#xd;  :observaciones, &#xd;  case when param.info_id_doc IS NULL &#xd;  OR param.info_id_doc = '' then null else CAST (param.info_id_doc AS INTEGER) END, &#xd;  :tel_transportista, &#xd;  :email_transportista, &#xd;  :se_constituye, &#xd;  :domicilio_constituye, &#xd;  :propiedad_de, &#xd;  :atendidos_por, &#xd;  :caracter_de, &#xd;  :proceden_a, &#xd;  case when param.departamento is null &#xd;  or param.departamento = '' then null else param.departamento end, &#xd;  :inspectores, &#xd;  :localidad, &#xd;  :tipr_id,&#xd;  case when param.kilos IS NULL OR param.kilos = '' then null ELSE CAST (param.kilos AS FLOAT) end,&#xd;  to_timestamp(cast(:fec_inspeccion as text),'YYYY-MM-DD HH24:MI:SS')&#xd;FROM &#xd;  (&#xd;    SELECT &#xd;      :bruto bruto, &#xd;      :tara tara, &#xd;      :bruto_reprecintado bruto_reprecintado, &#xd;      :inca_id inca_id, &#xd;      :cant_fajas cant_fajas, &#xd;      :info_id_doc info_id_doc, &#xd;      :departamento departamento,&#xd;      :kilos kilos&#xd;  ) param ON conflict (case_id) DO &#xd;UPDATE &#xd;SET &#xd;  patente_tractor = excluded.patente_tractor, &#xd;  nro_senasa = excluded.nro_senasa, &#xd;  reprecintado = CAST (excluded.reprecintado AS BOOLEAN), &#xd;  bruto = CAST (excluded.bruto AS FLOAT), &#xd;  tara = CAST (excluded.tara AS FLOAT), &#xd;  ticket = excluded.ticket, &#xd;  resultado = excluded.resultado, &#xd;  cant_fajas = CAST (excluded.cant_fajas AS INTEGER), &#xd;  bruto_reprecintado = CAST (excluded.bruto_reprecintado AS FLOAT), &#xd;  ticket_reprecintado = excluded.ticket_reprecintado, &#xd;  usuario_app = excluded.usuario_app, &#xd;  petr_id = CAST (excluded.petr_id AS INTEGER), &#xd;  chof_id = excluded.chof_id, &#xd;  inca_id = excluded.inca_id, &#xd;  observaciones = excluded.observaciones, &#xd;  info_id_doc = excluded.info_id_doc, &#xd;  tel_transportista = excluded.tel_transportista, &#xd;  email_transportista = excluded.email_transportista, &#xd;  se_constituye = excluded.se_constituye, &#xd;  domicilio_constituye = excluded.domicilio_constituye, &#xd;  propiedad_de = excluded.propiedad_de, &#xd;  atendidos_por = excluded.atendidos_por, &#xd;  caracter_de = excluded.caracter_de, &#xd;  proceden_a = excluded.proceden_a, &#xd;  departamento = excluded.departamento, &#xd;  localidad = excluded.localidad, &#xd;  inspectores = excluded.inspectores, &#xd;  tipr_id = excluded.tipr_id, &#xd;  kilos = CAST (excluded.kilos AS FLOAT),&#xd;  fec_inspeccion = to_timestamp(cast(excluded.fec_inspeccion as text),'YYYY-MM-DD HH24:MI:SS')</sql>
+      <param name="case_id" sqlType="STRING"/>
+      <param name="patente_tractor" sqlType="STRING"/>
+      <param name="nro_senasa" sqlType="STRING"/>
+      <param name="reprecintado" sqlType="STRING"/>
+      <param name="ticket" sqlType="STRING"/>
+      <param name="resultado" sqlType="STRING"/>
+      <param name="ticket_reprecintado" sqlType="STRING"/>
+      <param name="usuario_app" sqlType="STRING"/>
+      <param name="petr_id" sqlType="STRING"/>
+      <param name="chof_id" sqlType="STRING"/>
+      <param name="observaciones" sqlType="STRING"/>
+      <param name="tel_transportista" sqlType="STRING"/>
+      <param name="email_transportista" sqlType="STRING"/>
+      <param name="se_constituye" sqlType="STRING"/>
+      <param name="domicilio_constituye" sqlType="STRING"/>
+      <param name="propiedad_de" sqlType="STRING"/>
+      <param name="atendidos_por" sqlType="STRING"/>
+      <param name="caracter_de" sqlType="STRING"/>
+      <param name="proceden_a" sqlType="STRING"/>
+      <param name="inspectores" sqlType="STRING"/>
+      <param name="localidad" sqlType="STRING"/>
+      <param name="tipr_id" sqlType="STRING"/>
+      <param name="bruto" sqlType="STRING"/>
+      <param name="tara" sqlType="STRING"/>
+      <param name="bruto_reprecintado" sqlType="STRING"/>
+      <param name="inca_id" sqlType="STRING"/>
+      <param name="cant_fajas" sqlType="STRING"/>
+      <param name="info_id_doc" sqlType="STRING"/>
+      <param name="departamento" sqlType="STRING"/>
+      <param name="kilos" sqlType="STRING"/>
+      <param name="fec_inspeccion" sqlType="STRING"/>
+   </query>
    <resource method="GET" path="/inspeccion/id/{case_id}">
       <call-query href="getInspeccion">
          <with-param name="case_id" query-param="case_id"/>
@@ -576,6 +545,41 @@
          <with-param name="case_id" query-param="case_id"/>
          <with-param name="tiin_id" query-param="tiin_id"/>
          <with-param name="usuario_app" query-param="usuario_app"/>
+      </call-query>
+   </resource>
+   <resource method="POST" path="/inspeccion">
+      <call-query href="setInspeccion">
+         <with-param name="case_id" query-param="case_id"/>
+         <with-param name="patente_tractor" query-param="patente_tractor"/>
+         <with-param name="nro_senasa" query-param="nro_senasa"/>
+         <with-param name="reprecintado" query-param="reprecintado"/>
+         <with-param name="ticket" query-param="ticket"/>
+         <with-param name="resultado" query-param="resultado"/>
+         <with-param name="ticket_reprecintado" query-param="ticket_reprecintado"/>
+         <with-param name="usuario_app" query-param="usuario_app"/>
+         <with-param name="petr_id" query-param="petr_id"/>
+         <with-param name="chof_id" query-param="chof_id"/>
+         <with-param name="observaciones" query-param="observaciones"/>
+         <with-param name="tel_transportista" query-param="tel_transportista"/>
+         <with-param name="email_transportista" query-param="email_transportista"/>
+         <with-param name="se_constituye" query-param="se_constituye"/>
+         <with-param name="domicilio_constituye" query-param="domicilio_constituye"/>
+         <with-param name="propiedad_de" query-param="propiedad_de"/>
+         <with-param name="atendidos_por" query-param="atendidos_por"/>
+         <with-param name="caracter_de" query-param="caracter_de"/>
+         <with-param name="proceden_a" query-param="proceden_a"/>
+         <with-param name="inspectores" query-param="inspectores"/>
+         <with-param name="localidad" query-param="localidad"/>
+         <with-param name="tipr_id" query-param="tipr_id"/>
+         <with-param name="bruto" query-param="bruto"/>
+         <with-param name="tara" query-param="tara"/>
+         <with-param name="bruto_reprecintado" query-param="bruto_reprecintado"/>
+         <with-param name="inca_id" query-param="inca_id"/>
+         <with-param name="cant_fajas" query-param="cant_fajas"/>
+         <with-param name="info_id_doc" query-param="info_id_doc"/>
+         <with-param name="departamento" query-param="departamento"/>
+         <with-param name="kilos" query-param="kilos"/>
+         <with-param name="fec_inspeccion" query-param="fec_inspeccion"/>
       </call-query>
    </resource>
 </data>

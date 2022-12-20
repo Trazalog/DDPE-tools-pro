@@ -111,7 +111,7 @@
               $inst_id = array('inst_id' => $value['inst_id']);
               echo "<div class='iconoBorde'>";
               echo "<a download='".$value['descripcion']."' href='".$value['archivo']."' class='help-button col-sm-4 download' title='Descargar Archivo' download>";
-              echo "<img class='thumbnail fotos documentacion ". (in_array($value['inst_id'],$imag_ids) ? "used" : null) ."' height='51' width='45' data-json='".json_encode($inst_id)."' src='lib\imageForms\previewPDF.svg' alt='' onclick='previewFile(this)'>";
+              echo "<img class='thumbnail fotos documentacion ". (in_array($value['inst_id'],$imag_ids) ? "used" : null) ."' height='51' width='45' data-json='".json_encode($inst_id)."' src='lib\imageForms\previewPDF.svg' alt='' onclick='previewFileDocu(this)'>";
               echo "<span style='display:none' id='".$value['inst_id']."' class='delete iconoDocs'></span>";
               echo "</a>";
               echo "</div>";
@@ -173,7 +173,7 @@ function preview(imgs) {
     }
 }
 // No genero vista previa, solo actualiza imag_id 
-function previewFile(imgs) {
+function previewFileDocu(imgs) {
     if(!$(imgs).hasClass("used")){
       //Quito clase selected
       $('.fotos').removeClass("selected");
