@@ -36,10 +36,15 @@ class Opcionesfiltros extends CI_Model
   function getHistoricoCamiones($data)
   {
     log_message('DEBUG','#TRAZA | SICPOA | OPCIONESFILTROS | getHistoricoArticulos($data) | $data: >> '.json_encode($data));
-    $fec_desde = date("Y-m-d", strtotime($data["fec_desde"]));
-    $fec_hasta = date("Y-m-d", strtotime($data["fec_hasta"]));
+    $fec_desde = !empty($data['fec_desde']) ? date("Y-m-d", strtotime($data["fec_desde"])) : "";
+    $fec_hasta = !empty($data['fec_hasta']) ? date("Y-m-d", strtotime($data["fec_hasta"])) : "";
+    $cuit_origen = !empty($data["cuit_origen"]) ? $data['cuit_origen'] : 'TODOS';
+    $cuit_destino = !empty($data["cuit_destino"]) ? $data['cuit_destino'] : 'TODOS';
+    $cuit_transporte = !empty($data["cuit_transporte"]) ? $data['cuit_transporte'] : 'TODOS';
+    $resultado = !empty($data["resultado"]) ? $data['resultado'] : 'TODOS';
+    $tipo_producto = !empty($data["tipo_producto"]) ? $data['tipo_producto'] : 'TODOS';
 
-    $url = '/inspecciones/avanzado/desde/'.$fec_desde.'/hasta/'.$fec_hasta.'/origen/'.$data['cuit_origen'].'/destino/'.$data['cuit_destino'].'/transporte/'.$data['cuit_transporte'].'/resultado/'.$data['resultado'].'/producto/'.$data['tipo_producto'];
+    $url = '/inspecciones/avanzado/desde/'.$fec_desde.'/hasta/'.$fec_hasta.'/origen/'.$cuit_origen.'/destino/'.$cuit_destino.'/transporte/'.$cuit_transporte.'/resultado/'.$resultado.'/producto/'.$tipo_producto;
 
     $aux = $this->rest->callAPI("GET",REST_SICP.$url);
 

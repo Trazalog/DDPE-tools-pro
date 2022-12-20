@@ -205,12 +205,39 @@
                             <!--________________-->
 
                             <!--Producto-->
-                            <div class="col-md-12 col-sm-12 col-xs-12 ocultar">
+                            <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
+                                <div class="form-group">
+                                    <label for="producto">Producto(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <div class="input-group" style="width: 100%">
+                                        <select class="form-control select2 select2-hidden-accesible producto" name="tipr_id" id="tipr_id" style="width: 100%">
+                                            <option value="" disabled selected>- Seleccionar -</option>
+                                            <?php
+                                                if(!empty($productos)){ 
+                                                    foreach ($productos as $prod) {
+                                                        echo "<option data-json='".json_encode($prod)."' value='".$prod->tabl_id."'>".$prod->descripcion."</option>";
+                                                    }
+                                                }
+                                            ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Kilos-->
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label for="kilos">Kilos(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <input class="form-control onlyNumbers" name="kilos" id="kilos" placeholder="Ingrese kilos"/>
+                                </div>                    
+                            </div>
+                            <!--________________-->
+
+                            <!--Producto-->
+                            <!-- <div class="col-md-12 col-sm-12 col-xs-12 ocultar">
                                 <div class="form-group">
                                     <label for="producto">Producto/s(<strong style="color: #dd4b39">*</strong>):</label>
                                     <textarea class="form-control" name="productos" id="producto" placeholder="Ingrese producto/s"></textarea>
                                 </div>                    
-                            </div>
+                            </div> -->
                             <!--________________-->
 
                             <!--Neto-->
@@ -256,9 +283,9 @@
                                     ?>
                                         <div class='form-group permTransito' data-json='<?php echo json_encode($key) ?>'>
                                             <span> 
+                                                <i class='fa fa-fw fa-eye text-light-blue' style='cursor: pointer;' title='Ver detalle' onclick='verPermiso(this)'></i> 
+                                                <i class='fa fa-fw fa-edit text-light-blue' style='cursor: pointer;' title='Editar' onclick='editarPermiso(this)'></i>
                                                 <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i>
-                                                <i class='fa fa-fw fa-edit text-light-blue' style='cursor: pointer;' title='Editar'></i>
-                                                <i class='fa fa-fw fa-eye text-light-blue' style='cursor: pointer;' title='Ver detalle'></i> 
                                                 <?php echo "| <span class='numPermiso'>$key->soli_num</span> - $key->perm_id" ?>
                                             </span>
                                         </div>
@@ -370,12 +397,12 @@
                             </div>
 
                             <!--Producto-->
-                            <div class="col-md-12 col-sm-12 col-xs-12 ocultar">
+                            <!-- <div class="col-md-12 col-sm-12 col-xs-12 ocultar">
                                 <div class="form-group">
                                     <label for="productosDestino">Producto/s para la empresa de destino(<strong style="color: #dd4b39">*</strong>):</label>
                                     <textarea class="form-control" name="productosDestino" id="productosDestino" placeholder="Ingrese producto/s para la empresa de destino"></textarea>
                                 </div>                    
-                            </div>
+                            </div> -->
                             <!--________________-->
 
                             <!--_________________ Agregar_________________-->
@@ -394,7 +421,9 @@
                                         foreach ($destinos as $key) {
                                     ?>
                                         <div class='form-group empreDestino' data-json='<?php echo json_encode($key) ?>'>
-                                            <span> 
+                                            <span>
+                                                <i class='fa fa-fw fa-eye text-light-blue' style='cursor: pointer;' title='Ver detalle' onclick="verDestino(this)"></i> 
+                                                <i class='fa fa-fw fa-edit text-light-blue' style='cursor: pointer;' title='Editar' onclick='editarDestino(this)'></i> 
                                                 <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i>
                                                 <?php echo "| $key->razon_social - $key->calle - $key->altura" ?>
                                             </span>
@@ -421,7 +450,7 @@
                             <div class="col-md-6 col-sm-6 col-xs-12">
                                 <div class="form-group">
                                     <label for="num_senasa">N° hab. SENASA(<strong style="color: #dd4b39">*</strong>):</label>
-                                    <input class="form-control limitedChars" name="nro_senasa" id="num_senasa" placeholder="Ingrese N° SENASA" value="<?php echo isset($preCargaDatos->nro_senasa) ? $preCargaDatos->nro_senasa : null ?>" required/>
+                                    <input class="form-control limitedChars" name="nro_senasa" id="num_senasa" placeholder="Ingrese N° SENASA"/>
                                 </div>
                             </div>
                             <!--________________-->
@@ -451,8 +480,10 @@
                                     ?>
                                         <div class='form-group termicos' data-json='<?php echo json_encode($key) ?>'>
                                             <span> 
+                                                <i class='fa fa-fw fa-eye text-light-blue' style='cursor: pointer;' title='Ver detalle' onclick='verTermico(this)'></i> 
+                                                <i class='fa fa-fw fa-edit text-light-blue' style='cursor: pointer;' title='Editar' onclick='editarTermico(this)'></i>
                                                 <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i>
-                                                <?php echo "| $key->patente - $key->temperatura - $key->precintos" ?>
+                                                <?php echo "| $key->patente - $key->precintos" ?>
                                             </span>
                                         </div>
                                     <?php
@@ -472,7 +503,7 @@
                     <div class="col-md-3 col-sm-6 col-xs-6">
                         <div class="form-group">
                             <label for="bruto">Bruto:</label>
-                            <input class="form-control neto onlyNumbers" name="bruto" id="bruto" placeholder="Bruto" />
+                            <input class="form-control neto onlyNumbers" name="bruto" id="bruto" placeholder="Bruto" value="<?php echo isset($preCargaDatos->bruto) ? $preCargaDatos->bruto : null ?>"/>
                         </div>                    
                     </div>
                     <!--________________-->
@@ -480,7 +511,7 @@
                     <div class="col-md-3 col-sm-6 col-xs-6">
                         <div class="form-group">
                             <label for="tara">Tara:</label>
-                            <input class="form-control neto onlyNumbers" name="tara" id="tara" placeholder="Tara" />
+                            <input class="form-control neto onlyNumbers" name="tara" id="tara" placeholder="Tara" value="<?php echo isset($preCargaDatos->tara) ? $preCargaDatos->tara : null ?>"/>
                         </div>                    
                     </div>
                     <!--________________-->
@@ -496,7 +527,7 @@
                     <div class="col-md-3 col-sm-6 col-xs-6">
                         <div class="form-group">
                             <label for="ticket">Ticket:</label>
-                            <input class="form-control" name="ticket" id="ticket" placeholder="Ingrese ticket" />
+                            <input class="form-control" name="ticket" id="ticket" placeholder="Ingrese ticket" value="<?php echo isset($preCargaDatos->ticket) ? $preCargaDatos->ticket : null ?>"/>
                         </div>                    
                     </div>
                     <!--________________-->
@@ -525,7 +556,7 @@
                     <div class="col-md-4 col-sm-4 col-xs-12">
                         <div class="form-group">
                             <label for="localidad">Localidad(<strong style="color: #dd4b39">*</strong>):</label>
-                            <input class="form-control" name="localidad" id="localidad" placeholder="Ingrese Localidad" required/>
+                            <input class="form-control" name="localidad" id="localidad" placeholder="Ingrese Localidad" required value="<?php echo isset($preCargaDatos->localidad) ? $preCargaDatos->localidad : null ?>"/>
                         </div>                    
                     </div>
                     <!--________________-->
@@ -534,61 +565,78 @@
                     <div class="col-md-4 col-sm-4 col-xs-12">
                         <div class="form-group">
                             <label for="inspectores">Inspectores(<strong style="color: #dd4b39">*</strong>):</label>
-                            <input class="form-control" name="inspectores" id="inspectores" placeholder="Ingrese Inspectores" required/>
+                            <input class="form-control" name="inspectores" id="inspectores" placeholder="Ingrese Inspectores" value="<?php echo isset($preCargaDatos->inspectores) ? $preCargaDatos->inspectores : null ?>" required/>
                         </div>                    
                     </div>
                     <!--________________-->
 
                     <!--Se constituyen en-->
-                    <div class="col-md-6 col-sm-6 col-xs-6">
+                    <div class="col-md-5 col-sm-6 col-xs-6">
                         <div class="form-group">
                             <label for="dondeConstituyen">Se constituyen en(<strong style="color: #dd4b39">*</strong>):</label>
-                            <input class="form-control" name="dondeConstituyen" id="dondeConstituyen" value="Dirección de Desarrollo Pecuario" readonly/>
+                            <input class="form-control" name="dondeConstituyen" id="dondeConstituyen" value="Punto de control de productos cárnicos y derivados de la Pcia. de San Juan" readonly/>
                         </div>                    
                     </div>
                     <!--________________-->
 
                     <!--Con domicilio en-->
-                    <div class="col-md-6 col-sm-6 col-xs-6">
+                    <div class="col-md-3 col-sm-6 col-xs-6">
                         <div class="form-group">
                             <label for="domicilio">Con domicilio en(<strong style="color: #dd4b39">*</strong>):</label>
-                            <input class="form-control" name="domicilio" id="domicilio" placeholder="Ingrese Domicilio" required/>
+                            <input class="form-control" name="domicilio" id="domicilio" placeholder="Ingrese Domicilio" value="<?php echo isset($preCargaDatos->domicilio_constituye) ? $preCargaDatos->domicilio_constituye : 'Calle 11 y Punta del Monte.' ?>" required/>
                         </div>                    
                     </div>
                     <!--________________-->
-                    
+
                     <!--Propiedad de-->
                     <div class="col-md-4 col-sm-4 col-xs-6">
                         <div class="form-group">
                             <label for="propiedad">Propiedad de(<strong style="color: #dd4b39">*</strong>):</label>
-                            <input class="form-control" name="propiedad" id="propiedad" placeholder="Ingrese a quién pertenece" required/>
+                            <input class="form-control" name="propiedad" id="propiedad" placeholder="Ingrese a quién pertenece" value="<?php echo isset($preCargaDatos->propiedad_de) ? $preCargaDatos->propiedad_de : 'DDP' ?>" required/>
                         </div>                    
+                    </div>
+                    <!--________________-->
+
+                    <!--Fecha Acta Inspeccion-->
+                    <div class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label for="fechaActaInspeccion">Fecha inspección(<strong style="color: #dd4b39">*</strong>):</label>
+                            <input type="date" class="form-control" name="fechaActaInspeccion" id="fechaActaInspeccion" value="<?php echo isset($fechaInspeccion) ? $fechaInspeccion : null ?>" required/>
+                        </div>
+                    </div>
+                    <!--________________-->
+                    <!--Hora Acta Inspeccion-->
+                    <div class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label for="horaActaInspeccion">Hora inspección(<strong style="color: #dd4b39">*</strong>):</label>
+                            <input type="time" class="form-control" name="horaActaInspeccion" id="horaActaInspeccion" value="<?php echo isset($horaInspeccion) ? $horaInspeccion : null ?>" required/>
+                        </div>
                     </div>
                     <!--________________-->
                     
                     <!--Siendo atendido por-->
-                    <div class="col-md-4 col-sm-4 col-xs-6">
+                    <div class="col-md-6 col-sm-4 col-xs-6">
                         <div class="form-group">
                             <label for="quienAtendio">Siendo atendido por(<strong style="color: #dd4b39">*</strong>):</label>
-                            <input class="form-control" name="quienAtendio" id="quienAtendio" placeholder="Ingrese por quién fue atendido" required/>
+                            <input class="form-control" name="quienAtendio" id="quienAtendio" placeholder="Ingrese por quién fue atendido" value="<?php echo isset($preCargaDatos->atendidos_por) ? $preCargaDatos->atendidos_por : null ?>" required/>
                         </div>                    
                     </div>
                     <!--________________-->
                     
                     <!--En su caracter de-->
-                    <div class="col-md-4 col-sm-4 col-xs-6">
+                    <div class="col-md-5 col-sm-4 col-xs-6">
                         <div class="form-group">
                             <label for="caracterAtendio">En su carácter de(<strong style="color: #dd4b39">*</strong>):</label>
-                            <input class="form-control" name="caracterAtendio" id="caracterAtendio" placeholder="Ingrese el caracter del que atendió" required/>
+                            <input class="form-control" name="caracterAtendio" id="caracterAtendio" placeholder="Ingrese el caracter del que atendió" value="<?php echo isset($preCargaDatos->caracter_de) ? $preCargaDatos->caracter_de : 'Chofer' ?>" required/>
                         </div>                    
                     </div>
                     <!--________________-->
 
                     <!--Proceden a-->
-                    <div class="col-md-12 col-sm-12 col-xs-6">
+                    <div class="col-md-7 col-sm-12 col-xs-6">
                         <div class="form-group">
                             <label for="procedenAccion">Proceden a:</label>
-                            <textarea class="form-control" name="procedenAccion" id="procedenAccion" placeholder=""></textarea>
+                            <textarea class="form-control" name="procedenAccion" id="procedenAccion"><?php echo isset($preCargaDatos->proceden_a) ? $preCargaDatos->proceden_a : null ?></textarea>
                         </div>                    
                     </div>
                     <!--________________-->
@@ -639,7 +687,6 @@
                             <div class="form-group">
                                 <label for="tpoInfraccion">Tipos Infracción(<strong style="color: #dd4b39">*</strong>):</label>
                                 <select class="form-control select2 select2-hidden-accesible" name="tpoInfraccion[]" id="tpoInfraccion" required style="width: 100%;" multiple>
-                                    <!-- <option value="" disabled selected>-Seleccionar infracción-</option>	 -->
                                     <?php
                                     if(!empty($infracciones)){
                                         foreach ($infracciones as $tipos) {
@@ -947,37 +994,46 @@ $(document).ready(function() {
 
     dniOpc = new Option(chofer, dni_chofer, true, true);
     opcion = {'id': dni_chofer, 'text': chofer};
-
-    $('#doc_chofer').append(dniOpc).trigger('change');
-    $('#doc_chofer').trigger({
-        type: 'select2:select',
-        params: {
-            data: opcion
-        }
-    });
+    if(_isset(dni_chofer)){
+        $('#doc_chofer').append(dniOpc).trigger('change');
+        $('#doc_chofer').trigger({
+            type: 'select2:select',
+            params: {
+                data: opcion
+            }
+        });
+    }
     //EMPRESA ORIGEN
-    empr_origen = "<?php echo isset($origen) ? $origen->cuit : null ?>";
-    empr_origen_nombre = "<?php echo isset($origen) ? $origen->razon_social : null ?>";
-    empr_origen_num = "<?php echo isset($origen) ? $origen->num_establecimiento : null ?>";
+    // empr_origen = "<?php echo isset($origen) ? $origen->cuit : null ?>";
+    // empr_origen_nombre = "<?php echo isset($origen) ? $origen->razon_social : null ?>";
+    // empr_origen_num = "<?php echo isset($origen) ? $origen->num_establecimiento : null ?>";
     
-    opcion = {'id': empr_origen, 'text': empr_origen_nombre, 'num_esta': empr_origen_num};
+    // opcion = {'id': empr_origen, 'text': empr_origen_nombre, 'num_esta': empr_origen_num};
 
-    emprOpc = new Option(empr_origen_nombre, empr_origen, true, true);
+    // emprOpc = new Option(empr_origen_nombre, empr_origen, true, true);
 
-    $('#esta_nom').append(emprOpc).trigger('change');
-    $('#esta_nom').trigger({
-        type: 'select2:select',
-        params: {
-            data: opcion
-        }
-    });
-
+    // $('#esta_nom').append(emprOpc).trigger('change');
+    // $('#esta_nom').trigger({
+    //     type: 'select2:select',
+    //     params: {
+    //         data: opcion
+    //     }
+    // });
+    
     //EMPRESA TRANSPORTISTA
     empr_trasnp = "<?php echo isset($transportista) ? $transportista->cuit : null ?>";
     empr_trasnp_nombre = "<?php echo isset($transportista) ? $transportista->razon_social : null ?>";
 
     transpOpc = new Option(empr_trasnp_nombre, empr_trasnp, true, true);
-    $('#transportista').append(transpOpc).trigger('change');
+    if(_isset(empr_trasnp)) $('#transportista').append(transpOpc).trigger('change');
+
+    //DEPARTAMENTO
+    depa_id = "<?php echo isset($preCargaDatos->depa_id) ? $preCargaDatos->depa_id : null ?>";
+    if(_isset(depa_id)) $("#depa_idActa").val(depa_id).trigger('change');
+
+    //TIPO PRODUCTO
+    tipr_id = "<?php echo isset($preCargaDatos->tipr_id) ? $preCargaDatos->tipr_id : null ?>";
+    if(_isset(tipr_id)) $("#tipr_id").val(tipr_id).trigger('change');
 
     //MÁSCARAS
     //Lugar de Emision A-Z, 0-9 y space
@@ -1021,6 +1077,7 @@ $(document).on("keydown", ".choferes", function(e) {
 //
 //Script's seccion destino
 //
+var editandoDestino = false;// Utilizo para que no se pierdan los permisos al editar
 function agregarDestino(){
     //Informamos el campo vacio 
     var reporte = validarCamposDestino();
@@ -1034,9 +1091,15 @@ function agregarDestino(){
         datos.empr_id = $("#empre_destino").val();
         datos.depo_id = $("#depo_destino").val();
         datos.razon_social = empre_destino;
+        datos.productos = $("#productosDestino").val();
+        direccion = depo_destino.split(" - ");
+        datos.calle = direccion[0];
+        datos.altura = direccion[1];
 
         var div = `<div class='form-group empreDestino' data-json='${JSON.stringify(datos)}'>
                         <span> 
+                        <i class='fa fa-fw fa-eye text-light-blue' style='cursor: pointer;' title='Ver detalle' onclick='verDestino(this)'></i> 
+                        <i class='fa fa-fw fa-edit text-light-blue' style='cursor: pointer;' title='Editar' onclick='editarDestino(this)'></i>
                         <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i>
                         | ${empre_destino} - ${depo_destino}
                         </span>
@@ -1045,9 +1108,11 @@ function agregarDestino(){
         //Limpio luego de agregar
         $('#empre_destino').val(null).trigger('change');
         $('#depo_destino').val(null).trigger('change');
+        $("#productosDestino").val('');
         alertify.success("Destino agregado correctamente!");
+        editandoDestino = false;
     }else{
-        alert(reporte);
+        notificar('Cuidado',reporte,'warning');
     }
 }
 function validarCamposDestino(){
@@ -1068,6 +1133,49 @@ $(document).on("click",".fa-trash",function(e) {
         $(e.target).closest('div').remove();		
     }
 });
+function editarDestino(tag){
+    if(!editandoDestino){
+        var data =	JSON.parse($(tag).closest('div').attr('data-json'));
+        emprVal = data.cuit;
+        emprNombre = data.razon_social;
+        depo_direccion = data.calle + " - " + data.altura;
+        depo_id = data.depo_id;
+
+        opcion = {'id': emprVal, 'text': emprNombre};
+        // opcDepo = {'id': depo_id, 'text': depo_direccion};
+
+        emprOpc = new Option(emprNombre, emprVal, true, true);
+        // emprDepo = new Option(depo_direccion, depo_id, true, true);
+        
+        // $('#depo_destino').append(emprDepo).trigger('change');
+        // $('#depo_destino').trigger({
+        //     type: 'select2:select',
+        //     params: {
+        //         data: opcion
+        //     }
+        // });
+        $('#empre_destino').append(emprOpc).trigger('change');
+        $('#empre_destino').trigger({
+            type: 'select2:select',
+            params: {
+                data: opcion
+            }
+        });
+        $("#productosDestino").val(data.productos);
+        $(tag).closest('div').remove();
+        editandoDestino = true;
+    }else{
+        notificar('Cuidado',"Ya se esta editando una empresa de <b>DESTINO</b>!",'warning');
+    }
+}
+function verDestino(tag){
+    var data =	JSON.parse($(tag).closest('div').attr('data-json'));
+    
+    $("#modalVerDestino").val(data.razon_social);
+    $("#modalVerDepositoDestino").val(data.calle + " - " + data.altura);
+    $("#modalVerProductosDestino").val(data.productos);
+    $("#mdl-verDetalleDestino").modal('show');
+}
 //
 //FIN Script's seccion destino
 /****************************************************** */
@@ -1092,7 +1200,9 @@ function agregarPermiso(){
         var origen = $("#esta_nom").select2('data')[0].id;
         var origen_nom = $("#esta_nom").select2('data')[0].text;
         var origen_num = $("#esta_num").val();
-        var productos = $("#producto").val();
+        // var productos = $("#producto").val();
+        var tipr_id = $("#tipr_id").select2('data')[0].text;
+        var kilos = $("#kilos").val(); 
         var netoPermiso = $("#netoPermiso").val(); 
         var brutoPermiso = $("#brutoPermiso").val(); 
         var temperatura = $("#temperatura").val(); 
@@ -1106,16 +1216,18 @@ function agregarPermiso(){
         datos.origen = origen;
         datos.origen_nom = origen_nom;
         datos.origen_num = origen_num;
-        datos.productos = productos;
+        // datos.productos = productos;
+        datos.tipr_id = tipr_id;
+        datos.kilos = kilos;
         datos.neto = netoPermiso;
         datos.bruto = brutoPermiso;
         datos.temperatura = temperatura;
 
         var div = `<div class='form-group permTransito' data-json='${JSON.stringify(datos)}'>
                         <span> 
+                        <i class='fa fa-fw fa-eye text-light-blue' style='cursor: pointer;' title='Ver detalle' onclick='verPermiso(this)'></i> 
+                        <i class='fa fa-fw fa-edit text-light-blue' style='cursor: pointer;' title='Editar' onclick='editarPermiso(this)'></i>
                         <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i>
-                        <i class='fa fa-fw fa-edit text-light-blue' style='cursor: pointer;' title='Editar'></i>
-                        <i class='fa fa-fw fa-eye text-light-blue' style='cursor: pointer;' title='Ver detalle'></i> 
                         | <span class='numPermiso'>${soli_num}</span> - ${permi_num}
                         </span>
                 </div>`;
@@ -1131,7 +1243,7 @@ function agregarPermiso(){
         alertify.success("Permiso de tránsito agregado correctamente!");
         
     }else{
-        alert(reporte);
+        notificar('Cuidado',reporte,'warning');
     }
 }
 function validarCamposPermiso(){
@@ -1195,23 +1307,43 @@ function validarCamposPermiso(){
     return valida;
 }
 
-$(document).on("click",".fa-edit",function(e) {
+function editarPermiso(tag){
     if(!editando){
-        var data =	JSON.parse($(e.target).closest('div').attr('data-json'));
-        $("#soli_num").val(data.perm_id);
+        var data =	JSON.parse($(tag).closest('div').attr('data-json'));
+        $("#soli_num").val(data.soli_num);
+        $("#permi_num").val(data.perm_id);
         $("#emision").val(data.lugar_emision);
         aux = data.fecha_hora_salida.split(" ");
         $("#salida").val(aux[1]);
         $("#fecha").val(aux[0]);
         $("input[name=doc_sanitaria][value='"+data.tipo+"']").prop("checked",true);
-        $(e.target).closest('div').remove();
+        $("#producto").val(data.productos);
+        $("#netoPermiso").val(data.neto);
+        $("#brutoPermiso").val(data.bruto);
+        $("#temperatura").val(data.temperatura);
+        emprVal = data.origen;
+        emprNombre = data.origen_nom;
+        emprNum = data.origen_num;
+    
+        opcion = {'id': emprVal, 'text': emprNombre, 'num_esta': emprNum};
+
+        emprOpc = new Option(emprNombre, emprVal, true, true);
+
+        $('#esta_nom').append(emprOpc).trigger('change');
+        $('#esta_nom').trigger({
+            type: 'select2:select',
+            params: {
+                data: opcion
+            }
+        });
+        $(tag).closest('div').remove();
         editando = true;
     }else{
-        alert("Ya se esta editando un permiso!");
+        notificar('Cuidado',"Ya se esta editando un <b>PERMISO DE TRÁNSITO</b>!",'warning');
     }
-});
-$(document).on("click",".fa-eye",function(e) {
-    var data =	JSON.parse($(e.target).closest('div').attr('data-json'));
+}
+function verPermiso(tag){
+    var data =	JSON.parse($(tag).closest('div').attr('data-json'));
     $("#modalVerPermiso").val(data.perm_id);
     $("#modalVerSolicitud").val(data.soli_num);
     $("#modalVerEmision").val(data.lugar_emision);
@@ -1225,42 +1357,45 @@ $(document).on("click",".fa-eye",function(e) {
     $("#modalVerBruto").val(data.bruto);
     $("#modalVerTemperatura").val(data.temperatura);
     $("#mdl-verDetallePermiso").modal('show');
-});
+}
 //FIN Script's seccion permisos transito
 /***************************************************** */
 /***************************************************** */
 //
 //Scripts Termico
 //
+var editandoTermico = false;
 function agregarTermico(){
     //Informamos el campo vacio 
     var reporte = validarCamposTermico();
                             
     if(reporte == ''){
-        var temperatura = $('#temperatura').val();
+        var nro_senasa = $('#num_senasa').val();
         var precintos = $('#precintos').val();
         var term_patente = $("#term_patente").val();
-        // var descDepo = $("#depo_origen_id option:selected").text();
 
         var datos = {};
-        datos.temperatura = temperatura;
+        datos.nro_senasa = nro_senasa;
         datos.precintos = precintos;
         datos.term_id = term_patente;
 
         var div = `<div class='form-group termicos' data-json='${JSON.stringify(datos)}'>
-                        <span> 
+                        <span>
+                        <i class='fa fa-fw fa-eye text-light-blue' style='cursor: pointer;' title='Ver detalle' onclick='verTermico(this)'></i> 
+                        <i class='fa fa-fw fa-edit text-light-blue' style='cursor: pointer;' title='Editar' onclick='editarTermico(this)'></i> 
                         <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i> 
-                        | ${term_patente} - ${temperatura} - ${precintos}
+                        | ${term_patente} - ${precintos}
                         </span>
                 </div>`;
         $('#sec_termicos').append(div);
         //Limpio luego de agregar
         $("#term_patente").val('');
-        $("#temperatura").val('');
+        $("#num_senasa").val('');
         $("#precintos").val('');
         alertify.success("Térmico agregado correctamente!");
+        editandoTermico = false;
     }else{
-        alert(reporte);
+        notificar('Cuidado',reporte,'warning');
     }
 }
 function validarCamposTermico(){
@@ -1269,15 +1404,40 @@ function validarCamposTermico(){
     if($("#term_patente").val() == ""){
         valida = "Complete Térmico Patente!";
     }
-    //Temperatura
-    if($("#temperatura").val() == ""){
-        valida = "Complete Temperatura!";
+    //Número SENASA
+    if($("#num_senasa").val() == ""){
+        valida = "Complete N° de Habilitación SENASA!";
     }
     //Precintos
     if($("#precintos").val() == ""){
         valida = "Complete Precintos!";
     }
     return valida;
+}
+function editarTermico(tag){
+    if(!editandoTermico){
+        var data =	$(tag).closest('div').attr('data-json');
+        aux = data.replace("patente", "term_id");
+        var json = JSON.parse(aux);
+
+        $("#term_patente").val(json.term_id);
+        $("#num_senasa").val(json.nro_senasa);
+        $("#precintos").val(json.precintos);
+        $(tag).closest('div').remove();
+        editandoTermico = true;
+    }else{
+        notificar('Cuidado',"Ya se esta editando un <b>TÉRMICO</b>!",'warning');
+    }
+}
+function verTermico(tag){
+    var data =	$(tag).closest('div').attr('data-json');
+    aux = data.replace("patente", "term_id");
+    var json = JSON.parse(aux);
+
+    $("#modalVerPatenteTermico").val(json.term_id);
+    $("#modalVerSENASATermico").val(json.nro_senasa);
+    $("#modalVerNroPrecintos").val(json.precintos);
+    $("#mdl-verDetalleTermico").modal('show');
 }
 //FIN Script's seccion termico
 /***************************************************** */
@@ -1289,6 +1449,7 @@ function validarCamposTermico(){
 $('#doc_chofer').on('select2:select', function (e) {
     var data = e.params.data;
     $("#nom_chofer").val(data.text);
+    $("#quienAtendio").val(data.text);
 });
 $('#esta_nom').on('select2:select', function (e) {
     var data = e.params.data;
@@ -1356,7 +1517,8 @@ async function cerrarTareaform(){
     var dataForm = new FormData($('#formInspeccion')[0]);
     var case_id = $("#caseId").val();
     dataForm.append('case_id', case_id);
-
+    dataForm.append('fec_inspeccion', $("#fechaActaInspeccion").val() + " " + $("#horaActaInspeccion").val());
+    
     //Guardo formulario de escaneo documentacion, se valido en cerrarTarea()
     var newInfoID = await frmGuardarConPromesa($('#formEscaneoDocu').find('form'));
     dataForm.append('info_id_doc', newInfoID);
@@ -1387,12 +1549,13 @@ async function cerrarTareaform(){
         empresas[i] = json;
     });
     //obtengo origen
-    origen = {};
-    origen.rol = "ORIGEN";
-    origen.empr_id = $("#esta_nom").val();
-    origen.case_id = case_id;
-    origen.depo_id = "";
-    empresas.push(origen);
+    //EL ORIGEN ES MULTIPLE AHORA, SE CARGA EN LOS PERMISOS DE TRANSITO
+    // origen = {};
+    // origen.rol = "ORIGEN";
+    // origen.empr_id = $("#esta_nom").val();
+    // origen.case_id = case_id;
+    // origen.depo_id = "";
+    // empresas.push(origen);
     
     //obtengo transportista
     transp = {};
@@ -1458,26 +1621,23 @@ async function cerrarTareaform(){
                     success: function(data) {
                         resp = JSON.parse(data);
                         if(resp.status){
-                            console.log(resp.message);
                             resp.info_id = newInfoID;
                             resolve(resp);
                         }else{
                             console.log(resp.message);
-                            reject("Error");
+                            reject(resp);
                         }
                     },
                     error: function(data) {
                         wc();
-                        alert("Error al guardar datos del formulario");
-                        reject("Error");
+                        reject(data);
                     }
                 });
 
             },
             error: function(data) {
                 wc();
-                alert("Error al guardar formulario de la inspección");
-                reject("Error");
+                reject(data);
             }
         });
     });
@@ -1552,7 +1712,6 @@ function cerrarTarea() {
         dataForm.append('doc_impositiva', $("select[name=doc_impo]").val());
         
         var id = $('#taskId').val();
-
         $.ajax({
             type: 'POST',
             data: dataForm,
@@ -1570,11 +1729,9 @@ function cerrarTarea() {
                 alert("Error al finalizar tarea");
             }
         });
-        
     }).catch((err) => {
         wc();
-        console.log(err);
-        alert("Error al finalizar tarea");
+        error("Error!",err.message);
     });
 }
 //
@@ -1633,11 +1790,11 @@ function imprimirActa(){
     $(".acta_chofer").text($("#nom_chofer").val());
     $(".acta_dniChofer").text($("#doc_chofer").val());
     $(".acta_patenteTractor").text($("#patenteTractor").val());
-    $(".acta_numSenasa").text($("#num_senasa").val());
+    // $(".acta_numSenasa").text();
     $(".acta_cantFajas").text($("#cant_fajas").val());
     $(".acta_observaciones").text($("#observaciones").val());
-    $(".acta_origenNro").text($("#esta_num").val());
-    $(".acta_estaOrigen").text($("#esta_nom").select2('data')[0].text);
+    // $(".acta_origenNro").text($("#esta_num").val());
+    // $(".acta_estaOrigen").text($("#esta_nom").select2('data')[0].text);
     $(".acta_transportista").text($('#transportista').select2('data')[0].text);
     $(".acta_bruto").text($("#bruto").val());
     $(".acta_tara").text($("#tara").val());
@@ -1665,6 +1822,10 @@ function imprimirActa(){
     $(".acta_tempCamaraActa").text($("#tempCamaraActa").val());
     $(".acta_fecha").text(dateFormat($("#fechaActa").val()));
     $(".acta_hora").text($("#horaActa").val());
+    $(".acta_diaInspeccion").text(moment($("#fechaActaInspeccion").val()).format('D'));
+    $(".acta_mesInspeccion").text(moment($("#fechaActaInspeccion").val()).format('MMMM'));
+    $(".acta_anioInspeccion").text(moment($("#fechaActaInspeccion").val()).format('Y'));
+    $(".acta_horaInspeccion").text($("#horaActaInspeccion").val());
 
     //Valído y obtengo los tipos de infracciones
     if($('input[name=inspValida]:checked').val() == 'incorrecta'){
@@ -1681,21 +1842,24 @@ function imprimirActa(){
     }
 
 
-    infoTemperatura = "";
-    $('#sec_termicos div.termicos').each(function(i, obj) {
-        aux = $(obj).attr('data-json');
-        json = JSON.parse(aux);
-        infoTemperatura += json.temperatura + " ";
-    });
-    $(".acta_temperaturas").text(infoTemperatura);
+    // infoTemperatura = "";
+    // $('#sec_termicos div.termicos').each(function(i, obj) {
+    //     aux = $(obj).attr('data-json');
+    //     json = JSON.parse(aux);
+    //     infoTemperatura += json.temperatura + " ";
+    // });
+    // $(".acta_temperaturas").text(infoTemperatura);
 
     infoPrecintos = "";
+    infoSenasa = "";
     $('#sec_termicos div.termicos').each(function(i, obj) {
         aux = $(obj).attr('data-json');
         json = JSON.parse(aux);
         infoPrecintos += json.precintos + " ";
+        infoSenasa += json.nro_senasa + "; ";
     });
     $(".acta_precintos").text(infoPrecintos);
+    $(".acta_numSenasa").text(infoSenasa);
 
     infoDestino = "";
     $('#sec_destinos div.empreDestino').each(function(i, obj) {
@@ -1707,15 +1871,24 @@ function imprimirActa(){
 
     infoPermisos = "";
     infoProductos = "";
+    infoOrigen = "";
+    infoOrigenNums = "";
+    infoTemperatura = "";
     $('#sec_permisos div.permTransito').each(function(i, obj) {
         aux = $(obj).attr('data-json');
         json = JSON.parse(aux);
-        infoPermisos += json.tipo + " ";
+        infoPermisos += json.tipo + "; ";
         infoProductos +=  json.productos + "; ";
+        infoOrigen += json.origen_nom + "; ";
+        infoOrigenNums += json.origen_num + "; ";
+        infoTemperatura += json.temperatura + "; ";
     });
     $(".acta_docSanitaria").text(infoPermisos);
     $(".acta_productos").text(infoProductos);
-
+    $(".acta_origenNombres").text(infoOrigen);
+    $(".acta_origenNumeros").text(infoOrigenNums);
+    $(".acta_temperaturas").text(infoTemperatura);
+    
     var base = "<?php echo base_url()?>";
     
     $(idActa).printThis({

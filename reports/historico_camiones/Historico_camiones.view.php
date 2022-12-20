@@ -23,97 +23,77 @@
     </div>
 
     <div class="box-body">
-
       <!-- _____ GRUPO 1 _____ -->
-        <div class="col-md-12">
-
+      <div class="col-md-12">
+        <div class="col-xs-12 col-sm-12 col-md-4">
             <div class="form-group">
-
-              <div class="col-md-4 col-md-6 mb-4 mb-lg-0">
-                <label style="">Fecha Desde <strong class="text-danger">*</strong> :</label>
+              <label style="">Fecha Desde:</label>
+              <div class="input-group date">
+                <a class="input-group-addon" id="daterange-btn" title="Más fechas">
+                    <i class="fa fa-magic"></i>
+                    <span></span>
+                </a>
                 <input type="date" class="form-control" id="datepickerDesde" name="datepickerDesde" placeholder="Desde">
               </div>
-
-              <div class="col-md-4 col-md-6 mb-4 mb-lg-0">
-                <label style="">Fecha Hasta <strong class="text-danger">*</strong> :</label>
-                <input type="date" class="form-control" id="datepickerHasta" name="datepickerHasta" placeholder="Hasta">
-              </div>
             </div>
-
-        </div>
-      <!-- _____ GRUPO 1 _____ -->
-
-      <div class="col-md-12">
-        <br>
-      </div>
-
-      <!-- _____ GRUPO 2 _____ -->
-        <div class="col-md-12">
-
+          </div>
+          <div class="col-xs-12 col-sm-12 col-md-4">
             <div class="form-group">
-
-              <div class="col-md-4 col-md-6 mb-4 mb-lg-0">
-                <label for="origen" class="form-label">Origen:</label>
-                <select class="form-control empresa" id="origen" name="origen">
-                </select>
-              </div>
-
-              <div class="col-md-4 col-md-6 mb-4 mb-lg-0">
-                <label for="destino" class="form-label">Destino:</label>
-                <select class="form-control empresa" id="destino" name="destino">
-                </select>
-              </div>
-
+              <label style="">Fecha Hasta:</label>
+              <input type="date" class="form-control" id="datepickerHasta" name="datepickerHasta" placeholder="Hasta">
             </div>
-        </div>
-      <!-- _____ GRUPO 2 _____ -->
-
-      <div class="col-md-12">
-        <br>
+          </div>
+          <div class="col-md-4 col-md-6 mb-4 mb-lg-0">
+            <div class="form-group">
+              <label for="resultado" class="form-label">Resultado:</label>
+              <?php  echo selectFromCoreEmpresa('resultado', 'Seleccione Resultado', 'tipos_resultado', '') ?>
+            </div>
+          </div>
       </div>
-
-      <!-- _____ GRUPO 3 _____ -->
-        <div class="col-md-12">
-
+      <!-- _____ GRUPO 1 _____ -->
+      <!-- _____ GRUPO 2 _____ -->
+      <div class="col-md-12">
+        <div class="col-xs-12 col-sm-12 col-md-4">
           <div class="form-group">
-
-            <div class="col-md-4 col-md-6 mb-4 mb-lg-0">
-              <label for="transportista" class="form-label">Transportista:</label>
+            <label for="origen" class="form-label">Empresa Origen:</label>
+            <select class="form-control empresa" id="origen" name="origen">
+            </select>
+          </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-4">
+            <div class="form-group">
+              <label for="destino" class="form-label">Empresa Destino:</label>
+              <select class="form-control empresa" id="destino" name="destino">
+              </select>
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-12 col-md-4">
+            <div class="form-group">
+              <label for="transportista" class="form-label">Empresa Transportista:</label>
               <select class="form-control empresa" id="transportista" name="transportista">
               </select>
             </div>
-
-            <div class="col-md-4 col-md-6 mb-4 mb-lg-0">
-              <label for="resultado" class="form-label">Resultado:</label>
-              <?php  echo selectFromCoreEmpresa('resultado', 'Seleccione Resultado', 'tipos_resultado', '') ?>
-
-            </div>
-
           </div>
-        </div>
-      <!-- _____ GRUPO 3 _____ -->
-
-      <div class="col-md-12">
-        <br>
       </div>
-
-      <!-- _____ GRUPO 4 _____ -->
+      <!-- _____ GRUPO 2 _____ -->
+      <!-- _____ GRUPO 3 _____ -->
         <div class="col-md-12">
-
           <div class="form-group">
-            <div class="col-md-4 col-md-6 mb-4 mb-lg-0">
+            <div class="col-xs-12 col-sm-12 col-md-4">
               <label for="producto" class="form-label">Tipo de producto:</label>
               <?php  echo selectFromCoreEmpresa('producto', 'Seleccione tipo de Producto', 'tipos_producto', '') ?>
             </div>
           </div>
-
         </div>
-      <!-- _____ GRUPO 4 _____ -->
-
-      <div class="col-md-12">
-        <br>
+      <!-- _____ GRUPO 3 _____ -->
+      <!--_______ BOTONES _______-->
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <div style="float:right; padding-top: 24px" class="form-group">
+              <button type="button" class="btn btn-success btn-flat" onclick="filtrar()">Filtrar</button>
+              <button style="margin-left: 5px" type="button" class="btn btn-danger btn-flat flt-clear">Limpiar</button>
+          </div>
       </div>
-
+      <!--_______ BOTONES _______-->
       <!--_______ TABLA _______-->
         <div class="col-md-12">
           <?php
@@ -133,7 +113,7 @@
                 array(
                   "label" => "Ver",
                   "value" => function() {
-                    return '<i class="fa fa-search text-light-blue"  style="cursor: pointer;margin: 3px;" title="Ver Pedido" onclick=""></i>';
+                    return '<i class="fa fa-search text-light-blue"  style="cursor: pointer;margin: 3px;" title="Ver Pedido" onclick="buscaDetalleInspeccion(this)"></i>';
                   }
                 ),
                 "case_id" => array(
@@ -148,7 +128,7 @@
                   },
                   "type" => "date"
                 ),
-                "neto" => array(
+                "neto_total_permiso" => array(
                   "label" => "Peso"
                 ),
                 "nombre" => array(
@@ -181,22 +161,13 @@
           ?>
         </div>
       <!--_______ TABLA _______-->
-
-      <!--_______ BOTONES _______-->
-        <div id="acciones" class="" style="float: right !important;">
-          <!-- <button type="button" class="btn btn-success" onclick="exportarPDF()">Imprimir</button>
-          <button type="button" class="btn btn-primary" onclick="exportarExcel()">Exportar a Excel</button> -->
-          <button type="button" class="btn btn-primary" onclick="filtrar()">FILTRAR</button>
-        </div>
-      <!--_______ BOTONES _______-->
-
-
     </div>
-
   </div>
 </div>
 
 <script>
+  fechaMagic();
+  $(".frm-select").select2();
   // Llena selects empresas
     $('.empresa').select2({
         ajax: {
@@ -298,27 +269,27 @@
 
       desde = $("#datepickerDesde").val();
       hasta = $("#datepickerHasta").val();
-      if (desde == "" || hasta == "") {
-        return false;
-      }
-      origen = $("#origen").val();
-      if (origen == null) {
+      // if (desde == "" || hasta == "") {
+      //   return false;
+      // }
+      origen = _isset($("#origen").val()) ? $("#origen").select2('data')[0].id : "";
+      if (origen == "") {
         origen = 'TODOS';
       }
-      destino = $("#destino").val();
-      if (destino == null) {
+      destino =  _isset($("#destino").val()) ? $("#destino").select2('data')[0].id : "";
+      if (destino == "") {
         destino = 'TODOS';
       }
-      transportista = $("#transportista").val();
-      if (transportista == null) {
+      transportista = _isset($("#transportista").val()) ? $("#transportista").select2('data')[0].id : "";
+      if (transportista == "") {
         transportista = 'TODOS';
       }
-      resultado = $("#resultado>option:selected").val();
-      if (resultado == 0) {
+      resultado = _isset($("#resultado").val()) ? $("#resultado").val() : "";
+      if (resultado == "") {
         resultado = 'TODOS';
       }
-      producto = $("#producto>option:selected").val();
-      if (producto == 0) {
+      producto = _isset($("#producto").val()) ? $("#producto").select2('data')[0].id : "";
+      if (producto == "") {
         producto = 'TODOS';
       }
       var data = {};
@@ -333,16 +304,19 @@
       return data;
     }
   // Levanta modal detalle de reporte
-    $(document).on("click", ".fa-search", function() {
-
-      let case_id = $(this).parents("tr").find("td").eq(1).html();
+    function buscaDetalleInspeccion(tag){
+      wo();
+      $("#modalBodyDetalle").empty();
+      let case_id = $(tag).parents("tr").find("td").eq(1).html();
       let caseId = case_id.trim();
       var data = {};
       data.caseId = caseId;
-      $("#modalBodyDetalle").load("<?php echo base_url(SICP); ?>reportes/detaReporte", data);
+      $("#modalBodyDetalle").load("<?php echo base_url(SICP); ?>reportes/detaReporte", data,function(){
+        wc();
+      });
       $("#modalDetalle").modal('show');
 
-    });
+    };
 
   // Muestra el thumbnail en tamaño grande
     function preview(imgs) {

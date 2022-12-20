@@ -132,14 +132,14 @@ function cierraPedidoTrabajo(){
     });
 
     //Validaciones CAMPOS OBLIGATORIOS Formulario 
-    if($("input[name='-file-perm_transito'").val() == ''){
-        Swal.fire(
-            'Oops...',
-            'Debe cargar la foto del permiso de tránsito (*)',
-            'error'
-        );
-        return;
-    }
+    // if($("input[name='-file-perm_transito'").val() == ''){
+    //     Swal.fire(
+    //         'Oops...',
+    //         'Debe cargar la foto del permiso de tránsito (*)',
+    //         'error'
+    //     );
+    //     return;
+    // }
     if($("#dominio").val() == ''){
         Swal.fire(
             'Oops...',
@@ -148,7 +148,7 @@ function cierraPedidoTrabajo(){
         );
         return;
     }
-    if($("input[name='-file-pat_tractor'").val() == ''){
+    /*if($("input[name='-file-pat_tractor'").val() == ''){
         Swal.fire(
             'Oops...',
             'Debe cargar la foto de la patente del tractor (*)',
@@ -187,7 +187,7 @@ function cierraPedidoTrabajo(){
             'error'
         )
         return;
-    }
+    }*/
 
     frmGuardar($('.frm-new').find('form'),guardarPedidoTrabajo,false);
 }

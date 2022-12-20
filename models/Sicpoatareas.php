@@ -110,6 +110,7 @@ class Sicpoatareas extends CI_Model
                 $data['patente'] =  $this->getPatenteTractor($tareaData->info_id);
                 $data['departamentos'] = $this->getDepartamentos();
                 $data['petr_id'] = $tareaData->petr_id;
+                $data['productos'] = $this->getProductos();
 
                 return $this->load->view(SICP . 'tareas/preCargaDatos', $data, true);
         
@@ -138,6 +139,7 @@ class Sicpoatareas extends CI_Model
                 $data['infracciones'] = $this->getInfracciones();
                 $data['preCargaDatos'] = $this->getPreCargaDatos($tareaData->case_id);
                 $data['patente'] =  $this->getPatenteTractor($tareaData->info_id);
+                $data['productos'] = $this->getProductos();
 
                 $puntosControl = $this->Ingresosbarrera->getPuntosControl();
                 foreach ($puntosControl  as $key) {
@@ -164,7 +166,10 @@ class Sicpoatareas extends CI_Model
                         }
                     }
                 }
-                
+                //Formateo la fecha de inspeccion para los input's
+                $fecAux = explode(' ',$data['preCargaDatos']->fec_inspeccion);
+                $data['horaInspeccion'] = $fecAux[1];
+                $data['fechaInspeccion'] = $fecAux[0];
                 //Es el info_id del formulario de escaneo documentacion
                 //que puede o no estar cargado a la hora de la inspeccion
                 $formulario = $this->Ingresosbarrera->getFormularios($tareaData->petr_id);
@@ -191,6 +196,7 @@ class Sicpoatareas extends CI_Model
                 $data['infracciones'] = $this->getInfracciones();
                 $data['preCargaDatos'] = $this->getPreCargaDatos($tareaData->case_id);
                 $data['patente'] =  $this->getPatenteTractor($tareaData->info_id);
+                $data['productos'] = $this->getProductos();
 
                 $empresas = $data['preCargaDatos']->empresas->empresa;
 
@@ -266,9 +272,7 @@ class Sicpoatareas extends CI_Model
                 $data['escaneoInfoId'] = $escaneoInfoId;// Lo mando a la vista para instaciar formulario en modal
 
                 if(isset($escaneoInfoId)){
-                    $formEscaneo =  $this->getFormEscaneoDocu($escaneoInfoId);
-                    $data['imgsEscaneo'] = $formEscaneo['imagenes'];
-                    $data['datosEscaneo'] = $formEscaneo['datos'];
+                    $data['formEscaneo'] =  $this->getFormEscaneoDocu($escaneoInfoId);
                 }
                 
                 return $this->load->view(SICP . 'tareas/reprecintado', $data, true);
@@ -409,7 +413,7 @@ class Sicpoatareas extends CI_Model
                 $data['escaneoInfoId'] = $escaneoInfoId;// Lo mando a la vista para instaciar formulario en modal
 
                 if(isset($escaneoInfoId)){
-                    $data['imgsEscaneo'] = $this->getImgsEscaneoDocu($escaneoInfoId);
+                    $data['formEscaneo'] =  $this->getFormEscaneoDocu($escaneoInfoId);
                 }
 
                 return $this->load->view(SICP . 'tareas/infraccionPCC', $data, true);
@@ -775,6 +779,7 @@ class Sicpoatareas extends CI_Model
     }
     /**
 	* Obtengo imagenes y archivos cargados en el escaneo de documentacion guardadas en instancias_formularios
+    * NOTA: Se quito por requisito la visualizacion de archivos.
 	* @param array info_id
 	* @return array Imagenes relacionadas con el info_id
 	*/
@@ -792,11 +797,13 @@ class Sicpoatareas extends CI_Model
                     if($dato->tipo_dato == 'image'){
                         $documentacion['imagenes'][$key]['inst_id'] = $dato->inst_id;
                         $documentacion['imagenes'][$key]['imagen'] = $ext.$rec;
-                    }else{
-                        $documentacion['archivos'][$key]['inst_id'] = $dato->inst_id;
-                        $documentacion['archivos'][$key]['descripcion'] = $dato->valor;
-                        $documentacion['archivos'][$key]['archivo'] = $ext.$rec;
+                        $documentacion['imagenes'][$key]['descripcion'] = $dato->valor;
                     }
+                    // }else{
+                    //     $documentacion['archivos'][$key]['inst_id'] = $dato->inst_id;
+                    //     $documentacion['archivos'][$key]['descripcion'] = $dato->valor;
+                    //     $documentacion['archivos'][$key]['archivo'] = $ext.$rec;
+                    // }
                 }
             }
         }

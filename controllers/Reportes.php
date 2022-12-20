@@ -19,6 +19,7 @@ class Reportes extends CI_Controller
     parent::__construct();
     $this->load->model(SICP.'koolreport/Opcionesfiltros');
     $this->load->model(SICP.'Ingresosbarrera');
+    $this->load->model(SICP.'Sicpoatareas');
     $this->load->helper('sesion_helper');
     //valido la sesion en caso de inactividad
     validarInactividad();
@@ -87,10 +88,10 @@ class Reportes extends CI_Controller
     $data['escaneoInfoId'] = $escaneoInfoId;// Lo mando a la vista para instaciar formulario en modal
 
     if(isset($escaneoInfoId)){
-        $data['imgsEscaneo'] = $this->getImgsEscaneoDocu($escaneoInfoId);
+      $data['formEscaneo'] =  $this->getFormEscaneoDocu($escaneoInfoId);
     }
 
-    return $this->load->view(SICP . 'tareas/reprecintado', $data);
+    return $this->load->view(SICP . 'tareas/infraccionPCC', $data);
   }
 
   /**

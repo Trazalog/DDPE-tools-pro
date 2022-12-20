@@ -27,8 +27,9 @@
                     <?php
                         if(!empty($inspeccion->documentos->documento)){ 
                             foreach ($inspeccion->documentos->documento as $docu) {
-                                $aux = explode("+",$docu->fec_emision);
-                                $fec_emision = date("d-m-Y",strtotime($aux[0]));
+                                // $aux = explode("+",$docu->fec_emision);
+                                // $fec_emision = date("d-m-Y",strtotime($aux[0]));
+                                $fec_emision = date("d-m-Y",strtotime($docu->fec_emision));
                                 
                                 echo "<tr data-json='".json_encode($docu)."' >";
                                 echo '<td><button  type="button" title="Editar"  class="btn btn-primary btn-circle btnEditarDocu" onclick="editarDetalleDocumento(this)"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>&nbsp<button type="button" title="Eliminar" class="btn btn-primary btn-circle btnEliminarDocu" onclick="eliminarDocumento(this)"><span class="glyphicon glyphicon-trash" aria-hidden="true" ></span></button>&nbsp';
@@ -37,7 +38,7 @@
                                 echo '<td>'.$docu->razon_social_destino.' ('.$docu->cuit_destino.')</td>';
                                 echo '<td>'.$docu->tipo_documento.'</td>';
                                 echo '<td>'.$fec_emision.'</td>';
-                                echo '<td>'.number_format($docu->monto,2).' $</td>';
+                                echo '<td class="centrar">' . (!empty($docu->monto) ? "$ ".(number_format($docu->monto,2)) : '-').'</td>';
                                 echo '<td><button type="button" title="Info" class="btn btn-primary btn-circle modalDocs" data-toggle="modal" data-target="#mdl-documentos"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></button></td>';
                                 echo '</tr>';
                             }
@@ -78,17 +79,19 @@ function actualizaTablaDocumentos(){
                 
                 $.each(data.documentos.documento, function (i, value) {
                     
-                    fec = value.fec_emision.split("+");
-                    fecha = new Date(fec[0]);
+                    // fec = value.fec_emision.split("+");
+                    // fec = value.fec_emision;
+                    fec_emision = moment(value.fec_emision).format('DD-MM-YYYY');   
+                    // fecha = new Date(fec);
                     
-                    dia = fecha.getDate();
-                    mes = fecha.getMonth()+1;
-                    anio = fecha.getFullYear();
+                    // dia = fecha.getDate();
+                    // mes = fecha.getMonth()+1;
+                    // anio = fecha.getFullYear();
 
-                    if(dia<10){dia='0'+dia;} 
-                    if(mes<10){mes='0'+mes;}
+                    // if(dia<10){dia='0'+dia;} 
+                    // if(mes<10){mes='0'+mes;}
                     
-                    fec_emision = dia+'-'+mes+'-'+anio;
+                    // fec_emision = dia+'-'+mes+'-'+anio;
 
                     if(value.monto == null){
                         monto = "";
@@ -103,7 +106,7 @@ function actualizaTablaDocumentos(){
                             '<td>' + value.razon_social_destino + " (" + value.cuit_destino + ")" + '</td>' +
                             '<td>' + value.tipo_documento + '</td>' +
                             '<td>' + fec_emision + '</td>' +
-                            '<td>$ ' + monto + '</td>' +
+                            '<td class="centrar">' + (_isset(monto) ? '$ '+monto : '-') + '</td>' +
                             '<td><button type="button" title="Info" class="btn btn-primary btn-circle modalDocs" data-toggle="modal" data-target="#mdl-documentos"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></button></td>' +
                         '</tr>';
                     tabla.row.add($(fila)).draw();
@@ -180,6 +183,9 @@ function editarDetalleDocumento(tag) {
         }
     });
 
+    fechita_emision = moment(datos.fec_emision).format('DD-MM-YYYY');    
+    $('#fec_emision').val(fechita_emision);
+
     //Obtengo los detalles y loopeo sobre esto en caso de no estar vacio el objeto
     detalles = datos.detalles_documento.detalle_documento;
 
@@ -236,7 +242,7 @@ function eliminarDocumento(tag) {
         
         tabla = $('#tabla_documentos').DataTable();
         //Obtengo la fila
-        var row = $(this).parents('tr');
+        var row = $(tag).parents('tr');
 
         //Data parseada en json
         nodo = tabla.row(row).node();

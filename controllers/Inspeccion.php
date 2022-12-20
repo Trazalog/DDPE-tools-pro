@@ -166,7 +166,9 @@ class Inspeccion extends CI_Controller
         $data['case_id'] = $this->input->post('case_id');
 		$data['patente_tractor'] =  !empty($this->input->post('patente_tractor'))? $this->input->post('patente_tractor') : "";
 		$data['nro_senasa'] =  !empty($this->input->post('nro_senasa'))? $this->input->post('nro_senasa') : "";
-		$data['productos'] =  !empty($this->input->post('productos'))? $this->input->post('productos') : "";
+		// $data['productos'] =  !empty($this->input->post('productos'))? $this->input->post('productos') : "";
+		$data['tipr_id'] =  !empty($this->input->post('tipr_id'))? $this->input->post('tipr_id') : "";
+		$data['kilos'] =  !empty($this->input->post('kilos'))? $this->input->post('kilos') : "";
 		$data['reprecintado'] =  !empty($this->input->post('reprecintado'))? $this->input->post('reprecintado') : "false";
 		$data['bruto'] =  !empty($this->input->post('bruto'))? $this->input->post('bruto') : "";
 		$data['tara'] =  !empty($this->input->post('tara'))? $this->input->post('tara') : "";
@@ -192,6 +194,7 @@ class Inspeccion extends CI_Controller
 		$data['atendidos_por'] =  !empty($this->input->post('quienAtendio'))? $this->input->post('quienAtendio') : "";
 		$data['caracter_de'] =  !empty($this->input->post('caracterAtendio'))? $this->input->post('caracterAtendio') : "";
 		$data['proceden_a'] =  !empty($this->input->post('procedenAccion'))? $this->input->post('procedenAccion') : "";
+		$data['fec_inspeccion'] =  !empty($this->input->post('fec_inspeccion'))? $this->input->post('fec_inspeccion') : "";
 		
 		$resp = $this->Inspecciones->agregarInspeccion($data);
         
@@ -254,8 +257,35 @@ class Inspeccion extends CI_Controller
 			}
 			echo json_encode($resp);
 		} else {
+			/*En caso de fallar alguna operacion de guardado de los datos anexos a la inspeccion, armo un arreglo con la respuesta correspondiente.
+			para luego informarla al usuario en la pantalla */
 			$resp['status'] = false;
-			$resp['message'] = "Se produjo un error guardando los datos";
+			$resp['message'] = "Se produjo un error guardando los datos: ";
+			//EVALUO RESPUESTA TERMICOS
+			if(!$respTermInspeccion['status']){
+				if(stripos($respTermInspeccion['data'], "inspecciones_termicos_pk")){ 
+					$resp['message'] .= "<br> -> <b>Error</b> al agregar los termicos asociados a la inspección.<br> <b>Información duplicada!</b> <br>";
+				}else{
+					$resp['message'] .= "<br> -> <b>Error</b> al agregar los termicos asociados a la inspección.<br>";
+				}
+			}
+			//EVALUO RESPUESTA PERMISOS DE TRANSITO
+			if(!$rspPermisos['status']){
+				if(stripos($rspPermisos['data'], "permisos_transito_pk")){ 
+					$resp['message'] .= "<br> -> <b>Error</b> al agregar los permisos de tránsito.<br> <b>Información duplicada!</b> <br>";
+				}else{
+					$resp['message'] .= "<br> -> <b>Error</b> al agregar los permisos de tránsito. <br>";
+				}
+			}
+			//EVALUO RESPUESTA EMPRESAS DE DESTINO
+			if(!$respEmpresas['status']){
+				if(stripos($respEmpresas['data'], "inspecciones_empresas_pk")){ 
+					$resp['message'] .= "<br> -> <b>Error</b> al agregar las empresas de destino.<br> <b>Información duplicada!</b> <br>";
+				}else{
+					$resp['message'] .= "<br> -> <b>Error</b> al agregar las empresas de destino. <br>";
+				}
+			}
+			$resp['message'] .= "<br>Por favor, revise la información cargada.";
 			$resp['permisos'] = $rspPermisos['data'];
 			$resp['empresas'] = $respEmpresas['data'];
 			$resp['termicos'] = $respTermInspeccion['data'];
@@ -371,7 +401,7 @@ class Inspeccion extends CI_Controller
     public function agregarDocumento(){
 		log_message('DEBUG', "#TRAZA | #SICPOA | Inspeccion | agregarDocumento()");
 		
-		$data['fec_emision'] = date('Y-m-d');
+		$data['fec_emision'] = date('Y-m-d',strtotime($this->input->post('fec_emision')));
 		$data['num_documento'] =  !empty($this->input->post('num_documento'))? $this->input->post('num_documento') : "";
         $data['usuario_app'] = userNick();
 		$data['tido_id'] =  !empty($this->input->post('tido_id'))? $this->input->post('tido_id') : "";
@@ -483,7 +513,7 @@ class Inspeccion extends CI_Controller
     public function editarDocumento(){
 		log_message('DEBUG', "#TRAZA | #SICPOA | Inspeccion | editarDocumento()");
 
-		$data['fec_emision'] = date('Y-m-d');
+		$data['fec_emision'] = date('Y-m-d',strtotime($this->input->post('fec_emision')));
 		$data['num_documento'] =  !empty($this->input->post('num_documento'))? $this->input->post('num_documento') : "";
         $data['usuario_app'] = userNick();
 		$data['tido_id'] =  !empty($this->input->post('tido_id'))? $this->input->post('tido_id') : "";

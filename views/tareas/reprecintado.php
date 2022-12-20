@@ -566,7 +566,7 @@ function imprimirActa(){
     $(".acta_chofer").text($("#nom_chofer").val());
     $(".acta_dniChofer").text($("#doc_chofer").val());
     $(".acta_patenteTractor").text($("#patenteTractor").val());
-    $(".acta_numSenasa").text($("#num_senasa").val());
+    // $(".acta_numSenasa").text($("#num_senasa").val());
     $(".acta_cantFajas").text($("#cant_fajas").val());
     $(".acta_observaciones").text($("#observaciones").val());
     $(".acta_origenNro").text($("#esta_num").val());
