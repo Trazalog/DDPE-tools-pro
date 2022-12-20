@@ -313,21 +313,27 @@
                             <!--________________-->
                             
                             <!--Hora Acta Inspeccion-->
-                            <div class="col-md-5 col-sm-6 col-xs-12">
+                            <div class="col-md-5 col-sm-6 col-xs-12 ocultar">
                                 <div class="form-group">
                                     <label for="horaActaInspeccion">Hora inspección(<strong style="color: #dd4b39">*</strong>):</label>
                                     <div class="input-group">
                                         <input type="time" class="form-control" name="horaActaInspeccion" id="horaActaInspeccion" value="<?php echo isset($horaInspeccion) ? $horaInspeccion : date('h:i') ?>" readonly required/>
-                                        <span id="btnHabilitaEdicion" class="input-group-addon" onclick="habilitarEdicionFechaHora()"><i class="fa fa-edit"></i></span>
+                                        <span id="btnHabilitaEdicion" class="input-group-addon" onclick="habilitarEdicionFechaHora()" title="Editar fecha y hora de la inspección"><i class="fa fa-edit"></i></span>
                                     </div>
                                 </div>
                             </div>
                             <!--________________-->
 
                             <!--Acta Infraccion-->
-                            <div class="col-md-12 col-sm-12 col-xs-12">
-                                <div class="form-group">
-                                    <div id="formActaManualInspeccion" class="frm-new" data-form="69"></div>
+                            <div id="sec_actaInspeccion" style="display: none" class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="input-group">
+                                    <label>Acta de inspección manual:</label>
+                                    <span id="add_acta" class="input-group-addon" data-toggle="modal" data-target="#mdl-actaInspeccionManual"><i class="fa fa-plus"></i></span>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-xl-12 centrar">
+                                    <div class="contenedor">
+                                        <img id="actaInspeccionManual" class='thumbnail fotos' height='94' src='' alt='' style="display: none" onclick='preview(this)'>
+                                    </div>
                                 </div>
                             </div>
                             <!--________________-->
@@ -1722,7 +1728,7 @@ function cerrarTarea() {
     }
     //Una vez validado el formulario, lo guardo
     cerrarTareaform().then((result) => {
-        
+
         var dataForm = new FormData($('#formInspeccion')[0]);
         dataForm.append('frm_info_id', result.info_id);
         dataForm.append('info_id_acta', result.info_id_acta);
@@ -1959,4 +1965,24 @@ $("#btn-cierreEscaneo").on('click', function() {
     });
 });
 /***************************************************** */
+//Show vista previa acta inspeccion manual
+$(document).on('change',"input[name='-file-foto_acta_manual']",function() {
+    if(this.files && this.files[0]){
+        var reader = new FileReader();
+
+        reader.addEventListener("load", function (e) {
+            $('#actaInspeccionManual').attr('src', e.target.result);
+            $('#actaInspeccionManual').hide();
+            $('#actaInspeccionManual').fadeIn(850);   
+        }, false);
+
+        reader.readAsDataURL(this.files[0]);
+    }
+});
+/***************************************************** */
+function habilitarEdicionFechaHora(){
+    $("#fechaActaInspeccion").attr('readonly', false);
+    $("#horaActaInspeccion").attr('readonly', false);
+    $("#sec_actaInspeccion").show();
+}
 </script>
