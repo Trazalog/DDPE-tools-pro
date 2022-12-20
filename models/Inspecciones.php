@@ -47,6 +47,23 @@ class Inspecciones extends CI_Model {
     }
 
     /**
+	* Busca choferes en SIPE coincidentes con un criterio de búsqueda 
+	* @param string patron en digitos numéricos
+	* @return array listado de choferes coincidentes
+	*/
+    public function buscaChoferesSIPE($dato){
+        
+        $url = API_SICP."/choferes/patron/".$dato;
+
+        $aux = $this->rest->callAPI("GET",$url);
+        $resp = json_decode($aux['data']);
+
+        log_message('DEBUG', "#TRAZA | #SICPOA | Inspecciones | buscaChoferesSIPE()  resp: >> " . json_encode($resp));
+
+        return $resp->choferes->chofer;
+    }
+
+    /**
 	* Alta rapida de una empresa, establecimiento, transportista(son todas empresas) 
 	* @param array datos de empresa
 	* @return bool

@@ -46,23 +46,19 @@ class Inspeccion extends CI_Controller
 			echo json_encode($resp);
 		}
     }
-    /**
-	* Busca Choferes que coincidan con un patron ingresado
+	/**
+	* Busca Choferes en SIPE que coincidan con un patron ingresado
 	* @param array patron ingresado en pantalla
 	* @return array listado de choferes coincidentes con el criterio de busqueda
 	*/
     public function buscaChoferes(){
 		log_message('DEBUG', "#TRAZA | #SICPOA | Inspeccion | buscaChoferes()");
 
-        $dato = $this->input->get('patron');
-        
-		$resp = $this->Inspecciones->buscaChoferes($dato);
-        
-		if ($resp) {
-			echo json_encode($resp);
-		} else {
-			echo json_encode($resp);
-		}
+        $dato = $this->input->get('patron');        
+		
+		$resp = $this->Inspecciones->buscaChoferesSIPE($dato);
+
+		echo json_encode($resp);
     }
     /**
 	* Guarda Empresa, lo reutilizo para establecimiento, empresa y transportista
