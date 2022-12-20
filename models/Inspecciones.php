@@ -98,6 +98,23 @@ class Inspecciones extends CI_Model {
     }
 
     /**
+	* Busca empresas en la api AFIP coincidentes con un patron 
+	* @param string patron
+	* @return array listado de empresas coincidentes con patron
+	*/
+    public function buscaEmpresasAFIP($dato){
+        
+        $url = API_SICP."/empresas/patron/".urlencode($dato);
+
+        $aux = $this->rest->callAPI("GET",$url);
+        $resp = json_decode($aux['data']);
+
+        log_message('DEBUG', "#TRAZA | #SICPOA | Inspecciones | buscaEmpresasAFIP()  resp: >> " . json_encode($resp));
+
+        return $resp->empresas->empresa;
+    }
+
+    /**
 	* Alta rapida de un deposito
 	* @param array datos de deposito
 	* @return bool

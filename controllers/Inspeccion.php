@@ -89,13 +89,9 @@ class Inspeccion extends CI_Controller
 
         $dato = $this->input->get('patron');
         
-		$resp = $this->Inspecciones->buscaEmpresas($dato);
+		$resp = $this->Inspecciones->buscaEmpresasAFIP($dato);
         
-		if ($resp) {
-			echo json_encode($resp);
-		} else {
-			echo json_encode($resp);
-		}
+		echo json_encode($resp);
     }
     /**
 	* Guarda deposito
