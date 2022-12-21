@@ -89,9 +89,12 @@ class Sicpoatareas extends CI_Model
         return $aux;
     }
    
-
-    public function desplegarCabecera($tarea)
-    {
+    /**
+	* Se obtiene la informacion necesaria para cargar la cabecera del pedido de trabajo(ingreso por barrera)
+	* @param array $tarea datos del pedido de trabajo
+	* @return array cabecera del pedido de trabajo con los datos enviados
+	*/
+    public function desplegarCabecera($tarea){
         $pedidoTrabajo = $this->getXCaseId($tarea);
         $tarea->inspeccion = $this->getPreCargaDatos($tarea->caseId);
         $tarea->imgsBarrera = $this->getImgsBarrera($pedidoTrabajo->info_id);
@@ -99,8 +102,7 @@ class Sicpoatareas extends CI_Model
         return $resp;
     }
 
-    public function desplegarVista($tarea)
-    {
+    public function desplegarVista($tarea){
         switch ($tarea->nombreTarea) {
             //paso 1
             case 'Pre - Carga de Datos':
