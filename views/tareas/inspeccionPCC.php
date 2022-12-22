@@ -1954,27 +1954,18 @@ function pesarBascula() {
     $("#bruto").val('');
     $.ajax({
         type: 'GET',
-        // data: {destino},
-        url: "<?php echo SICP; ?>inspeccion/getDepositos",
+        url: "<?php echo SICP; ?>inspeccion/getPesoBascula",
         success: function(data) {
             if(data != 'null'){
                 datos = JSON.parse(data);
-                
-                $.each(datos, function(i, obj) {
-                    depo_id = obj.depo_id;
-                    direccion = obj.calle + " - " + obj.altura;
-
-                    newOpc = new Option(direccion, depo_id, false, false);
-                    $('#depo_destino').append(newOpc);
-                });
-                $('#depo_destino').trigger('change');
-
+                // console.log(datos);
+                $('#bruto').val(datos);
             }else{
-                console.log("Sin depositos relacionados a esta empresa destino");
+                console.log("problema al llamar la api");
             }
         },
         error: function(data) {
-            alert("Error al obtener depositos");
+            alert("Error al obtener peso de bascula");
         }
     });
 }
