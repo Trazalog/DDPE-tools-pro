@@ -196,14 +196,14 @@
 </div>
 
 <!-- FIN MODAL Escanear Documentacion -->
-<!-- Modal Acta infraccion en calle -->
-<div class="modal modal-fade" id="mdl-actaInfraccion">
+<!-- Modal Acta Inspeccion manual -->
+<div class="modal modal-fade" id="mdl-actaInspeccionManual">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <!-- Modal Header -->
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Carga acta infracción en calle</h4>
+                <h4 class="modal-title">Carga acta inspeccion realizada manualmente</h4>
             </div>
             <div class="panel-subheading" style="text-align: right">
                 <label><?php echo $this->session->userdata['first_name'].' '.$this->session->userdata['last_name'].' - '.date('m/d/Y H:i:s')?></label>
@@ -211,16 +211,13 @@
             <!-- Modal body -->
             <div class="modal-body">
                 <div class="row">
-                    <div id="formActaInfraccion" class="frm-new" data-form="13"></div>
+                    <div id="formActaManualInspeccion" class="frm-new" data-form="69"></div>
                 </div>
             </div>
-                <!-- Modal footer -->
-                <div class="modal-footer">
+            <!-- Modal footer -->
+            <div class="modal-footer">
                 <div class="col-md-6 col-sm-12 col-md-offset-6" style="text-align:right;margin-top: 20px;">
-                    <button id="btn-cierreActaInfraccion" type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
-
-                    <!-- <button type="button" id="btn-accion" class="btn btn-primary btn-guardar"
-                        onclick="frmGuardar($('.frm-new').find('form'))">Guardar</button> -->
+                    <button id="btn-cierreActaInspeccionManual" type="button" class="btn btn-success" data-dismiss="modal">Hecho</button>
                 </div>
             </div>
             <!-- ************************************************************ -->

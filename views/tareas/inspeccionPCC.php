@@ -303,6 +303,40 @@
                     <!--_______ FORMULARIO INSPECCION BOX 2______-->
                     <div class="col-md-6 col-sm-12 col-xs-12">
                         <div class="caja" id="boxInspeccion">
+                            <!--Fecha Acta Inspeccion-->
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label for="fechaActaInspeccion">Fecha inspección(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <input type="date" class="form-control" name="fechaActaInspeccion" id="fechaActaInspeccion" value="<?php echo !empty($fechaInspeccion) ? $fechaInspeccion : date('Y-m-d') ?>" readonly required/>
+                                </div>
+                            </div>
+                            <!--________________-->
+                            
+                            <!--Hora Acta Inspeccion-->
+                            <div class="col-md-5 col-sm-6 col-xs-12 ocultar">
+                                <div class="form-group">
+                                    <label for="horaActaInspeccion">Hora inspección(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <div class="input-group">
+                                        <input type="time" class="form-control" name="horaActaInspeccion" id="horaActaInspeccion" value="<?php echo isset($horaInspeccion) ? $horaInspeccion : date('h:i') ?>" readonly required/>
+                                        <span id="btnHabilitaEdicion" class="input-group-addon" onclick="habilitarEdicionFechaHora()" title="Editar fecha y hora de la inspección"><i class="fa fa-edit"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--________________-->
+
+                            <!--Acta Infraccion-->
+                            <div id="sec_actaInspeccion" style="display: none" class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="input-group">
+                                    <label>Acta de inspección manual:</label>
+                                    <span id="add_acta" class="input-group-addon" data-toggle="modal" data-target="#mdl-actaInspeccionManual"><i class="fa fa-plus"></i></span>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-xl-12 centrar">
+                                    <div class="contenedor">
+                                        <img id="actaInspeccionManual" class='thumbnail fotos' height='94' src='' alt='' style="display: none" onclick='preview(this)'>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--________________-->
                             <!--DNI Chofer-->
                             <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
                                 <div class="form-group">
@@ -579,7 +613,7 @@
                     <!--________________-->
 
                     <!--Se constituyen en-->
-                    <div class="col-md-5 col-sm-6 col-xs-6">
+                    <div class="col-md-7 col-sm-6 col-xs-6">
                         <div class="form-group">
                             <label for="dondeConstituyen">Se constituyen en(<strong style="color: #dd4b39">*</strong>):</label>
                             <input class="form-control" name="dondeConstituyen" id="dondeConstituyen" value="Punto de control de productos cárnicos y derivados de la Pcia. de San Juan" readonly/>
@@ -588,7 +622,7 @@
                     <!--________________-->
 
                     <!--Con domicilio en-->
-                    <div class="col-md-3 col-sm-6 col-xs-6">
+                    <div class="col-md-5 col-sm-6 col-xs-6">
                         <div class="form-group">
                             <label for="domicilio">Con domicilio en(<strong style="color: #dd4b39">*</strong>):</label>
                             <input class="form-control" name="domicilio" id="domicilio" placeholder="Ingrese Domicilio" value="<?php echo isset($preCargaDatos->domicilio_constituye) ? $preCargaDatos->domicilio_constituye : 'Calle 11 y Punta del Monte.' ?>" required/>
@@ -604,26 +638,9 @@
                         </div>                    
                     </div>
                     <!--________________-->
-
-                    <!--Fecha Acta Inspeccion-->
-                    <div class="col-md-3 col-sm-6 col-xs-12">
-                        <div class="form-group">
-                            <label for="fechaActaInspeccion">Fecha inspección(<strong style="color: #dd4b39">*</strong>):</label>
-                            <input type="date" class="form-control" name="fechaActaInspeccion" id="fechaActaInspeccion" value="<?php echo isset($fechaInspeccion) ? $fechaInspeccion : null ?>" required/>
-                        </div>
-                    </div>
-                    <!--________________-->
-                    <!--Hora Acta Inspeccion-->
-                    <div class="col-md-3 col-sm-6 col-xs-12">
-                        <div class="form-group">
-                            <label for="horaActaInspeccion">Hora inspección(<strong style="color: #dd4b39">*</strong>):</label>
-                            <input type="time" class="form-control" name="horaActaInspeccion" id="horaActaInspeccion" value="<?php echo isset($horaInspeccion) ? $horaInspeccion : null ?>" required/>
-                        </div>
-                    </div>
-                    <!--________________-->
                     
                     <!--Siendo atendido por-->
-                    <div class="col-md-6 col-sm-4 col-xs-6">
+                    <div class="col-md-4 col-sm-4 col-xs-6">
                         <div class="form-group">
                             <label for="quienAtendio">Siendo atendido por(<strong style="color: #dd4b39">*</strong>):</label>
                             <input class="form-control" name="quienAtendio" id="quienAtendio" placeholder="Ingrese por quién fue atendido" value="<?php echo isset($preCargaDatos->atendidos_por) ? $preCargaDatos->atendidos_por : null ?>" required/>
@@ -632,7 +649,7 @@
                     <!--________________-->
                     
                     <!--En su caracter de-->
-                    <div class="col-md-5 col-sm-4 col-xs-6">
+                    <div class="col-md-4 col-sm-4 col-xs-6">
                         <div class="form-group">
                             <label for="caracterAtendio">En su carácter de(<strong style="color: #dd4b39">*</strong>):</label>
                             <input class="form-control" name="caracterAtendio" id="caracterAtendio" placeholder="Ingrese el caracter del que atendió" value="<?php echo isset($preCargaDatos->caracter_de) ? $preCargaDatos->caracter_de : 'Chofer' ?>" required/>
@@ -641,7 +658,7 @@
                     <!--________________-->
 
                     <!--Proceden a-->
-                    <div class="col-md-7 col-sm-12 col-xs-6">
+                    <div class="col-md-12 col-sm-12 col-xs-6">
                         <div class="form-group">
                             <label for="procedenAccion">Proceden a:</label>
                             <textarea class="form-control" name="procedenAccion" id="procedenAccion"><?php echo isset($preCargaDatos->proceden_a) ? $preCargaDatos->proceden_a : null ?></textarea>
@@ -1531,6 +1548,10 @@ async function cerrarTareaform(){
     var newInfoID = await frmGuardarConPromesa($('#formEscaneoDocu').find('form'));
     dataForm.append('info_id_doc', newInfoID);
 
+    //Guardo formulario dinamico del acta manual
+    var info_id_acta = await frmGuardarConPromesa($('#formActaManualInspeccion').find('form'));
+    dataForm.append('info_id_acta', info_id_acta);
+
     //Limpio la data pre cargada si existiera para evitar errores
     limpiarDataPreCargada().then((result) => {
         console.log(result);
@@ -1630,6 +1651,7 @@ async function cerrarTareaform(){
                         resp = JSON.parse(data);
                         if(resp.status){
                             resp.info_id = newInfoID;
+                            resp.info_id_acta = info_id_acta;//Foto del acta en papel realizada offline
                             resolve(resp);
                         }else{
                             console.log(resp.message);
@@ -1717,6 +1739,7 @@ function cerrarTarea() {
 
         var dataForm = new FormData($('#formInspeccion')[0]);
         dataForm.append('frm_info_id', result.info_id);
+        dataForm.append('info_id_acta', result.info_id_acta);
         dataForm.append('doc_impositiva', $("select[name=doc_impo]").val());
         
         var id = $('#taskId').val();
@@ -1968,5 +1991,25 @@ function pesarBascula() {
             alert("Error al obtener peso de bascula");
         }
     });
+}
+//Show vista previa acta inspeccion manual
+$(document).on('change',"input[name='-file-foto_acta_manual']",function() {
+    if(this.files && this.files[0]){
+        var reader = new FileReader();
+
+        reader.addEventListener("load", function (e) {
+            $('#actaInspeccionManual').attr('src', e.target.result);
+            $('#actaInspeccionManual').hide();
+            $('#actaInspeccionManual').fadeIn(850);   
+        }, false);
+
+        reader.readAsDataURL(this.files[0]);
+    }
+});
+/***************************************************** */
+function habilitarEdicionFechaHora(){
+    $("#fechaActaInspeccion").attr('readonly', false);
+    $("#horaActaInspeccion").attr('readonly', false);
+    $("#sec_actaInspeccion").show();
 }
 </script>

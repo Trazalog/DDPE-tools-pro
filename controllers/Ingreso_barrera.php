@@ -64,15 +64,11 @@ class Ingreso_barrera extends CI_Controller
                 $data['puntoControl'] = $key->valor;
             }
         }
-        
         $url_info= $_SERVER["REQUEST_URI"];
-
         $components = parse_url($url_info);
-
         parse_str($components['query'], $results);
     
         $this->load->view('ingresoBarrera/ingreso_barrera', $data);
-     
     }
 
 

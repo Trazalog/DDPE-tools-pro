@@ -1,5 +1,5 @@
 <style>
-.frm-save {
+#div_ingreso_barrera .frm-save, #form-dinamico .frm-save{
     display: none;
 }
 .panel-subheading{
