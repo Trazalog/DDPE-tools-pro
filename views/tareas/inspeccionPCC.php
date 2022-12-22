@@ -534,10 +534,18 @@
                 </div><!-- FIN row-->
                 <div class="row">
                     <!--Bruto-->
-                    <div class="col-md-3 col-sm-6 col-xs-6">
+                    <div class="col-md-2 col-sm-6 col-xs-6">
                         <div class="form-group">
                             <label for="bruto">Bruto:</label>
                             <input class="form-control neto onlyNumbers" name="bruto" id="bruto" placeholder="Bruto" value="<?php echo isset($preCargaDatos->bruto) ? $preCargaDatos->bruto : null ?>"/>
+                        </div>                    
+                    </div>
+                    <!--________________-->
+                    <!--Boton Pesar-->
+                    <div class="col-md-1 col-sm-6 col-xs-6">
+                        <div class="form-group">
+                            <br>
+                            <button type="button" class="btn btn-primary" onclick="pesarBascula()" >Pesar</button>
                         </div>                    
                     </div>
                     <!--________________-->
@@ -1965,6 +1973,25 @@ $("#btn-cierreEscaneo").on('click', function() {
     });
 });
 /***************************************************** */
+function pesarBascula() {
+    $("#bruto").val('');
+    $.ajax({
+        type: 'GET',
+        url: "<?php echo SICP; ?>inspeccion/getPesoBascula",
+        success: function(data) {
+            if(data != 'null'){
+                datos = JSON.parse(data);
+                // console.log(datos);
+                $('#bruto').val(datos);
+            }else{
+                console.log("problema al llamar la api");
+            }
+        },
+        error: function(data) {
+            alert("Error al obtener peso de bascula");
+        }
+    });
+}
 //Show vista previa acta inspeccion manual
 $(document).on('change',"input[name='-file-foto_acta_manual']",function() {
     if(this.files && this.files[0]){
