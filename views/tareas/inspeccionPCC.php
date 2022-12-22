@@ -500,10 +500,18 @@
                 </div><!-- FIN row-->
                 <div class="row">
                     <!--Bruto-->
-                    <div class="col-md-3 col-sm-6 col-xs-6">
+                    <div class="col-md-2 col-sm-6 col-xs-6">
                         <div class="form-group">
                             <label for="bruto">Bruto:</label>
                             <input class="form-control neto onlyNumbers" name="bruto" id="bruto" placeholder="Bruto" value="<?php echo isset($preCargaDatos->bruto) ? $preCargaDatos->bruto : null ?>"/>
+                        </div>                    
+                    </div>
+                    <!--________________-->
+                    <!--Boton Pesar-->
+                    <div class="col-md-1 col-sm-6 col-xs-6">
+                        <div class="form-group">
+                            <br>
+                            <button type="button" class="btn btn-primary" onclick="pesarBascula()" >Pesar</button>
                         </div>                    
                     </div>
                     <!--________________-->
@@ -1942,4 +1950,32 @@ $("#btn-cierreEscaneo").on('click', function() {
     });
 });
 /***************************************************** */
+function pesarBascula() {
+    $("#bruto").val('');
+    $.ajax({
+        type: 'GET',
+        // data: {destino},
+        url: "<?php echo SICP; ?>inspeccion/getDepositos",
+        success: function(data) {
+            if(data != 'null'){
+                datos = JSON.parse(data);
+                
+                $.each(datos, function(i, obj) {
+                    depo_id = obj.depo_id;
+                    direccion = obj.calle + " - " + obj.altura;
+
+                    newOpc = new Option(direccion, depo_id, false, false);
+                    $('#depo_destino').append(newOpc);
+                });
+                $('#depo_destino').trigger('change');
+
+            }else{
+                console.log("Sin depositos relacionados a esta empresa destino");
+            }
+        },
+        error: function(data) {
+            alert("Error al obtener depositos");
+        }
+    });
+}
 </script>

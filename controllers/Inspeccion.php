@@ -521,4 +521,21 @@ class Inspeccion extends CI_Controller
 			echo json_encode($resp);
 		}
     }
+		/**
+	* Trae el peso de la bascula
+	* @return integer peso de la bascula
+	*/
+    public function getPesoBascula(){
+		log_message('DEBUG', "#TRAZA | #SICPOA | Inspeccion | getPesoBascula()");
+
+        // $dato = $this->input->get('destino');
+        
+		$resp = $this->Inspecciones->getPesoBascula();
+        
+		if ($resp) {
+			echo json_encode($resp);
+		} else {
+			echo json_encode($resp);
+		}
+    }
 }
