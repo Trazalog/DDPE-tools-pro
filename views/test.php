@@ -1,10 +1,10 @@
 <style>
-.frm-save {
+#escaneoDocumentacion .frm-save, #ingreso_barrera .frm-save{
     display: none;
 }
 </style>
 <!-- COMIENZO FORM ESCANEO DOCUMENTACION-->
-<div class="panel">
+<!-- <div class="panel">
     <div class="panel-body" id="escaneoDocumentacion">
         <div class="row">
             <div id="formDocumentacion" class="frm-new" data-form="11"></div>
@@ -18,10 +18,10 @@
 </div>
 <div id="hackeo">
     <button onclick="addInput()">TEST!</button>
-</div>
+</div> -->
 <!-- FIN FORM ESCANEO DOCUMENTACION -->
 
-<div>
+<!-- <div>
     <div class="panel panel-default">
         <div class="panel-heading">
             <h3 class="panel-title">Test Formularios</h3>
@@ -29,51 +29,106 @@
         <div class="panel-body" id="ingreso_barrera">
             <div class="row">
                 <?php 
-                $formulario = getForm(741); //Ulitmo test doble archivo
-                echo $formulario;
+                // $formulario = getForm(2285); //Ulitmo test con compresion 2212
+                // echo $formulario;
                 ?>
             </div>
         </div>
     </div>
+</div> -->
+<!-- COMIENZO FORM IngresoBarrera-->
+<div class="panel">
+    <div class="panel-body" id="escaneoIngresoBarrera">
+        <div class="row">
+            <div id="formIngresoBarrera" class="frm-new" data-form="12"></div>
+        </div>
+    </div>
 </div>
+<div>
+    <img style="margin-top: 5px; display:none" id="originalImage"  src=""  crossorigin="anonymous" />
+</div>
+<!-- FIN FORM IngresoBarrera -->
 <script>
 detectarForm();
 initForm();
-var index = 2;
-var indexFiles = 2;
-$(document).ready(function () {
-    //Cantidad de documentos solo digitos
-    $("#cant_doc").attr("type","number");
+/* REDIMENSIONADORES Tamaño y Calidad */
+var resizingFactor = 0.50;
+var quality = 0.50;
+//La asigno de este modo para evitar propagacion del evento
+var funcionCompresora = () => {compressImage(originalImage, resizingFactor, quality, idInput);}
+//Vinculacion del evento al input para tomar la imagen subida
+$(document).on("change", '#escaneoIngresoBarrera input[type="file"]', async (e) => {
+    Swal.fire({
+        title: 'Comprimiendo imagen',
+        html: 'Aguarde unos instantes...',
+        onBeforeOpen: () => {
+            Swal.showLoading ();
+        }
+    });
+    idInput = $(e.currentTarget).attr('id');
+    var [file] = e.currentTarget.files;
+    // Variable que almacena la imagen original
+    var originalImage = document.querySelector("#originalImage");
+    originalImage.src = await fileToDataUri(file);
+    
+    // comprimiendo la imagen cargada
+    originalImage.addEventListener("load", funcionCompresora ,false);
+
+    console.log("Termino");
+    $(this).off('change');
 });
-function agregarFotos(){
-    var modeloInput = "<div class='col-sm-12 col-md-6'>"+
-                    "<label>Foto "+index+":</label>"+
-                    "<div class='form-group imgConte'>"+
-                        "<label for='fotos_"+index+"'>"+
-                        "<div class='imgEdit'>"+
-                            "<input class='form-control' type='file' id='fotos_"+index+"'  name='-file-fotos[]' onchange='previewFile(this)' accept='image/*' capture/>"+
-                        "</div>"+
-                        "<div class='imgPreview'>"+
-                            "<div id='vistaPrevia_fotos_"+index+"' style='background-image: url(lib/imageForms/camera_2.png);'></div>"+
-                        "</div>"+
-                        "</label>"+
-                    "</div>"+
-                    "</div>";
-    $(".addFotos").before(modeloInput);
-    index++;
+//Se dibuja el canvas con la imagen comprimida, con lso parametros enviados
+// Se vuelva a asignar al mismo input de donde provino la llamada
+function compressImage(imgToCompress, resizingFactor, quality, idInput) {
+    let fileInputElement = document.getElementById(idInput);
+    var compressedImageBlob;
+    let container = new DataTransfer();
+    // Funcion que muestra la imagen comprimida
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d");
+
+    const originalWidth = imgToCompress.width;
+    const originalHeight = imgToCompress.height;
+
+    const canvasWidth = originalWidth * resizingFactor;
+    const canvasHeight = originalHeight * resizingFactor;
+
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
+
+    context.drawImage(
+        imgToCompress,
+        0,
+        0,
+        originalWidth * resizingFactor,
+        originalHeight * resizingFactor
+    );
+
+    canvas.toBlob(
+        (blob) => {
+            if (blob) {
+                let file = new File([blob], fileInputElement.files[0].name,{type: fileInputElement.files[0].type, lastModified: new Date().getTime()});
+                container.items.add(file);
+                fileInputElement.files = container.files;
+                if(Swal.isLoading()){   
+                    Swal.hideLoading();
+                    Swal.clickConfirm();
+                }
+                console.log(fileInputElement.files);
+            }
+        },
+        "image/jpeg",
+        quality
+    );
 }
-function agregarArchivos(){
-    var modeloInput = "<div class='col-sm-12 col-md-6'>"+
-                        "<div class='form-group'>"+
-                            "<label>PDF "+indexFiles+":</label>"+
-                            "<input class='form-control' id='archivo_"+indexFiles+"' type='file' name='-file-archivos[]'>"+
-                        "</div>"+
-                    "</div>";
-    $(".addFiles").before(modeloInput);
-    indexFiles++;
-}
-function cierreTest(){
-    var queHacerAfter = function(info_id = null){console.log("Todo muy bonito! El info_id generado fue: " + info_id);}
-    frmGuardar($('.frm-new').find('form'),queHacerAfter,true);
+
+function fileToDataUri(field) {
+    return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.addEventListener("load", () => {
+            resolve(reader.result);
+        });
+        reader.readAsDataURL(field);
+    });
 }
 </script>

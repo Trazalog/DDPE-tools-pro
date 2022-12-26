@@ -495,7 +495,7 @@
                 <!--_______ FIN FORMULARIO INSPECCION BOX 2______-->
                 </div><!-- FIN row-->
                 <div class="row">
-                    <?php if(userNick() != 'inspector_calle1@sicpoa.com'){ ?>
+                    <?php if(userNick() != 'inspector_calle_ddpe'){ ?>
                     <!--Bruto-->
                     <div class="col-md-3 col-sm-6 col-xs-6">
                         <div class="form-group">
