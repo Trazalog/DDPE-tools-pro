@@ -1302,14 +1302,15 @@ function validarCamposPermiso(){
         valida = "Seleccione un tipo de Doc. sanitaria!";
         return valida;
     }
-    //Producto
-    if($("#producto").val() == ""){
-        valida = "Seleccione un Producto!";
-        return valida;
-    }
     //Peso Neto
     if($("#netoPermiso").val() == ""){
         valida = "Seleccione un Peso Neto!";
+        return valida;
+    }
+    //Select de Producto
+    var prod = $("#tipr_id option:selected");
+    if (prod.val() == "") {
+        valida = "Seleccione un Producto!";
         return valida;
     }
     //Peso Bruto
@@ -1909,7 +1910,7 @@ function imprimirActa(){
         aux = $(obj).attr('data-json');
         json = JSON.parse(aux);
         infoPermisos += json.tipo + "; ";
-        infoProductos +=  json.productos + "; ";
+        infoProductos +=  json.producto + "; ";
         infoOrigen += json.origen_nom + "; ";
         infoOrigenNums += json.origen_num + "; ";
         infoTemperatura += json.temperatura + "; ";
