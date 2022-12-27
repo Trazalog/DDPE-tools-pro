@@ -21,7 +21,7 @@
 </div> -->
 <!-- FIN FORM ESCANEO DOCUMENTACION -->
 
-<!-- <div>
+<div>
     <div class="panel panel-default">
         <div class="panel-heading">
             <h3 class="panel-title">Test Formularios</h3>
@@ -29,13 +29,13 @@
         <div class="panel-body" id="ingreso_barrera">
             <div class="row">
                 <?php 
-                // $formulario = getForm(2285); //Ulitmo test con compresion 2212
-                // echo $formulario;
+                $formulario = getForm(2295); //Ulitmo test con compresion 2212
+                echo $formulario;
                 ?>
             </div>
         </div>
     </div>
-</div> -->
+</div>
 <!-- COMIENZO FORM IngresoBarrera-->
 <div class="panel">
     <div class="panel-body" id="escaneoIngresoBarrera">
@@ -57,12 +57,12 @@ var quality = 0.50;
 //La asigno de este modo para evitar propagacion del evento
 var funcionCompresora = () => {compressImage(originalImage, resizingFactor, quality, idInput);}
 //Vinculacion del evento al input para tomar la imagen subida
-$(document).on("change", '#escaneoIngresoBarrera input[type="file"]', async (e) => {
+$(document).off().on("change", '#escaneoIngresoBarrera input[type="file"]', async (e) => {
     Swal.fire({
         title: 'Comprimiendo imagen',
         html: 'Aguarde unos instantes...',
         onBeforeOpen: () => {
-            Swal.showLoading ();
+            Swal.showLoading();
         }
     });
     idInput = $(e.currentTarget).attr('id');
@@ -73,9 +73,6 @@ $(document).on("change", '#escaneoIngresoBarrera input[type="file"]', async (e) 
     
     // comprimiendo la imagen cargada
     originalImage.addEventListener("load", funcionCompresora ,false);
-
-    console.log("Termino");
-    $(this).off('change');
 });
 //Se dibuja el canvas con la imagen comprimida, con lso parametros enviados
 // Se vuelva a asignar al mismo input de donde provino la llamada
@@ -83,7 +80,7 @@ function compressImage(imgToCompress, resizingFactor, quality, idInput) {
     let fileInputElement = document.getElementById(idInput);
     var compressedImageBlob;
     let container = new DataTransfer();
-    // Funcion que muestra la imagen comprimida
+    
     const canvas = document.createElement("canvas");
     const context = canvas.getContext("2d");
 
@@ -117,7 +114,7 @@ function compressImage(imgToCompress, resizingFactor, quality, idInput) {
                 console.log(fileInputElement.files);
             }
         },
-        "image/jpeg",
+        fileInputElement.files[0].type,
         quality
     );
 }
