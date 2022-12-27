@@ -1285,14 +1285,15 @@ function validarCamposPermiso(){
         valida = "Seleccione un tipo de Doc. sanitaria!";
         return valida;
     }
-    //Producto
-    if($("#producto").val() == ""){
-        valida = "Seleccione un Producto!";
-        return valida;
-    }
     //Peso Neto
     if($("#netoPermiso").val() == ""){
         valida = "Seleccione un Peso Neto!";
+        return valida;
+    }
+    //Select de Producto
+    var prod = $("#tipr_id option:selected");
+    if (prod.val() == "") {
+        valida = "Seleccione un Producto!";
         return valida;
     }
     //Peso Bruto
