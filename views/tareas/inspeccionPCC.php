@@ -1887,7 +1887,7 @@ function imprimirActa(){
         aux = $(obj).attr('data-json');
         json = JSON.parse(aux);
         infoPermisos += json.tipo + "; ";
-        infoProductos +=  json.productos + "; ";
+        infoProductos +=  json.producto + "; ";
         infoOrigen += json.origen_nom + "; ";
         infoOrigenNums += json.origen_num + "; ";
         infoTemperatura += json.temperatura + "; ";
