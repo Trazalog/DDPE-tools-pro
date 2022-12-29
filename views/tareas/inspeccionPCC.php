@@ -1225,8 +1225,9 @@ function agregarPermiso(){
         var origen = $("#esta_nom").select2('data')[0].id;
         var origen_nom = $("#esta_nom").select2('data')[0].text;
         var origen_num = $("#esta_num").val();
-        // var productos = $("#producto").val();
         var tipr_id = $("#tipr_id").select2('data')[0].text;
+        var productos = $("#tipr_id").select2('data')[0].id;
+        // var productos = $("#producto").val();
         var kilos = $("#kilos").val(); 
         var netoPermiso = $("#netoPermiso").val(); 
         var brutoPermiso = $("#brutoPermiso").val(); 
@@ -1241,6 +1242,7 @@ function agregarPermiso(){
         datos.origen = origen;
         datos.origen_nom = origen_nom;
         datos.origen_num = origen_num;
+        datos.productos = productos;
         // datos.productos = productos;
         datos.tipr_id = tipr_id;
         datos.kilos = kilos;
@@ -1909,11 +1911,13 @@ function imprimirActa(){
     $('#sec_permisos div.permTransito').each(function(i, obj) {
         aux = $(obj).attr('data-json');
         json = JSON.parse(aux);
+        console.log(json);
         infoPermisos += json.tipo + "; ";
-        infoProductos +=  json.producto + "; ";
+        infoProductos +=  json.tipr_id + "; ";
         infoOrigen += json.origen_nom + "; ";
         infoOrigenNums += json.origen_num + "; ";
         infoTemperatura += json.temperatura + "; ";
+        console.log(infoProductos);
     });
     $(".acta_docSanitaria").text(infoPermisos);
     $(".acta_productos").text(infoProductos);
