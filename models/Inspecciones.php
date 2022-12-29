@@ -168,7 +168,6 @@ class Inspecciones extends CI_Model {
 	* @return bool true or false
 	*/
     public function agregarPermisos($data){
-
         $batch_req = [];
         foreach ($data as $key) {
             $aux["perm_id"] = $key['perm_id'];
@@ -180,6 +179,7 @@ class Inspecciones extends CI_Model {
             $aux["soli_num"] = $key['soli_num'];
             $aux["origen"] = $key['origen'];
             $aux["productos"] = $key['productos'];
+            // $aux["productos"] = $key['productos'];
             $aux["neto"] = $key['neto'];
             $aux["bruto"] = $key['bruto'];
             $aux["temperatura"] = $key['temperatura'];
