@@ -278,7 +278,7 @@
                         <!--Teléfono Transportista-->
                         <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
                             <div class="form-group">
-                                <label for="telTransportista">Teléfono Transportista:</label>
+                                <label for="telTransportista">Teléfono Transportista(<strong style="color: #dd4b39">*</strong>):</label>
                                 <input class="form-control limited" name="telTransportista" id="telTransportista" placeholder="Ingrese teléfono" required/>
                             </div>                    
                         </div>

@@ -1225,8 +1225,9 @@ function agregarPermiso(){
         var origen = $("#esta_nom").select2('data')[0].id;
         var origen_nom = $("#esta_nom").select2('data')[0].text;
         var origen_num = $("#esta_num").val();
-        // var productos = $("#producto").val();
         var tipr_id = $("#tipr_id").select2('data')[0].text;
+        var productos = $("#tipr_id").select2('data')[0].id;
+        // var productos = $("#producto").val();
         var kilos = $("#kilos").val(); 
         var netoPermiso = $("#netoPermiso").val(); 
         var brutoPermiso = $("#brutoPermiso").val(); 
@@ -1241,6 +1242,7 @@ function agregarPermiso(){
         datos.origen = origen;
         datos.origen_nom = origen_nom;
         datos.origen_num = origen_num;
+        datos.productos = productos;
         // datos.productos = productos;
         datos.tipr_id = tipr_id;
         datos.kilos = kilos;
@@ -1302,14 +1304,15 @@ function validarCamposPermiso(){
         valida = "Seleccione un tipo de Doc. sanitaria!";
         return valida;
     }
-    //Producto
-    if($("#producto").val() == ""){
-        valida = "Seleccione un Producto!";
-        return valida;
-    }
     //Peso Neto
     if($("#netoPermiso").val() == ""){
         valida = "Seleccione un Peso Neto!";
+        return valida;
+    }
+    //Select de Producto
+    var prod = $("#tipr_id option:selected");
+    if (prod.val() == "") {
+        valida = "Seleccione un Producto!";
         return valida;
     }
     //Peso Bruto
@@ -1908,11 +1911,13 @@ function imprimirActa(){
     $('#sec_permisos div.permTransito').each(function(i, obj) {
         aux = $(obj).attr('data-json');
         json = JSON.parse(aux);
+        console.log(json);
         infoPermisos += json.tipo + "; ";
-        infoProductos +=  json.productos + "; ";
+        infoProductos +=  json.tipr_id + "; ";
         infoOrigen += json.origen_nom + "; ";
         infoOrigenNums += json.origen_num + "; ";
         infoTemperatura += json.temperatura + "; ";
+        console.log(infoProductos);
     });
     $(".acta_docSanitaria").text(infoPermisos);
     $(".acta_productos").text(infoProductos);
