@@ -146,7 +146,7 @@
                 "razon_social_transporte" => array(
                   "label" => "Transportista"
                 ),
-                "tipos_productos" => array(
+                "productos" => array(
                   "label" => "T. Producto"
                 ),
                 "resultado" => array(
