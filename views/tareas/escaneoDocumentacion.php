@@ -2,6 +2,13 @@
 .frm-save{
     display: none;
 }
+#escaneoDocumentacion .addFotosMasiva button{
+    margin-top: 12%;
+    margin-bottom: 2%;
+}
+#escaneoDocumentacion .addFotos button{
+    margin-top: 25%;
+}
 </style>
 <!-- COMIENZO FORM ESCANEO DOCUMENTACION-->
 <div class="panel">
@@ -9,6 +16,7 @@
         <div class="row">
             <div id="formDocumentacion" class="frm-new" data-form="11"></div>
         </div>
+        <input style="display: none;" id="altaMasivaFotos" class='form-control' type='file' name='altaMasivaFotos[]' accept='image/*' multiple onchange="crearVistaPreviaImagenes(this)"/>
     </div>
 </div>
 <!-- FIN FORM ESCANEO DOCUMENTACION -->
@@ -28,7 +36,7 @@ indice = 2;
 indexFiles = 2;
 
 function agregarFotos(){
-    var modeloInput = "<div class='col-sm-12 col-md-6'>"+
+    var modeloInput = "<div class='col-xs-12 col-sm-6 col-md-3'>"+
                     "<label>Foto "+indice+":</label>"+
                     "<div class='form-group imgConte'>"+
                         "<label for='foto_"+indice+"'>"+
@@ -118,5 +126,42 @@ async function cerrarTarea() {
             error('',"Se produjo un error al cerrar la tarea");
         }
     });
+}
+//Script apra el alta masiva de imagenes
+//Utilizo el evento para levantar la ventana de carga
+function agregarfotosMasivas(tag){
+    $("#altaMasivaFotos").click();
+}
+//Crea la vista previa de las imagenes seleccionadas
+function crearVistaPreviaImagenes(tag){
+    for(var i=0; i < tag.files.length; i++){
+        agregarFotosVistaPrevia(i);
+    }
+}
+//Genera el HTML de la vista previa y transfiere el archivo al input generado
+function agregarFotosVistaPrevia(indiceListadoArchivo){
+    let container = new DataTransfer();
+    var modeloInput = "<div class='col-xs-12 col-sm-6 col-md-3'>"+
+            "<label>Foto "+indice+":</label>"+
+            "<div class='form-group imgConte centrar'>"+
+            "<label for='foto_"+indice+"'>"+
+            "<div class='imgEdit'>"+
+                "<input class='form-control' type='file' id='foto_"+indice+"'  name='-file-fotos[]' onchange='previewFile(this)' accept='image/*' capture/>"+
+            "</div>"+
+            "<div class='imgPreview'>"+
+                "<div id='vistaPrevia_foto_"+indice+"' style='background-image: url(lib/imageForms/camera_2.png);'></div>"+
+            "</div>"+
+            "</label>"+
+        "</div>"+
+    "</div>";
+    $(".addFotos").before(modeloInput);
+    let inputImagen = document.querySelector("#foto_"+indice);
+    let contenedorImagenes = document.querySelector("#altaMasivaFotos");
+
+    container.items.add(contenedorImagenes.files[indiceListadoArchivo]);
+    inputImagen.files = container.files;
+
+    $("#foto_"+indice).trigger('change');
+    indice++;
 }
 </script>

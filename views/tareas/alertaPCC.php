@@ -1130,7 +1130,7 @@ function agregarPermiso(){
         var origen = $("#esta_nom").select2('data')[0].id;
         var origen_nom = $("#esta_nom").select2('data')[0].text;
         var origen_num = $("#esta_num").val();
-        // var productos = $("#producto").val();
+        var productos = $("#tipr_id").select2('data')[0].id;
         var tipr_id = $("#tipr_id").select2('data')[0].text;
         var kilos = $("#kilos").val(); 
         var netoPermiso = $("#netoPermiso").val(); 
@@ -1146,7 +1146,7 @@ function agregarPermiso(){
         datos.origen = origen;
         datos.origen_nom = origen_nom;
         datos.origen_num = origen_num;
-        // datos.productos = productos;
+        datos.productos = productos;
         datos.tipr_id = tipr_id;
         datos.kilos = kilos;
         datos.neto = netoPermiso;
@@ -1268,7 +1268,7 @@ function verPermiso(tag){
     $("#modalVerOrigen").val(data.origen_nom);
     $("#modalVerOrigenCuit").val(data.origen);
     $("#modalVerOrigenNumero").val(data.origen_num);
-    $("#modalVerProductos").val(data.productos);
+    $("#modalVerProductos").val(data.tipr_id);
     $("#modalVerNeto").val(data.neto);
     $("#modalVerBruto").val(data.bruto);
     $("#modalVerTemperatura").val(data.temperatura);

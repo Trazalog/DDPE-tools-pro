@@ -2,6 +2,13 @@
 /* .frm-save{
     display: none;
 } */
+#formEscaneoDocu .addFotosMasiva button{
+    margin-top: 12%;
+    margin-bottom: 2%;
+}
+#formEscaneoDocu .addFotos button{
+    margin-top: 25%;
+}
 </style>
 <!-- Modal CHOFER -->
 <div class="modal modal-fade" id="mdl-chofer">
@@ -154,7 +161,7 @@
 <!-- FIN MODAL DEPOSITO -->
 <!-- Modal Escanear Documentacion -->
 <div class="modal modal-fade" id="mdl-documentacion">
-    <div class="modal-dialog modal-xl">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <!-- Modal Header -->
             <div class="modal-header">
@@ -610,9 +617,9 @@ indice = 2;
 indexFiles = 2;
 
 function agregarFotos(){
-    var modeloInput = "<div class='col-sm-12 col-md-6'>"+
+    var modeloInput = "<div class='col-xs-12 col-sm-6 col-md-3'>"+
                     "<label>Foto "+indice+":</label>"+
-                    "<div class='form-group imgConte'>"+
+                    "<div class='form-group imgConte centrar'>"+
                         "<label for='foto_"+indice+"'>"+
                         "<div class='imgEdit'>"+
                             "<input class='form-control' type='file' id='foto_"+indice+"'  name='-file-fotos[]' onchange='previewFile(this)' accept='image/*' capture/>"+
