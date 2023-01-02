@@ -158,8 +158,6 @@ class Inspeccion extends CI_Controller
         $data['case_id'] = $this->input->post('case_id');
 		$data['patente_tractor'] =  !empty($this->input->post('patente_tractor'))? $this->input->post('patente_tractor') : "";
 		$data['nro_senasa'] =  !empty($this->input->post('nro_senasa'))? $this->input->post('nro_senasa') : "";
-		// $data['productos'] =  !empty($this->input->post('productos'))? $this->input->post('productos') : "";
-		$data['tipr_id'] =  !empty($this->input->post('tipr_id'))? $this->input->post('tipr_id') : "";
 		$data['kilos'] =  !empty($this->input->post('kilos'))? $this->input->post('kilos') : "";
 		$data['reprecintado'] =  !empty($this->input->post('reprecintado'))? $this->input->post('reprecintado') : "false";
 		$data['bruto'] =  !empty($this->input->post('bruto'))? $this->input->post('bruto') : "";
@@ -186,7 +184,7 @@ class Inspeccion extends CI_Controller
 		$data['atendidos_por'] =  !empty($this->input->post('quienAtendio'))? $this->input->post('quienAtendio') : "";
 		$data['caracter_de'] =  !empty($this->input->post('caracterAtendio'))? $this->input->post('caracterAtendio') : "";
 		$data['proceden_a'] =  !empty($this->input->post('procedenAccion'))? $this->input->post('procedenAccion') : "";
-		$data['fec_inspeccion'] =  !empty($this->input->post('fec_inspeccion'))? $this->input->post('fec_inspeccion') : "";
+		$data['fec_inspeccion'] =  !empty($this->input->post('fec_inspeccion'))? $this->input->post('fec_inspeccion') : date("Y-m-d H:i:s");
 		$data['info_id_acta'] =  !empty($this->input->post('info_id_acta'))? $this->input->post('info_id_acta') : "";
 		
 		$resp = $this->Inspecciones->agregarInspeccion($data);

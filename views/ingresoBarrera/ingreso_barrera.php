@@ -23,9 +23,12 @@
         </br>
     </div> 
     <div class="panel-body" id="div_ingreso_barrera">
-        <div class="col-md-12">
+        <div id="escaneoIngresoBarrera" class="col-md-12">
             <div class="frm-new" data-form="12"></div>
-
+            <!-- Se guarda la imagen original para poder comprimirla -->
+            <div>
+                <img style="margin-top: 5px; display:none" id="originalImage"  src=""  crossorigin="anonymous" />
+            </div>
             <div class="form-group">
                 <div class="col-md-6 col-sm-12 col-md-offset-6" style="text-align:right;margin-top: 20px;">
                     <button type="button" class="btn btn-danger" onclick="cerrarModal()">Cerrar</button>
@@ -66,7 +69,6 @@ var guardarPedidoTrabajo = function(info_id = null) {
     var formData = new FormData($('#'+idForm)[0]);
     formData.append('info_id', info_id);
 
-    wo();
     $.ajax({
         type: 'POST',
         dataType: 'JSON',
@@ -96,26 +98,29 @@ var guardarPedidoTrabajo = function(info_id = null) {
                 )
                 console.log("Error al guardar formulario de ingreso por barrera");
             }
-            wc();
         },
         error: function(rsp) {
             console.log(rsp); 
             var result = rsp.status.toString(); 
-        
+            
             console.log('status esta en saliendo por error:' + result);
-
+            
             console.log("Error al guardar formulario");
             Swal.fire(
                 'Oops...',
                 'No se guardo formulario',
                 'error'
-            )
+                )
+            },
+        complete: () => {
+            wc();
         }
     });
 }
 //Primero recorro el formulario colocando las clases de correcto e incorrecto
 //Luego reporto el error
-function cierraPedidoTrabajo(){
+async function cierraPedidoTrabajo(){
+    idFormDinamico = "#"+$('.frm-new').find('form').attr('id');
     $('.imgConte').each(function(i, obj) {
         imgPreview = $(obj).find('.imgPreview');
     
@@ -189,7 +194,10 @@ function cierraPedidoTrabajo(){
         return;
     }*/
 
-    frmGuardar($('.frm-new').find('form'),guardarPedidoTrabajo,false);
+    // frmGuardar($('.frm-new').find('form'),guardarPedidoTrabajo,false);
+    wo();
+    var newInfoID = await frmGuardarConPromesa($(idFormDinamico));
+    guardarPedidoTrabajo(newInfoID);
 }
 //Variable de estado para agregar contenido dinamicamente
 indiceAdjuntos = 1;
@@ -211,5 +219,83 @@ function agregarAdjuntos(){
     // $("#formDocumentacion").find("fieldset").append(modeloInput);
     indiceAdjuntos++;
     $(".addFotos").before(modeloInput);
+}
+////////////////////////////////////////////////////////////////////////////////////////////////
+// Script para la redimension y la compresion de las imagenes
+/* REDIMENSIONADORES Tamaño y Calidad */
+var resizingFactor = 0.50;
+var quality = 0.50;
+//La asigno de este modo para evitar propagacion del evento
+var funcionCompresora = () => {compressImage(originalImage, resizingFactor, quality, idInput);}
+//Vinculacion del evento al input para tomar la imagen subida
+$("#escaneoIngresoBarrera").on("change", 'input[type="file"]', async (e) => {
+    Swal.fire({
+        title: 'Comprimiendo imagen',
+        html: 'Aguarde unos instantes...',
+        onBeforeOpen: () => {
+            Swal.showLoading();
+        }
+    });
+    idInput = $(e.currentTarget).attr('id');
+    var [file] = e.currentTarget.files;
+    // Variable que almacena la imagen original
+    var originalImage = document.querySelector("#originalImage");
+    originalImage.src = await fileToDataUri(file);
+    
+    // comprimiendo la imagen cargada
+    originalImage.addEventListener("load", funcionCompresora ,false);
+});
+//Se dibuja el canvas con la imagen comprimida, con lso parametros enviados
+// Se vuelva a asignar al mismo input de donde provino la llamada
+function compressImage(imgToCompress, resizingFactor, quality, idInput) {
+    let fileInputElement = document.getElementById(idInput);
+    var compressedImageBlob;
+    let container = new DataTransfer();
+    
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d");
+
+    const originalWidth = imgToCompress.width;
+    const originalHeight = imgToCompress.height;
+
+    const canvasWidth = originalWidth * resizingFactor;
+    const canvasHeight = originalHeight * resizingFactor;
+
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
+
+    context.drawImage(
+        imgToCompress,
+        0,
+        0,
+        originalWidth * resizingFactor,
+        originalHeight * resizingFactor
+    );
+
+    canvas.toBlob(
+        (blob) => {
+            if (blob) {
+                let file = new File([blob], fileInputElement.files[0].name,{type: fileInputElement.files[0].type, lastModified: new Date().getTime()});
+                container.items.add(file);
+                fileInputElement.files = container.files;
+                if(Swal.isLoading()){   
+                    Swal.hideLoading();
+                    Swal.clickConfirm();
+                }
+            }
+        },
+        fileInputElement.files[0].type,
+        quality
+    );
+}
+//Realiza la lectura de la imagen cargada en el input
+function fileToDataUri(field) {
+    return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.addEventListener("load", () => {
+            resolve(reader.result);
+        });
+        reader.readAsDataURL(field);
+    });
 }
 </script>
