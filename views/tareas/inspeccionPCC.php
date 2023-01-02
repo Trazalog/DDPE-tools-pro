@@ -1056,10 +1056,6 @@ $(document).ready(function() {
     depa_id = "<?php echo isset($preCargaDatos->depa_id) ? $preCargaDatos->depa_id : null ?>";
     if(_isset(depa_id)) $("#depa_idActa").val(depa_id).trigger('change');
 
-    //TIPO PRODUCTO
-    tipr_id = "<?php echo isset($preCargaDatos->tipr_id) ? $preCargaDatos->tipr_id : null ?>";
-    if(_isset(tipr_id)) $("#tipr_id").val(tipr_id).trigger('change');
-
     //MÁSCARAS
     //Lugar de Emision A-Z, 0-9 y space
     $("#emision").inputmask({ regex: "[a-zA-Z0-9 ]*" });
@@ -1243,7 +1239,6 @@ function agregarPermiso(){
         datos.origen_nom = origen_nom;
         datos.origen_num = origen_num;
         datos.productos = productos;
-        // datos.productos = productos;
         datos.tipr_id = tipr_id;
         datos.kilos = kilos;
         datos.neto = netoPermiso;
@@ -1380,7 +1375,7 @@ function verPermiso(tag){
     $("#modalVerOrigen").val(data.origen_nom);
     $("#modalVerOrigenCuit").val(data.origen);
     $("#modalVerOrigenNumero").val(data.origen_num);
-    $("#modalVerProductos").val(data.productos);
+    $("#modalVerProductos").val(data.tipr_id);
     $("#modalVerNeto").val(data.neto);
     $("#modalVerBruto").val(data.bruto);
     $("#modalVerTemperatura").val(data.temperatura);
@@ -1739,7 +1734,7 @@ function cerrarTarea() {
     }
     //Una vez validado el formulario, lo guardo
     cerrarTareaform().then((result) => {
-
+        
         var dataForm = new FormData($('#formInspeccion')[0]);
         dataForm.append('frm_info_id', result.info_id);
         dataForm.append('info_id_acta', result.info_id_acta);
