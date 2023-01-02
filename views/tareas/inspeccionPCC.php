@@ -1734,10 +1734,7 @@ function cerrarTarea() {
     }
     //Una vez validado el formulario, lo guardo
     cerrarTareaform().then((result) => {
-        wc();
-        debugger;
-        hecho();
-        return;
+        
         var dataForm = new FormData($('#formInspeccion')[0]);
         dataForm.append('frm_info_id', result.info_id);
         dataForm.append('info_id_acta', result.info_id_acta);
