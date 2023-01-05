@@ -3,7 +3,7 @@
     display: none;
 }
 #escaneoDocumentacion .addFotosMasiva button{
-    margin-top: 12%;
+    margin-top: 13%;
     margin-bottom: 2%;
 }
 #escaneoDocumentacion .addFotos button{

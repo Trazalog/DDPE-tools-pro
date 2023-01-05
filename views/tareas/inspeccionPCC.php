@@ -625,7 +625,7 @@
                     <div class="col-md-5 col-sm-6 col-xs-6">
                         <div class="form-group">
                             <label for="domicilio">Con domicilio en(<strong style="color: #dd4b39">*</strong>):</label>
-                            <input class="form-control" name="domicilio" id="domicilio" placeholder="Ingrese Domicilio" value="<?php echo isset($preCargaDatos->domicilio_constituye) ? $preCargaDatos->domicilio_constituye : 'Calle 11 y Punta del Monte.' ?>" required/>
+                            <input class="form-control" name="domicilio" id="domicilio" placeholder="Ingrese Domicilio" value="<?php echo !empty($preCargaDatos->domicilio_constituye) ? $preCargaDatos->domicilio_constituye : 'Calle 11 y Punta del Monte.' ?>" required/>
                         </div>                    
                     </div>
                     <!--________________-->
@@ -634,7 +634,7 @@
                     <div class="col-md-4 col-sm-4 col-xs-6">
                         <div class="form-group">
                             <label for="propiedad">Propiedad de(<strong style="color: #dd4b39">*</strong>):</label>
-                            <input class="form-control" name="propiedad" id="propiedad" placeholder="Ingrese a quién pertenece" value="<?php echo isset($preCargaDatos->propiedad_de) ? $preCargaDatos->propiedad_de : 'DDP' ?>" required/>
+                            <input class="form-control" name="propiedad" id="propiedad" placeholder="Ingrese a quién pertenece" value="<?php echo !empty($preCargaDatos->propiedad_de) ? $preCargaDatos->propiedad_de : 'DDP' ?>" required/>
                         </div>                    
                     </div>
                     <!--________________-->
@@ -643,7 +643,7 @@
                     <div class="col-md-4 col-sm-4 col-xs-6">
                         <div class="form-group">
                             <label for="quienAtendio">Siendo atendido por(<strong style="color: #dd4b39">*</strong>):</label>
-                            <input class="form-control" name="quienAtendio" id="quienAtendio" placeholder="Ingrese por quién fue atendido" value="<?php echo isset($preCargaDatos->atendidos_por) ? $preCargaDatos->atendidos_por : null ?>" required/>
+                            <input class="form-control" name="quienAtendio" id="quienAtendio" placeholder="Ingrese por quién fue atendido" value="<?php echo !empty($preCargaDatos->atendidos_por) ? $preCargaDatos->atendidos_por : null ?>" required/>
                         </div>                    
                     </div>
                     <!--________________-->
@@ -652,7 +652,7 @@
                     <div class="col-md-4 col-sm-4 col-xs-6">
                         <div class="form-group">
                             <label for="caracterAtendio">En su carácter de(<strong style="color: #dd4b39">*</strong>):</label>
-                            <input class="form-control" name="caracterAtendio" id="caracterAtendio" placeholder="Ingrese el caracter del que atendió" value="<?php echo isset($preCargaDatos->caracter_de) ? $preCargaDatos->caracter_de : 'Chofer' ?>" required/>
+                            <input class="form-control" name="caracterAtendio" id="caracterAtendio" placeholder="Ingrese el caracter del que atendió" value="<?php echo !empty($preCargaDatos->caracter_de) ? $preCargaDatos->caracter_de : 'Chofer' ?>" required/>
                         </div>                    
                     </div>
                     <!--________________-->
@@ -1906,13 +1906,12 @@ function imprimirActa(){
     $('#sec_permisos div.permTransito').each(function(i, obj) {
         aux = $(obj).attr('data-json');
         json = JSON.parse(aux);
-        console.log(json);
+
         infoPermisos += json.tipo + "; ";
         infoProductos +=  json.tipr_id + "; ";
         infoOrigen += json.origen_nom + "; ";
         infoOrigenNums += json.origen_num + "; ";
         infoTemperatura += json.temperatura + "; ";
-        console.log(infoProductos);
     });
     $(".acta_docSanitaria").text(infoPermisos);
     $(".acta_productos").text(infoProductos);
@@ -2011,5 +2010,42 @@ function habilitarEdicionFechaHora(){
     $("#fechaActaInspeccion").attr('readonly', false);
     $("#horaActaInspeccion").attr('readonly', false);
     $("#sec_actaInspeccion").show();
+}
+//Script apra el alta masiva de imagenes
+//Utilizo el evento para levantar la ventana de carga
+function agregarfotosMasivas(tag){
+    $("#altaMasivaFotos").click();
+}
+//Crea la vista previa de las imagenes seleccionadas
+function crearVistaPreviaImagenes(tag){
+    for(var i=0; i < tag.files.length; i++){
+        agregarFotosVistaPrevia(i);
+    }
+}
+//Genera el HTML de la vista previa y transfiere el archivo al input generado
+function agregarFotosVistaPrevia(indiceListadoArchivo){
+    let container = new DataTransfer();
+    var modeloInput = "<div class='col-xs-12 col-sm-6 col-md-3'>"+
+            "<label>Foto "+indice+":</label>"+
+            "<div class='form-group imgConte centrar'>"+
+            "<label for='foto_"+indice+"'>"+
+            "<div class='imgEdit'>"+
+                "<input class='form-control' type='file' id='foto_"+indice+"'  name='-file-fotos[]' onchange='previewFile(this)' accept='image/*' capture/>"+
+            "</div>"+
+            "<div class='imgPreview'>"+
+                "<div id='vistaPrevia_foto_"+indice+"' style='background-image: url(lib/imageForms/camera_2.png);'></div>"+
+            "</div>"+
+            "</label>"+
+        "</div>"+
+    "</div>";
+    $(".addFotos").before(modeloInput);
+    let inputImagen = document.querySelector("#foto_"+indice);
+    let contenedorImagenes = document.querySelector("#altaMasivaFotos");
+
+    container.items.add(contenedorImagenes.files[indiceListadoArchivo]);
+    inputImagen.files = container.files;
+
+    $("#foto_"+indice).trigger('change');
+    indice++;
 }
 </script>
