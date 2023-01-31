@@ -1327,6 +1327,10 @@ function validarCamposPermiso(){
     if($("#temperatura").val() == ""){
         valida = "Seleccione una Temperatura!";
     }
+    //Fecha de salida
+    if(!Inputmask.isValid($("#fecha").val(), { alias: "datetime", inputFormat: "dd-mm-yyyy"})){
+        valida = "El formato de la fecha del permiso es incorrecto!";
+    }
     return valida;
 }
 

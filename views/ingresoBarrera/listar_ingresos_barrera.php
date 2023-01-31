@@ -123,7 +123,9 @@
 
 
 <script>
-
+$(document).ready(function () {
+  $("#editarFormIngreso").show();
+});
 $('#tbl-pedidos').DataTable({
         "order": [[ 0, "desc" ]]
 	});
