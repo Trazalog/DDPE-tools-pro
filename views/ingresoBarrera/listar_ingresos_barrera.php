@@ -123,7 +123,9 @@
 
 
 <script>
-
+$(document).ready(function () {
+  $("#editarFormIngreso").show();
+});
 $('#tbl-pedidos').DataTable({
         "order": [[ 0, "desc" ]]
 	});
@@ -262,6 +264,17 @@ function eliminarIngreso(datosIngreso) {
           'error'
       )
     }
+  });
+}
+//Abre el formulario que se cargo al iniciar el pedido de trabajo
+function abrirFormularioIngreso(info_id){
+  wo();
+  var url = "<?php echo base_url(BPM); ?>Pedidotrabajo/cargar_formulario_asociado?info_id="+info_id;
+  $('#mdl-vista').modal('hide');
+  $("#cuerpoModalIngreso").empty();
+  $("#cuerpoModalIngreso").load(url, () => {
+      $('#mdl-editarIngresoBarrera').modal('show');
+      wc();
   });
 }
 </script>

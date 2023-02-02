@@ -1,10 +1,10 @@
 <style>
-.frm-save {
+#escaneoDocumentacion .frm-save, #ingreso_barrera .frm-save{
     display: none;
 }
 </style>
 <!-- COMIENZO FORM ESCANEO DOCUMENTACION-->
-<div class="panel">
+<!-- <div class="panel">
     <div class="panel-body" id="escaneoDocumentacion">
         <div class="row">
             <div id="formDocumentacion" class="frm-new" data-form="11"></div>
@@ -18,10 +18,10 @@
 </div>
 <div id="hackeo">
     <button onclick="addInput()">TEST!</button>
-</div>
+</div> -->
 <!-- FIN FORM ESCANEO DOCUMENTACION -->
 
-<div>
+<!-- <div>
     <div class="panel panel-default">
         <div class="panel-heading">
             <h3 class="panel-title">Test Formularios</h3>
@@ -29,51 +29,42 @@
         <div class="panel-body" id="ingreso_barrera">
             <div class="row">
                 <?php 
-                $formulario = getForm(741); //Ulitmo test doble archivo
-                echo $formulario;
+                // $formulario = getForm(2295); //Ulitmo test con compresion 2212
+                // echo $formulario;
                 ?>
             </div>
         </div>
     </div>
+</div> -->
+<!-- COMIENZO FORM IngresoBarrera-->
+<div class="panel">
+    <div class="panel-body" id="escaneoIngresoBarrera">
+        <div class="row">
+            <div id="formIngresoBarrera" class="frm-new" data-form="11"></div>
+        </div>
+    </div>
 </div>
+<!-- FIN FORM IngresoBarrera -->
 <script>
 detectarForm();
 initForm();
-var index = 2;
-var indexFiles = 2;
-$(document).ready(function () {
-    //Cantidad de documentos solo digitos
-    $("#cant_doc").attr("type","number");
-});
+//Variable de estado para agregar contenido dinamicamente
+indice = 2;
 function agregarFotos(){
     var modeloInput = "<div class='col-sm-12 col-md-6'>"+
-                    "<label>Foto "+index+":</label>"+
+                    "<label>Foto "+indice+":</label>"+
                     "<div class='form-group imgConte'>"+
-                        "<label for='fotos_"+index+"'>"+
+                        "<label for='foto_"+indice+"'>"+
                         "<div class='imgEdit'>"+
-                            "<input class='form-control' type='file' id='fotos_"+index+"'  name='-file-fotos[]' onchange='previewFile(this)' accept='image/*' capture/>"+
+                            "<input class='form-control' type='file' id='foto_"+indice+"'  name='-file-fotos[]' onchange='previewFile(this)' accept='image/*' capture/>"+
                         "</div>"+
                         "<div class='imgPreview'>"+
-                            "<div id='vistaPrevia_fotos_"+index+"' style='background-image: url(lib/imageForms/camera_2.png);'></div>"+
+                            "<div id='vistaPrevia_foto_"+indice+"' style='background-image: url(lib/imageForms/camera_2.png);'></div>"+
                         "</div>"+
                         "</label>"+
                     "</div>"+
                     "</div>";
+    indice++;
     $(".addFotos").before(modeloInput);
-    index++;
-}
-function agregarArchivos(){
-    var modeloInput = "<div class='col-sm-12 col-md-6'>"+
-                        "<div class='form-group'>"+
-                            "<label>PDF "+indexFiles+":</label>"+
-                            "<input class='form-control' id='archivo_"+indexFiles+"' type='file' name='-file-archivos[]'>"+
-                        "</div>"+
-                    "</div>";
-    $(".addFiles").before(modeloInput);
-    indexFiles++;
-}
-function cierreTest(){
-    var queHacerAfter = function(info_id = null){console.log("Todo muy bonito! El info_id generado fue: " + info_id);}
-    frmGuardar($('.frm-new').find('form'),queHacerAfter,true);
 }
 </script>
