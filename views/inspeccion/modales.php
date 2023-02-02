@@ -186,6 +186,7 @@
                     <div id="formEscaneoDocu" class="frm-new" data-form="11"></div>
 
             <?php } ?>
+            <input style="display: none;" id="altaMasivaFotos" class='form-control' type='file' name='altaMasivaFotos[]' accept='image/*' multiple onchange="crearVistaPreviaImagenes(this)"/>
                 </div>
             </div>
                 <!-- Modal footer -->

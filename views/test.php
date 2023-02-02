@@ -44,9 +44,6 @@
         </div>
     </div>
 </div>
-<div>
-    <img style="margin-top: 5px; display:none" id="originalImage"  src=""  crossorigin="anonymous" />
-</div>
 <!-- FIN FORM IngresoBarrera -->
 <script>
 detectarForm();

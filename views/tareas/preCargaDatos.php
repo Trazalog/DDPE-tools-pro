@@ -777,6 +777,10 @@ function validarCamposPermiso(){
     if($("input[name='doc_sanitaria']:checked").val() == null){
         valida = "Seleccione un tipo de Doc. sanitaria!";
     }
+    //Fecha de salida
+    if(!Inputmask.isValid($("#fecha").val(), { alias: "datetime", inputFormat: "dd-mm-yyyy"})){
+        valida = "El formato de la fecha del permiso es incorrecto!";
+    }
     return valida;
 }
 
