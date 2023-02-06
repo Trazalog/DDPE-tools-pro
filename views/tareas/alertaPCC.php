@@ -1130,8 +1130,8 @@ function agregarPermiso(){
         var origen = $("#esta_nom").select2('data')[0].id;
         var origen_nom = $("#esta_nom").select2('data')[0].text;
         var origen_num = $("#esta_num").val();
-        var productos = $("#tipr_id").select2('data')[0].id;
-        var tipr_id = $("#tipr_id").select2('data')[0].text;
+        var productos = $("#tipr_id").select2('data')[0].text;
+        var tipr_id = $("#tipr_id").select2('data')[0].id;
         var kilos = $("#kilos").val(); 
         var netoPermiso = $("#netoPermiso").val(); 
         var brutoPermiso = $("#brutoPermiso").val(); 
