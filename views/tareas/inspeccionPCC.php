@@ -1221,8 +1221,8 @@ function agregarPermiso(){
         var origen = $("#esta_nom").select2('data')[0].id;
         var origen_nom = $("#esta_nom").select2('data')[0].text;
         var origen_num = $("#esta_num").val();
-        var tipr_id = $("#tipr_id").select2('data')[0].text;
-        var productos = $("#tipr_id").select2('data')[0].id;
+        var tipr_id = $("#tipr_id").select2('data')[0].id;
+        var productos = $("#tipr_id").select2('data')[0].text;
         // var productos = $("#producto").val();
         var kilos = $("#kilos").val(); 
         var netoPermiso = $("#netoPermiso").val(); 
@@ -1379,7 +1379,7 @@ function verPermiso(tag){
     $("#modalVerOrigen").val(data.origen_nom);
     $("#modalVerOrigenCuit").val(data.origen);
     $("#modalVerOrigenNumero").val(data.origen_num);
-    $("#modalVerProductos").val(data.tipr_id);
+    $("#modalVerProductos").val(data.productos);
     $("#modalVerNeto").val(data.neto);
     $("#modalVerBruto").val(data.bruto);
     $("#modalVerTemperatura").val(data.temperatura);
@@ -1912,7 +1912,7 @@ function imprimirActa(){
         json = JSON.parse(aux);
 
         infoPermisos += json.tipo + "; ";
-        infoProductos +=  json.tipr_id + "; ";
+        infoProductos +=  json.productos + "; ";
         infoOrigen += json.origen_nom + "; ";
         infoOrigenNums += json.origen_num + "; ";
         infoTemperatura += json.temperatura + "; ";
