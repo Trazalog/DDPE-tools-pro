@@ -178,7 +178,7 @@ class Inspecciones extends CI_Model {
             $aux["case_id"] = $key['case_id'];
             $aux["soli_num"] = $key['soli_num'];
             $aux["origen"] = $key['origen'];
-            $aux["tipr_id"] = $key['productos'];
+            $aux["tipr_id"] = $key['tipr_id'];
             $aux["neto"] = $key['neto'];
             $aux["bruto"] = $key['bruto'];
             $aux["temperatura"] = $key['temperatura'];
