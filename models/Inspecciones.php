@@ -47,6 +47,23 @@ class Inspecciones extends CI_Model {
     }
 
     /**
+	* Busca choferes en SIPE coincidentes con un criterio de búsqueda 
+	* @param string patron en digitos numéricos
+	* @return array listado de choferes coincidentes
+	*/
+    public function buscaChoferesSIPE($dato){
+        
+        $url = API_SICP."/choferes/patron/".$dato;
+
+        $aux = $this->rest->callAPI("GET",$url);
+        $resp = json_decode($aux['data']);
+
+        log_message('DEBUG', "#TRAZA | #SICPOA | Inspecciones | buscaChoferesSIPE()  resp: >> " . json_encode($resp));
+
+        return $resp->choferes->chofer;
+    }
+
+    /**
 	* Alta rapida de una empresa, establecimiento, transportista(son todas empresas) 
 	* @param array datos de empresa
 	* @return bool
@@ -76,6 +93,23 @@ class Inspecciones extends CI_Model {
         $resp = json_decode($aux['data']);
 
         log_message('DEBUG', "#TRAZA | #SICPOA | Inspecciones | buscaEmpresas()  resp: >> " . json_encode($resp));
+
+        return $resp->empresas->empresa;
+    }
+
+    /**
+	* Busca empresas en la api AFIP coincidentes con un patron 
+	* @param string patron
+	* @return array listado de empresas coincidentes con patron
+	*/
+    public function buscaEmpresasAFIP($dato){
+        
+        $url = API_SICP."/empresas/patron/".urlencode($dato);
+
+        $aux = $this->rest->callAPI("GET",$url);
+        $resp = json_decode($aux['data']);
+
+        log_message('DEBUG', "#TRAZA | #SICPOA | Inspecciones | buscaEmpresasAFIP()  resp: >> " . json_encode($resp));
 
         return $resp->empresas->empresa;
     }
@@ -134,7 +168,6 @@ class Inspecciones extends CI_Model {
 	* @return bool true or false
 	*/
     public function agregarPermisos($data){
-
         $batch_req = [];
         foreach ($data as $key) {
             $aux["perm_id"] = $key['perm_id'];
@@ -145,7 +178,7 @@ class Inspecciones extends CI_Model {
             $aux["case_id"] = $key['case_id'];
             $aux["soli_num"] = $key['soli_num'];
             $aux["origen"] = $key['origen'];
-            $aux["productos"] = $key['productos'];
+            $aux["tipr_id"] = $key['tipr_id'];
             $aux["neto"] = $key['neto'];
             $aux["bruto"] = $key['bruto'];
             $aux["temperatura"] = $key['temperatura'];
@@ -486,5 +519,16 @@ class Inspecciones extends CI_Model {
 
         log_message('DEBUG', "#TRAZA | #SICPOA | Inspecciones | agregarTiposInfraccion() ".json_encode($rsp));
         return $rsp;
+    }
+    /**
+	* LLama a la Api y obtiene peso de la bascula 
+	* @return integer peso de bascula
+	*/
+    public function getPesoBascula(){        
+        $url = API_SICP."/bascula/peso";
+        $aux = $this->rest->callAPI("GET",$url);
+        $resp = json_decode($aux['data']);
+        log_message('DEBUG', "#TRAZA | #SICPOA | Inspecciones | getPesoBascula()  resp: >> " . json_encode($resp));
+        return $resp->peso;
     }
 }

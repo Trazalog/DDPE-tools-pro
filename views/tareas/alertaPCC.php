@@ -495,6 +495,7 @@
                 <!--_______ FIN FORMULARIO INSPECCION BOX 2______-->
                 </div><!-- FIN row-->
                 <div class="row">
+                    <?php if(userNick() != 'inspector_calle_ddpe'){ ?>
                     <!--Bruto-->
                     <div class="col-md-3 col-sm-6 col-xs-6">
                         <div class="form-group">
@@ -527,7 +528,7 @@
                         </div>                    
                     </div>
                     <!--________________-->
-                    
+                    <?php } ?>
                     <!--Departamento-->
                     <div class="col-md-4 col-sm-4 col-xs-12">
                         <div class="form-group">
@@ -1129,8 +1130,8 @@ function agregarPermiso(){
         var origen = $("#esta_nom").select2('data')[0].id;
         var origen_nom = $("#esta_nom").select2('data')[0].text;
         var origen_num = $("#esta_num").val();
-        // var productos = $("#producto").val();
-        var tipr_id = $("#tipr_id").select2('data')[0].text;
+        var productos = $("#tipr_id").select2('data')[0].text;
+        var tipr_id = $("#tipr_id").select2('data')[0].id;
         var kilos = $("#kilos").val(); 
         var netoPermiso = $("#netoPermiso").val(); 
         var brutoPermiso = $("#brutoPermiso").val(); 
@@ -1145,7 +1146,7 @@ function agregarPermiso(){
         datos.origen = origen;
         datos.origen_nom = origen_nom;
         datos.origen_num = origen_num;
-        // datos.productos = productos;
+        datos.productos = productos;
         datos.tipr_id = tipr_id;
         datos.kilos = kilos;
         datos.neto = netoPermiso;
@@ -1219,6 +1220,10 @@ function validarCamposPermiso(){
     if($("#temperatura").val() == ""){
         valida = "Seleccione una Temperatura!";
     }
+    //Fecha de salida
+    if(!Inputmask.isValid($("#fecha").val(), { alias: "datetime", inputFormat: "dd-mm-yyyy"})){
+        valida = "El formato de la fecha del permiso es incorrecto!";
+    }
     return valida;
 }
 
@@ -1267,7 +1272,7 @@ function verPermiso(tag){
     $("#modalVerOrigen").val(data.origen_nom);
     $("#modalVerOrigenCuit").val(data.origen);
     $("#modalVerOrigenNumero").val(data.origen_num);
-    $("#modalVerProductos").val(data.productos);
+    $("#modalVerProductos").val(data.tipr_id);
     $("#modalVerNeto").val(data.neto);
     $("#modalVerBruto").val(data.bruto);
     $("#modalVerTemperatura").val(data.temperatura);

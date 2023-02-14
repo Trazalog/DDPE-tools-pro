@@ -303,6 +303,40 @@
                     <!--_______ FORMULARIO INSPECCION BOX 2______-->
                     <div class="col-md-6 col-sm-12 col-xs-12">
                         <div class="caja" id="boxInspeccion">
+                            <!--Fecha Acta Inspeccion-->
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label for="fechaActaInspeccion">Fecha inspección(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <input type="date" class="form-control" name="fechaActaInspeccion" id="fechaActaInspeccion" value="<?php echo !empty($fechaInspeccion) ? $fechaInspeccion : date('Y-m-d') ?>" readonly required/>
+                                </div>
+                            </div>
+                            <!--________________-->
+                            
+                            <!--Hora Acta Inspeccion-->
+                            <div class="col-md-5 col-sm-6 col-xs-12 ocultar">
+                                <div class="form-group">
+                                    <label for="horaActaInspeccion">Hora inspección(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <div class="input-group">
+                                        <input type="time" class="form-control" name="horaActaInspeccion" id="horaActaInspeccion" value="<?php echo isset($horaInspeccion) ? $horaInspeccion : date('h:i') ?>" readonly required/>
+                                        <span id="btnHabilitaEdicion" class="input-group-addon" onclick="habilitarEdicionFechaHora()" title="Editar fecha y hora de la inspección"><i class="fa fa-edit"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--________________-->
+
+                            <!--Acta Infraccion-->
+                            <div id="sec_actaInspeccion" style="display: none" class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="input-group">
+                                    <label>Acta de inspección manual:</label>
+                                    <span id="add_acta" class="input-group-addon" data-toggle="modal" data-target="#mdl-actaInspeccionManual"><i class="fa fa-plus"></i></span>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-xl-12 centrar">
+                                    <div class="contenedor">
+                                        <img id="actaInspeccionManual" class='thumbnail fotos' height='94' src='' alt='' style="display: none" onclick='preview(this)'>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--________________-->
                             <!--DNI Chofer-->
                             <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
                                 <div class="form-group">
@@ -500,10 +534,18 @@
                 </div><!-- FIN row-->
                 <div class="row">
                     <!--Bruto-->
-                    <div class="col-md-3 col-sm-6 col-xs-6">
+                    <div class="col-md-2 col-sm-6 col-xs-6">
                         <div class="form-group">
                             <label for="bruto">Bruto:</label>
                             <input class="form-control neto onlyNumbers" name="bruto" id="bruto" placeholder="Bruto" value="<?php echo isset($preCargaDatos->bruto) ? $preCargaDatos->bruto : null ?>"/>
+                        </div>                    
+                    </div>
+                    <!--________________-->
+                    <!--Boton Pesar-->
+                    <div class="col-md-1 col-sm-6 col-xs-6">
+                        <div class="form-group">
+                            <br>
+                            <button type="button" class="btn btn-primary" onclick="pesarBascula()" >Pesar</button>
                         </div>                    
                     </div>
                     <!--________________-->
@@ -571,7 +613,7 @@
                     <!--________________-->
 
                     <!--Se constituyen en-->
-                    <div class="col-md-5 col-sm-6 col-xs-6">
+                    <div class="col-md-7 col-sm-6 col-xs-6">
                         <div class="form-group">
                             <label for="dondeConstituyen">Se constituyen en(<strong style="color: #dd4b39">*</strong>):</label>
                             <input class="form-control" name="dondeConstituyen" id="dondeConstituyen" value="Punto de control de productos cárnicos y derivados de la Pcia. de San Juan" readonly/>
@@ -580,10 +622,10 @@
                     <!--________________-->
 
                     <!--Con domicilio en-->
-                    <div class="col-md-3 col-sm-6 col-xs-6">
+                    <div class="col-md-5 col-sm-6 col-xs-6">
                         <div class="form-group">
                             <label for="domicilio">Con domicilio en(<strong style="color: #dd4b39">*</strong>):</label>
-                            <input class="form-control" name="domicilio" id="domicilio" placeholder="Ingrese Domicilio" value="<?php echo isset($preCargaDatos->domicilio_constituye) ? $preCargaDatos->domicilio_constituye : 'Calle 11 y Punta del Monte.' ?>" required/>
+                            <input class="form-control" name="domicilio" id="domicilio" placeholder="Ingrese Domicilio" value="<?php echo !empty($preCargaDatos->domicilio_constituye) ? $preCargaDatos->domicilio_constituye : 'Calle 11 y Punta del Monte.' ?>" required/>
                         </div>                    
                     </div>
                     <!--________________-->
@@ -592,48 +634,31 @@
                     <div class="col-md-4 col-sm-4 col-xs-6">
                         <div class="form-group">
                             <label for="propiedad">Propiedad de(<strong style="color: #dd4b39">*</strong>):</label>
-                            <input class="form-control" name="propiedad" id="propiedad" placeholder="Ingrese a quién pertenece" value="<?php echo isset($preCargaDatos->propiedad_de) ? $preCargaDatos->propiedad_de : 'DDP' ?>" required/>
+                            <input class="form-control" name="propiedad" id="propiedad" placeholder="Ingrese a quién pertenece" value="<?php echo !empty($preCargaDatos->propiedad_de) ? $preCargaDatos->propiedad_de : 'DDP' ?>" required/>
                         </div>                    
-                    </div>
-                    <!--________________-->
-
-                    <!--Fecha Acta Inspeccion-->
-                    <div class="col-md-3 col-sm-6 col-xs-12">
-                        <div class="form-group">
-                            <label for="fechaActaInspeccion">Fecha inspección(<strong style="color: #dd4b39">*</strong>):</label>
-                            <input type="date" class="form-control" name="fechaActaInspeccion" id="fechaActaInspeccion" value="<?php echo isset($fechaInspeccion) ? $fechaInspeccion : null ?>" required/>
-                        </div>
-                    </div>
-                    <!--________________-->
-                    <!--Hora Acta Inspeccion-->
-                    <div class="col-md-3 col-sm-6 col-xs-12">
-                        <div class="form-group">
-                            <label for="horaActaInspeccion">Hora inspección(<strong style="color: #dd4b39">*</strong>):</label>
-                            <input type="time" class="form-control" name="horaActaInspeccion" id="horaActaInspeccion" value="<?php echo isset($horaInspeccion) ? $horaInspeccion : null ?>" required/>
-                        </div>
                     </div>
                     <!--________________-->
                     
                     <!--Siendo atendido por-->
-                    <div class="col-md-6 col-sm-4 col-xs-6">
+                    <div class="col-md-4 col-sm-4 col-xs-6">
                         <div class="form-group">
                             <label for="quienAtendio">Siendo atendido por(<strong style="color: #dd4b39">*</strong>):</label>
-                            <input class="form-control" name="quienAtendio" id="quienAtendio" placeholder="Ingrese por quién fue atendido" value="<?php echo isset($preCargaDatos->atendidos_por) ? $preCargaDatos->atendidos_por : null ?>" required/>
+                            <input class="form-control" name="quienAtendio" id="quienAtendio" placeholder="Ingrese por quién fue atendido" value="<?php echo !empty($preCargaDatos->atendidos_por) ? $preCargaDatos->atendidos_por : null ?>" required/>
                         </div>                    
                     </div>
                     <!--________________-->
                     
                     <!--En su caracter de-->
-                    <div class="col-md-5 col-sm-4 col-xs-6">
+                    <div class="col-md-4 col-sm-4 col-xs-6">
                         <div class="form-group">
                             <label for="caracterAtendio">En su carácter de(<strong style="color: #dd4b39">*</strong>):</label>
-                            <input class="form-control" name="caracterAtendio" id="caracterAtendio" placeholder="Ingrese el caracter del que atendió" value="<?php echo isset($preCargaDatos->caracter_de) ? $preCargaDatos->caracter_de : 'Chofer' ?>" required/>
+                            <input class="form-control" name="caracterAtendio" id="caracterAtendio" placeholder="Ingrese el caracter del que atendió" value="<?php echo !empty($preCargaDatos->caracter_de) ? $preCargaDatos->caracter_de : 'Chofer' ?>" required/>
                         </div>                    
                     </div>
                     <!--________________-->
 
                     <!--Proceden a-->
-                    <div class="col-md-7 col-sm-12 col-xs-6">
+                    <div class="col-md-12 col-sm-12 col-xs-6">
                         <div class="form-group">
                             <label for="procedenAccion">Proceden a:</label>
                             <textarea class="form-control" name="procedenAccion" id="procedenAccion"><?php echo isset($preCargaDatos->proceden_a) ? $preCargaDatos->proceden_a : null ?></textarea>
@@ -1031,10 +1056,6 @@ $(document).ready(function() {
     depa_id = "<?php echo isset($preCargaDatos->depa_id) ? $preCargaDatos->depa_id : null ?>";
     if(_isset(depa_id)) $("#depa_idActa").val(depa_id).trigger('change');
 
-    //TIPO PRODUCTO
-    tipr_id = "<?php echo isset($preCargaDatos->tipr_id) ? $preCargaDatos->tipr_id : null ?>";
-    if(_isset(tipr_id)) $("#tipr_id").val(tipr_id).trigger('change');
-
     //MÁSCARAS
     //Lugar de Emision A-Z, 0-9 y space
     $("#emision").inputmask({ regex: "[a-zA-Z0-9 ]*" });
@@ -1200,8 +1221,9 @@ function agregarPermiso(){
         var origen = $("#esta_nom").select2('data')[0].id;
         var origen_nom = $("#esta_nom").select2('data')[0].text;
         var origen_num = $("#esta_num").val();
+        var tipr_id = $("#tipr_id").select2('data')[0].id;
+        var productos = $("#tipr_id").select2('data')[0].text;
         // var productos = $("#producto").val();
-        var tipr_id = $("#tipr_id").select2('data')[0].text;
         var kilos = $("#kilos").val(); 
         var netoPermiso = $("#netoPermiso").val(); 
         var brutoPermiso = $("#brutoPermiso").val(); 
@@ -1216,7 +1238,7 @@ function agregarPermiso(){
         datos.origen = origen;
         datos.origen_nom = origen_nom;
         datos.origen_num = origen_num;
-        // datos.productos = productos;
+        datos.productos = productos;
         datos.tipr_id = tipr_id;
         datos.kilos = kilos;
         datos.neto = netoPermiso;
@@ -1277,14 +1299,15 @@ function validarCamposPermiso(){
         valida = "Seleccione un tipo de Doc. sanitaria!";
         return valida;
     }
-    //Producto
-    if($("#producto").val() == ""){
-        valida = "Seleccione un Producto!";
-        return valida;
-    }
     //Peso Neto
     if($("#netoPermiso").val() == ""){
         valida = "Seleccione un Peso Neto!";
+        return valida;
+    }
+    //Select de Producto
+    var prod = $("#tipr_id option:selected");
+    if (prod.val() == "") {
+        valida = "Seleccione un Producto!";
         return valida;
     }
     //Peso Bruto
@@ -1303,6 +1326,10 @@ function validarCamposPermiso(){
     //Temperatura
     if($("#temperatura").val() == ""){
         valida = "Seleccione una Temperatura!";
+    }
+    //Fecha de salida
+    if(!Inputmask.isValid($("#fecha").val(), { alias: "datetime", inputFormat: "dd-mm-yyyy"})){
+        valida = "El formato de la fecha del permiso es incorrecto!";
     }
     return valida;
 }
@@ -1523,6 +1550,10 @@ async function cerrarTareaform(){
     var newInfoID = await frmGuardarConPromesa($('#formEscaneoDocu').find('form'));
     dataForm.append('info_id_doc', newInfoID);
 
+    //Guardo formulario dinamico del acta manual
+    var info_id_acta = await frmGuardarConPromesa($('#formActaManualInspeccion').find('form'));
+    dataForm.append('info_id_acta', info_id_acta);
+
     //Limpio la data pre cargada si existiera para evitar errores
     limpiarDataPreCargada().then((result) => {
         console.log(result);
@@ -1622,6 +1653,7 @@ async function cerrarTareaform(){
                         resp = JSON.parse(data);
                         if(resp.status){
                             resp.info_id = newInfoID;
+                            resp.info_id_acta = info_id_acta;//Foto del acta en papel realizada offline
                             resolve(resp);
                         }else{
                             console.log(resp.message);
@@ -1706,9 +1738,10 @@ function cerrarTarea() {
     }
     //Una vez validado el formulario, lo guardo
     cerrarTareaform().then((result) => {
-
+        
         var dataForm = new FormData($('#formInspeccion')[0]);
         dataForm.append('frm_info_id', result.info_id);
+        dataForm.append('info_id_acta', result.info_id_acta);
         dataForm.append('doc_impositiva', $("select[name=doc_impo]").val());
         
         var id = $('#taskId').val();
@@ -1877,6 +1910,7 @@ function imprimirActa(){
     $('#sec_permisos div.permTransito').each(function(i, obj) {
         aux = $(obj).attr('data-json');
         json = JSON.parse(aux);
+
         infoPermisos += json.tipo + "; ";
         infoProductos +=  json.productos + "; ";
         infoOrigen += json.origen_nom + "; ";
@@ -1942,4 +1976,80 @@ $("#btn-cierreEscaneo").on('click', function() {
     });
 });
 /***************************************************** */
+function pesarBascula() {
+    $("#bruto").val('');
+    $.ajax({
+        type: 'GET',
+        url: "<?php echo SICP; ?>inspeccion/getPesoBascula",
+        success: function(data) {
+            if(data != 'null'){
+                datos = JSON.parse(data);
+                // console.log(datos);
+                $('#bruto').val(datos);
+            }else{
+                console.log("problema al llamar la api");
+            }
+        },
+        error: function(data) {
+            alert("Error al obtener peso de bascula");
+        }
+    });
+}
+//Show vista previa acta inspeccion manual
+$(document).on('change',"input[name='-file-foto_acta_manual']",function() {
+    if(this.files && this.files[0]){
+        var reader = new FileReader();
+
+        reader.addEventListener("load", function (e) {
+            $('#actaInspeccionManual').attr('src', e.target.result);
+            $('#actaInspeccionManual').hide();
+            $('#actaInspeccionManual').fadeIn(850);   
+        }, false);
+
+        reader.readAsDataURL(this.files[0]);
+    }
+});
+/***************************************************** */
+function habilitarEdicionFechaHora(){
+    $("#fechaActaInspeccion").attr('readonly', false);
+    $("#horaActaInspeccion").attr('readonly', false);
+    $("#sec_actaInspeccion").show();
+}
+//Script apra el alta masiva de imagenes
+//Utilizo el evento para levantar la ventana de carga
+function agregarfotosMasivas(tag){
+    $("#altaMasivaFotos").click();
+}
+//Crea la vista previa de las imagenes seleccionadas
+function crearVistaPreviaImagenes(tag){
+    for(var i=0; i < tag.files.length; i++){
+        agregarFotosVistaPrevia(i);
+    }
+}
+//Genera el HTML de la vista previa y transfiere el archivo al input generado
+function agregarFotosVistaPrevia(indiceListadoArchivo){
+    let container = new DataTransfer();
+    var modeloInput = "<div class='col-xs-12 col-sm-6 col-md-3'>"+
+            "<label>Foto "+indice+":</label>"+
+            "<div class='form-group imgConte centrar'>"+
+            "<label for='foto_"+indice+"'>"+
+            "<div class='imgEdit'>"+
+                "<input class='form-control' type='file' id='foto_"+indice+"'  name='-file-fotos[]' onchange='previewFile(this)' accept='image/*' capture/>"+
+            "</div>"+
+            "<div class='imgPreview'>"+
+                "<div id='vistaPrevia_foto_"+indice+"' style='background-image: url(lib/imageForms/camera_2.png);'></div>"+
+            "</div>"+
+            "</label>"+
+        "</div>"+
+    "</div>";
+    $(".addFotos").before(modeloInput);
+    let inputImagen = document.querySelector("#foto_"+indice);
+    let contenedorImagenes = document.querySelector("#altaMasivaFotos");
+
+    container.items.add(contenedorImagenes.files[indiceListadoArchivo]);
+    inputImagen.files = container.files;
+
+    $("#foto_"+indice).trigger('change');
+    indice++;
+}
 </script>

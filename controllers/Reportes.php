@@ -254,4 +254,44 @@ class Reportes extends CI_Controller
 
     $writer->save('php://output');	// descargamos el excel generado
   }
+  /**
+	* Obtengo los datos cargadas en el escaneo de documentacion guardados en instancias_formularios
+	* @param array info_id
+	* @return array datos relacionadas con el info_id
+	*/
+  function getFormEscaneoDocu($info_id){
+    if($info_id){
+        $formEscaneo = array();
+        $this->load->model(FRM . 'Forms');
+        $res = $this->Forms->obtener($info_id);
+
+        foreach ($res->items as $key => $dato) {
+            if(isset($dato->valor4_base64)){
+                $rec = stream_get_contents($dato->valor4_base64);
+                $ext = obtenerExtension($dato->valor);
+                
+                if($dato->tipo_dato == 'image'){
+                    $formEscaneo['imagenes'][$key]['inst_id'] = $dato->inst_id;
+                    $formEscaneo['imagenes'][$key]['imagen'] = $ext.$rec;
+                }else{
+                    $formEscaneo['archivos'][$key]['inst_id'] = $dato->inst_id;
+                    $formEscaneo['archivos'][$key]['descripcion'] = $dato->valor;
+                    $formEscaneo['archivos'][$key]['archivo'] = $ext.$rec;
+                }
+            }else{
+                if(!empty($dato->valor)){
+                    if($dato->tipo_dato == 'select'){
+                        foreach ($dato->values as $key => $valor) {
+                            if($dato->valor == $valor->value){
+                                $formEscaneo['datos'][$dato->name]['descripcion'] = $valor->label;
+                            }
+                        }
+                    }
+                    $formEscaneo['datos'][$dato->name]['valor'] = $dato->valor;
+                }
+            }
+        }
+    }
+    return $formEscaneo;
+}
 }

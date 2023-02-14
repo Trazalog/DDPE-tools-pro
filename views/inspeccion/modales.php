@@ -2,6 +2,13 @@
 /* .frm-save{
     display: none;
 } */
+#formEscaneoDocu .addFotosMasiva button{
+    margin-top: 12%;
+    margin-bottom: 2%;
+}
+#formEscaneoDocu .addFotos button{
+    margin-top: 25%;
+}
 </style>
 <!-- Modal CHOFER -->
 <div class="modal modal-fade" id="mdl-chofer">
@@ -154,7 +161,7 @@
 <!-- FIN MODAL DEPOSITO -->
 <!-- Modal Escanear Documentacion -->
 <div class="modal modal-fade" id="mdl-documentacion">
-    <div class="modal-dialog modal-xl">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <!-- Modal Header -->
             <div class="modal-header">
@@ -179,6 +186,7 @@
                     <div id="formEscaneoDocu" class="frm-new" data-form="11"></div>
 
             <?php } ?>
+            <input style="display: none;" id="altaMasivaFotos" class='form-control' type='file' name='altaMasivaFotos[]' accept='image/*' multiple onchange="crearVistaPreviaImagenes(this)"/>
                 </div>
             </div>
                 <!-- Modal footer -->
@@ -196,14 +204,14 @@
 </div>
 
 <!-- FIN MODAL Escanear Documentacion -->
-<!-- Modal Acta infraccion en calle -->
-<div class="modal modal-fade" id="mdl-actaInfraccion">
+<!-- Modal Acta Inspeccion manual -->
+<div class="modal modal-fade" id="mdl-actaInspeccionManual">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <!-- Modal Header -->
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Carga acta infracción en calle</h4>
+                <h4 class="modal-title">Carga acta inspeccion realizada manualmente</h4>
             </div>
             <div class="panel-subheading" style="text-align: right">
                 <label><?php echo $this->session->userdata['first_name'].' '.$this->session->userdata['last_name'].' - '.date('m/d/Y H:i:s')?></label>
@@ -211,16 +219,13 @@
             <!-- Modal body -->
             <div class="modal-body">
                 <div class="row">
-                    <div id="formActaInfraccion" class="frm-new" data-form="13"></div>
+                    <div id="formActaManualInspeccion" class="frm-new" data-form="69"></div>
                 </div>
             </div>
-                <!-- Modal footer -->
-                <div class="modal-footer">
+            <!-- Modal footer -->
+            <div class="modal-footer">
                 <div class="col-md-6 col-sm-12 col-md-offset-6" style="text-align:right;margin-top: 20px;">
-                    <button id="btn-cierreActaInfraccion" type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
-
-                    <!-- <button type="button" id="btn-accion" class="btn btn-primary btn-guardar"
-                        onclick="frmGuardar($('.frm-new').find('form'))">Guardar</button> -->
+                    <button id="btn-cierreActaInspeccionManual" type="button" class="btn btn-success" data-dismiss="modal">Hecho</button>
                 </div>
             </div>
             <!-- ************************************************************ -->
@@ -613,9 +618,9 @@ indice = 2;
 indexFiles = 2;
 
 function agregarFotos(){
-    var modeloInput = "<div class='col-sm-12 col-md-6'>"+
+    var modeloInput = "<div class='col-xs-12 col-sm-6 col-md-3'>"+
                     "<label>Foto "+indice+":</label>"+
-                    "<div class='form-group imgConte'>"+
+                    "<div class='form-group imgConte centrar'>"+
                         "<label for='foto_"+indice+"'>"+
                         "<div class='imgEdit'>"+
                             "<input class='form-control' type='file' id='foto_"+indice+"'  name='-file-fotos[]' onchange='previewFile(this)' accept='image/*' capture/>"+
