@@ -1,9 +1,4 @@
-<?php $this->load->view(SICP."inspeccion/modales.php"); 
-
-  header("Access-Control-Allow-Origin: http://localhost:8080/tools/bascula/pesar");
-    header('Access-Control-Allow-Credentials: true');    
-    header("Access-Control-Allow-Methods: GET, POST, OPTIONS"); 
-    ?>
+<?php $this->load->view(SICP."inspeccion/modales.php"); ?>
 <style>
 .input-group-addon:hover{
     cursor: pointer;
@@ -2007,21 +2002,34 @@ $("#btn-cierreEscaneo").on('click', function() {
     });
 });
 /***************************************************** */
+//consulta a servicio local 
+/*configuracion de parametros headers en servicio de respuesta   
+ "Access-Control-Allow-Origin: *";
+ 'Access-Control-Allow-Credentials: true';    
+ "Access-Control-Allow-Methods: GET, "; 
+ "Access-Control-Allow-Headers: application/json";
+ */
 function pesarBascula() {
     $("#bruto").val('');
     var urli = "http://localhost:8080/tools/bascula/pesar";
     $.ajax({
         type:"GET",
         url: urli,
-        dataType: "jsonp",
-        //crossDomain: true, 
-        success: function( response ) {
-            console.log( response );
+        dataType: "json",
+        crossDomain: true, 
+        success: function( data ) {
+                if(data['respuesta']['resultado'] == 'ok'){
+                    $('#bruto').val(data['respuesta']['peso']); 
+                }
+                else{
+                    $('#bruto').val(0); 
+                }
+        },
+        error: function(data) {
+            $('#bruto').val(0); 
+            //alert("Error al obtener peso de bascula");
         }
     }); 
-/* let s = document.createElement("script");
-  s.src = "proxy.php";
-  document.body.appendChild(s); */
 }
 //Show vista previa acta inspeccion manual
 $(document).on('change',"input[name='-file-foto_acta_manual']",function() {
