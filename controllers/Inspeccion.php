@@ -158,7 +158,7 @@ class Inspeccion extends CI_Controller
         $data['case_id'] = $this->input->post('case_id');
 		$data['patente_tractor'] =  !empty($this->input->post('patente_tractor'))? $this->input->post('patente_tractor') : "";
 		$data['nro_senasa'] =  !empty($this->input->post('nro_senasa'))? $this->input->post('nro_senasa') : "";
-		$data['kilos'] =  !empty($this->input->post('kilos'))? $this->input->post('kilos') : "";
+		$data['kilos'] = ""; /* !empty($this->input->post('kilos'))? $this->input->post('kilos') :  "";*/
 		$data['reprecintado'] =  !empty($this->input->post('reprecintado'))? $this->input->post('reprecintado') : "false";
 		$data['bruto'] =  !empty($this->input->post('bruto'))? $this->input->post('bruto') : "";
 		$data['tara'] =  !empty($this->input->post('tara'))? $this->input->post('tara') : "";

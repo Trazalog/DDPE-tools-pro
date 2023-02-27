@@ -128,7 +128,7 @@
                   },
                   "type" => "date"
                 ),
-                "neto_total_permiso" => array(
+                "kilos_total_permiso" => array(
                   "label" => "Peso"
                 ),
                 "nombre" => array(
