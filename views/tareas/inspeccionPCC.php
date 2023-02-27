@@ -1,4 +1,9 @@
-<?php $this->load->view(SICP."inspeccion/modales.php"); ?>
+<?php $this->load->view(SICP."inspeccion/modales.php"); 
+
+  header("Access-Control-Allow-Origin: http://localhost:8080/tools/bascula/pesar");
+    header('Access-Control-Allow-Credentials: true');    
+    header("Access-Control-Allow-Methods: GET, POST, OPTIONS"); 
+    ?>
 <style>
 .input-group-addon:hover{
     cursor: pointer;
@@ -222,6 +227,26 @@
                                     </div>
                                 </div>
                             </div>
+                            <!--________________-->
+
+                           <!--Estado de Producto-->
+                            <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
+                                <div class="form-group">
+                                    <label for="estado_producto">Estado del Producto(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <div class="input-group" style="width: 100%">
+                                        <select class="form-control select2 select2-hidden-accesible estado_producto" name="estado_pr_id" id="estado_pr_id" style="width: 100%">
+                                            <option value="" disabled selected>- Seleccionar -</option>
+                                            <?php
+                                                if(!empty($estados_productos)){ 
+                                                    foreach ($estados_productos as $estados) {
+                                                        echo "<option data-json='".json_encode($estados)."' value='".$estados->tabl_id."'>".$estados->descripcion."</option>";
+                                                    }
+                                                }
+                                            ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div> 
                             <!--Kilos-->
                             <div class="col-md-6 col-sm-6 col-xs-12">
                                 <div class="form-group">
@@ -1228,6 +1253,8 @@ function agregarPermiso(){
         var netoPermiso = $("#netoPermiso").val(); 
         var brutoPermiso = $("#brutoPermiso").val(); 
         var temperatura = $("#temperatura").val(); 
+        var estado = $("#estado_pr_id").select2('data')[0].text; 
+        var estado_pr_id = $("#estado_pr_id").select2('data')[0].id;
 
         var datos = {};
         datos.perm_id = permi_num;
@@ -1244,6 +1271,8 @@ function agregarPermiso(){
         datos.neto = netoPermiso;
         datos.bruto = brutoPermiso;
         datos.temperatura = temperatura;
+        datos.estado = estado;
+        datos.estado_pr_id = estado_pr_id ; 
 
         var div = `<div class='form-group permTransito' data-json='${JSON.stringify(datos)}'>
                         <span> 
@@ -1348,6 +1377,7 @@ function editarPermiso(tag){
         $("#netoPermiso").val(data.neto);
         $("#brutoPermiso").val(data.bruto);
         $("#temperatura").val(data.temperatura);
+        $("#estado_pr_id").val(data.estado);
         emprVal = data.origen;
         emprNombre = data.origen_nom;
         emprNum = data.origen_num;
@@ -1380,6 +1410,7 @@ function verPermiso(tag){
     $("#modalVerOrigenCuit").val(data.origen);
     $("#modalVerOrigenNumero").val(data.origen_num);
     $("#modalVerProductos").val(data.productos);
+    $("#modalVerEstadoProductos").val(data.estado);
     $("#modalVerNeto").val(data.neto);
     $("#modalVerBruto").val(data.bruto);
     $("#modalVerTemperatura").val(data.temperatura);
@@ -1978,22 +2009,19 @@ $("#btn-cierreEscaneo").on('click', function() {
 /***************************************************** */
 function pesarBascula() {
     $("#bruto").val('');
+    var urli = "http://localhost:8080/tools/bascula/pesar";
     $.ajax({
-        type: 'GET',
-        url: "<?php echo SICP; ?>inspeccion/getPesoBascula",
-        success: function(data) {
-            if(data != 'null'){
-                datos = JSON.parse(data);
-                // console.log(datos);
-                $('#bruto').val(datos);
-            }else{
-                console.log("problema al llamar la api");
-            }
-        },
-        error: function(data) {
-            alert("Error al obtener peso de bascula");
+        type:"GET",
+        url: urli,
+        dataType: "jsonp",
+        //crossDomain: true, 
+        success: function( response ) {
+            console.log( response );
         }
-    });
+    }); 
+/* let s = document.createElement("script");
+  s.src = "proxy.php";
+  document.body.appendChild(s); */
 }
 //Show vista previa acta inspeccion manual
 $(document).on('change',"input[name='-file-foto_acta_manual']",function() {

@@ -341,6 +341,12 @@
                         </div>
                         <div class="col-md-6 col-sm-6 col-sx-12">
                             <div class="form-group">
+                                <label>Estado producto:</label>
+                                <input id="modalVerEstadoProductos" class="form-control" type="text" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-sx-12">
+                            <div class="form-group">
                                 <label>Peso Neto:</label>
                                 <input id="modalVerNeto" class="form-control" type="text" readonly>
                             </div>
