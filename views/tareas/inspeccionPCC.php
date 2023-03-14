@@ -2011,7 +2011,7 @@ $("#btn-cierreEscaneo").on('click', function() {
  */
 function pesarBascula() {
     $("#bruto").val('');
-    var urli = "http://localhost:8080/tools/bascula/pesar";
+    var urli = "<?php echo API_BASCULA ?>";
     $.ajax({
         type:"GET",
         url: urli,
