@@ -1,0 +1,9 @@
+<!--?xml version="1.0" encoding="UTF-8"?-->
+<api>
+	<dataservices_url>http://localhost:8280/services</dataservices_url>
+	<personas_url>https://soa.sanjuan.gob.ar/persona/dni/rest?dni=</personas_url>
+        <personas_cred>24753850.DNI.M.ws_multifuentes_persona_humana:6BFC33FA5B249F81</personas_cred>
+        <empresas_url>https://soa.sanjuan.gob.ar/afip/constancia/rest?cuit=</empresas_url>
+        <empresas_cred>24753850.DNI.M.ws_afip_constancia:2576C18E19FD3814</empresas_cred>
+</api>
+

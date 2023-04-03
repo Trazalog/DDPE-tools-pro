@@ -113,6 +113,7 @@ class Sicpoatareas extends CI_Model
                 $data['departamentos'] = $this->getDepartamentos();
                 $data['petr_id'] = $tareaData->petr_id;
                 $data['productos'] = $this->getProductos();
+                $data['estados_productos'] = $this->getEstadosProductos();
 
                 return $this->load->view(SICP . 'tareas/preCargaDatos', $data, true);
         
@@ -142,6 +143,7 @@ class Sicpoatareas extends CI_Model
                 $data['preCargaDatos'] = $this->getPreCargaDatos($tareaData->case_id);
                 $data['patente'] =  $this->getPatenteTractor($tareaData->info_id);
                 $data['productos'] = $this->getProductos();
+                $data['estados_productos'] = $this->getEstadosProductos();
 
                 $puntosControl = $this->Ingresosbarrera->getPuntosControl();
                 foreach ($puntosControl  as $key) {
@@ -199,6 +201,7 @@ class Sicpoatareas extends CI_Model
                 $data['preCargaDatos'] = $this->getPreCargaDatos($tareaData->case_id);
                 $data['patente'] =  $this->getPatenteTractor($tareaData->info_id);
                 $data['productos'] = $this->getProductos();
+                $data['estados_productos'] = $this->getEstadosProductos();
 
                 $empresas = $data['preCargaDatos']->empresas->empresa;
 
@@ -773,6 +776,24 @@ class Sicpoatareas extends CI_Model
 
         return $resp->tablas->tabla;
     }
+
+        /**
+	* Listado estados de productos 
+	* @param  
+	* @return array listado con los estados de los productos
+	*/
+    public function getEstadosProductos(){
+        
+        $url = REST_CORE."/tabla/estados_producto/empresa/".empresa();
+
+        $aux = $this->rest->callAPI("GET",$url);
+        $resp = json_decode($aux['data']);
+
+        log_message('DEBUG', "#TRAZA | #SICPOA | Inspecciones | getEstadosProductos()  resp: >> " . json_encode($resp));
+
+        return $resp->tablas->tabla;
+    }
+
     /**
 	* Listado unidades de medida 
 	* @param  

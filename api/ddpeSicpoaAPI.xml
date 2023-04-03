@@ -1,0 +1,632 @@
+<api xmlns="http://ws.apache.org/ns/synapse" name="ddpeSicpoaAPI" context="/sicpoa/api">
+   <resource methods="GET" uri-template="/choferes/patron/{patron}">
+      <inSequence>
+         <property xmlns:ns2="http://org.apache.synapse/xsd" xmlns:ns="http://org.apache.synapse/xsd" name="apiconf" expression="get-property('registry','conf:tools/apiconfig.xml')" scope="default" type="OM"/>
+         <property xmlns:ns2="http://org.apache.synapse/xsd" xmlns:ns="http://org.apache.synapse/xsd" name="api_url" expression="$ctx:apiconf//api_url" scope="default" type="STRING"/>
+         <property xmlns:ns2="http://org.apache.synapse/xsd" xmlns:ns="http://org.apache.synapse/xsd" name="dataservices_url" expression="$ctx:apiconf//dataservices_url" scope="default" type="STRING"/>
+         <property xmlns:ns2="http://org.apache.synapse/xsd" xmlns:ns="http://org.apache.synapse/xsd" name="personas_url" expression="$ctx:apiconf//personas_url" scope="default" type="STRING"/>
+         <property xmlns:ns2="http://org.apache.synapse/xsd" xmlns:ns="http://org.apache.synapse/xsd" name="personas_cred" expression="$ctx:apiconf//personas_cred" scope="default" type="STRING"/>
+         <property name="patron" expression="$ctx:uri.var.patron" scope="default" type="STRING"/>
+         <log level="custom">
+            <property name="donde" value="dentro de get chofer"/>
+            <property name="api url" expression="$ctx:api_url"/>
+            <property name="ds url" expression="$ctx:dataservices_url"/>
+            <property name="pers url" expression="$ctx:personas_url"/>
+            <property name="pers cred" expression="$ctx:personas_cred"/>
+            <property name="patron" expression="$ctx:patron"/>
+         </log>
+         <filter xpath="string-length(get-property('patron'))=8">
+            <then>
+               <property name="messageType" value="application/json" scope="axis2" type="STRING"/>
+               <header name="Accept" scope="transport" value="application/json"/>
+               <header name="Accept-Encoding" scope="transport" value="gzip,deflate"/>
+               <property name="Authorization" expression="fn:concat('Basic ', base64Encode($ctx:personas_cred))" scope="transport" type="STRING"/>
+               <property name="FORCE_ERROR_ON_SOAP_FAULT" value="true" scope="default" type="STRING"/>
+               <property name="uri.var.get_choferes_url" expression="fn:concat($ctx:personas_url,$ctx:patron,'&amp;sexo=M')" scope="default" type="STRING"/>
+               <log level="custom">
+                  <property name="donde 2" value="pre get choferes soa"/>
+                  <property name="api url" expression="$ctx:uri.var.get_choferes_url"/>
+               </log>
+               <call>
+                  <endpoint>
+                     <http method="GET" uri-template="{uri.var.get_choferes_url}">
+                        <timeout>
+                           <duration>6000</duration>
+                           <responseAction>discard</responseAction>
+                        </timeout>
+                     </http>
+                  </endpoint>
+               </call>
+               <log level="full"/>
+               <filter source="get-property('axis2', 'HTTP_SC')" regex="2[0-9][0-9]">
+                  <then>
+                     <property name="nombre" expression="json-eval($.personaInfo.nombre)"/>
+                     <property name="apellido" expression="json-eval($.personaInfo.apellido)"/>
+                     <script language="js">var payload = mc.getPayloadJSON(); mc.setProperty("ORIGINAL_PAYLOAD",JSON.stringify(payload));</script>
+                     <payloadFactory media-type="json" description="crear solicitud">
+                        <format>       {        "_post_chofer":{          "dni":"$1",          "nombre":"$2",          "usuario_app":"personas-api"        }       }      </format>
+                        <args>
+                           <arg evaluator="xml" expression="$ctx:patron"/>
+                           <arg evaluator="xml" expression="fn:concat($ctx:nombre,' ',$ctx:apellido)"/>
+                        </args>
+                     </payloadFactory>
+                     <property name="Server" scope="transport" action="remove"/>
+                     <header name="Content-Type" scope="transport" action="remove"/>
+                     <property name="messageType" value="application/json" scope="axis2" type="STRING"/>
+                     <header name="Accept" scope="transport" value="application/json"/>
+                     <property name="FORCE_ERROR_ON_SOAP_FAULT" value="false" scope="default" type="STRING"/>
+                     <property name="uri.var.setChofer_url" expression="fn:concat($ctx:dataservices_url,'/ddpeSicpoaDataService/chofer')" scope="default" type="STRING"/>
+                     <log level="custom">
+                        <property name="donde" value="dentro de set chofer"/>
+                        <property name="payload" expression="json-eval($)"/>
+                        <property name="api url" expression="$ctx:uri.var.setChofer_url"/>
+                     </log>
+                     <call description="Crear Chofer">
+                        <endpoint>
+                           <http method="POST" uri-template="{uri.var.setChofer_url}"/>
+                        </endpoint>
+                     </call>
+                     <script language="js">mc.setPayloadJSON(mc.getProperty("ORIGINAL_PAYLOAD"));</script>
+                     <payloadFactory media-type="json" description="respuesta Persona">
+                        <format>       {"choferes": {"chofer":[ {           "fec_alta": "2021-07-16T14:50:59.889-03:00",           "usuario_app": "inspector_sicpoa@sicpoa.com",           "usuario": "postgres",           "nombre": "$2",           "dni": "$1"        }]}}      </format>
+                        <args>
+                           <arg evaluator="xml" expression="$ctx:patron"/>
+                           <arg evaluator="xml" expression="fn:concat($ctx:nombre,' ',$ctx:apellido)"/>
+                        </args>
+                     </payloadFactory>
+                     <property name="HTTP_SC" value="200" scope="axis2" type="STRING"/>
+                  </then>
+                  <else>
+                     <property name="Server" scope="transport" action="remove"/>
+                     <header name="Content-Type" scope="transport" action="remove"/>
+                     <header name="Accept" scope="transport" value="application/json"/>
+                     <header name="Accept-Encoding" scope="transport" value="gzip,deflate"/>
+                     <property name="FORCE_ERROR_ON_SOAP_FAULT" value="true" scope="default" type="STRING"/>
+                     <property name="uri.var.get_choferes_url" expression="fn:concat($ctx:dataservices_url,'/ddpeSicpoaDataService/choferes/patron/',$ctx:patron)" scope="default" type="STRING"/>
+                     <log level="custom">
+                        <property name="donde 2.5" value="pre get choferes local"/>
+                        <property name="api url" expression="$ctx:uri.var.get_choferes_url"/>
+                     </log>
+                     <call>
+                        <endpoint>
+                           <http method="GET" uri-template="{uri.var.get_choferes_url}"/>
+                        </endpoint>
+                     </call>
+                     <filter source="get-property('axis2', 'HTTP_SC')" regex="2[0-9][0-9]">
+                        <then/>
+                        <else>
+                           <property name="ERROR_MESSAGE" expression="json-eval($)" scope="default" type="STRING"/>
+                           <property name="TOOLS_ERROR" value="GET /choferes con problemas" scope="default" type="STRING"/>
+                           <sequence key="toolsFault"/>
+                        </else>
+                     </filter>
+                  </else>
+               </filter>
+            </then>
+            <else>
+               <property name="Server" scope="transport" action="remove"/>
+               <header name="Content-Type" scope="transport" action="remove"/>
+               <header name="Accept" scope="transport" value="application/json"/>
+               <header name="Accept-Encoding" scope="transport" value="gzip,deflate"/>
+               <property name="FORCE_ERROR_ON_SOAP_FAULT" value="true" scope="default" type="STRING"/>
+               <property name="uri.var.get_choferes_url" expression="fn:concat($ctx:dataservices_url,'/ddpeSicpoaDataService/choferes/patron/',$ctx:patron)" scope="default" type="STRING"/>
+               <log level="custom">
+                  <property name="donde 3" value="pre get choferes local largo dni menor a 8"/>
+                  <property name="api url" expression="$ctx:uri.var.get_choferes_url"/>
+               </log>
+               <call>
+                  <endpoint>
+                     <http method="GET" uri-template="{uri.var.get_choferes_url}"/>
+                  </endpoint>
+               </call>
+               <filter source="get-property('axis2', 'HTTP_SC')" regex="2[0-9][0-9]">
+                  <then/>
+                  <else>
+                     <property name="ERROR_MESSAGE" expression="json-eval($)" scope="default" type="STRING"/>
+                     <property name="TOOLS_ERROR" value="GET /choferes con problemas" scope="default" type="STRING"/>
+                     <sequence key="toolsFault"/>
+                  </else>
+               </filter>
+            </else>
+         </filter>
+         <log level="custom" description="donde 4">
+            <property name="msg actual 4 despues get chofer" expression="json-eval($)"/>
+         </log>
+         <loopback/>
+      </inSequence>
+      <outSequence>
+         <log level="full">
+            <property name="MESSAGE" value="FIRST"/>
+         </log>
+         <send/>
+      </outSequence>
+      <faultSequence>
+         <property name="ERROR_MESSAGE" expression="json-eval($)" scope="default" type="STRING"/>
+         <property name="TOOLS_ERROR" value="Error general get chofer" scope="default" type="STRING"/>
+         <sequence key="toolsFault"/>
+      </faultSequence>
+   </resource>
+   <resource methods="GET" uri-template="/choferesfem/patron/{patron}">
+      <inSequence>
+         <property xmlns:ns2="http://org.apache.synapse/xsd" xmlns:ns="http://org.apache.synapse/xsd" name="apiconf" expression="get-property('registry','conf:tools/apiconfig.xml')" scope="default" type="OM"/>
+         <property xmlns:ns2="http://org.apache.synapse/xsd" xmlns:ns="http://org.apache.synapse/xsd" name="api_url" expression="$ctx:apiconf//api_url" scope="default" type="STRING"/>
+         <property xmlns:ns2="http://org.apache.synapse/xsd" xmlns:ns="http://org.apache.synapse/xsd" name="dataservices_url" expression="$ctx:apiconf//dataservices_url" scope="default" type="STRING"/>
+         <property xmlns:ns2="http://org.apache.synapse/xsd" xmlns:ns="http://org.apache.synapse/xsd" name="personas_url" expression="$ctx:apiconf//personas_url" scope="default" type="STRING"/>
+         <property xmlns:ns2="http://org.apache.synapse/xsd" xmlns:ns="http://org.apache.synapse/xsd" name="personas_cred" expression="$ctx:apiconf//personas_cred" scope="default" type="STRING"/>
+         <property name="patron" expression="$ctx:uri.var.patron" scope="default" type="STRING"/>
+         <log level="custom">
+            <property name="donde" value="dentro de get chofer"/>
+            <property name="api url" expression="$ctx:api_url"/>
+            <property name="ds url" expression="$ctx:dataservices_url"/>
+            <property name="pers url" expression="$ctx:personas_url"/>
+            <property name="pers cred" expression="$ctx:personas_cred"/>
+            <property name="patron" expression="$ctx:patron"/>
+         </log>
+         <filter xpath="string-length(get-property('patron'))=8">
+            <then>
+               <property name="messageType" value="application/json" scope="axis2" type="STRING"/>
+               <header name="Accept" scope="transport" value="application/json"/>
+               <header name="Accept-Encoding" scope="transport" value="gzip,deflate"/>
+               <property name="Authorization" expression="fn:concat('Basic ', base64Encode($ctx:personas_cred))" scope="transport" type="STRING"/>
+               <property name="FORCE_ERROR_ON_SOAP_FAULT" value="true" scope="default" type="STRING"/>
+               <property name="uri.var.get_choferes_url" expression="fn:concat($ctx:personas_url,$ctx:patron,'&amp;sexo=F')" scope="default" type="STRING"/>
+               <log level="custom">
+                  <property name="donde 2" value="pre get choferes soa"/>
+                  <property name="api url" expression="$ctx:uri.var.get_choferes_url"/>
+               </log>
+               <call>
+                  <endpoint>
+                     <http method="GET" uri-template="{uri.var.get_choferes_url}">
+                        <timeout>
+                           <duration>6000</duration>
+                           <responseAction>discard</responseAction>
+                        </timeout>
+                     </http>
+                  </endpoint>
+               </call>
+               <log level="full"/>
+               <filter source="get-property('axis2', 'HTTP_SC')" regex="2[0-9][0-9]">
+                  <then>
+                     <property name="nombre" expression="json-eval($.personaInfo.nombre)"/>
+                     <property name="apellido" expression="json-eval($.personaInfo.apellido)"/>
+                     <script language="js">var payload = mc.getPayloadJSON(); mc.setProperty("ORIGINAL_PAYLOAD",JSON.stringify(payload));</script>
+                     <payloadFactory media-type="json" description="crear solicitud">
+                        <format>       {        "_post_chofer":{          "dni":"$1",          "nombre":"$2",          "usuario_app":"personas-api"        }       }      </format>
+                        <args>
+                           <arg evaluator="xml" expression="$ctx:patron"/>
+                           <arg evaluator="xml" expression="fn:concat($ctx:nombre,' ',$ctx:apellido)"/>
+                        </args>
+                     </payloadFactory>
+                     <property name="Server" scope="transport" action="remove"/>
+                     <header name="Content-Type" scope="transport" action="remove"/>
+                     <property name="messageType" value="application/json" scope="axis2" type="STRING"/>
+                     <header name="Accept" scope="transport" value="application/json"/>
+                     <property name="FORCE_ERROR_ON_SOAP_FAULT" value="false" scope="default" type="STRING"/>
+                     <property name="uri.var.setChofer_url" expression="fn:concat($ctx:dataservices_url,'/ddpeSicpoaDataService/chofer')" scope="default" type="STRING"/>
+                     <log level="custom">
+                        <property name="donde" value="dentro de set chofer"/>
+                        <property name="payload" expression="json-eval($)"/>
+                        <property name="api url" expression="$ctx:uri.var.setChofer_url"/>
+                     </log>
+                     <call description="Crear Chofer">
+                        <endpoint>
+                           <http method="POST" uri-template="{uri.var.setChofer_url}"/>
+                        </endpoint>
+                     </call>
+                     <script language="js">mc.setPayloadJSON(mc.getProperty("ORIGINAL_PAYLOAD"));</script>
+                     <payloadFactory media-type="json" description="respuesta Persona">
+                        <format>       {"choferes": {"chofer":[ {           "fec_alta": "2021-07-16T14:50:59.889-03:00",           "usuario_app": "inspector_sicpoa@sicpoa.com",           "usuario": "postgres",           "nombre": "$2",           "dni": "$1"        }]}}      </format>
+                        <args>
+                           <arg evaluator="xml" expression="$ctx:patron"/>
+                           <arg evaluator="xml" expression="fn:concat($ctx:nombre,' ',$ctx:apellido)"/>
+                        </args>
+                     </payloadFactory>
+                     <property name="HTTP_SC" value="200" scope="axis2" type="STRING"/>
+                  </then>
+                  <else>
+                     <property name="Server" scope="transport" action="remove"/>
+                     <header name="Content-Type" scope="transport" action="remove"/>
+                     <header name="Accept" scope="transport" value="application/json"/>
+                     <header name="Accept-Encoding" scope="transport" value="gzip,deflate"/>
+                     <property name="FORCE_ERROR_ON_SOAP_FAULT" value="true" scope="default" type="STRING"/>
+                     <property name="uri.var.get_choferes_url" expression="fn:concat($ctx:dataservices_url,'/ddpeSicpoaDataService/choferes/patron/',$ctx:patron)" scope="default" type="STRING"/>
+                     <log level="custom">
+                        <property name="donde 2.5" value="pre get choferes local"/>
+                        <property name="api url" expression="$ctx:uri.var.get_choferes_url"/>
+                     </log>
+                     <call>
+                        <endpoint>
+                           <http method="GET" uri-template="{uri.var.get_choferes_url}"/>
+                        </endpoint>
+                     </call>
+                     <filter source="get-property('axis2', 'HTTP_SC')" regex="2[0-9][0-9]">
+                        <then/>
+                        <else>
+                           <property name="ERROR_MESSAGE" expression="json-eval($)" scope="default" type="STRING"/>
+                           <property name="TOOLS_ERROR" value="GET /choferes con problemas" scope="default" type="STRING"/>
+                           <sequence key="toolsFault"/>
+                        </else>
+                     </filter>
+                  </else>
+               </filter>
+            </then>
+            <else>
+               <property name="Server" scope="transport" action="remove"/>
+               <header name="Content-Type" scope="transport" action="remove"/>
+               <header name="Accept" scope="transport" value="application/json"/>
+               <header name="Accept-Encoding" scope="transport" value="gzip,deflate"/>
+               <property name="FORCE_ERROR_ON_SOAP_FAULT" value="true" scope="default" type="STRING"/>
+               <property name="uri.var.get_choferes_url" expression="fn:concat($ctx:dataservices_url,'/ddpeSicpoaDataService/choferes/patron/',$ctx:patron)" scope="default" type="STRING"/>
+               <log level="custom">
+                  <property name="donde 3" value="pre get choferes local largo dni menor a 8"/>
+                  <property name="api url" expression="$ctx:uri.var.get_choferes_url"/>
+               </log>
+               <call>
+                  <endpoint>
+                     <http method="GET" uri-template="{uri.var.get_choferes_url}"/>
+                  </endpoint>
+               </call>
+               <filter source="get-property('axis2', 'HTTP_SC')" regex="2[0-9][0-9]">
+                  <then/>
+                  <else>
+                     <property name="ERROR_MESSAGE" expression="json-eval($)" scope="default" type="STRING"/>
+                     <property name="TOOLS_ERROR" value="GET /choferes con problemas" scope="default" type="STRING"/>
+                     <sequence key="toolsFault"/>
+                  </else>
+               </filter>
+            </else>
+         </filter>
+         <log level="custom" description="donde 4">
+            <property name="msg actual 4 despues get chofer" expression="json-eval($)"/>
+         </log>
+         <loopback/>
+      </inSequence>
+      <outSequence>
+         <log level="full">
+            <property name="MESSAGE" value="FIRST"/>
+         </log>
+         <send/>
+      </outSequence>
+      <faultSequence>
+         <property name="ERROR_MESSAGE" expression="json-eval($)" scope="default" type="STRING"/>
+         <property name="TOOLS_ERROR" value="Error general get chofer" scope="default" type="STRING"/>
+         <sequence key="toolsFault"/>
+      </faultSequence>
+   </resource>
+   <resource methods="GET" uri-template="/empresas/patron/{patron}">
+      <inSequence>
+         <property xmlns:ns2="http://org.apache.synapse/xsd" xmlns:ns="http://org.apache.synapse/xsd" name="apiconf" expression="get-property('registry','conf:tools/apiconfig.xml')" scope="default" type="OM"/>
+         <property xmlns:ns2="http://org.apache.synapse/xsd" xmlns:ns="http://org.apache.synapse/xsd" name="api_url" expression="$ctx:apiconf//api_url" scope="default" type="STRING"/>
+         <property xmlns:ns2="http://org.apache.synapse/xsd" xmlns:ns="http://org.apache.synapse/xsd" name="dataservices_url" expression="$ctx:apiconf//dataservices_url" scope="default" type="STRING"/>
+         <property xmlns:ns2="http://org.apache.synapse/xsd" xmlns:ns="http://org.apache.synapse/xsd" name="empresas_url" expression="$ctx:apiconf//empresas_url" scope="default" type="STRING"/>
+         <property xmlns:ns2="http://org.apache.synapse/xsd" xmlns:ns="http://org.apache.synapse/xsd" name="empresas_cred" expression="$ctx:apiconf//empresas_cred" scope="default" type="STRING"/>
+         <property name="patron" expression="$ctx:uri.var.patron" scope="default" type="STRING"/>
+         <log level="custom">
+            <property name="donde" value="dentro de get empresas"/>
+            <property name="api url" expression="$ctx:api_url"/>
+            <property name="ds url" expression="$ctx:dataservices_url"/>
+            <property name="pers url" expression="$ctx:empresas_url"/>
+            <property name="pers cred" expression="$ctx:empresas_cred"/>
+            <property name="patron" expression="$ctx:patron"/>
+         </log>
+         <filter xpath="string-length(get-property('patron'))=11">
+            <then>
+               <header name="Accept" scope="transport" value="application/json"/>
+               <header name="Accept-Encoding" scope="transport" value="gzip,deflate"/>
+               <property name="Authorization" expression="fn:concat('Basic ', base64Encode($ctx:empresas_cred))" scope="transport" type="STRING"/>
+               <property name="FORCE_ERROR_ON_SOAP_FAULT" value="true" scope="default" type="STRING"/>
+               <property name="uri.var.get_empresas_url" expression="fn:concat($ctx:empresas_url,$ctx:patron)" scope="default" type="STRING"/>
+               <log level="custom">
+                  <property name="donde 2" value="pre get empresas soa"/>
+                  <property name="api url" expression="$ctx:uri.var.get_empresas_url"/>
+               </log>
+               <call>
+                  <endpoint>
+                     <http method="GET" uri-template="{uri.var.get_empresas_url}"/>
+                  </endpoint>
+               </call>
+               <log level="full"/>
+               <filter source="json-eval($.resultadoWS.exito)" regex="true">
+                  <then>
+                     <filter source="json-eval($.perJuridicaInfo.datosGenerales.razonSocial)" regex="^$">
+                        <then>
+                           <property name="afip_nombre" expression="json-eval($.perJuridicaInfo.datosGenerales.nombre)" scope="default" type="STRING"/>
+                           <property name="afip_apellido" expression="json-eval($.perJuridicaInfo.datosGenerales.apellido)" scope="default" type="STRING"/>
+                           <property name="afip_razon_social" expression="fn:concat($ctx:afip_apellido,', ',$ctx:afip_nombre)" scope="default" type="STRING"/>
+                        </then>
+                        <else>
+                           <property name="afip_razon_social" expression="json-eval($.perJuridicaInfo.datosGenerales.razonSocial)" scope="default" type="STRING"/>
+                        </else>
+                     </filter>
+                     <property name="messageType" value="application/json" scope="axis2" type="STRING"/>
+                     <script language="js">var payload = mc.getPayloadJSON(); mc.setProperty("ORIGINAL_PAYLOAD",JSON.stringify(payload));</script>
+                     <payloadFactory media-type="json" description="crear empresa">
+                        <format>       {          "_post_empresa":{             "cuit":"$1",             "razon_social":"$2",             "num_establecimiento":"",             "usuario_app":"afip_api"          }       }      </format>
+                        <args>
+                           <arg evaluator="json" expression="$.perJuridicaInfo.datosGenerales.idPersona"/>
+                           <arg evaluator="xml" expression="$ctx:afip_razon_social"/>
+                        </args>
+                     </payloadFactory>
+                     <property name="messageType" value="application/json" scope="axis2" type="STRING"/>
+                     <header name="Accept" scope="transport" value="application/json"/>
+                     <property name="FORCE_ERROR_ON_SOAP_FAULT" value="false" scope="default" type="STRING"/>
+                     <property name="uri.var.setEmpresa_url" expression="fn:concat($ctx:dataservices_url,'/ddpeSicpoaDataService/empresa')" scope="default" type="STRING"/>
+                     <log level="custom">
+                        <property name="donde" value="dentro de set empresa"/>
+                        <property name="payload" expression="json-eval($)"/>
+                        <property name="api url" expression="$ctx:uri.var.setEmpresa_url"/>
+                     </log>
+                     <call>
+                        <endpoint>
+                           <http method="POST" uri-template="{uri.var.setEmpresa_url}"/>
+                        </endpoint>
+                     </call>
+                     <script language="js">mc.setPayloadJSON(mc.getProperty("ORIGINAL_PAYLOAD"));</script>
+                     <payloadFactory media-type="json" description="respuesta Persona">
+                        <format>                     {"empresas":                       {"empresa": [{          "cuit": "$1",          "num_establecimiento": "",          "razon_social": "$2"       }]}}      </format>
+                        <args>
+                           <arg evaluator="json" expression="$.perJuridicaInfo.datosGenerales.idPersona"/>
+                           <arg evaluator="xml" expression="$ctx:afip_razon_social"/>
+                        </args>
+                     </payloadFactory>
+                     <property name="HTTP_SC" value="200" scope="axis2" type="STRING"/>
+                  </then>
+                  <else>
+                     <property name="Server" scope="transport" action="remove"/>
+                     <header name="Content-Type" scope="transport" action="remove"/>
+                     <header name="Accept" scope="transport" value="application/json"/>
+                     <header name="Accept-Encoding" scope="transport" value="gzip,deflate"/>
+                     <property name="FORCE_ERROR_ON_SOAP_FAULT" value="true" scope="default" type="STRING"/>
+                     <property name="uri.var.get_empresas_url" expression="fn:concat($ctx:dataservices_url,'/ddpeSicpoaDataService/empresas/patron/',$ctx:patron)" scope="default" type="STRING"/>
+                     <log level="custom">
+                        <property name="donde 2" value="pre get empresas"/>
+                        <property name="api url" expression="$ctx:uri.var.get_empresas_url"/>
+                     </log>
+                     <call>
+                        <endpoint>
+                           <http method="GET" uri-template="{uri.var.get_empresas_url}"/>
+                        </endpoint>
+                     </call>
+                     <filter source="get-property('axis2', 'HTTP_SC')" regex="2[0-9][0-9]">
+                        <then/>
+                        <else>
+                           <property name="ERROR_MESSAGE" expression="json-eval($)" scope="default" type="STRING"/>
+                           <property name="TOOLS_ERROR" value="GET /empresas con problemas" scope="default" type="STRING"/>
+                           <sequence key="toolsFault"/>
+                        </else>
+                     </filter>
+                  </else>
+               </filter>
+            </then>
+            <else>
+               <property name="Server" scope="transport" action="remove"/>
+               <header name="Content-Type" scope="transport" action="remove"/>
+               <header name="Accept" scope="transport" value="application/json"/>
+               <header name="Accept-Encoding" scope="transport" value="gzip,deflate"/>
+               <property name="FORCE_ERROR_ON_SOAP_FAULT" value="true" scope="default" type="STRING"/>
+               <property name="uri.var.get_empresas_url" expression="fn:concat($ctx:dataservices_url,'/ddpeSicpoaDataService/empresas/patron/',$ctx:patron)" scope="default" type="STRING"/>
+               <log level="custom">
+                  <property name="donde 3" value="pre get empresas"/>
+                  <property name="api url" expression="$ctx:uri.var.get_empresas_url"/>
+               </log>
+               <call>
+                  <endpoint>
+                     <http method="GET" uri-template="{uri.var.get_empresas_url}"/>
+                  </endpoint>
+               </call>
+               <filter source="get-property('axis2', 'HTTP_SC')" regex="2[0-9][0-9]">
+                  <then/>
+                  <else>
+                     <property name="ERROR_MESSAGE" expression="json-eval($)" scope="default" type="STRING"/>
+                     <property name="TOOLS_ERROR" value="GET /empresas con problemas" scope="default" type="STRING"/>
+                     <sequence key="toolsFault"/>
+                  </else>
+               </filter>
+            </else>
+         </filter>
+         <log level="custom" description="donde 4">
+            <property name="msg actual 4 despues get empresa" expression="json-eval($)"/>
+         </log>
+         <loopback/>
+      </inSequence>
+      <outSequence>
+         <log level="full">
+            <property name="MESSAGE" value="FIRST"/>
+         </log>
+         <send/>
+      </outSequence>
+      <faultSequence>
+         <property name="ERROR_MESSAGE" expression="json-eval($)" scope="default" type="STRING"/>
+         <property name="TOOLS_ERROR" value="Error general get empresa" scope="default" type="STRING"/>
+         <sequence key="toolsFault"/>
+      </faultSequence>
+   </resource>
+   <resource methods="GET" uri-template="/empresasfisicas/patron/{patron}">
+      <inSequence>
+         <property xmlns:ns2="http://org.apache.synapse/xsd" xmlns:ns="http://org.apache.synapse/xsd" name="apiconf" expression="get-property('registry','conf:tools/apiconfig.xml')" scope="default" type="OM"/>
+         <property xmlns:ns2="http://org.apache.synapse/xsd" xmlns:ns="http://org.apache.synapse/xsd" name="api_url" expression="$ctx:apiconf//api_url" scope="default" type="STRING"/>
+         <property xmlns:ns2="http://org.apache.synapse/xsd" xmlns:ns="http://org.apache.synapse/xsd" name="dataservices_url" expression="$ctx:apiconf//dataservices_url" scope="default" type="STRING"/>
+         <property xmlns:ns2="http://org.apache.synapse/xsd" xmlns:ns="http://org.apache.synapse/xsd" name="empresas_url" expression="$ctx:apiconf//empresas_url" scope="default" type="STRING"/>
+         <property xmlns:ns2="http://org.apache.synapse/xsd" xmlns:ns="http://org.apache.synapse/xsd" name="empresas_cred" expression="$ctx:apiconf//empresas_cred" scope="default" type="STRING"/>
+         <property name="patron" expression="$ctx:uri.var.patron" scope="default" type="STRING"/>
+         <log level="custom">
+            <property name="donde" value="dentro de get empresas"/>
+            <property name="api url" expression="$ctx:api_url"/>
+            <property name="ds url" expression="$ctx:dataservices_url"/>
+            <property name="pers url" expression="$ctx:empresas_url"/>
+            <property name="pers cred" expression="$ctx:empresas_cred"/>
+            <property name="patron" expression="$ctx:patron"/>
+         </log>
+         <filter xpath="string-length(get-property('patron'))=11">
+            <then>
+               <header name="Accept" scope="transport" value="application/json"/>
+               <header name="Accept-Encoding" scope="transport" value="gzip,deflate"/>
+               <property name="Authorization" expression="fn:concat('Basic ', base64Encode($ctx:empresas_cred))" scope="transport" type="STRING"/>
+               <property name="FORCE_ERROR_ON_SOAP_FAULT" value="true" scope="default" type="STRING"/>
+               <property name="uri.var.get_empresas_url" expression="fn:concat($ctx:empresas_url,$ctx:patron)" scope="default" type="STRING"/>
+               <log level="custom">
+                  <property name="donde 2" value="pre get empresas soa"/>
+                  <property name="api url" expression="$ctx:uri.var.get_empresas_url"/>
+               </log>
+               <call>
+                  <endpoint>
+                     <http method="GET" uri-template="{uri.var.get_empresas_url}"/>
+                  </endpoint>
+               </call>
+               <log level="full"/>
+               <filter source="json-eval($.resultadoWS.exito)" regex="true">
+                  <then>
+                     <property name="afip_nombre" expression="json-eval($.perJuridicaInfo.datosGenerales.nombre)" scope="default" type="STRING"/>
+                     <property name="afip_apellido" expression="json-eval($.perJuridicaInfo.datosGenerales.apellido)" scope="default" type="STRING"/>
+                     <log level="custom">
+                        <property name="datos obtenidos afip" value="datos obtenidos afip"/>
+                        <property name="nombre" expression="$ctx:afip_nombre"/>
+                        <property name="apellido" expression="$ctx:afip_apellido"/>
+                     </log>
+                     <property name="messageType" value="application/json" scope="axis2" type="STRING"/>
+                     <script language="js">var payload = mc.getPayloadJSON(); mc.setProperty("ORIGINAL_PAYLOAD",JSON.stringify(payload));</script>
+                     <payloadFactory media-type="json" description="crear empresa">
+                        <format>       {          "_post_empresa":{             "cuit":"$1",             "razon_social":"$2",             "num_establecimiento":"",             "usuario_app":"afip_api"          }       }      </format>
+                        <args>
+                           <arg evaluator="json" expression="$.perJuridicaInfo.datosGenerales.idPersona"/>
+                           <arg evaluator="xml" expression="fn:concat($ctx:afip_apellido,', ',$ctx:afip_nombre)"/>
+                        </args>
+                     </payloadFactory>
+                     <property name="messageType" value="application/json" scope="axis2" type="STRING"/>
+                     <header name="Accept" scope="transport" value="application/json"/>
+                     <property name="FORCE_ERROR_ON_SOAP_FAULT" value="false" scope="default" type="STRING"/>
+                     <property name="uri.var.setEmpresa_url" expression="fn:concat($ctx:dataservices_url,'/ddpeSicpoaDataService/empresa')" scope="default" type="STRING"/>
+                     <log level="custom">
+                        <property name="donde" value="dentro de set empresa"/>
+                        <property name="payload" expression="json-eval($)"/>
+                        <property name="api url" expression="$ctx:uri.var.setEmpresa_url"/>
+                     </log>
+                     <call>
+                        <endpoint>
+                           <http method="POST" uri-template="{uri.var.setEmpresa_url}"/>
+                        </endpoint>
+                     </call>
+                     <script language="js">mc.setPayloadJSON(mc.getProperty("ORIGINAL_PAYLOAD"));</script>
+                     <payloadFactory media-type="json" description="respuesta Persona">
+                        <format>                     {"empresas":                       {"empresa": [{          "cuit": "$1",          "num_establecimiento": "",          "razon_social": "$2"       }]}}      </format>
+                        <args>
+                           <arg evaluator="json" expression="$.perJuridicaInfo.datosGenerales.idPersona"/>
+                           <arg evaluator="xml" expression="fn:concat($ctx:afip_apellido,', ',$ctx:afip_nombre)"/>
+                        </args>
+                     </payloadFactory>
+                     <property name="HTTP_SC" value="200" scope="axis2" type="STRING"/>
+                  </then>
+                  <else>
+                     <property name="Server" scope="transport" action="remove"/>
+                     <header name="Content-Type" scope="transport" action="remove"/>
+                     <header name="Accept" scope="transport" value="application/json"/>
+                     <header name="Accept-Encoding" scope="transport" value="gzip,deflate"/>
+                     <property name="FORCE_ERROR_ON_SOAP_FAULT" value="true" scope="default" type="STRING"/>
+                     <property name="uri.var.get_empresas_url" expression="fn:concat($ctx:dataservices_url,'/ddpeSicpoaDataService/empresas/patron/',$ctx:patron)" scope="default" type="STRING"/>
+                     <log level="custom">
+                        <property name="donde 2" value="pre get empresas"/>
+                        <property name="api url" expression="$ctx:uri.var.get_empresas_url"/>
+                     </log>
+                     <call>
+                        <endpoint>
+                           <http method="GET" uri-template="{uri.var.get_empresas_url}"/>
+                        </endpoint>
+                     </call>
+                     <filter source="get-property('axis2', 'HTTP_SC')" regex="2[0-9][0-9]">
+                        <then/>
+                        <else>
+                           <property name="ERROR_MESSAGE" expression="json-eval($)" scope="default" type="STRING"/>
+                           <property name="TOOLS_ERROR" value="GET /empresas con problemas" scope="default" type="STRING"/>
+                           <sequence key="toolsFault"/>
+                        </else>
+                     </filter>
+                  </else>
+               </filter>
+            </then>
+            <else>
+               <property name="Server" scope="transport" action="remove"/>
+               <header name="Content-Type" scope="transport" action="remove"/>
+               <header name="Accept" scope="transport" value="application/json"/>
+               <header name="Accept-Encoding" scope="transport" value="gzip,deflate"/>
+               <property name="FORCE_ERROR_ON_SOAP_FAULT" value="true" scope="default" type="STRING"/>
+               <property name="uri.var.get_empresas_url" expression="fn:concat($ctx:dataservices_url,'/ddpeSicpoaDataService/empresas/patron/',$ctx:patron)" scope="default" type="STRING"/>
+               <log level="custom">
+                  <property name="donde 3" value="pre get empresas"/>
+                  <property name="api url" expression="$ctx:uri.var.get_empresas_url"/>
+               </log>
+               <call>
+                  <endpoint>
+                     <http method="GET" uri-template="{uri.var.get_empresas_url}"/>
+                  </endpoint>
+               </call>
+               <filter source="get-property('axis2', 'HTTP_SC')" regex="2[0-9][0-9]">
+                  <then/>
+                  <else>
+                     <property name="ERROR_MESSAGE" expression="json-eval($)" scope="default" type="STRING"/>
+                     <property name="TOOLS_ERROR" value="GET /empresas con problemas" scope="default" type="STRING"/>
+                     <sequence key="toolsFault"/>
+                  </else>
+               </filter>
+            </else>
+         </filter>
+         <log level="custom" description="donde 4">
+            <property name="msg actual 4 despues get empresa" expression="json-eval($)"/>
+         </log>
+         <loopback/>
+      </inSequence>
+      <outSequence>
+         <log level="full">
+            <property name="MESSAGE" value="FIRST"/>
+         </log>
+         <send/>
+      </outSequence>
+      <faultSequence>
+         <property name="ERROR_MESSAGE" expression="json-eval($)" scope="default" type="STRING"/>
+         <property name="TOOLS_ERROR" value="Error general get empresa" scope="default" type="STRING"/>
+         <sequence key="toolsFault"/>
+      </faultSequence>
+   </resource>
+   <resource methods="GET" uri-template="/bascula/peso">
+      <inSequence>
+         <property xmlns:ns2="http://org.apache.synapse/xsd" xmlns:ns="http://org.apache.synapse/xsd" name="apiconf" expression="get-property('registry','conf:tools/apiconfig.xml')" scope="default" type="OM"/>
+         <property xmlns:ns2="http://org.apache.synapse/xsd" xmlns:ns="http://org.apache.synapse/xsd" name="api_url" expression="$ctx:apiconf//api_url" scope="default" type="STRING"/>
+         <property xmlns:ns2="http://org.apache.synapse/xsd" xmlns:ns="http://org.apache.synapse/xsd" name="dataservices_url" expression="$ctx:apiconf//dataservices_url" scope="default" type="STRING"/>
+         <log level="custom">
+            <property name="donde" value="dentro de get chofer"/>
+            <property name="api url" expression="$ctx:api_url"/>
+            <property name="ds url" expression="$ctx:dataservices_url"/>
+         </log>
+         <property name="messageType" value="application/json" scope="axis2" type="STRING"/>
+         <property name="Server" scope="transport" action="remove"/>
+         <header name="Accept" scope="transport" value="application/json"/>
+         <header name="Accept-Encoding" scope="transport" value="gzip,deflate"/>
+         <header name="Content-Type" scope="transport" action="remove"/>
+         <property name="FORCE_ERROR_ON_SOAP_FAULT" value="true" scope="default" type="STRING"/>
+         <property name="uri.var.get_peso_url" expression="fn:concat($ctx:dataservices_url,'/ddpeSicpoaDataService/bascula/peso/')" scope="default" type="STRING"/>
+         <log level="custom">
+            <property name="donde 2" value="pre get peso"/>
+            <property name="api url" expression="$ctx:uri.var.get_peso_url"/>
+         </log>
+         <payloadFactory media-type="json" description="get peso">
+            <format>     { "peso":"300"}    </format>
+            <args/>
+         </payloadFactory>
+         <log level="custom" description="donde 3">
+            <property name="msg actual 3 despues get peso" expression="json-eval($)"/>
+         </log>
+         <loopback/>
+      </inSequence>
+      <outSequence>
+         <log level="full">
+            <property name="MESSAGE" value="FIRST"/>
+         </log>
+         <send/>
+      </outSequence>
+      <faultSequence>
+         <property name="ERROR_MESSAGE" expression="json-eval($)" scope="default" type="STRING"/>
+         <property name="TOOLS_ERROR" value="Error general crear empresa" scope="default" type="STRING"/>
+         <sequence key="toolsFault"/>
+      </faultSequence>
+   </resource>
+</api>
+                        
