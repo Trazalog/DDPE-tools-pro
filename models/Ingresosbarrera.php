@@ -92,7 +92,7 @@ class Ingresosbarrera extends CI_Model
     }
 
     public function obtener($emprId){
-        $url = REST_PRO . "/pedidoTrabajo/$emprId";
+        $url = REST_PRO . "/pedidoTrabajo/$emprId/";
         return wso2($url);
     }
 
