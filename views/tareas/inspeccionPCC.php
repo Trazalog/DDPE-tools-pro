@@ -1983,13 +1983,15 @@ function imprimirActa(){
 //Show vista previa de las imagenes en escaneo de documentación
 //Genero el contenedor de la vista previa y se lo pego al contenedor del mosaico de imagenes
 $("#btn-cierreEscaneo").on('click', function() {
-    $("#mosaicoDocumentos img").remove();
+    
+    /* remuevo imagenes agregadas del listado anterior para no duplicarlas */
+    $("#mosaicoDocumentos .imgNueva").remove();
 
     $("#formEscaneoDocu").find("input[type=file]").each(function(index, field){
         if ($(field)[0].files[0]) {
             (function(){
                 let file = $(field)[0].files[0];
-                let htmlVistaPrevia = $("<img class='thumbnail fotos documentacion' height='51' width='45' src='' alt='' onclick='preview(this)'>");
+                let htmlVistaPrevia = $("<img class='thumbnail fotos documentacion imgNueva' height='51' width='45' src='' alt='' onclick='preview(this)'>");
                 let reader = new FileReader();
                 $("#mosaicoDocumentos").append(htmlVistaPrevia);
 
