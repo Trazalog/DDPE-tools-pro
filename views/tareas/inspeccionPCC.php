@@ -92,6 +92,7 @@
                     </div>
                     <div class="col-md-6 col-sm-6 col-xs-6">
                         <div class="fotos">
+                            
                             <?php foreach ($imgsBarrera as $key => $value) {
                                 echo "<img class='thumbnail fotos barrera' height='51' width='45' src='$value' alt='' onclick='preview(this)'>";
                             } ?>
