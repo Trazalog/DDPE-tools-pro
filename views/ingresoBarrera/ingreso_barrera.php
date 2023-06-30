@@ -68,7 +68,10 @@ var guardarPedidoTrabajo = function(info_id = null) {
 
     var formData = new FormData($('#'+idForm)[0]);
     formData.append('info_id', info_id);
-
+    
+    for(const [key,value] of formData.entries()){
+        console.log(`${key} = ${value}`);
+    }
     $.ajax({
         type: 'POST',
         dataType: 'JSON',
