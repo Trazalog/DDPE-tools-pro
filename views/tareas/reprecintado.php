@@ -102,6 +102,9 @@
                                 <h4>Permisos:</h4>
                                 <div id="sec_permisos">
                                     <?php 
+                                   
+                                    //echo var_dump($inspeccion);
+                                    
                                     if(!empty($inspeccion->permisos_transito->permiso_transito)){
                                         foreach ($inspeccion->permisos_transito->permiso_transito as $key) {
                                     ?>

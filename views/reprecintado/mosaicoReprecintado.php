@@ -7,12 +7,16 @@
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div id="mosaicoImagenes" class="fotos">
             <?php
+        
             if(!empty($formEscaneo['imagenes'])){
+                //echo var_dump($inspeccion);
                 foreach ($formEscaneo['imagenes'] as $key => $value) {
                     echo "<img class='thumbnail fotos documentacion' height='51' width='45' src='".$value['imagen']."' alt='' onclick='preview(this)'>";
+                    
                 }
             } 
-            ?>
+            ?> 
+          
         </div>
     </div>
 </div>

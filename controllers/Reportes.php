@@ -42,9 +42,23 @@ class Reportes extends CI_Controller
   function historicoCamiones()
   {
     $data = $this->input->post('data');
+ 
+    $data = array(
+      'fec_desde' => $data['fec_desde'],
+      'fec_hasta' => $data['fec_hasta'],
+      'cuit_origen' => $data['cuit_origen'],
+      'cuit_destino' => $data['cuit_destino'],
+      'transportista' => $data['transportista'],
+      'resultado' => $data['resultado'],
+      'tipo_producto' => $data['tipo_producto'] != "TODOS" ? empresa(). '-tipos_producto' . $data['tipo_producto'] : 'TODOS',
+
+    );
+    
     log_message('DEBUG', '#TRAZA | SICPOA | REPORTES | historicoCamiones() | $data: >> ' . json_encode($data));
 
     $json = $this->Opcionesfiltros->getHistoricoCamiones($data);
+    
+    // Comprueba si $json está vacío
 
     if (empty($json)) {
       $reporte = new Historico_camiones($json);
