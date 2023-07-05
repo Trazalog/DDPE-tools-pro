@@ -50,7 +50,7 @@ class Reportes extends CI_Controller
       'cuit_destino' => $data['cuit_destino'],
       'transportista' => $data['transportista'],
       'resultado' => $data['resultado'],
-      'tipo_producto' => $data['tipo_producto'] != "TODOS" ? '888-tipos_producto' . $data['tipo_producto'] : 'TODOS',
+      'tipo_producto' => $data['tipo_producto'] != "TODOS" ? empresa(). '-tipos_producto' . $data['tipo_producto'] : 'TODOS',
 
     );
     
