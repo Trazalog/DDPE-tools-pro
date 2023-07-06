@@ -103,7 +103,7 @@
                                 <div id="sec_permisos">
                                     <?php 
                                    
-                                    //echo var_dump($inspeccion);
+                                    //echo var_dump($inspeccion->reprecintado);
                                     
                                     if(!empty($inspeccion->permisos_transito->permiso_transito)){
                                         foreach ($inspeccion->permisos_transito->permiso_transito as $key) {
@@ -598,6 +598,20 @@ function imprimirActa(){
     // $(".acta_caractOrganolepticas").text($("#caractOrganolepticasActa").val());
     // $(".acta_caractDeposito").text($("#caractDeposito").val());
     // $(".acta_tempCamaraActa").text($("#tempCamaraActa").val());
+
+    /**
+     * Se captura el nro de precinto de cierre y se imprime
+     */
+   
+    const nroPrecintosCierre = $("#nroPrecintosCierre").val();
+    const $actaPrecintos = $(".acta_precintos");
+
+    if ($("#nroPrecintosCierre").length > 0 && nroPrecintosCierre) {
+    $actaPrecintos.text(nroPrecintosCierre);
+    } else {
+    $actaPrecintos.text($("#nroPrecintosCierre").val(''));
+    }
+
 
     //Valído
     if($('input[name=inspValida]:checked').val() == 'incorrecta'){
