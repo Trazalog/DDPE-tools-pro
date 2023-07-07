@@ -600,7 +600,11 @@ function imprimirActa(){
     // $(".acta_tempCamaraActa").text($("#tempCamaraActa").val());
 
     /**
+     * @author Pablo kenny
      * Comprobar si existe formulario de Instancia Reprecintado
+     * @description Este fragmento de código verifica si la variable instReprecintado tiene una longitud mayor a 0.
+     * Si es así, crea un nuevo objeto Date para obtener la hora actual, extrae la hora y los minutos de él, y los guarda en la variable time.
+     * Luego, actualiza el texto de elementos en la página con los valores de las variables observacionesReprecintado, nroPrecintosCierre y time.
      */
     const instReprecintado = $("#formReprecintado");
     const $actaHoraInspeccion = $(".acta_horaInspeccion");
