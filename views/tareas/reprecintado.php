@@ -322,11 +322,11 @@
                                 </div>                    
                             </div>
                             <!--________________-->
-                            <!--Observaciones-->
+                            <!--Observaciones Reprecintado-->
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 <div class="form-group">
                                     <label for="observaciones">Observaciones:</label>
-                                    <textarea class="form-control" name="observaciones" id="observaciones" placeholder="Observaciones"></textarea>
+                                    <textarea class="form-control" name="observaciones" id="observacionesReprecintado" placeholder="Observaciones"></textarea>
                                 </div>                    
                             </div>
                             <!--________________-->
@@ -600,18 +600,30 @@ function imprimirActa(){
     // $(".acta_tempCamaraActa").text($("#tempCamaraActa").val());
 
     /**
-     * Se captura el nro de precinto de cierre y se imprime
+     * Comprobar si existe formulario de Instancia Reprecintado
      */
-   
-    const nroPrecintosCierre = $("#nroPrecintosCierre").val();
+    const instReprecintado = $("#formReprecintado");
+    const $actaHoraInspeccion = $(".acta_horaInspeccion");
+    const $actaObservaciones = $(".acta_observaciones");
     const $actaPrecintos = $(".acta_precintos");
 
-    if ($("#nroPrecintosCierre").length > 0 && nroPrecintosCierre) {
-    $actaPrecintos.text(nroPrecintosCierre);
-    } else {
-    $actaPrecintos.text($("#nroPrecintosCierre").val(''));
+    if (instReprecintado.length > 0) {
+        const now = new Date();
+        const hour = now.getHours();
+        const minute = now.getMinutes();
+        const time = `${hour}:${minute}`;
+
+        $actaHoraInspeccion.text(time);
+
+        const observaciones = $("#observacionesReprecintado").val();
+        $actaObservaciones.text(observaciones);
+
+        const nroPrecintosCierre = $("#nroPrecintosCierre").val();
+        $actaPrecintos.text(nroPrecintosCierre);
     }
 
+   
+       
 
     //Valído
     if($('input[name=inspValida]:checked').val() == 'incorrecta'){
