@@ -30,47 +30,33 @@ class Reportes extends CI_Controller
    * - Recarga con datos filtrados
    * @param
    * @return view historico_camiones
+   * 
    */
-  // function historicoCamiones(){
 
-  //   $data = $this->input->post('data');
+function historicoCamiones()
+{
+  $data = $this->input->post('data');
 
-  //   $json = $this->Opcionesfiltros->getHistoricoCamiones($data);
-  //   $reporte = new Historico_camiones($json);
-  //   $reporte->run()->render();
-  // }
-  function historicoCamiones()
-  {
-    $data = $this->input->post('data');
- 
-    $data = array(
-      'fec_desde' => $data['fec_desde'],
-      'fec_hasta' => $data['fec_hasta'],
-      'cuit_origen' => $data['cuit_origen'],
-      'cuit_destino' => $data['cuit_destino'],
-      'transportista' => $data['transportista'],
-      'resultado' => $data['resultado'],
-      'tipo_producto' => $data['tipo_producto'] != "TODOS" ? empresa(). '-tipos_producto' . $data['tipo_producto'] : 'TODOS',
+  $tipo_producto = $data['tipo_producto'] != "TODOS" ? empresa(). '-tipos_producto' . $data['tipo_producto'] : 'TODOS';
 
-    );
-    
-    log_message('DEBUG', '#TRAZA | SICPOA | REPORTES | historicoCamiones() | $data: >> ' . json_encode($data));
+  $data = [
+    'fec_desde' => $data['fec_desde'],
+    'fec_hasta' => $data['fec_hasta'],
+    'cuit_origen' => $data['cuit_origen'],
+    'cuit_destino' => $data['cuit_destino'],
+    'transportista' => $data['transportista'],
+    'resultado' => $data['resultado'],
+    'tipo_producto' => $tipo_producto,
+  ];
 
-    $json = $this->Opcionesfiltros->getHistoricoCamiones($data);
-    
-    // Comprueba si $json está vacío
+  log_message('DEBUG', '#TRAZA | SICPOA | REPORTES | historicoCamiones() | $data: >> ' . json_encode($data));
 
-    if (empty($json)) {
-      $reporte = new Historico_camiones($json);
-      $reporte->run()->render();
-      echo "<script>alertify.error('No se encontraron registros.');</script>";
-      return;
-    }
+  $json = $this->Opcionesfiltros->getHistoricoCamiones($data);
 
-    $reporte = new Historico_camiones($json);
-    $reporte->run()->render();
-  }
-
+  $reporte = new Historico_camiones($json);
+  $reporte->run()->render();
+}
+  
 
   /**
    * Devuelve tipo de producto en un desplegable
