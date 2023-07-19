@@ -231,7 +231,24 @@
                                 </div>
                             </div>
                             <!--________________-->
-                            
+                            <!--Estado de Producto-->
+                            <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
+                                <div class="form-group">
+                                    <label for="estado_producto">Estado del Producto(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <div class="input-group" style="width: 100%">
+                                        <select class="form-control select2 select2-hidden-accesible estado_producto" name="estado_pr_id" id="estado_pr_id" style="width: 100%">
+                                            <option value="" disabled selected>- Seleccionar -</option>
+                                            <?php
+                                                if(!empty($estados_productos)){ 
+                                                    foreach ($estados_productos as $estados) {
+                                                        echo "<option data-json='".json_encode($estados)."' value='".$estados->tabl_id."'>".$estados->descripcion."</option>";
+                                                    }
+                                                }
+                                            ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div> 
                             <!--Kilos-->
                             <div class="col-md-6 col-sm-6 col-xs-12">
                                 <div class="form-group">
@@ -1135,7 +1152,9 @@ function agregarPermiso(){
         var kilos = $("#kilos").val(); 
         var netoPermiso = $("#netoPermiso").val(); 
         var brutoPermiso = $("#brutoPermiso").val(); 
-        var temperatura = $("#temperatura").val(); 
+        var temperatura = $("#temperatura").val();
+        var estado = $("#estado_pr_id").select2('data')[0].text; 
+        var estado_pr_id = $("#estado_pr_id").select2('data')[0].id; 
 
         var datos = {};
         datos.perm_id = permi_num;
@@ -1152,6 +1171,8 @@ function agregarPermiso(){
         datos.neto = netoPermiso;
         datos.bruto = brutoPermiso;
         datos.temperatura = temperatura;
+        datos.estado = estado;
+        datos.estado_pr_id = estado_pr_id; 
 
         var div = `<div class='form-group permTransito' data-json='${JSON.stringify(datos)}'>
                         <span> 
@@ -1237,10 +1258,13 @@ function editarPermiso(tag){
         $("#salida").val(aux[1]);
         $("#fecha").val(aux[0]);
         $("input[name=doc_sanitaria][value='"+data.tipo+"']").prop("checked",true);
+        $("#kilos").val(data.kilos);
         $("#producto").val(data.productos);
         $("#netoPermiso").val(data.neto);
         $("#brutoPermiso").val(data.bruto);
         $("#temperatura").val(data.temperatura);
+        $("#estado_pr_id").val(data.estado);
+
         emprVal = data.origen;
         emprNombre = data.origen_nom;
         emprNum = data.origen_num;
@@ -1273,6 +1297,7 @@ function verPermiso(tag){
     $("#modalVerOrigenCuit").val(data.origen);
     $("#modalVerOrigenNumero").val(data.origen_num);
     $("#modalVerProductos").val(data.tipr_id);
+    $("#modalVerEstadoProductos").val(data.estado);
     $("#modalVerNeto").val(data.neto);
     $("#modalVerBruto").val(data.bruto);
     $("#modalVerTemperatura").val(data.temperatura);
@@ -1753,13 +1778,13 @@ function imprimirActa(){
 
     $(".acta_tposInfracciones").text(tiposInfraccion.slice(0, -1));
 
-    infoTemperatura = "";
+ /*    infoTemperatura = "";
     $('#sec_termicos div.termicos').each(function(i, obj) {
         aux = $(obj).attr('data-json');
         json = JSON.parse(aux);
         infoTemperatura += json.temperatura + " ";
     });
-    $(".acta_temperaturas").text(infoTemperatura);
+    $(".acta_temperaturas").text(infoTemperatura); */
 
     infoPrecintos = "";
     infoSenasa = "";
@@ -1784,6 +1809,7 @@ function imprimirActa(){
     infoProductos = "";
     infoOrigen = "";
     infoOrigenNums = "";
+    infoTemperatura = "";
     $('#sec_permisos div.permTransito').each(function(i, obj) {
         aux = $(obj).attr('data-json');
         json = JSON.parse(aux);
@@ -1791,12 +1817,14 @@ function imprimirActa(){
         infoProductos +=  json.productos + "; ";
         infoOrigen += json.origen_nom + "; ";
         infoOrigenNums += json.origen_num + "; ";
+        infoTemperatura += json.temperatura + "; ";
     });
     $(".acta_docSanitaria").text(infoPermisos);
     $(".acta_docSanitaria").text(infoPermisos);
     $(".acta_productos").text(infoProductos);
     $(".acta_origenNombres").text(infoOrigen);
     $(".acta_origenNumeros").text(infoOrigenNums);
+    $(".acta_temperaturas").text(infoTemperatura);
 
     var base = "<?php echo base_url()?>";
     

@@ -92,6 +92,7 @@
                     </div>
                     <div class="col-md-6 col-sm-6 col-xs-6">
                         <div class="fotos">
+                            
                             <?php foreach ($imgsBarrera as $key => $value) {
                                 echo "<img class='thumbnail fotos barrera' height='51' width='45' src='$value' alt='' onclick='preview(this)'>";
                             } ?>
@@ -222,6 +223,26 @@
                                     </div>
                                 </div>
                             </div>
+                            <!--________________-->
+
+                           <!--Estado de Producto-->
+                            <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
+                                <div class="form-group">
+                                    <label for="estado_producto">Estado del Producto(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <div class="input-group" style="width: 100%">
+                                        <select class="form-control select2 select2-hidden-accesible estado_producto" name="estado_pr_id" id="estado_pr_id" style="width: 100%">
+                                            <option value="" disabled selected>- Seleccionar -</option>
+                                            <?php
+                                                if(!empty($estados_productos)){ 
+                                                    foreach ($estados_productos as $estados) {
+                                                        echo "<option data-json='".json_encode($estados)."' value='".$estados->tabl_id."'>".$estados->descripcion."</option>";
+                                                    }
+                                                }
+                                            ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div> 
                             <!--Kilos-->
                             <div class="col-md-6 col-sm-6 col-xs-12">
                                 <div class="form-group">
@@ -1228,6 +1249,8 @@ function agregarPermiso(){
         var netoPermiso = $("#netoPermiso").val(); 
         var brutoPermiso = $("#brutoPermiso").val(); 
         var temperatura = $("#temperatura").val(); 
+        var estado = $("#estado_pr_id").select2('data')[0].text; 
+        var estado_pr_id = $("#estado_pr_id").select2('data')[0].id;
 
         var datos = {};
         datos.perm_id = permi_num;
@@ -1244,6 +1267,8 @@ function agregarPermiso(){
         datos.neto = netoPermiso;
         datos.bruto = brutoPermiso;
         datos.temperatura = temperatura;
+        datos.estado = estado;
+        datos.estado_pr_id = estado_pr_id ; 
 
         var div = `<div class='form-group permTransito' data-json='${JSON.stringify(datos)}'>
                         <span> 
@@ -1348,6 +1373,7 @@ function editarPermiso(tag){
         $("#netoPermiso").val(data.neto);
         $("#brutoPermiso").val(data.bruto);
         $("#temperatura").val(data.temperatura);
+        $("#estado_pr_id").val(data.estado);
         emprVal = data.origen;
         emprNombre = data.origen_nom;
         emprNum = data.origen_num;
@@ -1380,6 +1406,7 @@ function verPermiso(tag){
     $("#modalVerOrigenCuit").val(data.origen);
     $("#modalVerOrigenNumero").val(data.origen_num);
     $("#modalVerProductos").val(data.productos);
+    $("#modalVerEstadoProductos").val(data.estado);
     $("#modalVerNeto").val(data.neto);
     $("#modalVerBruto").val(data.bruto);
     $("#modalVerTemperatura").val(data.temperatura);
@@ -1957,13 +1984,15 @@ function imprimirActa(){
 //Show vista previa de las imagenes en escaneo de documentación
 //Genero el contenedor de la vista previa y se lo pego al contenedor del mosaico de imagenes
 $("#btn-cierreEscaneo").on('click', function() {
-    $("#mosaicoDocumentos img").remove();
+    
+    /* remuevo imagenes agregadas del listado anterior para no duplicarlas */
+    $("#mosaicoDocumentos .imgNueva").remove();
 
     $("#formEscaneoDocu").find("input[type=file]").each(function(index, field){
         if ($(field)[0].files[0]) {
             (function(){
                 let file = $(field)[0].files[0];
-                let htmlVistaPrevia = $("<img class='thumbnail fotos documentacion' height='51' width='45' src='' alt='' onclick='preview(this)'>");
+                let htmlVistaPrevia = $("<img class='thumbnail fotos documentacion imgNueva' height='51' width='45' src='' alt='' onclick='preview(this)'>");
                 let reader = new FileReader();
                 $("#mosaicoDocumentos").append(htmlVistaPrevia);
 
@@ -1976,24 +2005,34 @@ $("#btn-cierreEscaneo").on('click', function() {
     });
 });
 /***************************************************** */
+//consulta a servicio local 
+/*configuracion de parametros headers en servicio de respuesta   
+ "Access-Control-Allow-Origin: *";
+ 'Access-Control-Allow-Credentials: true';    
+ "Access-Control-Allow-Methods: GET, "; 
+ "Access-Control-Allow-Headers: application/json";
+ */
 function pesarBascula() {
     $("#bruto").val('');
+    var urli = "<?php echo API_BASCULA ?>";
     $.ajax({
-        type: 'GET',
-        url: "<?php echo SICP; ?>inspeccion/getPesoBascula",
-        success: function(data) {
-            if(data != 'null'){
-                datos = JSON.parse(data);
-                // console.log(datos);
-                $('#bruto').val(datos);
-            }else{
-                console.log("problema al llamar la api");
-            }
+        type:"GET",
+        url: urli,
+        dataType: "json",
+        crossDomain: true, 
+        success: function( data ) {
+                if(data['respuesta']['resultado'] == 'ok'){
+                    $('#bruto').val(data['respuesta']['peso']); 
+                }
+                else{
+                    $('#bruto').val(0); 
+                }
         },
         error: function(data) {
-            alert("Error al obtener peso de bascula");
+            $('#bruto').val(0); 
+            //alert("Error al obtener peso de bascula");
         }
-    });
+    }); 
 }
 //Show vista previa acta inspeccion manual
 $(document).on('change',"input[name='-file-foto_acta_manual']",function() {

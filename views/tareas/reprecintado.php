@@ -102,6 +102,9 @@
                                 <h4>Permisos:</h4>
                                 <div id="sec_permisos">
                                     <?php 
+                                   
+                                    //echo var_dump($inspeccion->reprecintado);
+                                    
                                     if(!empty($inspeccion->permisos_transito->permiso_transito)){
                                         foreach ($inspeccion->permisos_transito->permiso_transito as $key) {
                                     ?>
@@ -319,11 +322,11 @@
                                 </div>                    
                             </div>
                             <!--________________-->
-                            <!--Observaciones-->
+                            <!--Observaciones Reprecintado-->
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 <div class="form-group">
                                     <label for="observaciones">Observaciones:</label>
-                                    <textarea class="form-control" name="observaciones" id="observaciones" placeholder="Observaciones"></textarea>
+                                    <textarea class="form-control" name="observaciones" id="observacionesReprecintado" placeholder="Observaciones"></textarea>
                                 </div>                    
                             </div>
                             <!--________________-->
@@ -595,6 +598,36 @@ function imprimirActa(){
     // $(".acta_caractOrganolepticas").text($("#caractOrganolepticasActa").val());
     // $(".acta_caractDeposito").text($("#caractDeposito").val());
     // $(".acta_tempCamaraActa").text($("#tempCamaraActa").val());
+
+    /**
+     * @author Pablo kenny
+     * Comprobar si existe formulario de Instancia Reprecintado
+     * @description Este fragmento de código verifica si la variable instReprecintado tiene una longitud mayor a 0.
+     * Si es así, crea un nuevo objeto Date para obtener la hora actual, extrae la hora y los minutos de él, y los guarda en la variable time.
+     * Luego, actualiza el texto de elementos en la página con los valores de las variables observacionesReprecintado, nroPrecintosCierre y time.
+     */
+    const instReprecintado = $("#formReprecintado");
+    const $actaHoraInspeccion = $(".acta_horaInspeccion");
+    const $actaObservaciones = $(".acta_observaciones");
+    const $actaPrecintos = $(".acta_precintos");
+
+    if (instReprecintado.length > 0) {
+        const now = new Date();
+        const hour = now.getHours();
+        const minute = now.getMinutes();
+        const time = `${hour}:${minute}`;
+
+        $actaHoraInspeccion.text(time);
+
+        const observaciones = $("#observacionesReprecintado").val();
+        $actaObservaciones.text(observaciones);
+
+        const nroPrecintosCierre = $("#nroPrecintosCierre").val();
+        $actaPrecintos.text(nroPrecintosCierre);
+    }
+
+   
+       
 
     //Valído
     if($('input[name=inspValida]:checked').val() == 'incorrecta'){

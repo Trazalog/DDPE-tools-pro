@@ -383,7 +383,8 @@ class Ingreso_barrera extends CI_Controller
         if(isset($escaneoInfoId)){
             $formEscaneo =  $this->Sicpoatareas->getFormEscaneoDocu($escaneoInfoId);
             $data['imgsEscaneo'] = $formEscaneo['imagenes'];
-            $data['datosEscaneo'] = $formEscaneo['datos'];
+            $data['datosEscaneo'] = $formEscaneo['datos'];            
+            
         }
         if(!empty($data['inspeccion']->resultado)){
             if($data['inspeccion']->resultado == 'incorrecta'){
