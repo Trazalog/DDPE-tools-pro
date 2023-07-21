@@ -149,7 +149,7 @@ use function PHPSTORM_META\type;
              array(
                "label" => "Origen",
                "value" => function ($row) {  
-                  return $row["razon_social_origen"];
+                  return $row["origenes"];
                   }
               
              ),           
