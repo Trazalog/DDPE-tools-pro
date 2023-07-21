@@ -98,10 +98,27 @@
                             <input type="text" class="form-control hidden" name="petr_id" id="petr_id" value="<?php echo $petr_id?>">
                             <input type="text" class="form-control hidden" name="reprecintado" id="reprecintado" value="<?php echo $inspeccion->reprecintado ?>">
                             <input type="text" class="form-control hidden" name="info_id_doc" id="info_id_doc" value="<?php echo $inspeccion->info_id_doc ?>">
+                            <input type="text" class="form-control hidden" name="info_id_acta" id="info_id_acta" value="<?php echo isset($inspeccion->info_id_acta) ? $inspeccion->info_id_acta : '' ?>">
+                            <!-- Bloque campos necesarios para cierre de reprecintado-->
+                            <input type="text" name="emailTransportista" id="emailTransportista" value="<?php echo isset($inspeccion->email_transportista) ? $inspeccion->email_transportista : '' ?>" hidden/>
+                            <input type="text" name="telTransportista" id="telTransportista" value="<?php echo isset($inspeccion->tel_transportista) ? $inspeccion->tel_transportista : '' ?>" hidden/>
+                            <input type="text" name="depa_idActa" id="depa_idActa" value="<?php echo isset($inspeccion->depa_id) ? $inspeccion->depa_id : '' ?>" hidden/>
+                            <input type="text" name="localidad" id="localidad" value="<?php echo isset($inspeccion->localidad) ? $inspeccion->localidad : '' ?>" hidden/>
+                            <input type="text" name="localidad" id="localidad" value="<?php echo isset($inspeccion->localidad) ? $inspeccion->localidad : '' ?>" hidden/>
+                            <input type="text" name="dondeConstituyen" id="dondeConstituyen" value="<?php echo isset($inspeccion->se_constituye) ? $inspeccion->se_constituye : '' ?>" hidden/>
+                            <input type="text" name="domicilio" id="domicilio" value="<?php echo isset($inspeccion->domicilio_constituye) ? $inspeccion->domicilio_constituye : '' ?>" hidden/>
+                            <input type="text" name="propiedad" id="propiedad" value="<?php echo isset($inspeccion->se_constituye) ? $inspeccion->se_constituye : '' ?>" hidden/>
+                            <input type="text" name="quienAtendio" id="quienAtendio" value="<?php echo isset($inspeccion->atendidos_por) ? $inspeccion->atendidos_por : '' ?>" hidden/>
+                            <input type="text" name="caracterAtendio" id="caracterAtendio" value="<?php echo isset($inspeccion->caracter_de) ? $inspeccion->caracter_de : '' ?>" hidden/>
+                            <input type="text" name="procedenAccion" id="procedenAccion" value="<?php echo isset($inspeccion->proceden_a) ? $inspeccion->proceden_a : '' ?>" hidden/>
+                            <!-- FIN Bloque campos necesarios para cierre de reprecintado-->
                             <div class="col-md-12 col-sm-12 col-xs-12 centrar">
                                 <h4>Permisos:</h4>
                                 <div id="sec_permisos">
                                     <?php 
+                                   
+                                    //echo var_dump($inspeccion->reprecintado);
+                                    
                                     if(!empty($inspeccion->permisos_transito->permiso_transito)){
                                         foreach ($inspeccion->permisos_transito->permiso_transito as $key) {
                                     ?>
@@ -319,11 +336,11 @@
                                 </div>                    
                             </div>
                             <!--________________-->
-                            <!--Observaciones-->
+                            <!--Observaciones Reprecintado-->
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 <div class="form-group">
                                     <label for="observaciones">Observaciones:</label>
-                                    <textarea class="form-control" name="observaciones" id="observaciones" placeholder="Observaciones"></textarea>
+                                    <textarea class="form-control" name="observaciones" id="observacionesReprecintado" placeholder="Observaciones"></textarea>
                                 </div>                    
                             </div>
                             <!--________________-->
@@ -595,6 +612,36 @@ function imprimirActa(){
     // $(".acta_caractOrganolepticas").text($("#caractOrganolepticasActa").val());
     // $(".acta_caractDeposito").text($("#caractDeposito").val());
     // $(".acta_tempCamaraActa").text($("#tempCamaraActa").val());
+
+    /**
+     * @author Pablo kenny
+     * Comprobar si existe formulario de Instancia Reprecintado
+     * @description Este fragmento de código verifica si la variable instReprecintado tiene una longitud mayor a 0.
+     * Si es así, crea un nuevo objeto Date para obtener la hora actual, extrae la hora y los minutos de él, y los guarda en la variable time.
+     * Luego, actualiza el texto de elementos en la página con los valores de las variables observacionesReprecintado, nroPrecintosCierre y time.
+     */
+    const instReprecintado = $("#formReprecintado");
+    const $actaHoraInspeccion = $(".acta_horaInspeccion");
+    const $actaObservaciones = $(".acta_observaciones");
+    const $actaPrecintos = $(".acta_precintos");
+
+    if (instReprecintado.length > 0) {
+        const now = new Date();
+        const hour = now.getHours();
+        const minute = now.getMinutes();
+        const time = `${hour}:${minute}`;
+
+        $actaHoraInspeccion.text(time);
+
+        const observaciones = $("#observacionesReprecintado").val();
+        $actaObservaciones.text(observaciones);
+
+        const nroPrecintosCierre = $("#nroPrecintosCierre").val();
+        $actaPrecintos.text(nroPrecintosCierre);
+    }
+
+   
+       
 
     //Valído
     if($('input[name=inspValida]:checked').val() == 'incorrecta'){
