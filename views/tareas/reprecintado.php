@@ -592,7 +592,7 @@ function imprimirActa(){
     $(".acta_bruto").text($("#bruto").val());
     $(".acta_tara").text($("#tara").val());
     $(".acta_ticket").text($("#ticket").val());
-    $(".acta_depto").text($("#depa_idActa").val());
+    // $(".acta_depto").text($("#depa_idActa").val());
     $(".acta_localidad").text($("#localidad").val());
     $(".acta_inspectores").text($("#inspectores").val());
     $(".acta_puntoControl").text($("#dondeConstituyen").val());
@@ -682,7 +682,6 @@ function imprimirActa(){
                     confirmButtonText: 'Hecho'
                 }).then((result) => {
                     linkTo('<?php echo BPM ?>Proceso/');
-                    
                 });
         }
     });
