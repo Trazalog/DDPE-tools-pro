@@ -2,6 +2,9 @@
 
 use \koolreport\widgets\koolphp\Table;
 use \koolreport\widgets\google\ColumnChart;
+
+use function PHPSTORM_META\type;
+
 ?>
 <style>
   .input-group-addon:hover {
@@ -123,7 +126,7 @@ use \koolreport\widgets\google\ColumnChart;
             ),
             array(
               "label" => "F. Barrera",
-              "value" => function ($row) {
+              "value" => function ($row) {                            
                 $aux = explode("T", $row["fec_alta"]);
                 $row["fec_alta"] = date("d-m-Y", strtotime($aux[0]));
                 return $row["fec_alta"];
@@ -136,23 +139,47 @@ use \koolreport\widgets\google\ColumnChart;
             "nombre" => array(
               "label" => "Chofer"
             ),
-            "termicos" => array(
-              "label" => "Térmicos"
-            ),
-            "razon_social_origen" => array(
-              "label" => "Orígen"
-            ),
-            "destinos" => array(
-              "label" => "Destino"
-            ),
-            "razon_social_transporte" => array(
-              "label" => "Transportista"
-            ),
-            "productos" => array(
-              "label" => "T. Producto"
-            ),
-            "resultado" => array(
-              "label" => "Resultado"
+           
+            array(
+              "label" => "Térmicos",
+              "value" => function ($row) {
+                return $row["termicos"];
+              }
+            ),      
+             array(
+               "label" => "Origen",
+               "value" => function ($row) {  
+                  return $row["origenes"];
+                  }
+              
+             ),           
+            array(
+              "label" => "Destino",
+              "value" => function ($row) {  
+                 return $row["destinos"];
+                 }
+             
+            ),             
+            array(
+              "label" => "Transportista",
+              "value" => function ($row) {  
+                 return $row["razon_social_transporte"];
+                 }
+             
+            ), 
+            array(
+              "label" => "T.Producto",
+              "value" => function ($row) {  
+                 return $row["productos"];
+                 }
+             
+            ),          
+            array(
+              "label" => "Resultado",
+              "value" => function ($row) {  
+                 return $row["resultado"];
+                 }
+             
             )
           ),
           "cssClass" => array(

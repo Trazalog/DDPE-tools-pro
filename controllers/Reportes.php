@@ -37,14 +37,14 @@ function historicoCamiones()
 {
   $data = $this->input->post('data');
 
-  $tipo_producto = $data['tipo_producto'] != "TODOS" ? empresa(). '-tipos_producto' . $data['tipo_producto'] : 'TODOS';
+  $tipo_producto = $data['tipo_producto'] != "TODOS" && !empty($data['tipo_producto']) ? empresa(). '-tipos_producto' . $data['tipo_producto'] : 'TODOS';
 
   $data = [
     'fec_desde' => $data['fec_desde'],
     'fec_hasta' => $data['fec_hasta'],
     'cuit_origen' => $data['cuit_origen'],
     'cuit_destino' => $data['cuit_destino'],
-    'transportista' => $data['transportista'],
+    'cuit_transporte' => $data['cuit_transporte'],
     'resultado' => $data['resultado'],
     'tipo_producto' => $tipo_producto,
   ];
