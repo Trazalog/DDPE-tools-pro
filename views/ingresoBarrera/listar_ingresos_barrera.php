@@ -123,7 +123,9 @@
 
 
 <script>
-
+$(document).ready(function () {
+  $("#editarFormIngreso").show();
+});
 $('#tbl-pedidos').DataTable({
         "order": [[ 0, "desc" ]]
 	});
@@ -148,7 +150,9 @@ function verPedido(tag) {
   $("#cargar_form").load(forms);
 
   $("#cabecera").empty();
-  $("#cabecera").load(header);
+  $("#cabecera").load(header, function(){
+    $("#editarFormIngreso").show();
+  });
 
   $("#cargar_trazabilidad").empty();
   $("#cargar_trazabilidad").load(timeline,function () {

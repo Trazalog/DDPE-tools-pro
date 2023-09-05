@@ -53,10 +53,21 @@ class Inspecciones extends CI_Model {
 	*/
     public function buscaChoferesSIPE($dato){
         
+        //busqueda por sexo masculino
         $url = API_SICP."/choferes/patron/".$dato;
-
         $aux = $this->rest->callAPI("GET",$url);
-        $resp = json_decode($aux['data']);
+        $respChofer = json_decode($aux['data']);
+       
+        if(!empty($respChofer->choferes->chofer))
+        {
+            $resp = $respChofer;
+        }
+        else //En caso de venir vacio busco por sexo femenino
+        { 
+            $url = API_SICP."/choferesfem/patron/".$dato;
+            $aux = $this->rest->callAPI("GET",$url);
+            $resp = json_decode($aux['data']);
+        }
 
         log_message('DEBUG', "#TRAZA | #SICPOA | Inspecciones | buscaChoferesSIPE()  resp: >> " . json_encode($resp));
 
@@ -98,17 +109,27 @@ class Inspecciones extends CI_Model {
     }
 
     /**
-	* Busca empresas en la api AFIP coincidentes con un patron 
+	* Busca empresas/personas fisica en la api AFIP coincidentes con un patron 
 	* @param string patron
 	* @return array listado de empresas coincidentes con patron
 	*/
     public function buscaEmpresasAFIP($dato){
-        
+
+        //busqueda empresas
         $url = API_SICP."/empresas/patron/".urlencode($dato);
-
         $aux = $this->rest->callAPI("GET",$url);
-        $resp = json_decode($aux['data']);
+        $respEmpresas = json_decode($aux['data']);
 
+        if(!empty($respEmpresas->empresas->empresa))
+        {
+            $resp = $respEmpresas;
+        }
+        else    //busqueda persona fisica en afip
+        {
+            $url = API_SICP."/empresasfisicas/patron/".urlencode($dato);
+            $aux = $this->rest->callAPI("GET",$url);
+            $resp = json_decode($aux['data']);
+        }
         log_message('DEBUG', "#TRAZA | #SICPOA | Inspecciones | buscaEmpresasAFIP()  resp: >> " . json_encode($resp));
 
         return $resp->empresas->empresa;
@@ -178,10 +199,12 @@ class Inspecciones extends CI_Model {
             $aux["case_id"] = $key['case_id'];
             $aux["soli_num"] = $key['soli_num'];
             $aux["origen"] = $key['origen'];
-            $aux["tipr_id"] = $key['productos'];
+            $aux["tipr_id"] = $key['tipr_id'];
             $aux["neto"] = $key['neto'];
             $aux["bruto"] = $key['bruto'];
             $aux["temperatura"] = $key['temperatura'];
+            $aux["estado_pr_id"] = $key['estado_pr_id'];
+            $aux["kilos"] = $key['kilos'];
 
             $batch_req['_post_inspeccion_permiso_batch_req']['_post_inspeccion_permiso'][] = $aux;
         }

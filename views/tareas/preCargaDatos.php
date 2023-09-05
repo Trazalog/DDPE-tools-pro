@@ -164,6 +164,24 @@
                         </div>
                     </div>
                 </div>
+                <!--Estado de Producto-->
+                <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
+                    <div class="form-group">
+                        <label for="estado_producto">Estado del Producto(<strong style="color: #dd4b39">*</strong>):</label>
+                        <div class="input-group" style="width: 100%">
+                            <select class="form-control select2 select2-hidden-accesible estado_producto" name="estado_pr_id" id="estado_pr_id" style="width: 100%">
+                                <option value="" disabled selected>- Seleccionar -</option>
+                                <?php
+                                    if(!empty($estados_productos)){ 
+                                        foreach ($estados_productos as $estados) {
+                                            echo "<option data-json='".json_encode($estados)."' value='".$estados->tabl_id."'>".$estados->descripcion."</option>";
+                                        }
+                                    }
+                                ?>
+                            </select>
+                        </div>
+                    </div>
+                </div> 
                 <!-- <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="form-group">
                         <label for="producto">Producto/s(<strong style="color: #dd4b39">*</strong>):</label>
@@ -554,6 +572,8 @@ $(document).ready(function() {
     $(".limitedChars").inputmask({ regex: "[0-9/,-]*" });
     //PRECINTOS y Patentes: 0-9, A-Z, space, / y -
     $(".limited").inputmask({ regex: "[0-9/a-zA-Z -]*" });
+    //Bruto, Tara y Neto
+    $(".onlyNumbers").inputmask({ regex: "[0-9.,]*" });
     //Fechas
     $('.formatoFecha').inputmask({
         alias: "datetime",
@@ -704,12 +724,14 @@ function agregarPermiso(){
         var origen = $("#esta_nom").select2('data')[0].id;
         var origen_nom = $("#esta_nom").select2('data')[0].text;
         var origen_num = $("#esta_num").val();
-        var productos = $("#tipr_id").select2('data')[0].id;
-        var tipr_id = $("#tipr_id").select2('data')[0].text;
+        var productos = $("#tipr_id").select2('data')[0].text;
+        var tipr_id = $("#tipr_id").select2('data')[0].id;
         var kilos = $("#kilos").val(); 
         var neto = $("#neto").val(); 
         var bruto = $("#bruto").val(); 
-        var temperatura = $("#temperatura").val(); 
+        var temperatura = $("#temperatura").val();
+        var estado = $("#estado_pr_id").select2('data')[0].text; 
+        var estado_pr_id = $("#estado_pr_id").select2('data')[0].id;
 
         var datos = {};
         datos.perm_id = permi_num;
@@ -727,6 +749,8 @@ function agregarPermiso(){
         datos.neto = neto;
         datos.bruto = bruto;
         datos.temperatura = temperatura;
+        datos.estado = estado;
+        datos.estado_pr_id = estado_pr_id ; 
 
         var div = `<div class='form-group permTransito' data-json='${JSON.stringify(datos)}'>
                         <span> 
@@ -777,6 +801,10 @@ function validarCamposPermiso(){
     if($("input[name='doc_sanitaria']:checked").val() == null){
         valida = "Seleccione un tipo de Doc. sanitaria!";
     }
+    //Fecha de salida
+    if(!Inputmask.isValid($("#fecha").val(), { alias: "datetime", inputFormat: "dd-mm-yyyy"})){
+        valida = "El formato de la fecha del permiso es incorrecto!";
+    }
     return valida;
 }
 
@@ -794,6 +822,7 @@ function editarPermiso(tag){
         $("#netoPermiso").val(data.neto);
         $("#brutoPermiso").val(data.bruto);
         $("#temperatura").val(data.temperatura);
+        $("#estado_pr_id").val(data.estado);
         emprVal = data.origen;
         emprNombre = data.origen_nom;
         emprNum = data.origen_num;
@@ -828,6 +857,7 @@ function verPermiso(tag){
     $("#modalVerProductos").val(data.tipr_id);
     $("#modalVerNeto").val(data.neto);
     $("#modalVerBruto").val(data.bruto);
+    $("#modalVerEstadoProductos").val(data.estado);
     $("#modalVerTemperatura").val(data.temperatura);
     $("#mdl-verDetallePermiso").modal('show');
 }
@@ -990,7 +1020,7 @@ async function cerrarTareaform(){
         var json = JSON.parse($(obj).attr('data-json'));
         permisos[i] = json;
     });
-
+debugger;
     //obtengo los destinos
     empresas = [];
     $('#sec_destinos div.empreDestino').each(function(i, obj) {

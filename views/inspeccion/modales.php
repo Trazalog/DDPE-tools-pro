@@ -186,6 +186,7 @@
                     <div id="formEscaneoDocu" class="frm-new" data-form="11"></div>
 
             <?php } ?>
+            <input style="display: none;" id="altaMasivaFotos" class='form-control' type='file' name='altaMasivaFotos[]' accept='image/*' multiple onchange="crearVistaPreviaImagenes(this)"/>
                 </div>
             </div>
                 <!-- Modal footer -->
@@ -336,6 +337,12 @@
                             <div class="form-group">
                                 <label>Producto/s:</label>
                                 <input id="modalVerProductos" class="form-control" type="text" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-sx-12">
+                            <div class="form-group">
+                                <label>Estado producto:</label>
+                                <input id="modalVerEstadoProductos" class="form-control" type="text" readonly>
                             </div>
                         </div>
                         <div class="col-md-6 col-sm-6 col-sx-12">
