@@ -496,7 +496,7 @@
                             <div class="col-md-6 col-sm-6 col-xs-12">
                                 <div class="form-group">
                                     <label for="term_patente">Patente Térmico(<strong style="color: #dd4b39">*</strong>):</label>
-                                    <input class="form-control limited" id="term_patente" placeholder="Ingrese térmico patente" />
+                                    <input class="form-control limited" id="term_patente" placeholder="Ingrese térmico patente" value="<?php echo isset($preCargaDatos->patente_tractor) ? $preCargaDatos->patente_tractor : $patente ?>"/>
                                 </div>                    
                             </div>
                             <!--________________-->
