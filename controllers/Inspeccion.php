@@ -235,11 +235,17 @@ class Inspeccion extends CI_Controller
 		if ($respTermInspeccion['status'] && $rspPermisos['status'] && $respEmpresas['status']) {
 			$tabla = "numerador_actas_sicpoa";
 			$nro = $this->Valores->getValor($tabla);
-			if ($nro) {
-				var_dump("1");
+			if (!$nro) {
+				$numerador['tipo'] = 'inspeccion';
+				$numerador['nro'] = 1;
+				$numerador['case_id'] = 20913;
 			} else {
-				var_dump("2");
+				$numerador['tipo'] = 'inspeccion';
+				$numerador['nro'] = 2;
+				$numerador['case_id'] = 20913;
 			}
+			//Agrego numerador
+			$respnumerador = $this->Inspecciones->agregarNumerador($numerador);
 			$resp['status'] = true;
 			$resp['message'] = "Se agregaron permisos, empresas y termicos correctamente";
 
