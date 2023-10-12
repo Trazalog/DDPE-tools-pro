@@ -205,6 +205,7 @@ class Inspeccion extends CI_Controller
     public function guardarDatosInspeccion(){
 		log_message('DEBUG', "#TRAZA | #SICPOA | Inspeccion | guardarDatosInspeccion()");
 		
+		$case_id = $this->input->post('case_id');
 		$permisos = $this->input->post('permisos');
         $empresas = $this->input->post('empresas');
 		$termicos = $this->input->post('termicos');
@@ -238,11 +239,11 @@ class Inspeccion extends CI_Controller
 			if (!$nro) {
 				$numerador['tipo'] = 'inspeccion';
 				$numerador['nro'] = 1;
-				$numerador['case_id'] = 20913;
+				$numerador['case_id'] = $case_id;
 			} else {
 				$numerador['tipo'] = 'inspeccion';
-				$numerador['nro'] = 2;
-				$numerador['case_id'] = 20913;
+				$numerador['nro'] = $nro->valor+1;
+				$numerador['case_id'] = $case_id;
 			}
 			//Agrego numerador
 			$respnumerador = $this->Inspecciones->agregarNumerador($numerador);
