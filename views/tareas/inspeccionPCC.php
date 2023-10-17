@@ -1936,14 +1936,16 @@ function imprimirActa(){
     infoOrigenNums = "";
     infoTemperatura = "";
     $('#sec_permisos div.permTransito').each(function(i, obj) {
-        aux = $(obj).attr('data-json');
-        json = JSON.parse(aux);
+        if (i < 3) {
+            aux = $(obj).attr('data-json');
+            json = JSON.parse(aux);
 
-        infoTodos += json.tipo + "; ";
-        infoTodos +=  json.productos + "; ";
-        infoTodos += json.origen_nom + "; ";
-        infoTodos += json.origen_num + "; ";
-        infoTodos += json.temperatura + "; ";
+            infoTodos += json.tipo + "; ";
+            infoTodos += json.productos + "; ";
+            infoTodos += json.origen_nom + "; ";
+            infoTodos += json.origen_num + "; ";
+            infoTodos += json.temperatura + "; ";
+        }
     });
     $(".acta_docSanitaria").text(infoTodos);
     // $(".acta_productos").text(infoProductos);
