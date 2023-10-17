@@ -6,7 +6,8 @@ class Inspeccion extends CI_Controller
     {
         parent::__construct();
         $this->load->model('Inspecciones');
-		
+		$this->load->model('core/Valores');    
+		// $this->load->model(REST_CORE . 'core/Valores');
 		// si esta vencida la sesion redirige al login
 		$data = $this->session->userdata();
 		// log_message('DEBUG','#Main/login | '.json_encode($data));
@@ -204,6 +205,7 @@ class Inspeccion extends CI_Controller
     public function guardarDatosInspeccion(){
 		log_message('DEBUG', "#TRAZA | #SICPOA | Inspeccion | guardarDatosInspeccion()");
 		
+		$case_id = $this->input->post('case_id');
 		$permisos = $this->input->post('permisos');
         $empresas = $this->input->post('empresas');
 		$termicos = $this->input->post('termicos');
@@ -229,8 +231,22 @@ class Inspeccion extends CI_Controller
 		if(!empty($tiposInfraccion)){
 			$resptiposInfraccion = $this->Inspecciones->agregarTiposInfraccion($tiposInfraccion);
 		}
+
         //Armo mensajeria para reportar respuestas de los servicios
 		if ($respTermInspeccion['status'] && $rspPermisos['status'] && $respEmpresas['status']) {
+			$tabla = "numerador_actas_sicpoa";
+			$nro = $this->Valores->getValor($tabla);
+			if (!$nro) {
+				$numerador['tipo'] = 'inspeccion';
+				$numerador['nro'] = 1;
+				$numerador['case_id'] = $case_id;
+			} else {
+				$numerador['tipo'] = 'inspeccion';
+				$numerador['nro'] = $nro->valor+1;
+				$numerador['case_id'] = $case_id;
+			}
+			//Agrego numerador
+			$respnumerador = $this->Inspecciones->agregarNumerador($numerador);
 			$resp['status'] = true;
 			$resp['message'] = "Se agregaron permisos, empresas y termicos correctamente";
 
