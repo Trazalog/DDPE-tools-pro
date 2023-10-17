@@ -1975,8 +1975,8 @@ function imprimirActa(){
                     showCancelButton: false,
                     confirmButtonText: 'Hecho'
                 }).then((result) => {
-                    console.log("terminé");
-                    // linkTo('<?php echo BPM ?>Proceso/');
+                    // console.log("terminé");
+                    linkTo('<?php echo BPM ?>Proceso/');
                 });
         }
     });

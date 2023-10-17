@@ -564,7 +564,8 @@ class Inspecciones extends CI_Model {
         $url = REST_SICP."/numerador/actas";
 
         $aux['tipo'] = $data['tipo'];
-        $aux['nro'] =  strval($data['nro']);
+        $aux['nro'] = $data['nro'];
+        // $aux['nro'] =  strval($data['nro']);
         $aux['case_id'] =  $data['case_id'];
 
         $post['_put_numerador_actas'] = $aux;
