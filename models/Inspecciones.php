@@ -554,4 +554,25 @@ class Inspecciones extends CI_Model {
         log_message('DEBUG', "#TRAZA | #SICPOA | Inspecciones | getPesoBascula()  resp: >> " . json_encode($resp));
         return $resp->peso;
     }
+    /**
+	* Actualizar numerador de acta
+	* @param array datos del numerador de acta
+	* @return bool
+	*/
+    public function agregarNumerador($data){
+        
+        $url = REST_SICP."/numerador/actas";
+
+        $aux['tipo'] = $data['tipo'];
+        $aux['nro'] = $data['nro'];
+        // $aux['nro'] =  strval($data['nro']);
+        $aux['case_id'] =  $data['case_id'];
+
+        $post['_put_numerador_actas'] = $aux;
+        // var_dump($post);die();
+        $rsp = $this->rest->callApi('PUT', $url, $post);
+
+        log_message('DEBUG', "#TRAZA | #SICPOA | Inspecciones | agregarNumerador() >>".json_encode($rsp));
+        return $rsp;
+    }
 }

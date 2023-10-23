@@ -368,7 +368,7 @@
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <div class="form-group">
                                 <label for="term_patente">Patente Térmico(<strong style="color: #dd4b39">*</strong>):</label>
-                                <input class="form-control limited" id="term_patente" placeholder="Ingrese patente del térmico" />
+                                <input class="form-control limited" id="term_patente" placeholder="Ingrese patente del térmico" value="<?php echo isset($patente) ? $patente : null ?>"/>
                             </div>                    
                         </div>
                         <!--________________-->
@@ -572,6 +572,8 @@ $(document).ready(function() {
     $(".limitedChars").inputmask({ regex: "[0-9/,-]*" });
     //PRECINTOS y Patentes: 0-9, A-Z, space, / y -
     $(".limited").inputmask({ regex: "[0-9/a-zA-Z -]*" });
+    //Bruto, Tara y Neto
+    $(".onlyNumbers").inputmask({ regex: "[0-9.,]*" });
     //Fechas
     $('.formatoFecha').inputmask({
         alias: "datetime",

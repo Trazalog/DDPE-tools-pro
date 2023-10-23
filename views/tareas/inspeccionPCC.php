@@ -92,6 +92,7 @@
                     </div>
                     <div class="col-md-6 col-sm-6 col-xs-6">
                         <div class="fotos">
+                            
                             <?php foreach ($imgsBarrera as $key => $value) {
                                 echo "<img class='thumbnail fotos barrera' height='51' width='45' src='$value' alt='' onclick='preview(this)'>";
                             } ?>
@@ -495,7 +496,7 @@
                             <div class="col-md-6 col-sm-6 col-xs-12">
                                 <div class="form-group">
                                     <label for="term_patente">Patente Térmico(<strong style="color: #dd4b39">*</strong>):</label>
-                                    <input class="form-control limited" id="term_patente" placeholder="Ingrese térmico patente" />
+                                    <input class="form-control limited" id="term_patente" placeholder="Ingrese térmico patente" value="<?php echo isset($preCargaDatos->patente_tractor) ? $preCargaDatos->patente_tractor : $patente ?>"/>
                                 </div>                    
                             </div>
                             <!--________________-->
@@ -1673,7 +1674,7 @@ async function cerrarTareaform(){
                 //Guardo los permisos, empresas, termicos e infraccion si hubiese
                 $.ajax({
                     type: 'POST',
-                    data: {permisos, empresas, termicos, infraccion, tiposInfraccion},
+                    data: {permisos, empresas, termicos, infraccion, tiposInfraccion, case_id},
                     url: "<?php echo SICP; ?>inspeccion/guardarDatosInspeccion",
                     success: function(data) {
                         resp = JSON.parse(data);
@@ -1928,26 +1929,29 @@ function imprimirActa(){
     });
     $(".acta_destinos").text(infoDestino);
 
+    infoTodos = "";
     infoPermisos = "";
     infoProductos = "";
     infoOrigen = "";
     infoOrigenNums = "";
     infoTemperatura = "";
     $('#sec_permisos div.permTransito').each(function(i, obj) {
-        aux = $(obj).attr('data-json');
-        json = JSON.parse(aux);
+        if (i < 3) {
+            aux = $(obj).attr('data-json');
+            json = JSON.parse(aux);
 
-        infoPermisos += json.tipo + "; ";
-        infoProductos +=  json.productos + "; ";
-        infoOrigen += json.origen_nom + "; ";
-        infoOrigenNums += json.origen_num + "; ";
-        infoTemperatura += json.temperatura + "; ";
+            infoTodos += json.tipo + "; ";
+            infoTodos += json.productos + "; ";
+            infoTodos += json.origen_nom + "; ";
+            infoTodos += json.origen_num + "; ";
+            infoTodos += json.temperatura + "; ";
+        }
     });
-    $(".acta_docSanitaria").text(infoPermisos);
-    $(".acta_productos").text(infoProductos);
-    $(".acta_origenNombres").text(infoOrigen);
-    $(".acta_origenNumeros").text(infoOrigenNums);
-    $(".acta_temperaturas").text(infoTemperatura);
+    $(".acta_docSanitaria").text(infoTodos);
+    // $(".acta_productos").text(infoProductos);
+    // $(".acta_origenNombres").text(infoOrigen);
+    // $(".acta_origenNumeros").text(infoOrigenNums);
+    // $(".acta_temperaturas").text(infoTemperatura);
     
     var base = "<?php echo base_url()?>";
     
@@ -1973,6 +1977,7 @@ function imprimirActa(){
                     showCancelButton: false,
                     confirmButtonText: 'Hecho'
                 }).then((result) => {
+                    // console.log("terminé");
                     linkTo('<?php echo BPM ?>Proceso/');
                 });
         }
