@@ -90,6 +90,7 @@
             <!--_______ FORMULARIO PERMISO DE TRANSITO BOX 1______-->
             <form class="formReprecintado" id="formReprecintado">
                 <div class="row">
+                <input type="hidden" name="contador" id="contador" >
                     <div class="col-md-6 col-sm-12 col-xs-12">
                         <div class="caja" id="boxPermisoTransito">
                             <div class="box-tittle centrar">
@@ -486,6 +487,7 @@ async function cerrarTareaform(){
     
     dataForm.append('case_id', $("#caseId").val());
     dataForm.append('info_id_doc', frm_info_id);
+    dataForm.append('tipo', 'reprecintado');
 
     //Guardo la inspeccion
     let guardadoCompleto = new Promise( function(resolve,reject){
@@ -497,6 +499,14 @@ async function cerrarTareaform(){
             processData: false,
             url: "<?php echo SICP; ?>inspeccion/agregarInspeccion",
             success: function(data) {
+                resp = JSON.parse(data);
+                if(data){
+                console.log("Se creo contador correctamente");
+                $("#contador").val(resp.contador);}
+                else 
+                {
+                    console.log('error crear contador');
+                }
                 console.log("Se guardo el formulario de la inspección correctamente");
                 resolve("Correcto");
 
@@ -579,6 +589,8 @@ function imprimirActa(){
 
     var idActa = "#actaInspeccionPCC";
     //Completo datos en el acta antes de imprimir
+
+    $(".acta_contador").text($("#contador").val());
     $(".acta_caseId").text($("#case_id").val());
     $(".acta_chofer").text($("#nom_chofer").val());
     $(".acta_dniChofer").text($("#doc_chofer").val());

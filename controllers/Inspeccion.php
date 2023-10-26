@@ -188,11 +188,71 @@ class Inspeccion extends CI_Controller
 		$data['fec_inspeccion'] =  !empty($this->input->post('fec_inspeccion'))? $this->input->post('fec_inspeccion') : date("Y-m-d H:i:s");
 		$data['info_id_acta'] =  !empty($this->input->post('info_id_acta'))? $this->input->post('info_id_acta') : "";
 		
+
 		$resp = $this->Inspecciones->agregarInspeccion($data);
-        
+		        
 		if ($resp['status']) {
-			
+
+			$data['tipo'] =  !empty($this->input->post('tipo'))? $this->input->post('tipo') : "";
+			/* Agregado de numerador de actas  */
+			$tabla = 'numerador_actas_sicpoa';
+			$nro = $this->Valores->getValor($tabla);
+			if (!$nro) {
+				
+				if($data['tipo'] == 'inspeccion' ){
+					$numerador['tipo'] = 'inspeccion';
+				}
+				if($data['tipo'] == 'reprecintado' ){
+					$numerador['tipo'] = 'reprecintado';
+				}
+				if($data['tipo'] == 'infraccion' ){
+					$numerador['tipo'] = 'infraccion';
+				}
+				$numerador['nro'] = '1';
+				$numerador['case_id'] = $data['case_id'];
+			} else {
+
+				if($data['tipo'] == 'inspeccion' ){
+					$numerador['tipo'] = 'inspeccion';
+				}
+				if($data['tipo'] == 'reprecintado' ){
+					$numerador['tipo'] = 'reprecintado';
+				}
+				if($data['tipo'] == 'infraccion' ){
+					$numerador['tipo'] = 'infraccion';
+				}
+				$nuevoNro = $nro[0]->valor2 + 1;
+				$numerador['nro'] = strval($nuevoNro);
+				$numerador['case_id'] =  $data['case_id'];
+			}
+			//Agrego numerador
+			$respnumerador = $this->Inspecciones->agregarNumerador($numerador);
+
+			/* Actualizo o creo nuevo registro en core.tablas con 'numerador_actas_sicpoa' */
+			if($respnumerador['status']){
+				$datos['tabla'] = $tabla;
+				if(!$nro){
+					$datos['valor'] = 'contador';
+					$datos['valor2'] = '1';
+					$datos['valor3'] = '';
+					$datos['descripcion'] = $tabla;
+					$resp = $this->Valores->guardarValor($datos);
+				}
+				else 
+				{
+					$dato['valor'] = 'contador';
+					$dato['valor2'] = strval($nuevoNro);
+					$dato['valor3'] = '';
+					$dato['descripcion'] = $tabla;
+					$dato['tabl_id'] = $nro[0]->tabl_id;
+					$resp = $this->Valores->editarValor($dato);
+				}
+
+				$resp['contador'] = $numerador['nro'];
+			}
+
 			echo json_encode($resp);
+
 		} else {
 			echo json_encode($resp);
 		}
@@ -234,19 +294,7 @@ class Inspeccion extends CI_Controller
 
         //Armo mensajeria para reportar respuestas de los servicios
 		if ($respTermInspeccion['status'] && $rspPermisos['status'] && $respEmpresas['status']) {
-			$tabla = "numerador_actas_sicpoa";
-			$nro = $this->Valores->getValor($tabla);
-			if (!$nro) {
-				$numerador['tipo'] = 'inspeccion';
-				$numerador['nro'] = 1;
-				$numerador['case_id'] = $case_id;
-			} else {
-				$numerador['tipo'] = 'inspeccion';
-				$numerador['nro'] = $nro->valor+1;
-				$numerador['case_id'] = $case_id;
-			}
-			//Agrego numerador
-			$respnumerador = $this->Inspecciones->agregarNumerador($numerador);
+			
 			$resp['status'] = true;
 			$resp['message'] = "Se agregaron permisos, empresas y termicos correctamente";
 

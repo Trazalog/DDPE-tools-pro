@@ -85,6 +85,7 @@
             <!--_______ FORMULARIO PERMISO DE TRANSITO BOX 1______-->
             <form class="formInspeccion" id="formInspeccion">
                 <div class="row">
+                    <input type="hidden" name="contador" id="contador" >
                     <div class="col-md-5 col-sm-6 col-xs-6">
                         <div class="col-md-12 col-sm-12 col-xs-12 box-tittle">
                             <h3>Fotos de Barrera</h3>
@@ -1580,6 +1581,7 @@ async function cerrarTareaform(){
     //Guardo formulario dinamico del acta manual
     var info_id_acta = await frmGuardarConPromesa($('#formActaManualInspeccion').find('form'));
     dataForm.append('info_id_acta', info_id_acta);
+    dataForm.append('tipo', 'inspeccion');
 
     //Limpio la data pre cargada si existiera para evitar errores
     limpiarDataPreCargada().then((result) => {
@@ -1650,6 +1652,7 @@ async function cerrarTareaform(){
         infraccion.tipo_camara = $("#tipoCamaraActa").val();
         infraccion.temperatura_actual = $("#tempCamaraActa").val();
         infraccion.fecha_hora = $("#fechaActa").val() + " " + $("#horaActa").val();
+        dataForm.append('tipo', 'infraccion');
     }
     //Obtengo los tipos de infracciones
     tiposInfraccion = {};
@@ -1670,7 +1673,14 @@ async function cerrarTareaform(){
             url: "<?php echo SICP; ?>inspeccion/agregarInspeccion",
             success: function(data) {
                 console.log("Se guardo el formulario de la inspección correctamente");
-                
+                resp = JSON.parse(data);
+                if(data){
+                console.log("Se creo contador correctamente");
+                $("#contador").val(resp.contador);}
+                else 
+                {
+                    console.log('error crear contador');
+                }
                 //Guardo los permisos, empresas, termicos e infraccion si hubiese
                 $.ajax({
                     type: 'POST',
@@ -1846,6 +1856,8 @@ function imprimirActa(){
 
     var idActa = "#actaInspeccionPCC";
     //Completo datos en el acta antes de imprimir
+
+    $(".acta_contador").text($("#contador").val());
     $(".acta_caseId").text($("#case_id").val());
     $(".acta_chofer").text($("#nom_chofer").val());
     $(".acta_dniChofer").text($("#doc_chofer").val());

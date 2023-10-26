@@ -466,6 +466,7 @@ async function cerrarTareaform(){
     
     dataForm.append('case_id', $("#caseId").val());
     dataForm.append('info_id_doc', frm_info_id);
+    dataForm.append('tipo', 'infraccion');
 
     //Guardo la inspeccion
     let guardadoCompleto = new Promise( function(resolve,reject){
