@@ -165,7 +165,7 @@ function verPedido(tag) {
 //Carga el acta correspondiente segun resultado de la inspeccion
 //
 function imprimirActa(tag) {
-
+  
   base = "<?php echo base_url()?>";
   dataJson = JSON.parse($(tag).closest('tr').attr('data-json'));
 
