@@ -1952,11 +1952,12 @@ function imprimirActa(){
             aux = $(obj).attr('data-json');
             json = JSON.parse(aux);
 
-            infoTodos += json.tipo + "; ";
-            infoTodos += json.productos + "; ";
-            infoTodos += json.origen_nom + "; ";
-            infoTodos += json.origen_num + "; ";
-            infoTodos += json.temperatura + "; ";
+            infoTodos += "Documentación Sanitaria tipo " + json.tipo + "; ";
+            infoTodos += "N° de Permiso " + json.perm_id + "; ";            
+            infoTodos += "producto/s " + json.productos + "; ";
+            infoTodos += "nombre del Establecimiento de Origen " + json.origen_nom + "; ";
+            infoTodos += "Establecimiento N° " + json.origen_num + "; ";
+            infoTodos += "temperatura " + json.temperatura + "; ";
         }
     });
     $(".acta_docSanitaria").text(infoTodos);
