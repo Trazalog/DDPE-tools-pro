@@ -63,7 +63,7 @@
                 <!--Permiso-->
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
-                        <label for="Permiso">N° de Permiso(<strong style="color: #dd4b39">*</strong>):</label>
+                        <label for="Permiso">N° de Permiso:</label>
                         <input type="text" class="form-control requerido alfanumerico" id="permi_num" placeholder="Ingrese número de permiso"/>
                     </div>
                 </div>
@@ -126,7 +126,7 @@
                 <!--Nombre Establecimiento-->
                 <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
                     <div class="form-group">
-                        <label for="esta_nom" style="font-size:13px !important">Nombre de Establecimiento(<strong style="color: #dd4b39">*</strong>):</label>
+                        <label for="esta_nom" style="font-size:13px !important">Nombre de Establecimiento:</label>
                         <div class="input-group">
                             <select class="form-control select2 select2-hidden-accesible empresa" name="esta_nom" id="esta_nom">
                                 <option value="" disabled selected></option>
@@ -140,7 +140,7 @@
                 <!--Establecimiento N°-->
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
-                    <label for="esta_num">Establecimiento N°(<strong style="color: #dd4b39">*</strong>):</label>
+                    <label for="esta_num">Establecimiento N°:</label>
                         <input class="form-control" name="esta_num" id="esta_num" placeholder="Ingrese Establecimiento N°" readonly/>
                     </div>
                 </div>
@@ -149,7 +149,7 @@
                 <!--Producto-->
                 <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
                     <div class="form-group">
-                        <label for="producto">Producto(<strong style="color: #dd4b39">*</strong>):</label>
+                        <label for="producto">Producto:</label>
                         <div class="input-group" style="width: 100%">
                             <select class="form-control select2 select2-hidden-accesible producto" name="tipr_id" id="tipr_id" style="width: 100%">
                                 <option value="" disabled selected>- Seleccionar -</option>
@@ -167,7 +167,7 @@
                 <!--Estado de Producto-->
                 <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
                     <div class="form-group">
-                        <label for="estado_producto">Estado del Producto(<strong style="color: #dd4b39">*</strong>):</label>
+                        <label for="estado_producto">Estado del Producto:</label>
                         <div class="input-group" style="width: 100%">
                             <select class="form-control select2 select2-hidden-accesible estado_producto" name="estado_pr_id" id="estado_pr_id" style="width: 100%">
                                 <option value="" disabled selected>- Seleccionar -</option>
@@ -184,7 +184,7 @@
                 </div> 
                 <!-- <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="form-group">
-                        <label for="producto">Producto/s(<strong style="color: #dd4b39">*</strong>):</label>
+                        <label for="producto">Producto/s:</label>
                         <textarea class="form-control" name="productos" id="producto" placeholder="Ingrese producto/s" required></textarea>
                     </div>                    
                 </div> -->
@@ -192,7 +192,7 @@
                 <!--Kilos-->
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
-                        <label for="kilos">Kilos(<strong style="color: #dd4b39">*</strong>):</label>
+                        <label for="kilos">Kilos:</label>
                         <input class="form-control onlyNumbers" name="kilos" id="kilos" placeholder="Ingrese kilos"/>
                     </div>                    
                 </div>
@@ -201,7 +201,7 @@
                 <!--Neto-->
                 <div class="col-md-4 col-sm-6 col-xs-6">
                     <div class="form-group">
-                        <label for="neto">Peso Neto(<strong style="color: #dd4b39">*</strong>):</label>
+                        <label for="neto">Peso Neto:</label>
                         <input class="form-control onlyNumbers" id="neto" placeholder="Ingrese peso neto"/>
                     </div>                    
                 </div>
@@ -210,7 +210,7 @@
                 <!--Bruto-->
                 <div class="col-md-4 col-sm-6 col-xs-6">
                     <div class="form-group">
-                        <label for="bruto">Peso Bruto(<strong style="color: #dd4b39">*</strong>):</label>
+                        <label for="bruto">Peso Bruto:</label>
                         <input class="form-control onlyNumbers" name="bruto" id="bruto" placeholder="Ingrese peso bruto" />
                     </div>                    
                 </div>
@@ -219,7 +219,7 @@
                 <!--Temperatura-->
                 <div class="col-md-4 col-sm-6 col-xs-12">
                     <div class="form-group">
-                        <label for="temperatura">Temperatura(<strong style="color: #dd4b39">*</strong>):</label>
+                        <label for="temperatura">Temperatura:</label>
                         <input type="number" class="form-control" id="temperatura" placeholder="Ingrese temperatura" />
                     </div>                    
                 </div>
