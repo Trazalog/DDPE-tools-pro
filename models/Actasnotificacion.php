@@ -92,7 +92,8 @@ class Actasnotificacion extends CI_Model
     }
 
     public function obtener($emprId){
-        $url = REST_SICP . "/actasNotificacion/$emprId/";
+        $url = REST_SICP . "/actasNotificacion/$emprId";
+        // var_dump($url);
         return wso2($url);
     }
 

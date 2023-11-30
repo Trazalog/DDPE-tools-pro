@@ -29,6 +29,7 @@ class Actas_notificacion extends CI_Controller
         // $data['empresa'] = empresa();
 
         $data['actas'] = $this->Actasnotificacion->obtener(empresa())['data'];
+        // var_dump($data);
 
         // //obtengo la data de la instancia del formulario dinamico
         // //Le asigno la patente del ingreso por barrera
