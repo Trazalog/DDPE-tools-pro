@@ -3,7 +3,7 @@
         <h4 class="box-title">Listado de Actas de Notificación</h4>
     </div>
     <div class="box-body">
-		<button class="btn btn-block btn-primary" style="width: 100px; margin-top: 10px;" onclick="$('#mdl-acta').modal('show')">Agregar</button>
+		<button class="btn btn-block btn-primary" style="width: 100px; margin-top: 10px;" onclick="$('#mdl-acta-nuevo').modal('show')">Agregar</button>
 		<div class="box-body table-scroll table-responsive">
 			<table id="tbl-actas" class="table table-striped table-hover">
 				<thead>
@@ -51,3 +51,15 @@
 		</div>
     </div>
 </div>
+<!-- MODAL AGREGAR INGRESO POR BARRERA -->
+<?php $this->load->view('actasNotificacion/mdl_actas_notificacion'); ?>
+<!-- FIN MODAL AGREGAR INGRESO POR BARRERA -->
+
+<!-- ACTA -->
+  <!-- <div id="actaImprimir" style="display:none"></div> -->
+<!-- FIN ACTA -->
+<script>
+	function abrirModalNuevo() {
+		// $("#modalDetalle").modal('show');
+	}
+</script>
