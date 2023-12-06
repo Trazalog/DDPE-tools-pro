@@ -11,10 +11,26 @@
                 <div class="modal-body ">
                     <form class="" id="formActa">
                         <!--Fecha y Hora-->
-                        <div class="col-md-12 col-sm-12 col-xs-12">
+                        <!-- <div class="col-md-12 col-sm-12 col-xs-12">
                             <div class="form-group">
                                 <label for="fec_hora">Fecha y Hora(<strong style="color: #dd4b39">*</strong>):</label>
                                 <input type="datetime-local" class="form-control requerido" name="fec_hora" id="fec_hora" placeholder="Ingrese Fecha y Hora...">
+                            </div>
+                        </div> -->
+                        <!--________________-->
+                        <!--Fecha Acta-->
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                <label for="fechaActa">Fecha(<strong style="color: #dd4b39">*</strong>):</label>
+                                <input type="date" class="form-control" name="fechaActa" id="fechaActa" required/>
+                            </div>
+                        </div>
+                        <!--________________-->
+                        <!--Hora Acta-->
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                <label for="horaActa">Hora(<strong style="color: #dd4b39">*</strong>):</label>
+                                <input type="time" class="form-control" name="horaActa" id="horaActa" required/>
                             </div>
                         </div>
                         <!--________________-->
@@ -46,6 +62,8 @@
         // if( !validarCampos('formActa') ){
         //     return;
         // }
+        // infraccion.depositario = $("#nyaDepositario").val();
+        // infraccion.fecha_hora = $("#fechaActa").val() + " " + $("#horaActa").val();
         base = "<?php echo base_url()?>";
         var recurso = "";
         var form = $('#formActa')[0];

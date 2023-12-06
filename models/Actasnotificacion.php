@@ -29,6 +29,7 @@ class Actasnotificacion extends CI_Model
         // $post['_post_proveedor']['localidad'] = $localidad;
         $resource = '/actaNotificacion';
         $url = REST_SICP . $resource;
+        var_dump($url);
         $aux = $this->rest->callApi("POST", $url, $post); 
         return $aux;
     }
