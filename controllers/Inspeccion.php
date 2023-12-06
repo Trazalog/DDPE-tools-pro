@@ -595,4 +595,22 @@ class Inspeccion extends CI_Controller
         
 		echo json_encode($resp);
     }
+
+	/**
+	* verifica si un permiso existe o no
+	* @return bool true o false segun resultado de servicio
+	*/
+    public function validacionPermiso(){
+		log_message('DEBUG', "#TRAZA | #SICPOA | Inspeccion | validacionPermiso()");
+		$numero_permiso = $this->input->post('num_permiso');
+
+		$resp = $this->Inspecciones->validacionPermiso($numero_permiso);
+
+		if ($resp->perm_id) {
+			echo json_encode($resp);
+		} else {
+			echo json_encode($resp);
+		}
+    }
+
 }

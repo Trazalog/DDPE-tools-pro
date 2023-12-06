@@ -23,8 +23,8 @@
       <param name="chof_id" sqlType="STRING"/>
    </query>
    <query id="getEmpresasInspeccion" useConfig="SICPOADataSource">
-      <sql>select &#xd;ie.rol &#xd;,e.cuit&#xd;,e.razon_social &#xd;,e.num_establecimiento&#xd;,d.calle &#xd;,d.altura &#xd;,d.depa_id&#xd;,d.depo_id&#xd;,t.valor departamento&#xd;,ie.productos &#xd;from sicpoa.inspecciones_empresas ie &#xd;join sicpoa.empresas e on ie.empr_id = e.cuit &#xd;left join sicpoa.depositos d on ie.depo_id = d.depo_id&#xd;left join core.tablas t on d.depa_id = t.tabl_id &#xd;where ie.case_id = cast(:case_id as integer)</sql>
-      <result outputType="json">{&#xd;   "empresas":{&#xd;      "empresa":[&#xd;         {&#xd;            "rol":"$rol",&#xd;            "cuit":"$cuit",&#xd;            "razon_social":"$razon_social",&#xd;            "num_establecimiento":"$num_establecimiento",&#xd;            "depo_id":"$depo_id",&#xd;            "calle":"$calle",&#xd;            "altura":"$altura",&#xd;            "depa_id":"$depa_id",&#xd;            "departamento":"$departamento",&#xd;            "productos":"$productos",&#xd;         }&#xd;      ]&#xd;   }&#xd;}</result>
+      <sql>select &#xd;ie.rol &#xd;,e.cuit&#xd;,e.razon_social &#xd;,e.num_establecimiento&#xd;,d.calle &#xd;,d.altura &#xd;,d.depa_id&#xd;,d.depo_id&#xd;,t.valor departamento&#xd;,ie.productos&#xd;,perm_id &#xd;from sicpoa.inspecciones_empresas ie &#xd;join sicpoa.empresas e on ie.empr_id = e.cuit &#xd;left join sicpoa.depositos d on ie.depo_id = d.depo_id&#xd;left join core.tablas t on d.depa_id = t.tabl_id &#xd;where ie.case_id = cast(:case_id as integer)</sql>
+      <result outputType="json">{&#xd;   "empresas":{&#xd;      "empresa":[&#xd;         {&#xd;            "rol":"$rol",&#xd;            "cuit":"$cuit",&#xd;            "razon_social":"$razon_social",&#xd;            "num_establecimiento":"$num_establecimiento",&#xd;            "depo_id":"$depo_id",&#xd;            "calle":"$calle",&#xd;            "altura":"$altura",&#xd;            "depa_id":"$depa_id",&#xd;            "departamento":"$departamento",&#xd;            "productos":"$productos",&#xd;            "perm_id":"$perm_id",&#xd;         }&#xd;      ]&#xd;   }&#xd;}</result>
       <param name="case_id" sqlType="STRING"/>
    </query>
    <query id="getTermicosInspeccion" useConfig="SICPOADataSource">
@@ -71,13 +71,14 @@
       <param name="case_id" sqlType="STRING"/>
    </query>
    <query id="setEmpresaInspeccion" useConfig="SICPOADataSource">
-      <sql>insert&#xd;	into&#xd;	sicpoa.inspecciones_empresas (rol,&#xd;	empr_id,&#xd;	case_id,&#xd;	usuario_app,&#xd;	productos,&#xd;	depo_id)&#xd;select&#xd;	:rol,&#xd;	:empr_id,&#xd;	cast(:case_id as integer),&#xd;	:usuario_app,&#xd;	:productos,&#xd;	case&#xd;		when param.depo_id is null&#xd;		or param.depo_id = '' then null&#xd;		else cast(param.depo_id as integer) end&#xd;from (select	:depo_id depo_id) param ;</sql>
+      <sql>insert&#xd;	into&#xd;	sicpoa.inspecciones_empresas (rol,&#xd;	empr_id,&#xd;	case_id,&#xd;	usuario_app,&#xd;	productos,&#xd;        perm_id,&#xd;	depo_id)&#xd;select&#xd;	:rol,&#xd;	:empr_id,&#xd;	cast(:case_id as integer),&#xd;	:usuario_app,&#xd;	:productos,&#xd;        :perm_id,&#xd;	case&#xd;		when param.depo_id is null&#xd;		or param.depo_id = '' then null&#xd;		else cast(param.depo_id as integer) end&#xd;from (select	:depo_id depo_id) param ;</sql>
       <param name="rol" sqlType="STRING"/>
       <param name="empr_id" sqlType="STRING"/>
       <param name="case_id" sqlType="STRING"/>
       <param name="usuario_app" sqlType="STRING"/>
       <param name="depo_id" sqlType="STRING"/>
       <param name="productos" sqlType="STRING"/>
+      <param name="perm_id" sqlType="STRING"/>
    </query>
    <query id="deleteEmpresaInspeccion" useConfig="SICPOADataSource">
       <sql>delete from sicpoa.inspecciones_empresas&#xd;WHERE case_id = cast(:case_id as integer)</sql>
@@ -298,6 +299,24 @@
       <param name="nro" sqlType="STRING"/>
       <param name="case_id" sqlType="STRING"/>
    </query>
+   <query id="getPermisosTransitoxNum_permiso" useConfig="SICPOADataSource">
+      <sql>select pt.perm_id as permiso&#xd;from sicpoa.permisos_transito pt &#xd;where lower(pt.perm_id) like lower(:num_permiso) &#xd;limit 1;</sql>
+      <result outputType="json">{&#xd;      "permiso":&#xd;         {&#xd;            "perm_id":"$permiso"&#xd;         }&#xd;}</result>
+      <param name="num_permiso" sqlType="STRING"/>
+   </query>
+   <query id="getActasNotificacion" useConfig="SICPOADataSource">
+      <sql>SELECT * &#xd;FROM sicpoa.actas_notificacion&#xd;where empr_id = :empr_id&#xd;order by acno_id desc;</sql>
+      <result outputType="json">{&#xd;  "actas_notificacion": {&#xd;    "acta_notificacion": [&#xd;      {&#xd;        "acno_id": "$acno_id",&#xd;        "fec_hora": "$fec_hora",&#xd;        "texto": "$texto",&#xd;        "fec_alta": "$fec_alta",&#xd;        "usuario": "$usuario",&#xd;        "usuario_app": "$usuario_app",&#xd;        "empr_id": "$empr_id"&#xd;      }&#xd;    ]&#xd;  }&#xd;}</result>
+      <param name="empr_id" sqlType="STRING"/>
+   </query>
+   <query id="setActaNotificacion" useConfig="SICPOADataSource">
+      <sql>INSERT INTO&#xd;  sicpoa.actas_notificacion (&#xd;    acno_id,&#xd;    fec_hora,&#xd;    texto,&#xd;    usuario_app,&#xd;    empr_id&#xd;  )&#xd;VALUES(&#xd;    cast(:acno_id as integer),&#xd;    to_timestamp(:fec_hora,'YYYY-MM-DD HH24:MI:SS'),&#xd;    :texto,&#xd;    :usuario_app,&#xd;    cast(:empr_id as integer)&#xd;  )</sql>
+      <param name="acno_id" sqlType="STRING"/>
+      <param name="fec_hora" sqlType="STRING"/>
+      <param name="texto" sqlType="STRING"/>
+      <param name="usuario_app" sqlType="STRING"/>
+      <param name="empr_id" sqlType="STRING"/>
+   </query>
    <resource method="GET" path="/inspeccion/id/{case_id}">
       <call-query href="getInspeccion">
          <with-param name="case_id" query-param="case_id"/>
@@ -352,6 +371,7 @@
          <with-param name="usuario_app" query-param="usuario_app"/>
          <with-param name="depo_id" query-param="depo_id"/>
          <with-param name="productos" query-param="productos"/>
+         <with-param name="perm_id" query-param="perm_id"/>
       </call-query>
    </resource>
    <resource method="DELETE" path="/inspeccion/empresa">
@@ -597,6 +617,25 @@
          <with-param name="tipo" query-param="tipo"/>
          <with-param name="nro" query-param="nro"/>
          <with-param name="case_id" query-param="case_id"/>
+      </call-query>
+   </resource>
+   <resource method="GET" path="/permiso/{num_permiso}">
+      <call-query href="getPermisosTransitoxNum_permiso">
+         <with-param name="num_permiso" query-param="num_permiso"/>
+      </call-query>
+   </resource>
+   <resource method="GET" path="/actasNotificacion/{empr_id}">
+      <call-query href="getActasNotificacion">
+         <with-param name="empr_id" query-param="empr_id"/>
+      </call-query>
+   </resource>
+   <resource method="POST" path="/actaNotificacion">
+      <call-query href="setActaNotificacion">
+         <with-param name="acno_id" query-param="acno_id"/>
+         <with-param name="fec_hora" query-param="fec_hora"/>
+         <with-param name="texto" query-param="texto"/>
+         <with-param name="usuario_app" query-param="usuario_app"/>
+         <with-param name="empr_id" query-param="empr_id"/>
       </call-query>
    </resource>
 </data>
