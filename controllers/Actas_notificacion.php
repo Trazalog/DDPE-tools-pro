@@ -22,6 +22,7 @@ class Actas_notificacion extends CI_Controller
 	*/
     public function index(){
         $data['actas'] = $this->Actasnotificacion->obtenerActas(empresa())['data'];
+		// var_dump($data['actas']);
         $this->load->view('actasNotificacion/listar_actas_notificacion', $data);
     }
 
@@ -42,17 +43,11 @@ class Actas_notificacion extends CI_Controller
 			$acta['acno_id'] = strval($nuevoNro);
 		}
 		$fechaHoraString = $data['fechaActa'] . ' ' . $data['horaActa'];
-		// $fechaHoraString = $datos['fechaActa'] . ' ' . $datos['horaActa'];
 		$acta['fec_hora'] = date('Y-m-d H:i:s', strtotime($fechaHoraString));
 		$acta['texto'] = $data['texto'];
 		$acta['usuario_app'] = userNick();
 		$acta['empr_id'] = empresa();
-		// $timestamp = strtotime($acta['fec_hora']);
-        // $acta['fec_hora'] = $timestamp ;
-		// $acta['fec_hora'] = date('Y-m-d\TH:i', $timestamp);
-		// $acta['fec_hora'] = date('Y-m-d H:i:s', $acta['fec_hora']);
 
-        // var_dump($acta);
 		$resp = $this->Actasnotificacion->guardarActa($acta);
 		/* Actualizo o creo nuevo registro en core.tablas con 'numerador_actas_sicpoa' */
 		if($resp['status']){
@@ -62,7 +57,7 @@ class Actas_notificacion extends CI_Controller
 				$datos['valor2'] = '1';
 				$datos['valor3'] = '';
 				$datos['descripcion'] = $tabla;
-				$resp = $this->Valores->guardarValor($datos);
+				$rsp = $this->Valores->guardarValor($datos);
 			}
 			else 
 			{
@@ -71,14 +66,24 @@ class Actas_notificacion extends CI_Controller
 				$dato['valor3'] = '';
 				$dato['descripcion'] = $tabla;
 				$dato['tabl_id'] = $nro[0]->tabl_id;
-				$resp = $this->Valores->editarValor($dato);
+				$rsp = $this->Valores->editarValor($dato);
 			}
-
-			$resp['contador'] = $acta['nro'];
 		}
 		echo json_encode($resp);
     	log_message('ERROR', '#TRAZA | ACTAS | guardarActa() >> $datos: '.$acta);
 	}
-    
+
+	/**
+	* Borrado lógico de acta por ID
+	* @param
+	* @return bool true o false
+	*/
+	public function eliminarActa()
+	{
+		log_message('INFO','#TRAZA | ACTAS | eliminarActa() >> ');
+		$acno_id = $this->input->post('acno_id');
+		$resp = $this->Actasnotificacion->eliminarActa($acno_id);
+		echo json_encode($resp);
+	}    
   
 }

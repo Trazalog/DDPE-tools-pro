@@ -21,16 +21,24 @@ class Actasnotificacion extends CI_Model
     * @return ID valor generado
     */
     public function guardarActa($data){
-        // $estado = urldecode($data['estado']);
-        // $localidad = urldecode($data['localidad']);
         $post['_post_acta_notificacion'] = $data;
-        log_message('DEBUG','#TRAZA| TRAZ-TOOLS | VALORES | guardarActa()  $post: >> '.json_encode($post));
-        // $post['_post_proveedor']['estado'] = $estado;
-        // $post['_post_proveedor']['localidad'] = $localidad;
+        log_message('DEBUG','#TRAZA| TRAZ-TOOLS | ACTAS | guardarActa()  $post: >> '.json_encode($post));
         $resource = '/actaNotificacion';
         $url = REST_SICP . $resource;
-        var_dump($url);
         $aux = $this->rest->callApi("POST", $url, $post); 
         return $aux;
+    }
+
+    /**
+    * Borrado lógico de valor por ID
+    * @param	int $acno_id
+    * @return bool true o false resultado del servicio
+    */
+    function eliminarActa($acno_id)
+    {
+      $post['_delete_valor'] = array("acno_id" => $acno_id);
+      log_message('DEBUG','#TRAZA | TRAZ-TOOLS | VALORES | eliminarActa() $post: >> '.json_encode($post));
+      $aux = $this->rest->callAPI("DELETE",REST_SICP."/actaNotificacion", $post);
+      return $aux;
     }
 }

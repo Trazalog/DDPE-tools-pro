@@ -76,15 +76,31 @@
             data:{ datos },
             dataType: 'JSON',
             url: recurso,
-            success: function(result) {
+            success: function(rsp) {
+                resp = JSON.parse(rsp);					
+					if(resp.status){
+					setTimeout(() => {
+						Swal.fire(
+							'Perfecto!',
+							'Se generó el acta correctamente!',
+							'success'
+						)
+					}, 5000);
+					}else{
+						Swal.fire(
+							'Error!',
+							'Se produjo un error al generar el acta',
+							'error'
+						)
+					}
                 // $("#cargar_tabla").load("index.php/core/Acta/listarProveedores");
                 $("#mdl-acta-nuevo").modal('hide');
                 form.reset();
-                // $("#botonAgregar").removeAttr("disabled");
                 // alertify.success("Acta agregada con éxito");
+                // $("#botonAgregar").removeAttr("disabled");
                 wc();
             },
-            error: function(result){
+            error: function(rsp){
                 wc();
                 alertify.error("Error agregando Acta");
             }            
