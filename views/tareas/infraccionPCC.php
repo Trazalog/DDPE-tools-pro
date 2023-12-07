@@ -83,333 +83,357 @@
     display: none;
 }
 </style>
-<!--_______ FORMULARIO PERMISO DE TRANSITO BOX 1______-->
-<form class="formInfraccionPCC" id="formInfraccionPCC">
-    <div class="row">
-        <div class="col-md-6 col-sm-12 col-xs-12">
-            <div class="caja" id="boxPermisoTransito">
-                <div class="box-tittle centrar">
-                    <h3>Permiso de tránsito</h3>
-                </div>
-                <input type="text" class="form-control hidden" name="petr_id" id="petr_id" value="<?php echo $petr_id?>">
-                <input type="text" class="form-control hidden" name="reprecintado" id="reprecintado" value="<?php echo $inspeccion->reprecintado ?>">
-                <input type="text" class="form-control hidden" name="info_id_doc" id="info_id_doc" value="<?php echo $inspeccion->info_id_doc ?>">
-                <div class="col-md-12 col-sm-12 col-xs-12 centrar">
-                    <h4>Permisos:</h4>
-                    <div id="sec_permisos">
-                        <?php 
-                        if(!empty($inspeccion->permisos_transito->permiso_transito)){
-                            foreach ($inspeccion->permisos_transito->permiso_transito as $key) {
-                        ?>
-                            <div class='form-group dataTemporal' data-json='<?php echo json_encode($key) ?>'>
-                                <span data-toggle="collapse" href="#<?php echo $key->perm_id ?>" role="button" aria-expanded="false" aria-controls="<?php echo $key->perm_id ?>"> 
-                                    <?php echo "<b>$key->perm_id - $key->soli_num</b>" ?>
-                                </span>
-                                <div class="collapse" id="<?php echo $key->perm_id ?>">
-                                    <div class="card card-body">
-                                        <ul style="list-style-type: none;">
-                                            <li>Tipo Doc.: <b><?php echo $key->perm_id ?></b></li>
-                                            <li>Origen: <b><?php echo $key->origen_nom ?> - <?php echo $key->origen_num ?></b></li>
-                                            <li>Lugar descripcion Emisión.: <b><?php echo $key->lugar_emision ?></b></li>
-                                            <li>N° Solicitud: <b><?php echo $key->soli_num ?></b></li>
-                                            <li>Bruto: <b><?php echo $key->bruto ?></b></li>
-                                            <li>Neto: <b><?php echo $key->neto ?></b></li>
-                                            <li>Temperatura: <b><?php echo $key->temperatura ?></b></li>
-                                            <li>Productos: <b><?php echo $key->productos ?></b></li>
+<div class="nav-tabs-custom ">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#formReprecintado_tab" data-toggle="tab" aria-expanded="false">Formulario</a></li>
+        <li style="display:none !important;" class="privado"><a href="#actaInfraccion_tab" data-toggle="tab" aria-expanded="false">Acta de Infracción</a></li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane active" id="formReprecintado_tab">
+            <!--_______ FORMULARIO PERMISO DE TRANSITO BOX 1______-->
+            <form class="formInfraccionPCC" id="formInfraccionPCC">
+                <div class="row">
+                    <div class="col-md-6 col-sm-12 col-xs-12">
+                        <div class="caja" id="boxPermisoTransito">
+                            <div class="box-tittle centrar">
+                                <h3>Permiso de tránsito</h3>
+                            </div>
+                            <input type="text" class="form-control hidden" name="petr_id" id="petr_id" value="<?php echo $petr_id?>">
+                            <input type="text" class="form-control hidden" name="reprecintado" id="reprecintado" value="<?php echo $inspeccion->reprecintado ?>">
+                            <input type="text" class="form-control hidden" name="info_id_doc" id="info_id_doc" value="<?php echo $inspeccion->info_id_doc ?>">
+                            <div class="col-md-12 col-sm-12 col-xs-12 centrar">
+                                <h4>Permisos:</h4>
+                                <div id="sec_permisos">
+                                    <?php 
+                                    if(!empty($inspeccion->permisos_transito->permiso_transito)){
+                                        foreach ($inspeccion->permisos_transito->permiso_transito as $key) {
+                                    ?>
+                                        <div class='form-group dataTemporal' data-json='<?php echo json_encode($key) ?>'>
+                                            <span data-toggle="collapse" href="#<?php echo $key->perm_id ?>" role="button" aria-expanded="false" aria-controls="<?php echo $key->perm_id ?>"> 
+                                                <?php echo "<b>$key->perm_id - $key->soli_num</b>" ?>
+                                            </span>
+                                            <div class="collapse" id="<?php echo $key->perm_id ?>">
+                                                <div class="card card-body">
+                                                    <ul style="list-style-type: none;">
+                                                        <li>Tipo Doc.: <b><?php echo $key->perm_id ?></b></li>
+                                                        <li>Origen: <b><?php echo $key->origen_nom ?> - <?php echo $key->origen_num ?></b></li>
+                                                        <li>Lugar descripcion Emisión.: <b><?php echo $key->lugar_emision ?></b></li>
+                                                        <li>N° Solicitud: <b><?php echo $key->soli_num ?></b></li>
+                                                        <li>Bruto: <b><?php echo $key->bruto ?></b></li>
+                                                        <li>Neto: <b><?php echo $key->neto ?></b></li>
+                                                        <li>Temperatura: <b><?php echo $key->temperatura ?></b></li>
+                                                        <li>Productos: <b><?php echo $key->productos ?></b></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php
+                                        }
+                                    }
+                                    ?>
+                                </div>
+                                <hr>
+                            </div>
+                            <?php $this->load->view(SICP.'reprecintado/mosaicoReprecintado.php') ?>
+                        </div><!-- FIN box-primary -->
+                        <div class="col-md-6 col-sm-12 col-xs-12">
+                            
+                        </div>
+                    </div>
+                    <!--_______ FIN FORMULARIO PERMISO DE TRANSITO BOX 1 ______-->
+
+                    <!--_______ FORMULARIO INSPECCION BOX 2______-->
+                    <div class="col-md-6 col-sm-12 col-xs-12">
+                        <div class="caja" id="boxInspeccion">
+                            <!--DNI Chofer-->
+                            <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
+                                <div class="form-group">
+                                    <label for="doc_chofer">DNI Chofer:</label>
+                                    <input type="text" class="form-control" name="chof_id" id="doc_chofer" value="<?php echo isset($inspeccion->chof_id) ? $inspeccion->chof_id : null ?>" readonly/>
+                                </div>
+                            </div>
+                            <!--________________-->
+
+                            <!-- Nombre CHOFER -->
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label for="nom_chofer">Nombre Chofer:</label>
+                                    <input type="text" class="form-control" name="nom_chofer" id="nom_chofer" value="<?php echo isset($inspeccion->chofer) ? $inspeccion->chofer : null ?>" readonly/>
+                                </div>
+                            </div>
+                            <!--________________-->
+
+                            <!--Patente Tractor-->
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group has-feedback">
+                                    <label for="patenteTractor">Patente Tractor:</label>
+                                    <input class="form-control" name="patente_tractor" id="patenteTractor" value="<?php echo isset($inspeccion->patente_tractor) ? $inspeccion->patente_tractor : null ?>" readonly/>
+                                </div>
+                            </div>
+                            <!--________________-->
+
+                            <!--N° SENASA-->
+                            <!-- <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label for="num_senasa">N° SENASA:</label>
+                                    <input class="form-control limitedChars" name="nro_senasa" id="num_senasa" value="<?php echo isset($inspeccion->nro_senasa) ? $inspeccion->nro_senasa : null ?>" readonly/>
+                                </div>
+                            </div> -->
+                            <!--________________-->
+                            
+                            <!--Establecimiento N°-->
+                            <!-- <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label for="esta_num">Establecimiento N°:</label>
+                                    <input class="form-control" name="esta_num" id="esta_num" value="<?php echo isset($origen->cuit) ? $origen->cuit : null ?>" readonly/>
+                                </div>
+                            </div> -->
+                            <!--________________-->
+
+                            <!--Nombre Establecimiento-->
+                            <!-- <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
+                                <div class="form-group">
+                                    <label for="esta_nom">Establecimiento:</label>
+                                    <input class="form-control" name="esta_nom" id="esta_nom" value="<?php echo isset($origen->razon_social) ? $origen->razon_social : null ?>" readonly/>
+                                </div>
+                            </div> -->
+                            <!--________________-->
+
+                            <!--Seccion Destinos-->
+                            <div class="col-md-12 col-sm-12 col-xs-12 centrar">
+                                <h4>Empresa Destino:</h4>
+                                <div id="sec_destinos">
+                                    <?php 
+                                    if(!empty($destinos)){
+                                        foreach ($destinos as $key) {
+                                    ?>
+                                        <div class='form-group empreDestino dataTemporal' data-json='<?php echo json_encode($key) ?>'>
+                                            <span> 
+                                                <?php echo "$key->razon_social - $key->calle - $key->altura" ?>
+                                            </span>
+                                        </div>
+                                    <?php
+                                        }
+                                    }
+                                    ?>
+                                </div>
+                            <hr>
+                            </div>
+                            <!--________________-->
+
+                            <!--Transportista-->
+                            <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
+                                <div class="form-group">
+                                    <label for="transportista">Transportista:</label>
+                                    <input class="form-control" name="transportista" id="transportista" value="<?php echo isset($transportista->razon_social) ? $transportista->razon_social : null ?>" readonly/>
+                                </div>                    
+                            </div>
+                            <!--________________-->
+
+                            <!--Teléfono Transportista-->
+                            <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
+                                <div class="form-group">
+                                    <label for="telTransportista">Teléfono Transportista:</label>
+                                    <input class="form-control limited" name="telTransportista" id="telTransportista" placeholder="Ingrese teléfono" value="<?php echo isset($inspeccion->tel_transportista) ? $inspeccion->tel_transportista : '' ?>" readonly/>
+                                </div>                    
+                            </div>
+                            <!--________________-->
+
+                            <!--E-mail Transportista-->
+                            <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
+                                <div class="form-group">
+                                    <label for="emailTransportista">E-mail Transportista(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <input type="text" class="form-control" name="emailTransportista" id="emailTransportista" placeholder="Ingrese correo" value="<?php echo isset($inspeccion->email_transportista) ? $inspeccion->email_transportista : '' ?>" readonly/>
+                                </div>                    
+                            </div>
+                            <!--________________-->
+
+                            <!--Producto-->
+                            <!-- <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label for="producto">Producto/s:</label>
+                                    <input class="form-control" name="productos" id="producto" value="<?php echo isset($inspeccion->productos) ? $inspeccion->productos : null; ?>" readonly/>
+                                </div>                    
+                            </div> -->
+                            <!--________________-->
+
+                            <!--Seccion termicos-->
+                            <div class="col-md-12 col-sm-12 col-xs-12 centrar">
+                                <h4>Térmico:</h4>
+                                <div id="sec_termicos">
+                                    <?php 
+                                    if(!empty($inspeccion->termicos->termico)){
+                                        foreach ($inspeccion->termicos->termico as $key) {
+                                    ?>
+                                        <div class='form-group termicos dataTemporal' data-json='<?php echo json_encode($key) ?>'>
+                                            <span> 
+                                                <?php echo "$key->patente - $key->temperatura - $key->precintos" ?>
+                                            </span>
+                                        </div>
+                                    <?php
+                                        }
+                                    }
+                                    ?>
+                                </div>
+                            </div>
+                            <!--________________-->
+                            <!--Observaciones-->
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <label for="observaciones">Observaciones:</label>
+                                    <textarea class="form-control" row="3" name="observaciones" id="observaciones" placeholder="Observaciones" readonly><?php echo isset($inspeccion->observaciones) ? $inspeccion->observaciones : null; ?></textarea>
+                                </div>                    
+                            </div>
+                            <!--________________-->
+
+                            <!--Cantidad Documentos-->
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group has-feedback">
+                                    <label for="cant_documentos">Cantidad de Documentos:</label>
+                                    <input class="form-control" name="cant_doc" id="cant_documentos" value="<?php echo isset($datosEscaneo['cant_doc']['valor']) ? $datosEscaneo['cant_doc']['valor'] : null ?>" readonly/>
+                                </div>
+                            </div>
+                            <!--________________-->
+
+                            <!--Doc. Impositiva-->
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label for="doc_impositiva">Doc. Impositiva:</label>
+                                    <input class="form-control" name="doc_impo" id="doc_impositiva" value="<?php echo isset($datosEscaneo['doc_impo']['descripcion']) ? $datosEscaneo['doc_impo']['descripcion'] : null ?>" readonly/>
+                                </div>
+                            </div>
+                            <!--________________-->
+                            
+                            <?php if(!empty($imgInfraccion)){ ?>
+                                <!--Acta Infraccion-->
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <label>Acta infracción en calle:</label>
+                                        </div>
+                                            <div class="col-sm-12 col-md-12 col-xl-12">
+                                                <div class="contenedor">
+                                                    <img id="imgActaInfraccion" class='thumbnail fotos' height='51' width='45' src='<?php echo $imgInfraccion[0] ?>' alt='' onclick='preview(this)'>
+                                                </div>
+                                            </div>
+                                    </div>
+                                </div>
+                                <!--________________-->
+                            <?php } ?>
+                            <!--Pesaje Inspección -->
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <label for="pesaje_inspeccion">Pesaje Inspección:</label>
+                                </div>
+                                <div class="col-md-3 col-sm-3 col-xs-3">
+                                    <div class="form-group">
+                                        <label for="bruto">Bruto:</label>
+                                        <input class="form-control neto" name="bruto" id="bruto" value="<?php echo isset($inspeccion->bruto) ? $inspeccion->bruto : null; ?>" readonly/>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sm-3 col-xs-3">
+                                    <div class="form-group">
+                                        <label for="tara">Tara:</label>
+                                        <input class="form-control neto" name="tara" id="tara" value="<?php echo isset($inspeccion->tara) ? $inspeccion->tara : null; ?>" readonly/>
+                                    </div>
+                                </div> 
+                                <div class="col-md-3 col-sm-3 col-xs-3">
+                                    <div class="form-group">
+                                        <label for="neto">Neto:</label>
+                                        <input class="form-control" name="neto" id="neto" readonly/>
+                                    </div>
+                                </div> 
+                                <div class="col-md-3 col-sm-3 col-xs-3">
+                                    <div class="form-group">
+                                        <label for="ticket">Ticket:</label>
+                                        <input class="form-control" name="ticket" id="ticket" value="<?php echo isset($inspeccion->ticket) ? $inspeccion->ticket : null; ?>" readonly/>
+                                    </div>
+                                </div>                     
+                            </div>
+                            <!--________________-->
+                            
+                            <!--Pesaje Reprecintado -->
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <label for="pesaje_inspeccion">Pesaje Reprecintado:</label>
+                                </div>
+                                <div class="col-md-3 col-sm-3 col-xs-3">
+                                    <div class="form-group">
+                                        <label for="bruto">Bruto:</label>
+                                        <input class="form-control netoRepre" name="bruto_reprecintado" id="bruto_reprecintado" value="<?php echo isset($inspeccion->bruto_reprecintado) ? $inspeccion->bruto_reprecintado : null; ?>" readonly/>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sm-3 col-xs-3">
+                                    <div class="form-group">
+                                        <label for="tara_reprecintado">Tara:</label>
+                                        <input class="form-control netoRepre" name="tara_reprecintado" id="tara_reprecintado" value="<?php echo isset($inspeccion->tara_reprecintado) ? $inspeccion->tara_reprecintado : null; ?>" readonly/>
+                                    </div>
+                                </div> 
+                                <div class="col-md-3 col-sm-3 col-xs-3">
+                                    <div class="form-group">
+                                        <label for="neto_reprecintado">Neto:</label>
+                                        <input class="form-control" name="neto_reprecintado" id="neto_reprecintado" readonly/>
+                                    </div>
+                                </div> 
+                                <div class="col-md-3 col-sm-3 col-xs-3">
+                                    <div class="form-group">
+                                        <label for="ticket_reprecintado">Ticket:</label>
+                                        <input class="form-control" name="ticket_reprecintado" id="ticket_reprecintado" value="<?php echo isset($inspeccion->ticket_reprecintado) ? $inspeccion->ticket_reprecintado : null; ?>" readonly/>
+                                    </div>
+                                </div>                     
+                            </div>
+                            <!--________________-->
+
+                            <!--Valida Inspeccion-->
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <label for="inspValida">¿Inspección correcta?:</label>
+                                    <input class="form-control" name="inspValida" id="resultado" value="<?php echo isset($inspeccion->resultado) ? $inspeccion->resultado : null; ?>" readonly/>
+                                </div>
+                            </div>
+                            <!--________________-->
+                            <!--Bloque Validar-->
+                            <div id="bloque_validar" style="display:none;">
+                                <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
+                                    <div class="form-group">
+                                        <label for="tpoInfraccion">Tipos de infracciones:</label>
+                                        <ul>
+                                        <?php if(isset($inspeccion->infracciones->infraccion)){
+                                            foreach ($inspeccion->infracciones->infraccion->detalleInfracciones->detalleInfraccion as $tiposInfracciones) { echo "<li>".$tiposInfracciones->valor. ".</li>";}
+                                        } ?>
                                         </ul>
                                     </div>
                                 </div>
-                            </div>
-                        <?php
-                            }
-                        }
-                        ?>
-                    </div>
-                    <hr>
-                </div>
-                <?php $this->load->view(SICP.'reprecintado/mosaicoReprecintado.php') ?>
-            </div><!-- FIN box-primary -->
-            <div class="col-md-6 col-sm-12 col-xs-12">
-                
-            </div>
-        </div>
-        <!--_______ FIN FORMULARIO PERMISO DE TRANSITO BOX 1 ______-->
-
-        <!--_______ FORMULARIO INSPECCION BOX 2______-->
-        <div class="col-md-6 col-sm-12 col-xs-12">
-            <div class="caja" id="boxInspeccion">
-                <!--DNI Chofer-->
-                <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
-                    <div class="form-group">
-                        <label for="doc_chofer">DNI Chofer:</label>
-                        <input type="text" class="form-control" name="chof_id" id="doc_chofer" value="<?php echo isset($inspeccion->chof_id) ? $inspeccion->chof_id : null ?>" readonly/>
-                    </div>
-                </div>
-                <!--________________-->
-
-                <!-- Nombre CHOFER -->
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="nom_chofer">Nombre Chofer:</label>
-                        <input type="text" class="form-control" name="nom_chofer" id="nom_chofer" value="<?php echo isset($inspeccion->chofer) ? $inspeccion->chofer : null ?>" readonly/>
-                    </div>
-                </div>
-                <!--________________-->
-
-                <!--Patente Tractor-->
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    <div class="form-group has-feedback">
-                        <label for="patenteTractor">Patente Tractor:</label>
-                        <input class="form-control" name="patente_tractor" id="patenteTractor" value="<?php echo isset($inspeccion->patente_tractor) ? $inspeccion->patente_tractor : null ?>" readonly/>
-                    </div>
-                </div>
-                <!--________________-->
-
-                <!--N° SENASA-->
-                <!-- <div class="col-md-6 col-sm-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="num_senasa">N° SENASA:</label>
-                        <input class="form-control limitedChars" name="nro_senasa" id="num_senasa" value="<?php echo isset($inspeccion->nro_senasa) ? $inspeccion->nro_senasa : null ?>" readonly/>
-                    </div>
-                </div> -->
-                <!--________________-->
-                
-                <!--Establecimiento N°-->
-                <!-- <div class="col-md-6 col-sm-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="esta_num">Establecimiento N°:</label>
-                        <input class="form-control" name="esta_num" id="esta_num" value="<?php echo isset($origen->cuit) ? $origen->cuit : null ?>" readonly/>
-                    </div>
-                </div> -->
-                <!--________________-->
-
-                <!--Nombre Establecimiento-->
-                <!-- <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
-                    <div class="form-group">
-                        <label for="esta_nom">Establecimiento:</label>
-                        <input class="form-control" name="esta_nom" id="esta_nom" value="<?php echo isset($origen->razon_social) ? $origen->razon_social : null ?>" readonly/>
-                    </div>
-                </div> -->
-                <!--________________-->
-
-                <!--Seccion Destinos-->
-                <div class="col-md-12 col-sm-12 col-xs-12 centrar">
-                    <h4>Empresa Destino:</h4>
-                    <div id="sec_destinos">
-                        <?php 
-                        if(!empty($destinos)){
-                            foreach ($destinos as $key) {
-                        ?>
-                            <div class='form-group empreDestino dataTemporal' data-json='<?php echo json_encode($key) ?>'>
-                                <span> 
-                                    <?php echo "$key->razon_social - $key->calle - $key->altura" ?>
-                                </span>
-                            </div>
-                        <?php
-                            }
-                        }
-                        ?>
-                    </div>
-                <hr>
-                </div>
-                <!--________________-->
-
-                <!--Transportista-->
-                <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
-                    <div class="form-group">
-                        <label for="transportista">Transportista:</label>
-                        <input class="form-control" name="transportista" id="transportista" value="<?php echo isset($transportista->razon_social) ? $transportista->razon_social : null ?>" readonly/>
-                    </div>                    
-                </div>
-                <!--________________-->
-
-                <!--Teléfono Transportista-->
-                <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
-                    <div class="form-group">
-                        <label for="telTransportista">Teléfono Transportista:</label>
-                        <input class="form-control limited" name="telTransportista" id="telTransportista" placeholder="Ingrese teléfono" value="<?php echo isset($inspeccion->tel_transportista) ? $inspeccion->tel_transportista : '' ?>" readonly/>
-                    </div>                    
-                </div>
-                <!--________________-->
-
-                <!--E-mail Transportista-->
-                <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
-                    <div class="form-group">
-                        <label for="emailTransportista">E-mail Transportista(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input type="text" class="form-control" name="emailTransportista" id="emailTransportista" placeholder="Ingrese correo" value="<?php echo isset($inspeccion->email_transportista) ? $inspeccion->email_transportista : '' ?>" readonly/>
-                    </div>                    
-                </div>
-                <!--________________-->
-
-                <!--Producto-->
-                <!-- <div class="col-md-6 col-sm-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="producto">Producto/s:</label>
-                        <input class="form-control" name="productos" id="producto" value="<?php echo isset($inspeccion->productos) ? $inspeccion->productos : null; ?>" readonly/>
-                    </div>                    
-                </div> -->
-                <!--________________-->
-
-                <!--Seccion termicos-->
-                <div class="col-md-12 col-sm-12 col-xs-12 centrar">
-                    <h4>Térmico:</h4>
-                    <div id="sec_termicos">
-                        <?php 
-                        if(!empty($inspeccion->termicos->termico)){
-                            foreach ($inspeccion->termicos->termico as $key) {
-                        ?>
-                            <div class='form-group termicos dataTemporal' data-json='<?php echo json_encode($key) ?>'>
-                                <span> 
-                                    <?php echo "$key->patente - $key->temperatura - $key->precintos" ?>
-                                </span>
-                            </div>
-                        <?php
-                            }
-                        }
-                        ?>
-                    </div>
-                </div>
-                <!--________________-->
-                <!--Observaciones-->
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                    <div class="form-group">
-                        <label for="observaciones">Observaciones:</label>
-                        <textarea class="form-control" row="3" name="observaciones" id="observaciones" placeholder="Observaciones" readonly><?php echo isset($inspeccion->observaciones) ? $inspeccion->observaciones : null; ?></textarea>
-                    </div>                    
-                </div>
-                <!--________________-->
-
-                <!--Cantidad Documentos-->
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    <div class="form-group has-feedback">
-                        <label for="cant_documentos">Cantidad de Documentos:</label>
-                        <input class="form-control" name="cant_doc" id="cant_documentos" value="<?php echo isset($datosEscaneo['cant_doc']['valor']) ? $datosEscaneo['cant_doc']['valor'] : null ?>" readonly/>
-                    </div>
-                </div>
-                <!--________________-->
-
-                <!--Doc. Impositiva-->
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="doc_impositiva">Doc. Impositiva:</label>
-                        <input class="form-control" name="doc_impo" id="doc_impositiva" value="<?php echo isset($datosEscaneo['doc_impo']['descripcion']) ? $datosEscaneo['doc_impo']['descripcion'] : null ?>" readonly/>
-                    </div>
-                </div>
-                <!--________________-->
-                
-                <?php if(!empty($imgInfraccion)){ ?>
-                    <!--Acta Infraccion-->
-                    <div class="col-md-12 col-sm-12 col-xs-12">
-                        <div class="form-group">
-                            <div class="input-group">
-                                <label>Acta infracción en calle:</label>
-                            </div>
-                                <div class="col-sm-12 col-md-12 col-xl-12">
-                                    <div class="contenedor">
-                                        <img id="imgActaInfraccion" class='thumbnail fotos' height='51' width='45' src='<?php echo $imgInfraccion[0] ?>' alt='' onclick='preview(this)'>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="cant_fajas">Cantidad de fajas:</label>
+                                        <input type="number" class="form-control" name="cant_fajas" id="cant_fajas" value="<?php echo isset($inspeccion->cant_fajas) ? $inspeccion->cant_fajas : null; ?>" readonly/>
                                     </div>
                                 </div>
-                        </div>
-                    </div>
-                    <!--________________-->
-                <?php } ?>
-                <!--Pesaje Inspección -->
+                            </div>                    
+                            <!--________________-->
+                        </div> <!--FIN box-primary-->
+                    </div><!--FIN col-->
+                <!--_______ FIN FORMULARIO INSPECCION BOX 2______-->
+                </div><!-- FIN row-->
+            </form>
+        </div><!-- FIN .tab-pane -->
+        <div class="tab-pane" id="actaInspeccion_tab">
+            <div class="row">
                 <div class="col-md-12 col-sm-12 col-xs-12">
-                    <div class="col-md-12 col-sm-12 col-xs-12">
-                        <label for="pesaje_inspeccion">Pesaje Inspección:</label>
-                    </div>
-                    <div class="col-md-3 col-sm-3 col-xs-3">
-                        <div class="form-group">
-                            <label for="bruto">Bruto:</label>
-                            <input class="form-control neto" name="bruto" id="bruto" value="<?php echo isset($inspeccion->bruto) ? $inspeccion->bruto : null; ?>" readonly/>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-3 col-xs-3">
-                        <div class="form-group">
-                            <label for="tara">Tara:</label>
-                            <input class="form-control neto" name="tara" id="tara" value="<?php echo isset($inspeccion->tara) ? $inspeccion->tara : null; ?>" readonly/>
-                        </div>
-                    </div> 
-                    <div class="col-md-3 col-sm-3 col-xs-3">
-                        <div class="form-group">
-                            <label for="neto">Neto:</label>
-                            <input class="form-control" name="neto" id="neto" readonly/>
-                        </div>
-                    </div> 
-                    <div class="col-md-3 col-sm-3 col-xs-3">
-                        <div class="form-group">
-                            <label for="ticket">Ticket:</label>
-                            <input class="form-control" name="ticket" id="ticket" value="<?php echo isset($inspeccion->ticket) ? $inspeccion->ticket : null; ?>" readonly/>
-                        </div>
-                    </div>                     
+                    <?php $this->load->view(SICP."actas/acta_inspeccion.php"); ?>
                 </div>
-                <!--________________-->
-                
-                <!--Pesaje Reprecintado -->
+            </div>
+        </div>
+        <div class="tab-pane" id="actaInfraccion_tab">
+            <div class="row">
                 <div class="col-md-12 col-sm-12 col-xs-12">
-                    <div class="col-md-12 col-sm-12 col-xs-12">
-                        <label for="pesaje_inspeccion">Pesaje Reprecintado:</label>
-                    </div>
-                    <div class="col-md-3 col-sm-3 col-xs-3">
-                        <div class="form-group">
-                            <label for="bruto">Bruto:</label>
-                            <input class="form-control netoRepre" name="bruto_reprecintado" id="bruto_reprecintado" value="<?php echo isset($inspeccion->bruto_reprecintado) ? $inspeccion->bruto_reprecintado : null; ?>" readonly/>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-3 col-xs-3">
-                        <div class="form-group">
-                            <label for="tara_reprecintado">Tara:</label>
-                            <input class="form-control netoRepre" name="tara_reprecintado" id="tara_reprecintado" value="<?php echo isset($inspeccion->tara_reprecintado) ? $inspeccion->tara_reprecintado : null; ?>" readonly/>
-                        </div>
-                    </div> 
-                    <div class="col-md-3 col-sm-3 col-xs-3">
-                        <div class="form-group">
-                            <label for="neto_reprecintado">Neto:</label>
-                            <input class="form-control" name="neto_reprecintado" id="neto_reprecintado" readonly/>
-                        </div>
-                    </div> 
-                    <div class="col-md-3 col-sm-3 col-xs-3">
-                        <div class="form-group">
-                            <label for="ticket_reprecintado">Ticket:</label>
-                            <input class="form-control" name="ticket_reprecintado" id="ticket_reprecintado" value="<?php echo isset($inspeccion->ticket_reprecintado) ? $inspeccion->ticket_reprecintado : null; ?>" readonly/>
-                        </div>
-                    </div>                     
+                    <?php $this->load->view(SICP."actas/acta_infraccion.php"); ?>
                 </div>
-                <!--________________-->
-
-                <!--Valida Inspeccion-->
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                    <div class="form-group">
-                        <label for="inspValida">¿Inspección correcta?:</label>
-                        <input class="form-control" name="inspValida" id="resultado" value="<?php echo isset($inspeccion->resultado) ? $inspeccion->resultado : null; ?>" readonly/>
-                    </div>
-                </div>
-                <!--________________-->
-                <!--Bloque Validar-->
-                <div id="bloque_validar" style="display:none;">
-                    <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
-                        <div class="form-group">
-                            <label for="tpoInfraccion">Tipos de infracciones:</label>
-                            <ul>
-                            <?php if(isset($inspeccion->infracciones->infraccion)){
-                                foreach ($inspeccion->infracciones->infraccion->detalleInfracciones->detalleInfraccion as $tiposInfracciones) { echo "<li>".$tiposInfracciones->valor. ".</li>";}
-                            } ?>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-sm-6 col-xs-12">
-                        <div class="form-group">
-                            <label for="cant_fajas">Cantidad de fajas:</label>
-                            <input type="number" class="form-control" name="cant_fajas" id="cant_fajas" value="<?php echo isset($inspeccion->cant_fajas) ? $inspeccion->cant_fajas : null; ?>" readonly/>
-                        </div>
-                    </div>
-                </div>                    
-                <!--________________-->
-            </div> <!--FIN box-primary-->
-        </div><!--FIN col-->
-    <!--_______ FIN FORMULARIO INSPECCION BOX 2______-->
-    </div><!-- FIN row-->
-</form>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
 //
 //Document READY
