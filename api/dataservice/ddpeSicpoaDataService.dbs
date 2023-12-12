@@ -238,7 +238,7 @@
       <param name="dedo_id" sqlType="STRING"/>
    </query>
    <query id="getInspeccionAvanzada" useConfig="SICPOADataSource">
-      <sql>SELECT distinct &#xd;   i.case_id,&#xd;   I.fec_alta,&#xd;   (I.bruto - I.tara) as neto,&#xd;   CH.nombre,&#xd;   (&#xd;      SELECT string_agg(T.patente, ', ') &#xd;      FROM sicpoa.inspecciones_termicos IT&#xd;      INNER JOIN sicpoa.termicos T ON IT.term_id = T.patente&#xd;      WHERE I.case_id = IT.case_id &#xd;   ) as termicos,&#xd;   I.resultado,&#xd;   (&#xd;      SELECT string_agg(DISTINCT CONCAT(e.razon_social, ' (', e.cuit, ')'), ', ')&#xd;      FROM sicpoa.permisos_transito pt2  &#xd;      INNER JOIN sicpoa.empresas e ON pt2.origen = e.cuit&#xd;      WHERE pt2.case_id = i.case_id &#xd;   ) as origenes,&#xd;   (&#xd;      SELECT string_agg(&#xd;         CONCAT(e.razon_social, ' (', ied.empr_id, ')', &#xd;         CASE WHEN ied.depo_id IS NOT NULL THEN CONCAT(' - ', d.calle, ' ', d.altura, ' ', t.valor) ELSE ''&#xd;         END), ', '&#xd;      )&#xd;      FROM sicpoa.inspecciones_empresas ied &#xd;      LEFT JOIN sicpoa.depositos d ON d.depo_id = ied.depo_id &#xd;      LEFT JOIN core.tablas t ON tabl_id = d.depa_id &#xd;      INNER JOIN sicpoa.empresas e ON ied.empr_id = e.cuit&#xd;      WHERE ied.case_id = i.case_id &#xd;      AND ied.rol = 'DESTINO' &#xd;   ) as destinos,&#xd;   iet.empr_id as cuit_transpote,&#xd;   et.razon_social as razon_social_transporte,&#xd;   (&#xd;     select string_agg(distinct t.descripcion, ', ') &#xd;	   from&#xd;	      sicpoa.documentos d&#xd;	      inner join sicpoa.detalles_documento dd on dd.docu_id = d.num_documento and dd.tido_id = d.tido_id&#xd;	      inner join core.tablas t ON t.tabl_id = dd.tipr_id&#xd;	   where&#xd;	      d.case_id = i.case_id&#xd;	   and d.eliminado = false&#xd;   ) as productos,&#xd;   (&#xd;      SELECT COALESCE(SUM(pt.kilos), 0) &#xd;      FROM sicpoa.permisos_transito pt &#xd;      WHERE I.case_id = pt.case_id &#xd;      GROUP BY pt.case_id &#xd;   ) as kilos_total_permiso&#xd;FROM sicpoa.inspecciones I &#xd;LEFT JOIN sicpoa.permisos_transito pt3 ON pt3.case_id = i.case_id&#xd;LEFT JOIN sicpoa.inspecciones_empresas iet ON iet.case_id = i.case_id AND iet.rol = 'TRANSPORTISTA' &#xd;LEFT JOIN sicpoa.empresas et ON et.cuit = iet.empr_id&#xd;INNER JOIN sicpoa.choferes CH ON I.chof_id = CH.dni,&#xd;(&#xd;   SELECT&#xd;      :cuit_origen cuit_origen,&#xd;      :cuit_destino cuit_destino,&#xd;      :cuit_transporte cuit_transporte,&#xd;      :resultado resultado,&#xd;      :tipo_producto tipo_producto,&#xd;      :fec_desde fec_desde,&#xd;      :fec_hasta fec_hasta &#xd;) param &#xd;WHERE&#xd;   date_trunc('day', I.fec_alta) &lt;= TO_DATE(&#xd;      CASE WHEN param.fec_hasta IS NULL OR param.fec_hasta = '' THEN '2100-01-01' ELSE param.fec_hasta END,&#xd;      'YYYY-MM-DD'&#xd;   ) &#xd;   AND date_trunc('day', I.fec_alta) &gt;= TO_DATE(&#xd;      CASE WHEN param.fec_desde IS NULL OR param.fec_desde = '' THEN '1899-01-01' ELSE param.fec_desde END,&#xd;      'YYYY-MM-DD'&#xd;   ) &#xd;   AND (&#xd;      param.resultado = 'TODOS' OR param.resultado = i.resultado&#xd;   )&#xd;   AND (&#xd;      param.tipo_producto = 'TODOS' &#xd;      OR (&#xd;         param.tipo_producto IN (&#xd;            SELECT dd.tipr_id &#xd;            FROM sicpoa.documentos d&#xd;            INNER JOIN sicpoa.detalles_documento dd ON dd.docu_id = d.num_documento &#xd;                                                   AND dd.tido_id = d.tido_id&#xd;            WHERE d.case_id = i.case_id&#xd;         )&#xd;      )&#xd;   )   &#xd;   AND (&#xd;      param.cuit_origen = 'TODOS' &#xd;      or (&#xd;      		param.cuit_origen IN(&#xd;      			select pt4.origen&#xd;      			from sicpoa.permisos_transito pt4&#xd;      			where pt4.case_id = i.case_id&#xd;      		) &#xd;      )&#xd;   )&#xd;   AND (&#xd;      param.cuit_destino = 'TODOS' &#xd;      OR param.cuit_destino IN (&#xd;         SELECT ie.empr_id &#xd;         FROM sicpoa.inspecciones_empresas ie &#xd;         WHERE ie.case_id = i.case_id AND ie.rol = 'DESTINO'&#xd;      )&#xd;   )&#xd;   AND (&#xd;      param.cuit_transporte = 'TODOS' &#xd;      OR param.cuit_transporte in (&#xd;      	select ie2.empr_id &#xd;      	from sicpoa.inspecciones_empresas ie2&#xd;      	where ie2.case_id = i.case_id and ie2.rol = 'TRANSPORTISTA'&#xd;      )&#xd;   )&#xd;ORDER BY I.fec_alta DESC;</sql>
+      <sql>SELECT distinct &#xd;   i.case_id,&#xd;   I.fec_alta,&#xd;   (I.bruto - I.tara) as neto,&#xd;   CH.nombre,&#xd;   (&#xd;      SELECT string_agg(T.patente, ', ') &#xd;      FROM sicpoa.inspecciones_termicos IT&#xd;      INNER JOIN sicpoa.termicos T ON IT.term_id = T.patente&#xd;      WHERE I.case_id = IT.case_id &#xd;   ) as termicos,&#xd;   I.resultado,&#xd;   (&#xd;      SELECT string_agg(DISTINCT CONCAT(e.razon_social, ' (', e.cuit, ')'), ', ')&#xd;      FROM sicpoa.permisos_transito pt2  &#xd;      INNER JOIN sicpoa.empresas e ON pt2.origen = e.cuit&#xd;      WHERE pt2.case_id = i.case_id &#xd;   ) as origenes,&#xd;   (&#xd;      SELECT string_agg(&#xd;         CONCAT(e.razon_social, ' (', ied.empr_id, ')', &#xd;         CASE WHEN ied.depo_id IS NOT NULL THEN CONCAT(' - ', d.calle, ' ', d.altura, ' ', t.valor) ELSE ''&#xd;         END), ', '&#xd;      )&#xd;      FROM sicpoa.inspecciones_empresas ied &#xd;      LEFT JOIN sicpoa.depositos d ON d.depo_id = ied.depo_id &#xd;      LEFT JOIN core.tablas t ON tabl_id = d.depa_id &#xd;      INNER JOIN sicpoa.empresas e ON ied.empr_id = e.cuit&#xd;      WHERE ied.case_id = i.case_id &#xd;      AND ied.rol = 'DESTINO' &#xd;   ) as destinos,&#xd;   iet.empr_id as cuit_transpote,&#xd;   et.razon_social as razon_social_transporte,&#xd;   (&#xd;     select string_agg(distinct t.descripcion, ', ') &#xd;	   from&#xd;	   sicpoa.permisos_transito pt6 &#xd;	   inner join core.tablas t ON t.tabl_id = pt6.tipr_id&#xd;	   where pt6.case_id = i.case_id&#xd;   ) as productos,&#xd;   (&#xd;      SELECT COALESCE(SUM(pt.kilos), 0) &#xd;      FROM sicpoa.permisos_transito pt &#xd;      WHERE I.case_id = pt.case_id &#xd;      GROUP BY pt.case_id &#xd;   ) as kilos_total_permiso&#xd;FROM sicpoa.inspecciones I &#xd;LEFT JOIN sicpoa.permisos_transito pt3 ON pt3.case_id = i.case_id&#xd;LEFT JOIN sicpoa.inspecciones_empresas iet ON iet.case_id = i.case_id AND iet.rol = 'TRANSPORTISTA' &#xd;LEFT JOIN sicpoa.empresas et ON et.cuit = iet.empr_id&#xd;left join sicpoa.inspecciones_termicos it2 on it2.case_id = i.case_id &#xd;INNER JOIN sicpoa.choferes CH ON I.chof_id = CH.dni,&#xd;(&#xd;   SELECT&#xd;      :cuit_origen cuit_origen,&#xd;      :cuit_destino cuit_destino,&#xd;      :cuit_transporte cuit_transporte,&#xd;      :resultado resultado,&#xd;      :tipo_producto tipo_producto,&#xd;      :fec_desde fec_desde,&#xd;      :fec_hasta fec_hasta,&#xd;      :patente patente&#xd;) param &#xd;WHERE&#xd;   date_trunc('day', I.fec_alta) &lt;= TO_DATE(&#xd;      CASE WHEN param.fec_hasta IS NULL OR param.fec_hasta = '' THEN '2100-01-01' ELSE param.fec_hasta END,&#xd;      'YYYY-MM-DD'&#xd;   ) &#xd;   AND date_trunc('day', I.fec_alta) &gt;= TO_DATE(&#xd;      CASE WHEN param.fec_desde IS NULL OR param.fec_desde = '' THEN '1899-01-01' ELSE param.fec_desde END,&#xd;      'YYYY-MM-DD'&#xd;   ) &#xd;   AND (&#xd;      param.resultado = 'TODOS' OR param.resultado = i.resultado&#xd;   )&#xd;   AND (&#xd;      param.tipo_producto = 'TODOS' &#xd;      OR (&#xd;         param.tipo_producto IN (&#xd;            SELECT pt5.tipr_id &#xd;            FROM sicpoa.permisos_transito pt5                                             &#xd;            WHERE pt5.case_id = i.case_id&#xd;         )&#xd;      )&#xd;   )  &#xd;   AND (&#xd;      param.cuit_origen = 'TODOS' &#xd;      or (&#xd;      		param.cuit_origen IN(&#xd;      			select pt4.origen&#xd;      			from sicpoa.permisos_transito pt4&#xd;      			where pt4.case_id = i.case_id&#xd;      		) &#xd;      )&#xd;   )&#xd;   AND (&#xd;      param.cuit_destino = 'TODOS' &#xd;      OR param.cuit_destino IN (&#xd;         SELECT ie.empr_id &#xd;         FROM sicpoa.inspecciones_empresas ie &#xd;         WHERE ie.case_id = i.case_id AND ie.rol = 'DESTINO'&#xd;      )&#xd;   )&#xd;   AND (&#xd;      param.cuit_transporte = 'TODOS' &#xd;      OR param.cuit_transporte in (&#xd;      	select ie2.empr_id &#xd;      	from sicpoa.inspecciones_empresas ie2&#xd;      	where ie2.case_id = i.case_id and ie2.rol = 'TRANSPORTISTA'&#xd;      )&#xd;   )&#xd;   AND (&#xd;   		param.patente = 'TODOS'&#xd;   		OR param.patente in (&#xd;   		select it.term_id &#xd;      	FROM sicpoa.inspecciones_termicos it&#xd;      	where it.case_id = i.case_id   	&#xd;   		)&#xd;   )&#xd;ORDER BY I.fec_alta DESC;</sql>
       <result outputType="json"> {&#xd;  "inspecciones": {&#xd;      "inspeccion": [&#xd;          {&#xd;          "case_id": "$case_id",&#xd;          "fec_alta": "$fec_alta",&#xd;          "neto": "$neto",&#xd;          "nombre": "$nombre",&#xd;          "termicos": "$termicos",&#xd;          "resultado": "$resultado",&#xd;          "origenes": "$origenes",&#xd;          "destinos": "$destinos",&#xd;          "cuit_transpote": "$cuit_transpote",&#xd;          "razon_social_transporte": "$razon_social_transporte",&#xd;          "tipo_producto": "$tipo_producto",&#xd;          "kilos_total_permiso": "$kilos_total_permiso",&#xd;          "productos": "$productos",&#xd;          }&#xd;      ]&#xd;      }&#xd;}</result>
       <param name="cuit_origen" sqlType="STRING"/>
       <param name="cuit_destino" sqlType="STRING"/>
@@ -247,6 +247,7 @@
       <param name="tipo_producto" sqlType="STRING"/>
       <param name="fec_desde" sqlType="STRING"/>
       <param name="fec_hasta" sqlType="STRING"/>
+      <param name="patente" sqlType="STRING"/>
    </query>
    <query id="setDetalleInfraccion" useConfig="SICPOADataSource">
       <sql>insert into sicpoa.deta_infracciones(&#xd;	case_id,&#xd;	tiin_id,&#xd;	usuario_app)&#xd;values(&#xd;	cast(:case_id as integer),&#xd;	:tiin_id,&#xd;	:usuario_app&#xd;);</sql>
@@ -305,7 +306,7 @@
       <param name="num_permiso" sqlType="STRING"/>
    </query>
    <query id="getActasNotificacion" useConfig="SICPOADataSource">
-      <sql>SELECT * &#xd;FROM sicpoa.actas_notificacion&#xd;where empr_id = :empr_id&#xd;order by acno_id desc;</sql>
+      <sql>SELECT * &#xd;FROM sicpoa.actas_notificacion&#xd;where empr_id = cast(:empr_id as integer)&#xd;and eliminado = false&#xd;order by acno_id desc;</sql>
       <result outputType="json">{&#xd;  "actas_notificacion": {&#xd;    "acta_notificacion": [&#xd;      {&#xd;        "acno_id": "$acno_id",&#xd;        "fec_hora": "$fec_hora",&#xd;        "texto": "$texto",&#xd;        "fec_alta": "$fec_alta",&#xd;        "usuario": "$usuario",&#xd;        "usuario_app": "$usuario_app",&#xd;        "empr_id": "$empr_id"&#xd;      }&#xd;    ]&#xd;  }&#xd;}</result>
       <param name="empr_id" sqlType="STRING"/>
    </query>
@@ -316,6 +317,15 @@
       <param name="texto" sqlType="STRING"/>
       <param name="usuario_app" sqlType="STRING"/>
       <param name="empr_id" sqlType="STRING"/>
+   </query>
+   <query id="deleteActaNotificacion" useConfig="SICPOADataSource">
+      <sql>update sicpoa.actas_notificacion&#xd;set eliminado = true&#xd;where acno_id=cast(:acno_id as bigint);</sql>
+      <param name="acno_id" sqlType="STRING"/>
+   </query>
+   <query id="getTermicoxPatron" useConfig="SICPOADataSource">
+      <sql>select *&#xd;from sicpoa.termicos t  &#xd;,(select lower(:patron) patron ) param&#xd;where lower(t.patente) like '%'||param.patron||'%'</sql>
+      <result outputType="json">{&#xd;   "termicos":{&#xd;      "termico":[&#xd;         {&#xd;            "patente":"$patente"&#xd;         }&#xd;      ]&#xd;   }&#xd;}</result>
+      <param name="patron" sqlType="STRING"/>
    </query>
    <resource method="GET" path="/inspeccion/id/{case_id}">
       <call-query href="getInspeccion">
@@ -559,7 +569,7 @@
          <with-param name="fec_hasta" query-param="fec_hasta"/>
       </call-query>
    </resource>
-   <resource method="GET" path="/inspecciones/avanzado/desde/{fec_desde}/hasta/{fec_hasta}/origen/{cuit_origen}/destino/{cuit_destino}/transporte/{cuit_transporte}/resultado/{resultado}/producto/{tipo_producto}">
+   <resource method="GET" path="/inspecciones/avanzado/desde/{fec_desde}/hasta/{fec_hasta}/origen/{cuit_origen}/destino/{cuit_destino}/transporte/{cuit_transporte}/resultado/{resultado}/producto/{tipo_producto}/patente/{patente}">
       <call-query href="getInspeccionAvanzada">
          <with-param name="cuit_origen" query-param="cuit_origen"/>
          <with-param name="cuit_destino" query-param="cuit_destino"/>
@@ -568,6 +578,7 @@
          <with-param name="tipo_producto" query-param="tipo_producto"/>
          <with-param name="fec_desde" query-param="fec_desde"/>
          <with-param name="fec_hasta" query-param="fec_hasta"/>
+         <with-param name="patente" query-param="patente"/>
       </call-query>
    </resource>
    <resource method="POST" path="/inspeccion/infraccion/detalle">
@@ -636,6 +647,16 @@
          <with-param name="texto" query-param="texto"/>
          <with-param name="usuario_app" query-param="usuario_app"/>
          <with-param name="empr_id" query-param="empr_id"/>
+      </call-query>
+   </resource>
+   <resource method="DELETE" path="/actaNotificacion">
+      <call-query href="deleteActaNotificacion">
+         <with-param name="acno_id" query-param="acno_id"/>
+      </call-query>
+   </resource>
+   <resource method="GET" path="/termico/patron/{patron}">
+      <call-query href="getTermicoxPatron">
+         <with-param name="patron" query-param="patron"/>
       </call-query>
    </resource>
 </data>

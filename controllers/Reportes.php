@@ -47,6 +47,7 @@ function historicoCamiones()
     'cuit_transporte' => $data['cuit_transporte'],
     'resultado' => $data['resultado'],
     'tipo_producto' => $tipo_producto,
+    'termico'=> $data['termico'],
   ];
 
   log_message('DEBUG', '#TRAZA | SICPOA | REPORTES | historicoCamiones() | $data: >> ' . json_encode($data));

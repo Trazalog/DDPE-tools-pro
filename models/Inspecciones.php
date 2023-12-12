@@ -594,4 +594,20 @@ class Inspecciones extends CI_Model {
         
         return $resp->permiso;
     }
+
+     /**
+	* Busca patentes de termicos  
+	* @param string patente
+	* @return array listado de patentes de termicos que coinciden con el patron ingresado
+	*/
+    public function getPatenteTermico($dato){
+        
+        $url = REST_SICP."/termico/patron/".urlencode($dato);
+        $aux = $this->rest->callAPI("GET",$url);
+        $resp = json_decode($aux['data']);
+
+        log_message('DEBUG', "#TRAZA | #SICPOA | Inspecciones | getPatenteTermico()  resp: >> " . json_encode($resp));
+
+        return $resp->termicos->termico;
+    }
 }
