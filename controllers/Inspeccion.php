@@ -613,4 +613,23 @@ class Inspeccion extends CI_Controller
 		}
     }
 
+	/**
+	* Obtiene termicos por patron de busqueda
+	* @param string patente
+	* @return array patentes que coincidan con el patron ingresado
+	*/
+    public function buscatermicos(){
+		log_message('DEBUG', "#TRAZA | #SICPOA | Inspeccion | getPatenteTermico()");
+
+        $patente = $this->input->get('patron');
+        
+		$resp = $this->Inspecciones->getPatenteTermico($patente);
+        
+		if ($resp) {
+			echo json_encode($resp);
+		} else {
+			echo json_encode($resp);
+		}
+    }
+
 }

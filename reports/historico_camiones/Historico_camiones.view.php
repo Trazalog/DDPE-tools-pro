@@ -88,6 +88,13 @@ use function PHPSTORM_META\type;
             <label for="producto" class="form-label">Tipo de producto:</label>
             <?php echo selectFromCoreEmpresa('producto', 'Seleccione tipo de Producto', 'tipos_producto', '') ?>
           </div>
+          <div class="col-xs-12 col-sm-12 col-md-4">
+          <div class="form-group">
+            <label for="termico" class="form-label">Patente térmico:</label>
+            <select class="form-control patente_termico" id="termico" name="termico">
+            </select>
+          </div>
+        </div>
         </div>
       </div>
       <!-- _____ GRUPO 3 _____ -->
@@ -266,6 +273,75 @@ use function PHPSTORM_META\type;
     },
   });
 
+  //busqueda patente termicos y llena select
+  $('.patente_termico').select2({
+    ajax: {
+      url: "<?php echo SICP; ?>inspeccion/buscatermicos",
+      dataType: 'json',
+      delay: 250,
+      data: function(params) {
+        return {
+          patron: params.term, // parámetro búsqueda
+          page: params.page
+        };
+      },
+      processResults: function(data, params) {
+
+        params.page = params.page || 1;
+
+        var results = [];
+        $.each(data, function(i, obj) {
+          results.push({
+            id: obj.patente,
+            text: '',
+          });
+        });
+        return {
+          results: results,
+          pagination: {
+            more: (params.page * 30) < results.length
+          }
+        };
+      }
+    },
+    placeholder: 'Buscar termicos',
+    minimumInputLength: 3,
+    templateResult: function(patente) {
+
+      if (patente.loading) {
+        return "Buscando termicos...";
+      }
+
+      var $container = $(
+        "<div class='select2-result-repository clearfix'>" +
+        "<div class='select2-result-repository__meta'>" +
+        "<div class='select2-result-repository__title'></div>" +
+        "<div class='select2-result-repository__description'></div>" +
+        "</div>" +
+        "</div>"
+      );
+
+      $container.find(".select2-result-repository__title").text(patente.id);
+      $container.find(".select2-result-repository__description").text(patente.text);
+
+      return $container;
+    },
+    templateSelection: function(patente) {
+      return patente.text + ' ' + patente.id + '';
+    },
+    language: {
+      noResults: function() {
+        return '<option>No hay coincidencias</option>';
+      },
+      inputTooShort: function() {
+        return 'Ingrese 3 o mas dígitos para comenzar la búsqueda';
+      }
+    },
+    escapeMarkup: function(markup) {
+      return markup;
+    },
+  });
+
   // Llena tabla con la informacion filtrada
   function filtrar() {
     wo();
@@ -324,6 +400,10 @@ use function PHPSTORM_META\type;
     if (producto == "") {
       producto = 'TODOS';
     }
+    termico = _isset($("#termico").val()) ? $("#termico").select2('data')[0].id : "";
+    if (termico == "") {
+      termico = 'TODOS';
+    }
     var data = {};
     data.fec_desde = desde;
     data.fec_hasta = hasta;
@@ -332,7 +412,7 @@ use function PHPSTORM_META\type;
     data.cuit_transporte = transportista;
     data.resultado = resultado;
     data.tipo_producto = producto;
-
+    data.termico = termico;
     return data;
   }
   // Levanta modal detalle de reporte
