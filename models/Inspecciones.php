@@ -230,6 +230,7 @@ class Inspecciones extends CI_Model {
             $aux["usuario_app"] = userNick();
             $aux["depo_id"] = $key['depo_id'];
             $aux["productos"] = $key['productos'];
+            $aux["perm_id"] = isset($key['perm_id']) ? $key['perm_id'] : null;
 
 
             $batch_req['_post_inspeccion_empresa_batch_req']['_post_inspeccion_empresa'][] = $aux;
@@ -574,5 +575,39 @@ class Inspecciones extends CI_Model {
 
         log_message('DEBUG', "#TRAZA | #SICPOA | Inspecciones | agregarNumerador() >>".json_encode($rsp));
         return $rsp;
+    }
+
+     /**
+	* busca numero de permiso
+	* @param int numero de permiso
+	* @return bool
+	*/
+    public function validacionPermiso($data){
+        
+        $url = REST_SICP."/permiso/".$data;
+
+        $aux = $this->rest->callAPI("GET",$url);
+
+        $resp = json_decode($aux['data']);
+        
+        log_message('DEBUG', "#TRAZA | #SICPOA | Inspecciones | validacionPermiso()  resp: >> " . json_encode($resp));
+        
+        return $resp->permiso;
+    }
+
+     /**
+	* Busca patentes de termicos  
+	* @param string patente
+	* @return array listado de patentes de termicos que coinciden con el patron ingresado
+	*/
+    public function getPatenteTermico($dato){
+        
+        $url = REST_SICP."/termico/patron/".urlencode($dato);
+        $aux = $this->rest->callAPI("GET",$url);
+        $resp = json_decode($aux['data']);
+
+        log_message('DEBUG', "#TRAZA | #SICPOA | Inspecciones | getPatenteTermico()  resp: >> " . json_encode($resp));
+
+        return $resp->termicos->termico;
     }
 }

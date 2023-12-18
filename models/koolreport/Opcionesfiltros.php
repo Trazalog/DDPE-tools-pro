@@ -43,13 +43,13 @@ class Opcionesfiltros extends CI_Model
     $cuit_transporte = !empty($data["cuit_transporte"]) ? $data['cuit_transporte'] : 'TODOS';
     $resultado = !empty($data["resultado"]) ? $data['resultado'] : 'TODOS';
     $tipo_producto = !empty($data["tipo_producto"]) ? $data['tipo_producto'] : 'TODOS';
+    $patente = !empty($data["termico"]) ? $data['termico'] : 'TODOS';
 
-    $url = '/inspecciones/avanzado/desde/'.$fec_desde.'/hasta/'.$fec_hasta.'/origen/'.$cuit_origen.'/destino/'.$cuit_destino.'/transporte/'.$cuit_transporte.'/resultado/'.$resultado.'/producto/'.$tipo_producto;
+    $url = '/inspecciones/avanzado/desde/'.$fec_desde.'/hasta/'.$fec_hasta.'/origen/'.$cuit_origen.'/destino/'.$cuit_destino.'/transporte/'.$cuit_transporte.'/resultado/'.$resultado.'/producto/'.$tipo_producto.'/patente/'.$patente;
 
     $aux = $this->rest->callAPI("GET",REST_SICP.$url);
 
     $aux = json_decode($aux["data"]);
     return $aux->inspecciones->inspeccion;
   }
-
 }
