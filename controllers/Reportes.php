@@ -47,6 +47,7 @@ function historicoCamiones()
     'cuit_transporte' => $data['cuit_transporte'],
     'resultado' => $data['resultado'],
     'tipo_producto' => $tipo_producto,
+    'termico'=> $data['termico'],
   ];
 
   log_message('DEBUG', '#TRAZA | SICPOA | REPORTES | historicoCamiones() | $data: >> ' . json_encode($data));
@@ -101,6 +102,25 @@ function historicoCamiones()
         }
       }
     }
+        $fecAux = explode(' ', $data['inspeccion']->fec_inspeccion);
+        $data['horaInspeccion'] = $fecAux[1];
+        $data['diaInspeccion'] = date('d',strtotime($fecAux[0]));
+        $data['mesInspeccion'] = date('m',strtotime($fecAux[0]));
+        $data['anioInspeccion'] = date('Y',strtotime($fecAux[0]));
+
+        if(!empty($data['inspeccion']->resultado)){
+          if($data['inspeccion']->resultado == 'incorrecta'){
+              $data['contador'] = $data['inspeccion']->numerador_infraccion;
+          }else{
+              if(!empty($data['inspeccion']->numerador_reprecintado))
+              {
+                  $data['contador'] = $data['inspeccion']->numerador_reprecintado;
+              }
+              else{
+                  $data['contador'] = $data['inspeccion']->numerador_inspeccion;
+              }
+          }
+      }
 
     $formulario = $this->Ingresosbarrera->getFormularios($tareaData->petr_id);
     $escaneoInfoId = $formulario['data'][0]->forms->form[0]->info_id;

@@ -7,7 +7,6 @@ class Inspeccion extends CI_Controller
         parent::__construct();
         $this->load->model('Inspecciones');
 		$this->load->model('core/Valores');    
-		// $this->load->model(REST_CORE . 'core/Valores');
 		// si esta vencida la sesion redirige al login
 		$data = $this->session->userdata();
 		// log_message('DEBUG','#Main/login | '.json_encode($data));
@@ -22,8 +21,8 @@ class Inspeccion extends CI_Controller
 	* @param array 
 	* @return bool
 	*/
-    public function ingresoBarrera(){
-
+    public function ingresoBarrera()
+	{
 		log_message('DEBUG', "#TRAZA | #SICPOA | Inspeccion | ingresoBarrera()");
         $this->load->view('barrera/barrera');
     }
@@ -33,14 +32,10 @@ class Inspeccion extends CI_Controller
 	* @return bool true o false segun resultado de servicio de guardado
 	*/
     public function agregarChofer(){
-
 		log_message('DEBUG', "#TRAZA | #SICPOA | Inspeccion | agregarChofer()");
-
         $data = $this->input->post('data');
-        $data['usuario_app'] = userNick();
-        
-		$resp = $this->Inspecciones->agregarChofer($data);
-        
+        $data['usuario_app'] = userNick();        
+		$resp = $this->Inspecciones->agregarChofer($data);        
 		if ($resp['status']) {
 			echo json_encode($resp);
 		} else {
@@ -54,11 +49,8 @@ class Inspeccion extends CI_Controller
 	*/
     public function buscaChoferes(){
 		log_message('DEBUG', "#TRAZA | #SICPOA | Inspeccion | buscaChoferes()");
-
-        $dato = $this->input->get('patron');        
-		
+        $dato = $this->input->get('patron');        		
 		$resp = $this->Inspecciones->buscaChoferesSIPE($dato);
-
 		echo json_encode($resp);
     }
     /**
@@ -68,12 +60,9 @@ class Inspeccion extends CI_Controller
 	*/
     public function agregarEmpresa(){
 		log_message('DEBUG', "#TRAZA | #SICPOA | Inspeccion | agregarEmpresa()");
-
         $data = $this->input->post('data');
-        $data['usuario_app'] = userNick();
-        
-		$resp = $this->Inspecciones->agregarEmpresa($data);
-        
+        $data['usuario_app'] = userNick();        
+		$resp = $this->Inspecciones->agregarEmpresa($data);        
 		if ($resp['status']) {
 			echo json_encode($resp);
 		} else {
@@ -87,11 +76,8 @@ class Inspeccion extends CI_Controller
 	*/
     public function buscaEmpresas(){
 		log_message('DEBUG', "#TRAZA | #SICPOA | Inspeccion | buscaEmpresas()");
-
-        $dato = $this->input->get('patron');
-        
-		$resp = $this->Inspecciones->buscaEmpresasAFIP($dato);
-        
+        $dato = $this->input->get('patron');        
+		$resp = $this->Inspecciones->buscaEmpresasAFIP($dato);        
 		echo json_encode($resp);
     }
     /**
@@ -101,11 +87,8 @@ class Inspeccion extends CI_Controller
 	*/
     public function agregarDeposito(){
 		log_message('DEBUG', "#TRAZA | #SICPOA | Inspeccion | agregarDeposito()");
-
-        $data = $this->input->post('data');
-        
-		$resp = $this->Inspecciones->agregarDeposito($data);
-        
+        $data = $this->input->post('data');        
+		$resp = $this->Inspecciones->agregarDeposito($data);        
 		if ($resp['status']) {
 			echo json_encode($resp);
 		} else {
@@ -119,11 +102,8 @@ class Inspeccion extends CI_Controller
 	*/
     public function getDepositos(){
 		log_message('DEBUG', "#TRAZA | #SICPOA | Inspeccion | getDepositos()");
-
-        $dato = $this->input->post('destino');
-        
-		$resp = $this->Inspecciones->getDepositos($dato['empr_id']);
-        
+        $dato = $this->input->post('destino');        
+		$resp = $this->Inspecciones->getDepositos($dato['empr_id']);        
 		if ($resp) {
 			echo json_encode($resp);
 		} else {
@@ -595,4 +575,41 @@ class Inspeccion extends CI_Controller
         
 		echo json_encode($resp);
     }
+
+	/**
+	* verifica si un permiso existe o no
+	* @return bool true o false segun resultado de servicio
+	*/
+    public function validacionPermiso(){
+		log_message('DEBUG', "#TRAZA | #SICPOA | Inspeccion | validacionPermiso()");
+		$numero_permiso = $this->input->post('num_permiso');
+
+		$resp = $this->Inspecciones->validacionPermiso($numero_permiso);
+
+		if ($resp->perm_id) {
+			echo json_encode($resp);
+		} else {
+			echo json_encode($resp);
+		}
+    }
+
+	/**
+	* Obtiene termicos por patron de busqueda
+	* @param string patente
+	* @return array patentes que coincidan con el patron ingresado
+	*/
+    public function buscatermicos(){
+		log_message('DEBUG', "#TRAZA | #SICPOA | Inspeccion | getPatenteTermico()");
+
+        $patente = $this->input->get('patron');
+        
+		$resp = $this->Inspecciones->getPatenteTermico($patente);
+        
+		if ($resp) {
+			echo json_encode($resp);
+		} else {
+			echo json_encode($resp);
+		}
+    }
+
 }

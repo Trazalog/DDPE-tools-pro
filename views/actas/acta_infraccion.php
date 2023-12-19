@@ -19,8 +19,8 @@
         <div style="width: 100%;text-align:center; margin-bottom: 35px">
             <h2><b>SERVICIO VETERINARIO DE INSPECCIÓN SANITARIA</b></h2>
         </div>
-        <div style="width: 50%;float:right">
-            <h2>ACTA DE INFRACCIÓN N° <?php echo $contador; ?></h2>
+        <div style="width:20%;float:right">
+            <h2>ACTA N° <?php echo $contador; ?></h2>
         </div>
         <div style="margin-bottom: 35px;width: 100%; float:left">
             <div class="bodyActa" style="">
@@ -29,12 +29,13 @@
                     siendo las <span class="acta_horaInspeccion"><?php echo date('H'); ?></span> horas.  Los inspectores del S. V. I. S. <span class="acta_inspectores"><?php echo $inspeccion->inspectores ?></span>, se constituyen en <span class="acta_puntoControl"><?php echo $inspeccion->se_constituye ?></span> 
                     con domicilio en <span class="acta_puntoControlDomicilio"><?php echo $inspeccion->domicilio_constituye ?></span> propiedad de <span class="acta_propiedadDe"><?php echo $inspeccion->propiedad_de ?></span>. Siendo atendidos por <span class="acta_quienAtendio"><?php echo $inspeccion->atendidos_por ?></span> D.N.I. N° <span class="dniActa"><?php echo $inspeccion->chof_id ?></span> en su carácter de <span class="acta_caracter"><?php echo $inspeccion->caracter_de ?></span>.<br>
                 </div>
+                <br>
                 <div style="text-indent: 30px;">
-                    Proceden a <span class="acta_procedenA"><?php echo $inspeccion->proceden_a ?></span>, vehículo patente N° <?php echo $inspeccion->patente_tractor; ?>, N° de habilitación del SENASA <?php foreach ($inspeccion->termicos->termico as $termico) { echo $termico->nro_senasa. "; ";} ?> Documentación Sanitaria tipo <?php foreach ($inspeccion->permisos_transito->permiso_transito as $permiso) { echo $permiso->tipo. ". ";} ?>
-                    Establecimiento N° <span class="acta_origenNumeros"><?php foreach ($inspeccion->permisos_transito->permiso_transito as $permiso) { echo $permiso->origen_num. "; ";} ?></span> nombre del Establecimiento de Origen <span class="acta_origenNombres"><?php foreach ($inspeccion->permisos_transito->permiso_transito as $permiso) { echo $permiso->origen_nom. "; ";} ?></span> Transportista <?php echo $transportista->razon_social ?>, teléfono del transportista 
+                    Proceden a <span class="acta_procedenA"><?php echo $inspeccion->proceden_a ?></span>, Termico/s patente/s: <?php foreach ($inspeccion->termicos->termico as $termico) { echo $termico->patente. "; ";} ?><br> 
+                    <?php foreach ($inspeccion->permisos_transito->permiso_transito as $permiso) { echo "Tipo de PT " . $permiso->tipo. " | N° de permiso " . $permiso->perm_id .   " | Producto " . $permiso->producto .  " | Temperatura " .$permiso->temperatura. " | Empresa de origen " .$permiso->origen_nom ; foreach ($destinos as $destino){ if($permiso->perm_id == $destino->perm_id ){ echo " | Destino " . $destino->departamento. " | Domicilio " . $destino->calle. ", ".$destino->altura ;}}echo "</br>";} ?>
+                    Transportista <?php echo $transportista->razon_social ?>, teléfono del transportista 
                     <span class="acta_telTransportista"><?php echo $inspeccion->tel_transportista ?></span> correo electrónico del transportista <span class="acta_emailTransportista"><?php echo $inspeccion->email_transportista ?></span> 
-                    destinos <?php foreach ($destinos as $destino) { echo $destino->razon_social. ", ". $destino->altura. ", ".$destino->calle. ", ". $destino->departamento. ". ";} ?> producto/s <?php foreach ($inspeccion->permisos_transito->permiso_transito as $permiso) { echo $permiso->productos. " ";} ?>,
-                    temperatura <?php foreach ($inspeccion->permisos_transito->permiso_transito as $permiso) { echo $permiso->temperatura. " ";} ?>, precintos <?php foreach ($inspeccion->termicos->termico as $termico) { echo $termico->precintos. " ";} ?>, Peso Bruto <?php echo $inspeccion->bruto ?>, 
+                    precintos <?php foreach ($inspeccion->termicos->termico as $termico) { echo $termico->precintos. " ";} ?>, Peso Bruto <?php echo $inspeccion->bruto ?>, 
                     Tara <?php echo $inspeccion->tara ?> kg, N° de Ticket <?php echo $inspeccion->ticket ?>. Tipo de documentación <span class="acta_tpoDocumentacion"><?php echo $datosEscaneo['doc_impo']['descripcion']; ?></span>.
                 </div>
                 <div style="text-indent: 30px;">
@@ -45,10 +46,17 @@
                     Observaciones: <?php echo $inspeccion->observaciones ?>.<br><br>
                 </div>
                 <div style="text-indent: 30px;">
-                    Quedando como Depositario Judicial de la mercadería en cuestión, el señor/a <span class="acta_nyaDepositario"><?php echo $inspeccion->infracciones->infraccion->depositario ?></span>, D.N.I. N° <span class="dniActa"><?php echo $inspeccion->infracciones->infraccion->documento ?></span>, Teléfono
-                    <span class="telefonoActa"><?php echo $inspeccion->infracciones->infraccion->telefono ?></span>, correo electrónico  <span class="correoActa"><?php echo $inspeccion->infracciones->infraccion->email ?></span>, con domicilio legal <span class="direccionLegalActa"><?php echo $inspeccion->infracciones->infraccion->domicilio_legal?></span>,
-                    y domicilio comercial <span class="direccionComercialActa"><?php echo $inspeccion->infracciones->infraccion->domicilio_comercial?></span>. Con las características organolépticas que se describen a continuación <span class="acta_caractOrganolepticas"><?php echo $inspeccion->infracciones->infraccion->caracteristicas_organolepticas ?></span>, en un depósito
-                    con las siguientes características: <span class="acta_caractDeposito"><?php echo $inspeccion->infracciones->infraccion->caracteristicas_deposito ?></span>, y registrándose la siguiente temperatura <span class="acta_tempCamaraActa"><?php echo $inspeccion->infracciones->infraccion->temperatura_actual?></span><br>
+                    <span class="acta_infoInfraccion"></span><span class="acta_infoCaracteristicasInfraccion"></span>
+                    <?php if($inspeccion->infracciones->infraccion->depositario) echo 'Quedando como Depositario Judicial de la mercadería en cuestión, el señor/a ' .$inspeccion->infracciones->infraccion->depositario;  ?>
+                    <?php if($inspeccion->infracciones->infraccion->documento) echo ", D.N.I. N° " . $inspeccion->infracciones->infraccion->documento ;?>
+                    <?php if($inspeccion->infracciones->infraccion->telefono) echo ", Teléfono " . $inspeccion->infracciones->infraccion->telefono; ?> 
+                    <?php if($inspeccion->infracciones->infraccion->email ) echo ", correo electrónico " . $inspeccion->infracciones->infraccion->email ?>
+                    <?php if($inspeccion->infracciones->infraccion->domicilio_legal) echo ", con domicilio legal " . $inspeccion->infracciones->infraccion->domicilio_legal?>
+                    <?php if($inspeccion->infracciones->infraccion->domicilio_comercial) echo ", domicilio comercial " . $inspeccion->infracciones->infraccion->domicilio_comercial?>
+                    <?php if($inspeccion->infracciones->infraccion->caracteristicas_organolepticas) echo ".Con las características organolépticas que se describen a continuación " . $inspeccion->infracciones->infraccion->caracteristicas_organolepticas ?>
+                    <?php if($inspeccion->infracciones->infraccion->caracteristicas_deposito) echo ", en un depósito con las siguientes características: " . $inspeccion->infracciones->infraccion->caracteristicas_deposito ?>
+                    <?php if($inspeccion->infracciones->infraccion->temperatura_actual) echo ", y registrándose la siguiente temperatura " . $inspeccion->infracciones->infraccion->temperatura_actual?>
+                  
                     <br>
                     Fecha y Hora: <span class="acta_fecha"><?php echo date('d-m-Y'); ?></span>, <span class="acta_hora"><?php echo date('H:i'); ?></span> horas.<br>
                     <div class="firmaDepositario" style="text-align: right;">
@@ -117,8 +125,8 @@
         <div style="width: 100%;text-align:center; margin-bottom: 35px">
             <h2><b>SERVICIO VETERINARIO DE INSPECCIÓN SANITARIA</b></h2>
         </div>
-        <div style="width: 50%;float:right">
-            <h2>ACTA DE INFRACCIÓN N° <?php echo $contador; ?></h2>
+        <div style="width: 20%;float:right">
+            <h2>ACTA N° <?php echo $contador; ?></h2>
         </div>
         <div style="margin-bottom: 35px;width: 100%; float:left">
             <div class="bodyActa" style="">
@@ -128,11 +136,11 @@
                     con domicilio en <span class="acta_puntoControlDomicilio"><?php echo $inspeccion->domicilio_constituye ?></span> propiedad de <span class="acta_propiedadDe"><?php echo $inspeccion->propiedad_de ?></span>. Siendo atendidos por <span class="acta_quienAtendio"><?php echo $inspeccion->atendidos_por ?></span> D.N.I. N° <span class="dniActa"><?php echo $inspeccion->chof_id ?></span> en su carácter de <span class="acta_caracter"><?php echo $inspeccion->caracter_de ?></span>.<br>
                 </div>
                 <div style="text-indent: 30px;">
-                    Proceden a <span class="acta_procedenA"><?php echo $inspeccion->proceden_a ?></span>, vehículo patente N° <?php echo $inspeccion->patente_tractor; ?>, N° de habilitación del SENASA <?php foreach ($inspeccion->termicos->termico as $termico) { echo $termico->nro_senasa. "; ";} ?> Documentación Sanitaria tipo <?php foreach ($inspeccion->permisos_transito->permiso_transito as $permiso) { echo $permiso->tipo. ". ";} ?>
-                    Establecimiento N° <span class="acta_origenNumeros"><?php foreach ($inspeccion->permisos_transito->permiso_transito as $permiso) { echo $permiso->origen_num. "; ";} ?></span> nombre del Establecimiento de Origen <span class="acta_origenNombres"><?php foreach ($inspeccion->permisos_transito->permiso_transito as $permiso) { echo $permiso->origen_nom. "; ";} ?></span> Transportista <?php echo $transportista->razon_social ?>, teléfono del transportista 
+                    Proceden a <span class="acta_procedenA"><?php echo $inspeccion->proceden_a ?></span>, Termico/s patente/s: <?php foreach ($inspeccion->termicos->termico as $termico) { echo $termico->patente. "; ";} ?><br> 
+                    <?php foreach ($inspeccion->permisos_transito->permiso_transito as $permiso) { echo "Tipo de PT " . $permiso->tipo. " | N° de permiso " . $permiso->perm_id .   " | Producto " . $permiso->producto .  " | Temperatura " .$permiso->temperatura. " | Empresa de origen " .$permiso->origen_nom ; foreach ($destinos as $destino){ if($permiso->perm_id == $destino->perm_id ){ echo " | Destino " . $destino->departamento. " | Domicilio " . $destino->calle. ", ".$destino->altura ;}}echo "</br>";} ?>
+                    Transportista <?php echo $transportista->razon_social ?>, teléfono del transportista 
                     <span class="acta_telTransportista"><?php echo $inspeccion->tel_transportista ?></span> correo electrónico del transportista <span class="acta_emailTransportista"><?php echo $inspeccion->email_transportista ?></span> 
-                    destinos <?php foreach ($destinos as $destino) { echo $destino->razon_social. ", ". $destino->altura. ", ".$destino->calle. ", ". $destino->departamento. ". ";} ?> producto/s <?php foreach ($inspeccion->permisos_transito->permiso_transito as $permiso) { echo $permiso->productos. " ";} ?>,
-                    temperatura <?php foreach ($inspeccion->permisos_transito->permiso_transito as $permiso) { echo $permiso->temperatura. " ";} ?>, precintos <?php foreach ($inspeccion->termicos->termico as $termico) { echo $termico->precintos. " ";} ?>, Peso Bruto <?php echo $inspeccion->bruto ?>, 
+                    precintos <?php foreach ($inspeccion->termicos->termico as $termico) { echo $termico->precintos. " ";} ?>, Peso Bruto <?php echo $inspeccion->bruto ?>, 
                     Tara <?php echo $inspeccion->tara ?> kg, N° de Ticket <?php echo $inspeccion->ticket ?>. Tipo de documentación <span class="acta_tpoDocumentacion"><?php echo $datosEscaneo['doc_impo']['descripcion']; ?></span>.
                 </div>
                 <div style="text-indent: 30px;">
@@ -143,10 +151,17 @@
                     Observaciones: <?php echo $inspeccion->observaciones ?>.<br><br>
                 </div>
                 <div style="text-indent: 30px;">
-                Quedando como Depositario Judicial de la mercadería en cuestión, el señor/a <span class="acta_nyaDepositario"><?php echo $inspeccion->infracciones->infraccion->depositario ?></span>, D.N.I. N° <span class="dniActa"><?php echo $inspeccion->infracciones->infraccion->documento ?></span>, Teléfono
-                    <span class="telefonoActa"><?php echo $inspeccion->infracciones->infraccion->telefono ?></span>, correo electrónico  <span class="correoActa"><?php echo $inspeccion->infracciones->infraccion->email ?></span>, con domicilio legal <span class="direccionLegalActa"><?php echo $inspeccion->infracciones->infraccion->domicilio_legal?></span>,
-                    y domicilio comercial <span class="direccionComercialActa"><?php echo $inspeccion->infracciones->infraccion->domicilio_comercial?></span>. Con las características organolépticas que se describen a continuación <span class="acta_caractOrganolepticas"><?php echo $inspeccion->infracciones->infraccion->caracteristicas_organolepticas ?></span>, en un depósito
-                    con las siguientes características: <span class="acta_caractDeposito"><?php echo $inspeccion->infracciones->infraccion->caracteristicas_deposito ?></span>, y registrándose la siguiente temperatura <span class="acta_tempCamaraActa"><?php echo $inspeccion->infracciones->infraccion->temperatura_actual?></span><br>
+                <span class="acta_infoInfraccion"></span><span class="acta_infoCaracteristicasInfraccion"></span>
+                    <?php if($inspeccion->infracciones->infraccion->depositario) echo 'Quedando como Depositario Judicial de la mercadería en cuestión, el señor/a ' .$inspeccion->infracciones->infraccion->depositario;  ?>
+                    <?php if($inspeccion->infracciones->infraccion->documento) echo ", D.N.I. N° " . $inspeccion->infracciones->infraccion->documento ;?>
+                    <?php if($inspeccion->infracciones->infraccion->telefono) echo ", Teléfono " . $inspeccion->infracciones->infraccion->telefono; ?> 
+                    <?php if($inspeccion->infracciones->infraccion->email ) echo ", correo electrónico " . $inspeccion->infracciones->infraccion->email ?>
+                    <?php if($inspeccion->infracciones->infraccion->domicilio_legal) echo ", con domicilio legal " . $inspeccion->infracciones->infraccion->domicilio_legal?>
+                    <?php if($inspeccion->infracciones->infraccion->domicilio_comercial) echo ", domicilio comercial " . $inspeccion->infracciones->infraccion->domicilio_comercial?>
+                    <?php if($inspeccion->infracciones->infraccion->caracteristicas_organolepticas) echo ".Con las características organolépticas que se describen a continuación " . $inspeccion->infracciones->infraccion->caracteristicas_organolepticas ?>
+                    <?php if($inspeccion->infracciones->infraccion->caracteristicas_deposito) echo ", en un depósito con las siguientes características: " . $inspeccion->infracciones->infraccion->caracteristicas_deposito ?>
+                    <?php if($inspeccion->infracciones->infraccion->temperatura_actual) echo ", y registrándose la siguiente temperatura " . $inspeccion->infracciones->infraccion->temperatura_actual?>
+                  
                     <br>
                     Fecha y Hora: <span class="acta_fecha"><?php echo date('d-m-Y'); ?></span>, <span class="acta_hora"><?php echo date('H:i'); ?></span> horas.<br>
                     <div class="firmaDepositario" style="text-align: right;">
@@ -215,8 +230,8 @@
         <div style="width: 100%;text-align:center; margin-bottom: 35px">
             <h2><b>SERVICIO VETERINARIO DE INSPECCIÓN SANITARIA</b></h2>
         </div>
-        <div style="width: 50%;float:right">
-            <h2>ACTA DE INFRACCIÓN N° <?php echo $contador; ?></h2>
+        <div style="width: 20%;float:right">
+            <h2>ACTA N° <?php echo $contador; ?></h2>
         </div>
         <div style="margin-bottom: 35px;width: 100%; float:left">
             <div class="bodyActa" style="">
@@ -226,11 +241,11 @@
                     con domicilio en <span class="acta_puntoControlDomicilio"><?php echo $inspeccion->domicilio_constituye ?></span> propiedad de <span class="acta_propiedadDe"><?php echo $inspeccion->propiedad_de ?></span>. Siendo atendidos por <span class="acta_quienAtendio"><?php echo $inspeccion->atendidos_por ?></span> D.N.I. N° <span class="dniActa"><?php echo $inspeccion->chof_id ?></span> en su carácter de <span class="acta_caracter"><?php echo $inspeccion->caracter_de ?></span>.<br>
                 </div>
                 <div style="text-indent: 30px;">
-                    Proceden a <span class="acta_procedenA"><?php echo $inspeccion->proceden_a ?></span>, vehículo patente N° <?php echo $inspeccion->patente_tractor; ?>, N° de habilitación del SENASA <?php foreach ($inspeccion->termicos->termico as $termico) { echo $termico->nro_senasa. "; ";} ?> Documentación Sanitaria tipo <?php foreach ($inspeccion->permisos_transito->permiso_transito as $permiso) { echo $permiso->tipo. ". ";} ?>
-                    Establecimiento N° <span class="acta_origenNumeros"><?php foreach ($inspeccion->permisos_transito->permiso_transito as $permiso) { echo $permiso->origen_num. "; ";} ?></span> nombre del Establecimiento de Origen <span class="acta_origenNombres"><?php foreach ($inspeccion->permisos_transito->permiso_transito as $permiso) { echo $permiso->origen_nom. "; ";} ?></span> Transportista <?php echo $transportista->razon_social ?>, teléfono del transportista 
+                Proceden a <span class="acta_procedenA"><?php echo $inspeccion->proceden_a ?></span>, Termico/s patente/s: <?php foreach ($inspeccion->termicos->termico as $termico) { echo $termico->patente. "; ";} ?><br> 
+                    <?php foreach ($inspeccion->permisos_transito->permiso_transito as $permiso) { echo "Tipo de PT " . $permiso->tipo. " | N° de permiso " . $permiso->perm_id .   " | Producto " . $permiso->producto .  " | Temperatura " .$permiso->temperatura. " | Empresa de origen " .$permiso->origen_nom ; foreach ($destinos as $destino){ if($permiso->perm_id == $destino->perm_id ){ echo " | Destino " . $destino->departamento. " | Domicilio " . $destino->calle. ", ".$destino->altura ;}}echo "</br>";} ?>
+                    Transportista <?php echo $transportista->razon_social ?>, teléfono del transportista 
                     <span class="acta_telTransportista"><?php echo $inspeccion->tel_transportista ?></span> correo electrónico del transportista <span class="acta_emailTransportista"><?php echo $inspeccion->email_transportista ?></span> 
-                    destinos <?php foreach ($destinos as $destino) { echo $destino->razon_social. ", ". $destino->altura. ", ".$destino->calle. ", ". $destino->departamento. ". ";} ?> producto/s <?php foreach ($inspeccion->permisos_transito->permiso_transito as $permiso) { echo $permiso->productos. " ";} ?>,
-                    temperatura <?php foreach ($inspeccion->permisos_transito->permiso_transito as $permiso) { echo $permiso->temperatura. " ";} ?>, precintos <?php foreach ($inspeccion->termicos->termico as $termico) { echo $termico->precintos. " ";} ?>, Peso Bruto <?php echo $inspeccion->bruto ?>, 
+                    precintos <?php foreach ($inspeccion->termicos->termico as $termico) { echo $termico->precintos. " ";} ?>, Peso Bruto <?php echo $inspeccion->bruto ?>, 
                     Tara <?php echo $inspeccion->tara ?> kg, N° de Ticket <?php echo $inspeccion->ticket ?>. Tipo de documentación <span class="acta_tpoDocumentacion"><?php echo $datosEscaneo['doc_impo']['descripcion']; ?></span>.
                 </div>
                 <div style="text-indent: 30px;">
@@ -241,10 +256,17 @@
                     Observaciones: <?php echo $inspeccion->observaciones ?>.<br><br>
                 </div>
                 <div style="text-indent: 30px;">
-                    Quedando como Depositario Judicial de la mercadería en cuestión, el señor/a <span class="acta_nyaDepositario"><?php echo $inspeccion->infracciones->infraccion->depositario ?></span>, D.N.I. N° <span class="dniActa"><?php echo $inspeccion->infracciones->infraccion->documento ?></span>, Teléfono
-                    <span class="telefonoActa"><?php echo $inspeccion->infracciones->infraccion->telefono ?></span>, correo electrónico  <span class="correoActa"><?php echo $inspeccion->infracciones->infraccion->email ?></span>, con domicilio legal <span class="direccionLegalActa"><?php echo $inspeccion->infracciones->infraccion->domicilio_legal?></span>,
-                    y domicilio comercial <span class="direccionComercialActa"><?php echo $inspeccion->infracciones->infraccion->domicilio_comercial?></span>. Con las características organolépticas que se describen a continuación <span class="acta_caractOrganolepticas"><?php echo $inspeccion->infracciones->infraccion->caracteristicas_organolepticas ?></span>, en un depósito
-                    con las siguientes características: <span class="acta_caractDeposito"><?php echo $inspeccion->infracciones->infraccion->caracteristicas_deposito ?></span>, y registrándose la siguiente temperatura <span class="acta_tempCamaraActa"><?php echo $inspeccion->infracciones->infraccion->temperatura_actual?></span><br>
+                <span class="acta_infoInfraccion"></span><span class="acta_infoCaracteristicasInfraccion"></span>
+                    <?php if($inspeccion->infracciones->infraccion->depositario) echo 'Quedando como Depositario Judicial de la mercadería en cuestión, el señor/a ' .$inspeccion->infracciones->infraccion->depositario;  ?>
+                    <?php if($inspeccion->infracciones->infraccion->documento) echo ", D.N.I. N° " . $inspeccion->infracciones->infraccion->documento ;?>
+                    <?php if($inspeccion->infracciones->infraccion->telefono) echo ", Teléfono " . $inspeccion->infracciones->infraccion->telefono; ?> 
+                    <?php if($inspeccion->infracciones->infraccion->email ) echo ", correo electrónico " . $inspeccion->infracciones->infraccion->email ?>
+                    <?php if($inspeccion->infracciones->infraccion->domicilio_legal) echo ", con domicilio legal " . $inspeccion->infracciones->infraccion->domicilio_legal?>
+                    <?php if($inspeccion->infracciones->infraccion->domicilio_comercial) echo ", domicilio comercial " . $inspeccion->infracciones->infraccion->domicilio_comercial?>
+                    <?php if($inspeccion->infracciones->infraccion->caracteristicas_organolepticas) echo ".Con las características organolépticas que se describen a continuación " . $inspeccion->infracciones->infraccion->caracteristicas_organolepticas ?>
+                    <?php if($inspeccion->infracciones->infraccion->caracteristicas_deposito) echo ", en un depósito con las siguientes características: " . $inspeccion->infracciones->infraccion->caracteristicas_deposito ?>
+                    <?php if($inspeccion->infracciones->infraccion->temperatura_actual) echo ", y registrándose la siguiente temperatura " . $inspeccion->infracciones->infraccion->temperatura_actual?>
+                  
                     <br>
                     Fecha y Hora: <span class="acta_fecha"><?php echo date('d-m-Y'); ?></span>, <span class="acta_hora"><?php echo date('H:i'); ?></span> horas.<br>
                     <div class="firmaDepositario" style="text-align: right;">
