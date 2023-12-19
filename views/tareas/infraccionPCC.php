@@ -410,7 +410,8 @@
                                         <input type="number" class="form-control" name="cant_fajas" id="cant_fajas" value="<?php echo isset($inspeccion->cant_fajas) ? $inspeccion->cant_fajas : null; ?>" readonly/>
                                     </div>
                                 </div>
-                            </div>                    
+                            </div> 
+                            <input type="hidden" name="contador" id="contador" value="<?php echo isset($inspeccion->numerador_inspeccion) ? $inspeccion->numerador_inspeccion : null; ?>" >                   
                             <!--________________-->
                         </div> <!--FIN box-primary-->
                     </div><!--FIN col-->
