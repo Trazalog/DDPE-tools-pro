@@ -4,7 +4,7 @@ use \koolreport\widgets\koolphp\Table;
 use \koolreport\widgets\google\ColumnChart;
 
 use function PHPSTORM_META\type;
-
+ 
 ?>
 <style>
   .input-group-addon:hover {
@@ -415,12 +415,16 @@ use function PHPSTORM_META\type;
     data.termico = termico;
     return data;
   }
+  var tipoActa = '';
   // Levanta modal detalle de reporte
   function buscaDetalleInspeccion(tag) {
     wo();
     $("#modalBodyDetalle").empty();
     let case_id = $(tag).parents("tr").find("td").eq(1).html();
     let caseId = case_id.trim();
+
+    let resultado = $(tag).parents("tr").find("td").eq(10).html();
+    tipoActa = resultado.trim(); 
     var data = {};
     data.caseId = caseId;
     $("#modalBodyDetalle").load("<?php echo base_url(SICP); ?>reportes/detaReporte", data, function() {
@@ -447,14 +451,43 @@ use function PHPSTORM_META\type;
 
   // Imprimir ACTA
   function imprimirActa() {
+
+    var acta = '';
+    if(tipoActa == 'incorrecta'){
+      acta = "#actaInfraccion";
+    }
+    else{
+     
+      acta = "#actaInspeccionPCC";
+    } 
+
     var base = "<?php echo base_url(); ?>";
-    $('#actaInfraccion').printThis({
+    $(acta).printThis({
       debug: false,
       importCSS: true,
       importStyle: true,
       loadCSS: "",
       base: base,
       pageTitle: "TRAZALOG TOOLS",
+      /* afterPrint: function(){
+            const confirm = Swal.mixin({
+					customClass: {
+						confirmButton: 'btn btn-primary'
+					},
+					buttonsStyling: false
+				});
+
+                confirm.fire({
+                    title: 'Perfecto!',
+                    text: "Se finalizó la tarea correctamente!",
+                    type: 'success',
+                    showCancelButton: false,
+                    confirmButtonText: 'Hecho'
+                }).then((result) => {
+                  console.log("terminé");
+
+                });
+        } */
     });
   }
 
