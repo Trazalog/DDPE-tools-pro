@@ -534,26 +534,22 @@ function cerrarTarea() {
     }
 
     //Una vez validado el formulario, lo guardo
-    cerrarTareaform().then((result) => {
-        
+    cerrarTareaform().then((result) => {        
         var dataForm = new FormData($('#formReprecintado')[0]);
         frm_info_id = $('#info_id_doc').val();
-
-        dataForm.append('frm_info_id', frm_info_id);
-        
+        dataForm.append('frm_info_id', frm_info_id);        
         var id = $('#taskId').val();
-
         $.ajax({
             type: 'POST',
             data: dataForm,
             cache: false,
             contentType: false,
             processData: false,
-            url: '<?php base_url() ?>index.php/<?php echo BPM ?>Proceso/cerrarTarea/' + id,
+            // url: '<?php base_url() ?>index.php/<?php echo BPM ?>Proceso/cerrarTarea/' + id,
+            url: '<?php base_url() ?>index.php/<?php echo BPM ?>Proceso/cerrarTareaReprecintado/' + id,
             success: function(data) {
                 wc();
                 imprimirActa();
-
             },
             error: function(data) {
                 alert("Error al finalizar tarea");
