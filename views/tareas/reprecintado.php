@@ -643,8 +643,8 @@ function cerrarTarea() {
             cache: false,
             contentType: false,
             processData: false,
-            // url: '<?php base_url() ?>index.php/<?php echo BPM ?>Proceso/cerrarTarea/' + id,
-            url: '<?php base_url() ?>index.php/<?php echo BPM ?>Proceso/cerrarTareaReprecintado/' + id,
+            url: '<?php base_url() ?>index.php/<?php echo BPM ?>Proceso/cerrarTarea/' + id,
+            // url: '<?php base_url() ?>index.php/<?php echo BPM ?>Proceso/cerrarTareaReprecintado/' + id,
             success: function(data) {
                 wc();
                 imprimirActa();
