@@ -92,10 +92,7 @@
                 <div class="row">
                 <input type="hidden" name="contador" id="contador" >
                     <div class="col-md-6 col-sm-12 col-xs-12">
-                        <div class="caja" id="boxPermisoTransito">
-                            <div class="box-tittle centrar">
-                                <h3>Permiso de tránsito</h3>
-                            </div>
+                        <div class="caja" id="boxPermisoTransito">                            
                             <input type="text" class="form-control hidden" name="petr_id" id="petr_id" value="<?php echo $petr_id?>">
                             <input type="text" class="form-control hidden" name="reprecintado" id="reprecintado" value="<?php echo $inspeccion->reprecintado ?>">
                             <input type="text" class="form-control hidden" name="info_id_doc" id="info_id_doc" value="<?php echo $inspeccion->info_id_doc ?>">
@@ -113,85 +110,70 @@
                             <input type="text" name="caracterAtendio" id="caracterAtendio" value="<?php echo isset($inspeccion->caracter_de) ? $inspeccion->caracter_de : '' ?>" hidden/>
                             <input type="text" name="procedenAccion" id="procedenAccion" value="<?php echo isset($inspeccion->proceden_a) ? $inspeccion->proceden_a : '' ?>" hidden/>
                             <!-- FIN Bloque campos necesarios para cierre de reprecintado-->
-                            <div class="col-md-12 col-sm-12 col-xs-12 centrar">
-                                <h4>Permisos:</h4>
-                                <div id="sec_permisos">
-                                    <?php 
-                                   
-                                    //echo var_dump($inspeccion->reprecintado);
-                                    
-                                    if(!empty($inspeccion->permisos_transito->permiso_transito)){
-                                        foreach ($inspeccion->permisos_transito->permiso_transito as $key) {
-                                    ?>
-                                        <div class='form-group dataTemporal' data-json='<?php echo json_encode($key) ?>'>
-                                            <span> 
-                                                <?php echo "$key->perm_id - $key->tipo - $key->lugar_emision - $key->fecha_hora_salida" ?>
-                                            </span>
-                                        </div>
-                                    <?php
-                                        }
-                                    }
-                                    ?>
-                                </div>
-                                <hr>
+                            <div class="box-tittle centrar">
+                                <h3>Permiso de tránsito</h3>
                             </div>
-                            <?php $this->load->view(SICP.'reprecintado/mosaicoReprecintado.php') ?>
-                            <!--Inspectores-->
-                            <div style="margin-top: 50px;" class="col-md-12 col-sm-12 col-xs-12">
-                                <div class="form-group">
-                                    <label for="inspectores">Inspectores(<strong style="color: #dd4b39">*</strong>):</label>
-                                    <input class="form-control" name="inspectores" id="inspectores" placeholder="Ingrese Inspectores" value="<?php echo $inspeccion->inspectores ?>"/>
-                                </div>                    
-                            </div>
-                            <!--________________-->
-                        </div><!-- FIN #boxPermisoTransito -->
-                    </div>
-                    <!--_______ FIN FORMULARIO PERMISO DE TRANSITO BOX 1 ______-->
-
-                    <!--_______ FORMULARIO INSPECCION BOX 2______-->
-                    <div class="col-md-6 col-sm-12 col-xs-12">
-                        <div class="caja" id="boxInspeccion">
-                            <!--DNI Chofer-->
-                            <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
-                                <div class="form-group">
-                                    <label for="doc_chofer">DNI Chofer:</label>
-                                    <input type="text" class="form-control" name="chof_id" id="doc_chofer" value="<?php echo isset($inspeccion->chof_id) ? $inspeccion->chof_id : null ?>" readonly/>
-                                </div>
-                            </div>
-                            <!--________________-->
-
-                            <!-- Nombre CHOFER -->
+                            <input type="text" class="form-control hidden" name="petr_id" id="petr_id" value="<?php echo $petr_id?>">
+                            <input type="hidden" name="reprecintado" id="reprecintado" value="true">
+                            <!--Permiso-->
                             <div class="col-md-6 col-sm-6 col-xs-12">
                                 <div class="form-group">
-                                    <label for="nom_chofer">Nombre Chofer:</label>
-                                    <input type="text" class="form-control" name="nom_chofer" id="nom_chofer" value="<?php echo isset($inspeccion->chofer) ? $inspeccion->chofer : null ?>" readonly/>
+                                    <label for="perm_num">N° de Permiso(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <input type="text" class="form-control requerido alfanumerico" id="permi_num" placeholder="Ingrese número de permiso"/>
                                 </div>
                             </div>
                             <!--________________-->
 
-                            <!--Patente Tractor-->
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <div class="form-group has-feedback">
-                                    <label for="patenteTractor">Patente Tractor:</label>
-                                    <input class="form-control" name="patente_tractor" id="patenteTractor" value="<?php echo isset($inspeccion->patente_tractor) ? $inspeccion->patente_tractor : null ?>" readonly/>
-                                </div>
-                            </div>
-                            <!--________________-->
-
-                            <!--N° SENASA-->
+                            <!--Solicitud-->
                             <div class="col-md-6 col-sm-6 col-xs-12">
                                 <div class="form-group">
-                                    <label for="num_senasa">N° SENASA:</label>
-                                    <input class="form-control limitedChars" name="nro_senasa" id="num_senasa" value="<?php echo isset($inspeccion->nro_senasa) ? $inspeccion->nro_senasa : null ?>" readonly/>
+                                    <label for="Solicitud">N° de Solicitud(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <input type="text" class="form-control requerido alfanumerico" id="soli_num" placeholder="Ingrese número de solicitud"/>
+                                </div>
+                            </div>
+                            <!--________________-->
+
+                            <!-- Lugar de Emisión -->
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label for="emision">Lugar de emisión(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <input type="text" class="form-control" id="emision" placeholder="Ingrese lugar de emisión"/>
                                 </div>
                             </div>
                             <!--________________-->
                             
-                            <!--Establecimiento N°-->
+                            <!--DOC. Sanitaria Tipo-->
+                            <div class="col-md-6 col-sm-6 col-xs-6" style="display: contents;">
+                                <div class="col-md-6 col-sm-6 col-xs-6">
+                                    <label for="doc_sanitaria">Doc. Sanitaria Tipo(<strong style="color: #dd4b39">*</strong>):</label>
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-6">
+                                    <div class="form-check">
+                                        <input type="radio" class='form-check-input' name="doc_sanitaria" value="PT"/>
+                                        <label class="form-check-label" for="">PT</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input type="radio" class='form-check-input' name="doc_sanitaria" value="PTR"/>
+                                        <label class="form-check-label" for="">PTR</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--________________-->
+
+                            <!--Hora de Salida-->
                             <div class="col-md-6 col-sm-6 col-xs-12">
                                 <div class="form-group">
-                                    <label for="esta_num">Establecimiento N°:</label>
-                                    <input class="form-control" name="esta_num" id="esta_num" value="<?php echo isset($origen->cuit) ? $origen->cuit : null ?>" readonly/>
+                                <label for="salida">Hora de Salida(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <input type="time" class="form-control" id="salida" placeholder="Ingrese hora de salida"/>
+                                </div>
+                            </div>
+                            <!--________________-->
+
+                            <!--Fecha-->
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                <label for="fecha">Fecha del Permiso(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <input class="form-control formatoFecha" id="fecha"/>
                                 </div>
                             </div>
                             <!--________________-->
@@ -199,23 +181,166 @@
                             <!--Nombre Establecimiento-->
                             <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
                                 <div class="form-group">
-                                    <label for="esta_nom">Establecimiento:</label>
-                                    <input class="form-control" name="esta_nom" id="esta_nom" value="<?php echo isset($origen->razon_social) ? $origen->razon_social : null ?>" readonly/>
+                                    <label for="esta_nom" style="font-size:13px !important">Nombre de Establecimiento(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <div class="input-group">
+                                        <select class="form-control select2 select2-hidden-accesible empresa" id="esta_nom" required>
+                                            <option value="" disabled selected></option>	
+                                        </select>
+                                        <span id="add_establecimiento" class="input-group-addon" data-toggle="modal" data-target="#mdl-establecimiento" onclick="$('#tipoEmpresa').val('Establecimiento')"><i class="fa fa-plus"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--________________-->
+                            
+                            <!--Establecimiento N°-->
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label for="esta_num">Establecimiento N°(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <input class="form-control" name="esta_num" id="esta_num" placeholder="Establecimiento N°" readonly/>
                                 </div>
                             </div>
                             <!--________________-->
 
-                            <!--Seccion Destinos-->
+                            <!--Producto-->
+                            <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
+                                <div class="form-group">
+                                    <label for="producto">Producto(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <div class="input-group" style="width: 100%">
+                                        <select class="form-control select2 select2-hidden-accesible producto" name="tipr_id" id="tipr_id" style="width: 100%">
+                                            <option value="" disabled selected>- Seleccionar -</option>
+                                            <?php
+                                                if(!empty($productos)){ 
+                                                    foreach ($productos as $prod) {
+                                                        echo "<option data-json='".json_encode($prod)."' value='".$prod->tabl_id."'>".$prod->descripcion."</option>";
+                                                    }
+                                                }
+                                            ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--________________-->
+
+                           <!--Estado de Producto-->
+                            <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
+                                <div class="form-group">
+                                    <label for="estado_producto">Estado del Producto(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <div class="input-group" style="width: 100%">
+                                        <select class="form-control select2 select2-hidden-accesible estado_producto" name="estado_pr_id" id="estado_pr_id" style="width: 100%">
+                                            <option value="" disabled selected>- Seleccionar -</option>
+                                            <?php
+                                                if(!empty($estados_productos)){ 
+                                                    foreach ($estados_productos as $estados) {
+                                                        echo "<option data-json='".json_encode($estados)."' value='".$estados->tabl_id."'>".$estados->descripcion."</option>";
+                                                    }
+                                                }
+                                            ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div> 
+                            <!--Kilos-->
+                            <!-- <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label for="kilos">Kilos(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <input class="form-control onlyNumbers" name="kilos" id="kilos" placeholder="Ingrese kilos"/>
+                                </div>                    
+                            </div> -->
+                            <!--________________-->
+
+                            <!--Producto-->
+                            <!-- <div class="col-md-12 col-sm-12 col-xs-12 ocultar">
+                                <div class="form-group">
+                                    <label for="producto">Producto/s(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <textarea class="form-control" name="productos" id="producto" placeholder="Ingrese producto/s"></textarea>
+                                </div>                    
+                            </div> -->
+                            <!--________________-->
+
+                            <!--Neto-->
+                            <div class="col-md-4 col-sm-6 col-xs-6">
+                                <div class="form-group">
+                                    <label for="neto">Peso Neto(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <input class="form-control onlyNumbers" id="netoPermiso"/>
+                                </div>                    
+                            </div>
+                            <!--________________-->
+
+                            <!--Bruto-->
+                            <div class="col-md-4 col-sm-6 col-xs-6">
+                                <div class="form-group">
+                                    <label for="bruto">Peso Bruto(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <input class="form-control onlyNumbers" id="brutoPermiso"/>
+                                </div>                    
+                            </div>
+                            <!--________________-->
+
+                            <!--Temperatura-->
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label for="temperatura">Temperatura(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <input class="form-control onlyNumbersT" id="temperatura" placeholder="Ingrese temperatura" />
+                                </div>                    
+                            </div>
+                            <!--________________-->
+
+                            <!--Empresa Destino-->
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label for="empre_destino">Empresa Destino(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <div class="input-group">
+                                        <select class="form-control select2 select2-hidden-accesible empresa" name="empre_destino" id="empre_destino">
+                                            <option value="" disabled selected></option>
+                                        </select>
+                                        <span id="add_empresa" class="input-group-addon" data-toggle="modal" data-target="#mdl-empresa" onclick="$('#tipoEmpresa').val('Empresa')"><i class="fa fa-plus"></i></span>
+                                    </div>
+                                </div>                    
+                            </div>
+                            <!--________________-->
+
+                            <!--Depósito Destino-->
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label for="depo_destino">Depósito Destino(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <div class="input-group">
+                                        <select class="form-control select2 select2-hidden-accesible" name="depo_destino" id="depo_destino">
+                                            <option value="" disabled selected>-Seleccionar-</option>
+                                        </select>
+                                        <span id="add_deposito" class="input-group-addon" data-toggle="modal" data-target="#mdl-deposito"><i class="fa fa-plus"></i></span>
+                                    </div>
+                                </div>                    
+                            </div>
+
+                            <!--Producto-->
+                            <!-- <div class="col-md-12 col-sm-12 col-xs-12 ocultar">
+                                <div class="form-group">
+                                    <label for="productosDestino">Producto/s para la empresa de destino(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <textarea class="form-control" name="productosDestino" id="productosDestino" placeholder="Ingrese producto/s para la empresa de destino"></textarea>
+                                </div>                    
+                            </div> -->
+                            <!--________________-->
+
+                            <!--_________________ Agregar_________________-->
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div style="margin-top: 25px;" class="form-group text-right">
+                                    <button type="button" class="btn btn-primary" onclick="agregarDestino()" >Agregar Destino</button>
+                                </div>
+                            </div>                
+                            <!--__________________________________-->
+
                             <div class="col-md-12 col-sm-12 col-xs-12 centrar">
-                                <h4>Empresa Destino:</h4>
+                                 <h4 class="titDataDinamica">Empresa Destino:</h4>
                                 <div id="sec_destinos">
                                     <?php 
                                     if(!empty($destinos)){
                                         foreach ($destinos as $key) {
                                     ?>
-                                        <div class='form-group empreDestino dataTemporal' data-json='<?php echo json_encode($key) ?>'>
-                                            <span> 
-                                                <?php echo "$key->razon_social - $key->calle - $key->altura" ?>
+                                        <div class='form-group empreDestino' data-json='<?php echo json_encode($key) ?>'>
+                                            <span>
+                                                <i class='fa fa-fw fa-eye text-light-blue' style='cursor: pointer;' title='Ver detalle' onclick="verDestino(this)"></i> 
+                                                <i class='fa fa-fw fa-edit text-light-blue' style='cursor: pointer;' title='Editar' onclick='editarDestino(this)'></i> 
+                                                <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i>
+                                                <?php echo "| $key->razon_social - $key->calle - $key->altura" ?>
                                             </span>
                                         </div>
                                     <?php
@@ -227,35 +352,26 @@
                             </div>
                             <!--________________-->
 
-                            <!--Transportista-->
-                            <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
-                                <div class="form-group">
-                                    <label for="transportista">Transportista:</label>
-                                    <input class="form-control" name="transportista" id="transportista" value="<?php echo isset($transportista->razon_social) ? $transportista->razon_social : null ?>" readonly/>
-                                </div>                    
-                            </div>
-                            <!--________________-->
-
-                            <!--Producto-->
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <div class="form-group">
-                                    <label for="producto">Producto/s:</label>
-                                    <input class="form-control" name="productos" id="producto" value="<?php echo isset($inspeccion->productos) ? $inspeccion->productos : null; ?>" readonly/>
-                                </div>                    
-                            </div>
-                            <!--________________-->
-
-                            <!--Seccion termicos-->
+                            <!--_________________ Agregar_________________-->
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group text-right">
+                                    <button type="button" class="btn btn-primary" onclick="agregarPermiso()" >Agregar Permiso</button>
+                                </div>
+                            </div>                     
+                            <!--__________________________________-->
                             <div class="col-md-12 col-sm-12 col-xs-12 centrar">
-                                <h4>Térmico:</h4>
-                                <div id="sec_termicos">
+                                 <h4 class="titDataDinamica">Permisos:</h4>
+                                <div id="sec_permisos">
                                     <?php 
-                                    if(!empty($inspeccion->termicos->termico)){
-                                        foreach ($inspeccion->termicos->termico as $key) {
+                                    if(!empty($preCargaDatos->permisos_transito->permiso_transito)){
+                                        foreach ($preCargaDatos->permisos_transito->permiso_transito as $key) {
                                     ?>
-                                        <div class='form-group termicos dataTemporal' data-json='<?php echo json_encode($key) ?>'>
+                                        <div class='form-group permTransito' data-json='<?php echo json_encode($key) ?>'>
                                             <span> 
-                                                <?php echo "$key->patente - $key->temperatura - $key->precintos" ?>
+                                                <i class='fa fa-fw fa-eye text-light-blue' style='cursor: pointer;' title='Ver detalle' onclick='verPermiso(this)'></i> 
+                                                <i class='fa fa-fw fa-edit text-light-blue' style='cursor: pointer;' title='Editar' onclick='editarPermiso(this)'></i>
+                                                <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i>
+                                                <?php echo "| <span class='numPermiso'>$key->soli_num</span> - $key->perm_id" ?>
                                             </span>
                                         </div>
                                     <?php
@@ -263,16 +379,23 @@
                                     }
                                     ?>
                                 </div>
+                                <hr>
                             </div>
-                            <!--________________-->
-                            <!--Observaciones-->
-                            <div class="col-md-12 col-sm-12 col-xs-12">
-                                <div class="form-group">
-                                    <label for="observaciones">Observaciones:</label>
-                                    <textarea class="form-control" row="3" name="observaciones" id="observaciones" placeholder="Observaciones" readonly><?php echo isset($inspeccion->observaciones) ? $inspeccion->observaciones : null; ?></textarea>
-                                </div>                    
-                            </div>
-                            <!--________________-->
+                        </div><!-- FIN #boxPermisoTransito -->
+                    </div>
+                    <!--_______ FIN FORMULARIO PERMISO DE TRANSITO BOX 1 ______-->
+                    
+                    <!--_______ FORMULARIO INSPECCION BOX 2______-->
+                    <div class="col-md-6 col-sm-12 col-xs-12">
+                        <!--Inspectores-->
+                        <div style="margin-top: 50px;" class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="form-group">
+                                <label for="inspectores">Inspectores(<strong style="color: #dd4b39">*</strong>):</label>
+                                <input class="form-control" name="inspectores" id="inspectores" placeholder="Ingrese Inspectores" value="<?php echo $inspeccion->inspectores ?>"/>
+                            </div>                    
+                        </div>
+                        <!--________________-->
+                        <div class="caja" id="boxInspeccion">
                             <!--Bruto-->
                             <div class="col-md-4 col-sm-6 col-xs-6">
                                 <div class="form-group">
@@ -304,30 +427,6 @@
                                     <input class="form-control" name="ticket" id="ticket" value="<?php echo isset($inspeccion->ticket) ? $inspeccion->ticket : null; ?>"/>
                                 </div>                    
                             </div>
-                            <!--________________-->
-                            <!--Bruto Reprecintado-->
-                            <!-- <div class="col-md-6 col-sm-6 col-xs-6">
-                                <div class="form-group">
-                                    <label for="bruto">Bruto:</label>
-                                    <input class="form-control netoRepre onlyNumbers" name="bruto_reprecintado" id="bruto_reprecintado"/>
-                                </div>                    
-                            </div> -->
-                            <!--________________-->
-                            <!--Neto Reprecintdo-->
-                            <!-- <div class="col-md-6 col-sm-6 col-xs-6">
-                                <div class="form-group">
-                                    <label for="neto_reprecintado">Neto:</label>
-                                    <input type="number" class="form-control" id="neto_reprecintado" readonly/>
-                                </div>                    
-                            </div> -->
-                            <!--________________-->
-                            <!--Ticket Reprecintado-->
-                            <!-- <div class="col-md-12 col-sm-6 col-xs-6">
-                                <div class="form-group">
-                                    <label for="ticket">Ticket:</label>
-                                    <input class="form-control" name="ticket_reprecintado" id="ticket_reprecintado"/>
-                                </div>                    
-                            </div> -->
                             <!--________________-->
                             <!--Nro de Precintos de cierre-->
                             <div class="col-md-12 col-sm-6 col-xs-6">
@@ -442,6 +541,99 @@ $(document).ready(function() {
     //Bruto y Tara
     $(".onlyNumbers").inputmask({ regex: "[0-9.,]*" });
 
+    $('.empresa').select2({
+        ajax: {
+            url: "<?php echo SICP; ?>inspeccion/buscaEmpresas",
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+                return {
+                    patron: params.term, // parámetro búsqueda
+                    page: params.page
+                };
+            },
+            processResults: function (data, params) {
+    
+                params.page = params.page || 1;
+                
+                var results = [];
+                $.each(data, function(i, obj) {
+                    results.push({
+                        id: obj.cuit,
+                        text: obj.razon_social,
+                        num_esta: obj.num_establecimiento
+                    });
+                });
+                return {
+                    results: results,
+                    pagination: {
+                        more: (params.page * 30) < results.length
+                    }
+                };
+            }
+        },
+        placeholder: 'Buscar empresa',
+        minimumInputLength: 3,
+        templateResult: function (empresa) {
+
+            if (empresa.loading) {
+                return "Buscando empresas...";
+            }
+
+            var $container = $(
+                "<div class='select2-result-repository clearfix'>" +
+                "<div class='select2-result-repository__meta'>" +
+                    "<div class='select2-result-repository__title'></div>" +
+                    "<div class='select2-result-repository__description'></div>" +
+                "</div>" +
+                "</div>"
+            );
+
+            $container.find(".select2-result-repository__title").text(empresa.id);
+            $container.find(".select2-result-repository__description").text(empresa.text);
+
+            return $container;
+        },
+        templateSelection: function (empresa) {
+            return empresa.text;
+        },
+        language: {
+            noResults: function() {
+                return '<option>No hay coincidencias</option>';
+            },
+            inputTooShort: function () {
+                return 'Ingrese 3 o mas dígitos para comenzar la búsqueda'; 
+            }
+        },
+        escapeMarkup: function(markup) {
+            return markup;
+        },
+    });
+    //Deshabilito los depositos destino hasta que se elija una empresa destino
+    $("#depo_destino").prop("disabled", true);
+
+    //MÁSCARAS
+    //Lugar de Emision A-Z, 0-9 y space
+    $("#emision").inputmask({ regex: "[a-zA-Z0-9 ]*" });
+    //Solicitud N° y N° de Permiso
+    $(".alfanumerico").inputmask({ regex: "[0-9/a-zA-Z -]*" });
+    // N° SENASA: 0-9, /, ',' y -
+    $(".limitedChars").inputmask({ regex: "[0-9/,-]*" });
+    //PRECINTOS y Patentes: 0-9, A-Z, space, / y -
+    $(".limited").inputmask({ regex: "[0-9/a-zA-Z -]*" });
+    //Bruto y Tara
+    $(".onlyNumbers").inputmask({ regex: "[0-9.,]*" });
+    //Temperaturas
+    $(".onlyNumbersT").inputmask({ regex: "[0-9.,-]*" });
+    //Fechas
+    $('.formatoFecha').inputmask({
+        alias: "datetime",
+        inputFormat: "dd-mm-yyyy"
+    });
+
+    //Renombro el BOTON de guardar
+    $('#btnHecho').text('Imprimir acta');
+
 });//FIN document.ready
 //Actualizo neto cuando se cargue Bruto y Tara
 $(".neto").on("change", function () {
@@ -489,6 +681,27 @@ async function cerrarTareaform(){
     dataForm.append('info_id_doc', frm_info_id);
     dataForm.append('tipo', 'reprecintado');
 
+    //Guardo los datos del formulario para no perderlos en reload
+    //obtengo los permisos
+    permisos = [];
+    $('#sec_permisos div.permTransito').each(function(i, obj) {
+        var json = JSON.parse($(obj).attr('data-json'));
+        json.case_id = case_id;
+        permisos[i] = json;
+    });
+
+    //obtengo los destinos
+    empresas = [];
+    permisos.forEach(function(permiso) {
+        var empresasAsociadas = permiso.empresas;
+        var perm_id = permiso.perm_id;
+        empresasAsociadas.forEach(function(empresa) {
+            json = empresa;
+            json.perm_id = perm_id;
+            empresas.push(json);
+        });
+    });
+
     //Guardo la inspeccion
     let guardadoCompleto = new Promise( function(resolve,reject){
             $.ajax({
@@ -501,12 +714,34 @@ async function cerrarTareaform(){
             success: function(data) {
                 resp = JSON.parse(data);
                 if(data){
-                console.log("Se creo contador correctamente");
-                $("#contador").val(resp.contador);}
+                    console.log("Se creo contador correctamente");
+                    $("#contador").val(resp.contador);
+                }
                 else 
                 {
                     console.log('error crear contador');
                 }
+                //Guardo los permisos, empresas, termicos e infraccion si hubiese
+                $.ajax({
+                    type: 'POST',
+                    data: {permisos, empresas, case_id},
+                    url: "<?php echo SICP; ?>inspeccion/guardarDatosInspeccion",
+                    success: function(data) {
+                        resp = JSON.parse(data);
+                        if(resp.status){
+                            resp.info_id = newInfoID;
+                            resp.info_id_acta = info_id_acta;//Foto del acta en papel realizada offline
+                            resolve(resp);
+                        }else{
+                            console.log(resp.message);
+                            reject(resp);
+                        }
+                    },
+                    error: function(data) {
+                        wc();
+                        reject(data);
+                    }
+                });
                 console.log("Se guardo el formulario de la inspección correctamente");
                 resolve("Correcto");
 
@@ -545,8 +780,8 @@ function cerrarTarea() {
             cache: false,
             contentType: false,
             processData: false,
-            // url: '<?php base_url() ?>index.php/<?php echo BPM ?>Proceso/cerrarTarea/' + id,
-            url: '<?php base_url() ?>index.php/<?php echo BPM ?>Proceso/cerrarTareaReprecintado/' + id,
+            url: '<?php base_url() ?>index.php/<?php echo BPM ?>Proceso/cerrarTarea/' + id,
+            // url: '<?php base_url() ?>index.php/<?php echo BPM ?>Proceso/cerrarTareaReprecintado/' + id,
             success: function(data) {
                 wc();
                 imprimirActa();
@@ -695,4 +930,443 @@ function imprimirActa(){
     });
 
 };
+
+//
+//Script's seccion destino
+//
+var editandoDestino = false;// Utilizo para que no se pierdan los permisos al editar
+function agregarDestino(){
+    //Informamos el campo vacio 
+    var reporte = validarCamposDestino();
+                            
+    if(reporte == ''){
+        var empre_destino = $('#empre_destino').find(':selected').text();
+        var depo_destino = $('#depo_destino').find(':selected').text();
+
+        var datos = {};
+        datos.rol = "DESTINO";
+        datos.empr_id = $("#empre_destino").val();
+        datos.depo_id = $("#depo_destino").val();
+        datos.reprecintado = $("#reprecintado").val();
+        datos.razon_social = empre_destino;
+        datos.productos = $("#productosDestino").val();
+        direccion = depo_destino.split(" - ");
+        datos.calle = direccion[0];
+        datos.altura = direccion[1];
+        datos.depo_destino = depo_destino;
+
+        var div = `<div class='form-group empreDestino' data-json='${JSON.stringify(datos)}'>
+                        <span> 
+                        <i class='fa fa-fw fa-eye text-light-blue' style='cursor: pointer;' title='Ver detalle' onclick='verDestino(this)'></i> 
+                        <i class='fa fa-fw fa-edit text-light-blue' style='cursor: pointer;' title='Editar' onclick='editarDestino(this)'></i>
+                        <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i>
+                        | ${empre_destino} - ${depo_destino}
+                        </span>
+                </div>`;
+        $('#sec_destinos').append(div);
+        //Limpio luego de agregar
+        $('#empre_destino').val(null).trigger('change');
+        $('#depo_destino').val(null).trigger('change');
+        $("#productosDestino").val('');
+        alertify.success("Destino agregado correctamente!");
+        editandoDestino = false;
+    }else{
+        notificar('Cuidado',reporte,'warning');
+    }
+}
+function validarCamposDestino(){
+    var valida = '';
+    //Empresa destino
+    if($("#empre_destino").val() == ""){
+        valida = "Seleccione Empresa Destino!";
+    }
+    //Deposito Destino
+    if($("#depo_destino").val() == ""){
+        valida = "Seleccione Deposito Destino!";
+    }
+    return valida;
+}
+//Funcion para eliminar el registro en ambas SECCIONES
+$(document).on("click",".fa-trash",function(e) {
+    if (confirm('¿Desea borrar el registro?')) {
+        $(e.target).closest('div').remove();		
+    }
+});
+function editarDestino(tag){
+    if(!editandoDestino){
+        var data =	JSON.parse($(tag).closest('div').attr('data-json'));
+        emprVal = data.cuit;
+        emprNombre = data.razon_social;
+        depo_direccion = data.calle + " - " + data.altura;
+        depo_id = data.depo_id;
+
+        opcion = {'id': emprVal, 'text': emprNombre};
+        // opcDepo = {'id': depo_id, 'text': depo_direccion};
+
+        emprOpc = new Option(emprNombre, emprVal, true, true);
+        // emprDepo = new Option(depo_direccion, depo_id, true, true);
+        
+        // $('#depo_destino').append(emprDepo).trigger('change');
+        // $('#depo_destino').trigger({
+        //     type: 'select2:select',
+        //     params: {
+        //         data: opcion
+        //     }
+        // });
+        $('#empre_destino').append(emprOpc).trigger('change');
+        $('#empre_destino').trigger({
+            type: 'select2:select',
+            params: {
+                data: opcion
+            }
+        });
+        $("#productosDestino").val(data.productos);
+        $(tag).closest('div').remove();
+        editandoDestino = true;
+    }else{
+        notificar('Cuidado',"Ya se esta editando una empresa de <b>DESTINO</b>!",'warning');
+    }
+}
+function verDestino(tag){
+    var data =	JSON.parse($(tag).closest('div').attr('data-json'));
+    
+    $("#modalVerDestino").val(data.razon_social);
+    $("#modalVerDepositoDestino").val(data.calle + " - " + data.altura);
+    $("#modalVerProductosDestino").val(data.productos);
+    $("#mdl-verDetalleDestino").modal('show');
+}
+
+
+//Arma tabla de empresas asociadas a un permiso cuando editas.
+function armaTablaEmpresas(e){
+
+e.forEach(function(element) {
+    var datos = {};
+    datos.rol = "DESTINO";
+    datos.empr_id = element.empr_id;
+    datos.depo_id = element.depo_id;
+    datos.razon_social = element.razon_social;
+    datos.productos = element.productos;
+    var direccion = element.depo_destino;
+
+    var div = `<div class='form-group empreDestino' data-json='${JSON.stringify(datos)}'>
+                        <span> 
+                        <i class='fa fa-fw fa-eye text-light-blue' style='cursor: pointer;' title='Ver detalle' onclick='verDestino(this)'></i> 
+                        <i class='fa fa-fw fa-edit text-light-blue' style='cursor: pointer;' title='Editar' onclick='editarDestino(this)'></i>
+                        <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i>
+                        | ${element.razon_social} - ${element.depo_destino}
+                        </span>
+                </div>`;
+    $('#sec_destinos').append(div);
+  });
+}
+
+//obtiene datos de la tabla empresa destino para agregar a un permiso
+function obtieneEmpresasDestinos(){
+                //
+                //VALIDACION tabla EMPRESAS DESTINO
+                //
+                if ( !$('#sec_destinos').children().length > 0 ) {
+                    wc();
+                    Swal.fire(
+                        'Error..',
+                        'No se agregaron empresas de destino (*)',
+                        'error'
+                    );
+                    return;
+                }else {
+                    //obtengo destinos desde la tabla
+                        empresas = [];
+                        $('#sec_destinos div.empreDestino').each(function(i, obj) {
+                            var aux = $(obj).attr('data-json');
+                            aux = aux.replace("cuit", "empr_id");
+                            var json = JSON.parse(aux);
+                            json.case_id = case_id;
+                            empresas[i] = json;
+                        });
+                }
+                $('#sec_destinos').children().remove();
+                return empresas;
+}
+//
+//FIN Script's seccion destino
+/****************************************************** */
+/****************************************************** */
+//
+//Scripts Permisos transito
+//
+var editando = false;// Utilizo para que no se pierdan los permisos al editar
+async function agregarPermiso(){
+
+    //Informamos el campo vacio 
+    var reporte = validarCamposPermiso();
+    
+    if(reporte == ''){
+
+    //valida si existe el permiso
+        validarPermiso($("#permi_num").val()).then((result) => {
+                var soli_num = $("#soli_num").val();
+                var permi_num = $("#permi_num").val();
+                // var descDepo = $("#depo_origen_id option:selected").text();
+                var emision = $('#emision').val();
+                var salida = $('#salida').val();
+                var fecha = $("#fecha").val();
+                var tipo = $('input[name=doc_sanitaria]:checked').val();
+                var origen = $("#esta_nom").select2('data')[0].id;
+                var origen_nom = $("#esta_nom").select2('data')[0].text;
+                var origen_num = $("#esta_num").val();
+                var tipr_id = $("#tipr_id").select2('data')[0].id;
+                var productos = $("#tipr_id").select2('data')[0].text;
+                // var productos = $("#producto").val();
+                //var kilos = $("#kilos").val(); 
+                var netoPermiso = $("#netoPermiso").val(); 
+                var brutoPermiso = $("#brutoPermiso").val(); 
+                var temperatura = $("#temperatura").val(); 
+                var estado = $("#estado_pr_id").select2('data')[0].text; 
+                var estado_pr_id = $("#estado_pr_id").select2('data')[0].id;
+
+                //datos de empresas destino
+                empresas = obtieneEmpresasDestinos();
+
+                var datos = {};
+                datos.perm_id = permi_num;
+                datos.soli_num = soli_num;
+                datos.lugar_emision = emision;
+                datos.fecha_hora_salida = fecha +" "+salida;
+                datos.tipo = tipo;
+                datos.origen = origen;
+                datos.origen_nom = origen_nom;
+                datos.origen_num = origen_num;
+                datos.productos = productos;
+                datos.tipr_id = tipr_id;
+                //datos.kilos = kilos;
+                datos.neto = netoPermiso;
+                datos.bruto = brutoPermiso;
+                datos.temperatura = temperatura;
+                datos.estado = estado;
+                datos.estado_pr_id = estado_pr_id ;
+                datos.empresas =  empresas;
+
+                var div = `<div class='form-group permTransito' data-json='${JSON.stringify(datos)}'>
+                                <span> 
+                                <i class='fa fa-fw fa-eye text-light-blue' style='cursor: pointer;' title='Ver detalle' onclick='verPermiso(this)'></i> 
+                                <i class='fa fa-fw fa-edit text-light-blue' style='cursor: pointer;' title='Editar' onclick='editarPermiso(this)'></i>
+                                <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i>
+                                | <span class='numPermiso'>${soli_num}</span> - ${permi_num}
+                                </span>
+                        </div>`;
+                $('#sec_permisos').append(div);
+                //Limpio luego de agregar
+                // $("#soli_num").val('');
+                // $("#emision").val('');
+                // $("#salida").val('');
+                // $("#fecha").val('');
+                // $('input[name=doc_sanitaria]:checked').prop('checked',false);
+
+                editando = false;
+                alertify.success("Permiso de tránsito agregado correctamente!");
+
+        }).catch((err) => {
+           notificar('Error!',  'Permiso Existente','warning');
+        });
+}else{
+            notificar('Cuidado',reporte,'warning');
+        }
+   
+}
+
+//evalua si el permiso ya existe en la base
+async function validarPermiso(num_permiso){
+
+    let validacionPermiso = new Promise((resolve,reject) => {
+        $.ajax({
+            type: "POST",
+            data: {num_permiso},
+            cache: false,
+            dataType: "json",
+            url:"<?php echo SICP; ?>inspeccion/validacionPermiso",
+            success: function (rsp) {
+                //si trae perm_id existe el permiso
+                if(_isset(rsp.perm_id)){
+                    reject(rsp);
+                }else{
+                    resolve(rsp);
+                } 
+            },
+            error: function (rsp) {
+                Swal.fire('Oops...','No se guardo formulario dinámico','error');
+                reject("Ocurrió un error al gurdar el formulario dinámico");
+            }
+        });
+    });
+    return await validacionPermiso; 
+}
+
+function validarCamposPermiso(){
+    var valida = '';
+    //Numero de solicitud
+    if($("#soli_num").val() == ""){
+        valida = "Complete Numero de solicitud!";
+    }
+    //Valido que el numero de permiso no se ingreso previamente
+    $(".numPermiso").each(function (i, val) { 
+        if($(val).text() == $("#soli_num").val()){
+            valida = "N° de Permiso ya fue ingresado!";
+        }
+    });
+    //Lugar de emision
+    if($("#emision").val() == ""){
+        valida = "Complete Lugar de emision!";
+    }
+    //Hora de salida
+    if($("#salida").val() == ""){
+        valida = "Seleccione una Hora de salida!";
+        return valida;
+    }
+    //Fecha
+    if($("#fecha").val() == ""){
+        valida = "Seleccione una Fecha!";
+        return valida;
+    }
+    //Documentacion sanitaria
+    if($("input[name='doc_sanitaria']:checked").val() == null){
+        valida = "Seleccione un tipo de Doc. sanitaria!";
+        return valida;
+    }
+    //Peso Neto
+    if($("#netoPermiso").val() == ""){
+        valida = "Seleccione un Peso Neto!";
+        return valida;
+    }
+    //Select de Producto
+    var prod = $("#tipr_id option:selected");
+    if (prod.val() == "") {
+        valida = "Seleccione un Producto!";
+        return valida;
+    }
+    //Peso Bruto
+    if($("#brutoPermiso").val() == ""){
+        valida = "Seleccione un Peso Bruto!";
+        return valida;
+    }
+    bruto = $("#brutoPermiso").val();
+    neto = $("#netoPermiso").val();
+
+    tara = bruto - neto;
+    if(tara < 0){
+        valida = "El peso bruto es menor al peso neto"; 
+        return valida;
+    }
+    //Temperatura
+    if($("#temperatura").val() == ""){
+        valida = "Seleccione una Temperatura!";
+    }
+    //Fecha de salida
+    if(!Inputmask.isValid($("#fecha").val(), { alias: "datetime", inputFormat: "dd-mm-yyyy"})){
+        valida = "El formato de la fecha del permiso es incorrecto!";
+    }
+    return valida;
+}
+
+function editarPermiso(tag){
+    if(!editando){
+        var data =	JSON.parse($(tag).closest('div').attr('data-json'));
+
+        armaTablaEmpresas(data.empresas);
+        $("#soli_num").val(data.soli_num);
+        $("#permi_num").val(data.perm_id);
+        $("#emision").val(data.lugar_emision);
+        aux = data.fecha_hora_salida.split(" ");
+        $("#salida").val(aux[1]);
+        $("#fecha").val(aux[0]);
+        $("input[name=doc_sanitaria][value='"+data.tipo+"']").prop("checked",true);
+        $("#producto").val(data.productos);
+        $("#netoPermiso").val(data.neto);
+        $("#brutoPermiso").val(data.bruto);
+        $("#temperatura").val(data.temperatura);
+        $("#estado_pr_id").val(data.estado_pr_id);
+        emprVal = data.origen;
+        emprNombre = data.origen_nom;
+        emprNum = data.origen_num;
+
+        opcion = {'id': emprVal, 'text': emprNombre, 'num_esta': emprNum};
+
+        emprOpc = new Option(emprNombre, emprVal, true, true);
+
+        $('#esta_nom').append(emprOpc).trigger('change');
+        $('#esta_nom').trigger({
+            type: 'select2:select',
+            params: {
+                data: opcion
+            }
+        });
+        $(tag).closest('div').remove();
+        editando = true;
+    }else{
+        notificar('Cuidado',"Ya se esta editando un <b>PERMISO DE TRÁNSITO</b>!",'warning');
+    }
+}
+
+function verPermiso(tag){
+    var data =	JSON.parse($(tag).closest('div').attr('data-json'));
+    $("#modalVerPermiso").val(data.perm_id);
+    $("#modalVerSolicitud").val(data.soli_num);
+    $("#modalVerEmision").val(data.lugar_emision);
+    $("#modalVerDocSanitaria").val(data.tipo);
+    $("#modalVerHoraSalida").val(data.fecha_hora_salida);
+    $("#modalVerOrigen").val(data.origen_nom);
+    $("#modalVerOrigenCuit").val(data.origen);
+    $("#modalVerOrigenNumero").val(data.origen_num);
+    $("#modalVerProductos").val(data.productos);
+    $("#modalVerEstadoProductos").val(data.estado);
+    $("#modalVerNeto").val(data.neto);
+    $("#modalVerBruto").val(data.bruto);
+    $("#modalVerTemperatura").val(data.temperatura);
+    $("#mdl-verDetallePermiso").modal('show');
+}
+//FIN Script's seccion permisos transito
+/***************************************************** */
+
+$('#esta_nom').on('select2:select', function (e) {
+    var data = e.params.data;
+    $("#esta_num").val(data.num_esta);
+});
+
+//Cargo listado de depositos para empresa destino seleccionada
+$("#empre_destino").on('change', function(){
+    //asigno la empresa al modal para altas rapidas
+    $("#empr_id_destino").val($("#empre_destino").val());
+    //Habilito el combo box
+    $("#depo_destino").prop("disabled", false);
+    //limpio opciones del combo
+    $('#depo_destino').html('').select2({data: {id:null, text: null}});
+    //Cargo los depositos coincidientes con la empresa destino seleccionada
+    destino = {};
+    destino.empr_id = $("#empre_destino").val();
+    $.ajax({
+        type: 'POST',
+        data: {destino},
+        url: "<?php echo SICP; ?>inspeccion/getDepositos",
+        success: function(data) {
+            if(data != 'null'){
+                datos = JSON.parse(data);
+                
+                $.each(datos, function(i, obj) {
+                    depo_id = obj.depo_id;
+                    direccion = obj.calle + " - " + obj.altura;
+
+                    newOpc = new Option(direccion, depo_id, false, false);
+                    $('#depo_destino').append(newOpc);
+                });
+                $('#depo_destino').trigger('change');
+
+            }else{
+                console.log("Sin depositos relacionados a esta empresa destino");
+            }
+        },
+        error: function(data) {
+            alert("Error al obtener depositos");
+        }
+    });
+});
 </script>
