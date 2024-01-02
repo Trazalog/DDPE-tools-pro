@@ -205,6 +205,7 @@ class Inspecciones extends CI_Model {
             $aux["temperatura"] = $key['temperatura'];
             $aux["estado_pr_id"] = $key['estado_pr_id'];
             $aux["kilos"] = $key['kilos'];
+            $aux["reprecintado"] = false;
 
             $batch_req['_post_inspeccion_permiso_batch_req']['_post_inspeccion_permiso'][] = $aux;
         }

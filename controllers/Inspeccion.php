@@ -216,7 +216,7 @@ class Inspeccion extends CI_Controller
 					$datos['valor2'] = '1';
 					$datos['valor3'] = '';
 					$datos['descripcion'] = $tabla;
-					$resp = $this->Valores->guardarValor($datos);
+					$respuesta = $this->Valores->guardarValor($datos);
 				}
 				else 
 				{
@@ -225,7 +225,7 @@ class Inspeccion extends CI_Controller
 					$dato['valor3'] = '';
 					$dato['descripcion'] = $tabla;
 					$dato['tabl_id'] = $nro[0]->tabl_id;
-					$resp = $this->Valores->editarValor($dato);
+					$respuesta = $this->Valores->editarValor($dato);
 				}
 
 				$resp['contador'] = $numerador['nro'];
