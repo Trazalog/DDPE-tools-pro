@@ -23,8 +23,8 @@
       <param name="chof_id" sqlType="STRING"/>
    </query>
    <query id="getEmpresasInspeccion" useConfig="SICPOADataSource">
-      <sql>select &#xd;ie.rol &#xd;,e.cuit&#xd;,e.razon_social &#xd;,e.num_establecimiento&#xd;,d.calle &#xd;,d.altura &#xd;,d.depa_id&#xd;,d.depo_id&#xd;,t.valor departamento&#xd;,ie.productos&#xd;,perm_id &#xd;from sicpoa.inspecciones_empresas ie &#xd;join sicpoa.empresas e on ie.empr_id = e.cuit &#xd;left join sicpoa.depositos d on ie.depo_id = d.depo_id&#xd;left join core.tablas t on d.depa_id = t.tabl_id &#xd;where ie.case_id = cast(:case_id as integer)</sql>
-      <result outputType="json">{&#xd;   "empresas":{&#xd;      "empresa":[&#xd;         {&#xd;            "rol":"$rol",&#xd;            "cuit":"$cuit",&#xd;            "razon_social":"$razon_social",&#xd;            "num_establecimiento":"$num_establecimiento",&#xd;            "depo_id":"$depo_id",&#xd;            "calle":"$calle",&#xd;            "altura":"$altura",&#xd;            "depa_id":"$depa_id",&#xd;            "departamento":"$departamento",&#xd;            "productos":"$productos",&#xd;            "perm_id":"$perm_id",&#xd;         }&#xd;      ]&#xd;   }&#xd;}</result>
+      <sql>select &#xd;ie.rol &#xd;,e.cuit&#xd;,e.razon_social &#xd;,e.num_establecimiento&#xd;,d.calle &#xd;,d.altura &#xd;,d.depa_id&#xd;,d.depo_id&#xd;,t.valor departamento&#xd;,ie.productos&#xd;,perm_id&#xd;,ie.empr_id &#xd;from sicpoa.inspecciones_empresas ie &#xd;join sicpoa.empresas e on ie.empr_id = e.cuit &#xd;left join sicpoa.depositos d on ie.depo_id = d.depo_id&#xd;left join core.tablas t on d.depa_id = t.tabl_id &#xd;where ie.case_id = cast(:case_id as integer)</sql>
+      <result outputType="json">{&#xd;   "empresas":{&#xd;      "empresa":[&#xd;         {&#xd;            "rol":"$rol",&#xd;            "cuit":"$cuit",&#xd;            "razon_social":"$razon_social",&#xd;            "num_establecimiento":"$num_establecimiento",&#xd;            "depo_id":"$depo_id",&#xd;            "calle":"$calle",&#xd;            "altura":"$altura",&#xd;            "depa_id":"$depa_id",&#xd;            "departamento":"$departamento",&#xd;            "productos":"$productos",&#xd;            "perm_id":"$perm_id",&#xd;            "empr_id":"$empr_id",&#xd;         }&#xd;      ]&#xd;   }&#xd;}</result>
       <param name="case_id" sqlType="STRING"/>
    </query>
    <query id="getTermicosInspeccion" useConfig="SICPOADataSource">
@@ -50,7 +50,7 @@
       <param name="fecha_hora" sqlType="STRING"/>
    </query>
    <query id="setPermisosInspeccion" useConfig="SICPOADataSource">
-      <sql>insert&#xd;	into&#xd;	sicpoa.permisos_transito (perm_id,&#xd;	lugar_emision,&#xd;	fecha_hora_salida,&#xd;	tipo,&#xd;	usuario_app,&#xd;	case_id,&#xd;    soli_num,&#xd;    origen,&#xd;    neto,&#xd;    bruto,&#xd;    temperatura,&#xd;    tipr_id,&#xd;    estado_pr_id,&#xd;    kilos)&#xd;values(:perm_id,&#xd;	:lugar_emision,&#xd;	to_timestamp(:fecha_hora_salida,'YYYY-MM-DD HH24:MI'),&#xd;	:tipo,&#xd;	:usuario_app,&#xd;	cast(:case_id as integer),&#xd;    :soli_num,&#xd;    :origen,&#xd;    cast(:neto as float),&#xd;    :bruto,&#xd;    cast(:temperatura as float),&#xd;    :tipr_id,&#xd;    :estado_pr_id,&#xd;    cast(:kilos as float)&#xd;);</sql>
+      <sql>insert&#xd;	into&#xd;	sicpoa.permisos_transito (perm_id,&#xd;	lugar_emision,&#xd;	fecha_hora_salida,&#xd;	tipo,&#xd;	usuario_app,&#xd;	case_id,&#xd;    soli_num,&#xd;    origen,&#xd;    neto,&#xd;    bruto,&#xd;    temperatura,&#xd;    tipr_id,&#xd;    estado_pr_id,&#xd;    kilos,&#xd;    reprecintado )&#xd;values(:perm_id,&#xd;	:lugar_emision,&#xd;	to_timestamp(:fecha_hora_salida,'YYYY-MM-DD HH24:MI'),&#xd;	:tipo,&#xd;	:usuario_app,&#xd;	cast(:case_id as integer),&#xd;    :soli_num,&#xd;    :origen,&#xd;    cast(:neto as float),&#xd;    :bruto,&#xd;    cast(:temperatura as float),&#xd;    :tipr_id,&#xd;    :estado_pr_id,&#xd;    cast(:kilos as float),&#xd;    CAST(:reprecintado AS BOOLEAN)&#xd;);</sql>
       <param name="perm_id" sqlType="STRING"/>
       <param name="lugar_emision" sqlType="STRING"/>
       <param name="fecha_hora_salida" sqlType="STRING"/>
@@ -65,6 +65,7 @@
       <param name="tipr_id" sqlType="STRING"/>
       <param name="estado_pr_id" sqlType="STRING"/>
       <param name="kilos" sqlType="STRING"/>
+      <param name="reprecintado" sqlType="STRING"/>
    </query>
    <query id="deletePermisoInspeccion" useConfig="SICPOADataSource">
       <sql>delete from sicpoa.permisos_transito&#xd;WHERE case_id=cast(:case_id as integer) ;</sql>
@@ -327,6 +328,10 @@
       <result outputType="json">{&#xd;   "termicos":{&#xd;      "termico":[&#xd;         {&#xd;            "patente":"$patente"&#xd;         }&#xd;      ]&#xd;   }&#xd;}</result>
       <param name="patron" sqlType="STRING"/>
    </query>
+   <query id="getTiempoMaximoPcc" useConfig="SICPOADataSource">
+      <sql>select t.valor2 &#xd;from core.tablas t&#xd;left join core.empresas e on t.empr_id = e.empr_id &#xd;where e.descripcion like 'DDPE'&#xd;and t.tabl_id = concat(e.empr_id, '-configuracionesmaximo_tiempoPCC')&#xd;and t.eliminado = false;</sql>
+      <result outputType="json">{&#xd;    "tiempomaximopcc":{&#xd;        "tiempomaximo":[&#xd;            {&#xd;                "valor2":"$valor2",&#xd;            }&#xd;        ]&#xd;    }&#xd;}</result>
+   </query>
    <resource method="GET" path="/inspeccion/id/{case_id}">
       <call-query href="getInspeccion">
          <with-param name="case_id" query-param="case_id"/>
@@ -366,6 +371,7 @@
          <with-param name="tipr_id" query-param="tipr_id"/>
          <with-param name="estado_pr_id" query-param="estado_pr_id"/>
          <with-param name="kilos" query-param="kilos"/>
+         <with-param name="reprecintado" query-param="reprecintado"/>
       </call-query>
    </resource>
    <resource method="DELETE" path="/inspeccion/permiso">
@@ -658,5 +664,8 @@
       <call-query href="getTermicoxPatron">
          <with-param name="patron" query-param="patron"/>
       </call-query>
+   </resource>
+   <resource method="GET" path="/tiempomaximopcc">
+      <call-query href="getTiempoMaximoPcc"/>
    </resource>
 </data>
