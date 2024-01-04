@@ -153,14 +153,14 @@ class Sicpoatareas extends CI_Model
                     }
                 }
                 $empresas = $data['preCargaDatos']->empresas->empresa;
+                $permisos = $data['preCargaDatos']->permisos_transito->permiso_transito;
 
                 //Separo las empresas por su rol
                 if(!empty($empresas)){
                     foreach($empresas as $key => $value){
                         
                         if($value->rol == "DESTINO"){
-                            $data['destinos'][$key] = $value;
-
+                            $data['destinos'][$key] = $value;         
                         }elseif ($value->rol == "ORIGEN") {
                             $data['origen'] = $value;
 
@@ -170,6 +170,31 @@ class Sicpoatareas extends CI_Model
                         }
                     }
                 }
+
+                //empresas asociadas a un permiso
+                // Crear un arreglo para almacenar las empresas por perm_id
+                $empresasPorPermiso = [];
+                $empresasDestino= $data['destinos'];
+                // Agrupar las empresas por perm_id
+                foreach ($empresasDestino as $empresa) {
+                    $perm_id = $empresa->perm_id;
+                    if (!isset($empresasPorPermiso[$perm_id])) {
+                        $empresasPorPermiso[$perm_id] = [];
+                    }
+                    $empresasPorPermiso[$perm_id][] = $empresa;
+                }
+
+                // Combinar los permisos con las empresas asociadas
+                foreach ($permisos as $permiso) {
+                    $perm_id = $permiso->perm_id;
+                    if (isset($empresasPorPermiso[$perm_id])) {
+                        $permiso->empresas = $empresasPorPermiso[$perm_id];
+                    }
+                }
+
+                // Guardar la combinación en $data['preCargaInspecciones']
+                $data['preCargaInspecciones'] = $permisos;
+
                 //Formateo la fecha de inspeccion para los input's
                 $fecAux = explode(' ',$data['preCargaDatos']->fec_inspeccion);
                 $data['horaInspeccion'] = $fecAux[1];

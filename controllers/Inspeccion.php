@@ -405,11 +405,13 @@ class Inspeccion extends CI_Controller
 		
 		$caseId = $this->input->post('caseId');
 
+		//Elimino empresas de inspeccion
+		$respEmpresas = $this->Inspecciones->eliminarEmpresa($caseId);
+		
+
 		//Elimino permisos de inspeccion
 		$rspPermisos = $this->Inspecciones->eliminarPermiso($caseId);
 
-		//Elimino empresas de inspeccion
-		$respEmpresas = $this->Inspecciones->eliminarEmpresa($caseId);
 		
 		//Elimino termicos de inspeccion
 		$respTermicos = $this->Inspecciones->eliminarTermico($caseId);
