@@ -94,7 +94,7 @@
                     <div class="col-md-6 col-sm-12 col-xs-12">
                         <div class="caja" id="boxPermisoTransito">                            
                             <input type="text" class="form-control hidden" name="petr_id" id="petr_id" value="<?php echo $petr_id?>">
-                            <input type="text" class="form-control hidden" name="reprecintado" id="reprecintado" value="<?php echo $inspeccion->reprecintado ?>">
+                            <input type="text" class="form-control hidden" name="reprecintado" id="reprecintado" value="true">
                             <input type="text" class="form-control hidden" name="info_id_doc" id="info_id_doc" value="<?php echo $inspeccion->info_id_doc ?>">
                             <input type="text" class="form-control hidden" name="info_id_acta" id="info_id_acta" value="<?php echo isset($inspeccion->info_id_acta) ? $inspeccion->info_id_acta : '' ?>">
                             <!-- Bloque campos necesarios para cierre de reprecintado-->
