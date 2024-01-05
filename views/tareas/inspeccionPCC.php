@@ -336,22 +336,7 @@
                             <div class="col-md-12 col-sm-12 col-xs-12 centrar">
                                  <h4 class="titDataDinamica">Empresa Destino:</h4>
                                 <div id="sec_destinos">
-                                    <?php 
-                                    if(!empty($destinos)){
-                                        foreach ($destinos as $key) {
-                                    ?>
-                                        <div class='form-group empreDestino' data-json='<?php echo json_encode($key) ?>'>
-                                            <span>
-                                                <i class='fa fa-fw fa-eye text-light-blue' style='cursor: pointer;' title='Ver detalle' onclick="verDestino(this)"></i> 
-                                                <i class='fa fa-fw fa-edit text-light-blue' style='cursor: pointer;' title='Editar' onclick='editarDestino(this)'></i> 
-                                                <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i>
-                                                <?php echo "| $key->razon_social - $key->calle - $key->altura" ?>
-                                            </span>
-                                        </div>
-                                    <?php
-                                        }
-                                    }
-                                    ?>
+                                    
                                 </div>
                             <hr>
                             </div>
@@ -368,8 +353,8 @@
                                  <h4 class="titDataDinamica">Permisos:</h4>
                                 <div id="sec_permisos">
                                     <?php 
-                                    if(!empty($preCargaDatos->permisos_transito->permiso_transito)){
-                                        foreach ($preCargaDatos->permisos_transito->permiso_transito as $key) {
+                                    if(!empty($preCargaInspecciones)){
+                                        foreach ($preCargaInspecciones as $key) {
                                     ?>
                                         <div class='form-group permTransito' data-json='<?php echo json_encode($key) ?>'>
                                             <span> 
@@ -1694,7 +1679,6 @@ async function cerrarTareaform(){
         json.case_id = case_id;
         permisos[i] = json;
     });
-
     //obtengo los destinos
     empresas = [];
     permisos.forEach(function(permiso) {
@@ -1703,7 +1687,9 @@ async function cerrarTareaform(){
         empresasAsociadas.forEach(function(empresa) {
             json = empresa;
             json.perm_id = perm_id;
+            json.case_id= case_id;
             empresas.push(json);
+
         });
     });
 

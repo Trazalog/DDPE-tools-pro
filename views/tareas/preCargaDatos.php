@@ -190,19 +190,19 @@
                 </div> -->
                 <!--________________-->
                 <!--Kilos-->
-                <div class="col-md-6 col-sm-6 col-xs-12">
+                <!-- <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                         <label for="kilos">Kilos:</label>
                         <input class="form-control onlyNumbers" name="kilos" id="kilos" placeholder="Ingrese kilos"/>
                     </div>                    
-                </div>
+                </div> -->
                 <!--________________-->
 
                 <!--Neto-->
                 <div class="col-md-4 col-sm-6 col-xs-6">
                     <div class="form-group">
                         <label for="neto">Peso Neto:</label>
-                        <input class="form-control onlyNumbers" id="neto" placeholder="Ingrese peso neto"/>
+                        <input class="form-control onlyNumbers" id="netoPermiso" placeholder="Ingrese peso neto"/>
                     </div>                    
                 </div>
                 <!--________________-->
@@ -211,7 +211,7 @@
                 <div class="col-md-4 col-sm-6 col-xs-6">
                     <div class="form-group">
                         <label for="bruto">Peso Bruto:</label>
-                        <input class="form-control onlyNumbers" name="bruto" id="bruto" placeholder="Ingrese peso bruto" />
+                        <input class="form-control onlyNumbers" name="brutoPermiso" id="brutoPermiso" placeholder="Ingrese peso bruto" />
                     </div>                    
                 </div>
                 <!--________________-->
@@ -224,6 +224,73 @@
                     </div>                    
                 </div>
                 <!--________________-->
+
+                <!--Empresa Destino-->
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label for="empre_destino">Empresa Destino(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <div class="input-group">
+                                        <select class="form-control select2 select2-hidden-accesible empresa" name="empre_destino" id="empre_destino">
+                                            <option value="" disabled selected></option>
+                                        </select>
+                                        <span id="add_empresa" class="input-group-addon" data-toggle="modal" data-target="#mdl-empresa" onclick="$('#tipoEmpresa').val('Empresa')"><i class="fa fa-plus"></i></span>
+                                    </div>
+                                </div>                    
+                            </div>
+                            <!--________________-->
+
+                            <!--Depósito Destino-->
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label for="depo_destino">Depósito Destino(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <div class="input-group">
+                                        <select class="form-control select2 select2-hidden-accesible" name="depo_destino" id="depo_destino">
+                                            <option value="" disabled selected>-Seleccionar-</option>
+                                        </select>
+                                        <span id="add_deposito" class="input-group-addon" data-toggle="modal" data-target="#mdl-deposito"><i class="fa fa-plus"></i></span>
+                                    </div>
+                                </div>                    
+                            </div>
+
+                            <!--Producto-->
+                            <!-- <div class="col-md-12 col-sm-12 col-xs-12 ocultar">
+                                <div class="form-group">
+                                    <label for="productosDestino">Producto/s para la empresa de destino(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <textarea class="form-control" name="productosDestino" id="productosDestino" placeholder="Ingrese producto/s para la empresa de destino"></textarea>
+                                </div>                    
+                            </div> -->
+                            <!--________________-->
+
+                            <!--_________________ Agregar_________________-->
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div style="margin-top: 25px;" class="form-group text-right">
+                                    <button type="button" class="btn btn-primary" onclick="agregarDestino()" >Agregar Destino</button>
+                                </div>
+                            </div>                
+                            <!--__________________________________-->
+
+                            <div class="col-md-12 col-sm-12 col-xs-12 centrar">
+                                 <h4 class="titDataDinamica">Empresa Destino:</h4>
+                                <div id="sec_destinos">
+                                    <?php 
+                                    if(!empty($destinos)){
+                                        foreach ($destinos as $key) {
+                                    ?>
+                                        <div class='form-group empreDestino' data-json='<?php echo json_encode($key) ?>'>
+                                            <span>
+                                                <i class='fa fa-fw fa-eye text-light-blue' style='cursor: pointer;' title='Ver detalle' onclick="verDestino(this)"></i> 
+                                                <i class='fa fa-fw fa-edit text-light-blue' style='cursor: pointer;' title='Editar' onclick='editarDestino(this)'></i> 
+                                                <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i>
+                                                <?php echo "| $key->razon_social - $key->calle - $key->altura" ?>
+                                            </span>
+                                        </div>
+                                    <?php
+                                        }
+                                    }
+                                    ?>
+                                </div>
+                            <hr>
+                            </div>
 
                 <!--_________________ Agregar_________________-->
                 <div class="col-md-12 col-sm-12 col-xs-12">
@@ -314,32 +381,7 @@
                         <div class="col-md-12 col-sm-12 col-xs-12">
                             <hr>
                         </div>
-                        <!--Empresa Destino-->
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <div class="form-group">
-                                <label for="empre_destino">Empresa Destino(<strong style="color: #dd4b39">*</strong>):</label>
-                                <div class="input-group">
-                                    <select class="form-control select2 select2-hidden-accesible empresa" name="empre_destino" id="empre_destino">
-                                        <option value="" disabled selected></option>
-                                    </select>
-                                    <span id="add_empresa" class="input-group-addon" data-toggle="modal" data-target="#mdl-empresa" onclick="$('#tipoEmpresa').val('Empresa')"><i class="fa fa-plus"></i></span>
-                                </div>
-                            </div>                    
-                        </div>
-                        <!--________________-->
-
-                        <!--Depósito Destino-->
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <div class="form-group">
-                                <label for="depo_destino">Depósito Destino(<strong style="color: #dd4b39">*</strong>):</label>
-                                <div class="input-group">
-                                    <select class="form-control select2 select2-hidden-accesible" name="depo_destino" id="depo_destino">
-                                        <option value="" disabled selected>-Seleccionar-</option>
-                                    </select>
-                                    <span id="add_deposito" class="input-group-addon" data-toggle="modal" data-target="#mdl-deposito"><i class="fa fa-plus"></i></span>
-                                </div>
-                            </div>                    
-                        </div>
+                      
                         <!--Producto-->
                         <!-- <div class="col-md-12 col-sm-12 col-xs-12 ocultar">
                             <div class="form-group">
@@ -347,22 +389,7 @@
                                 <textarea class="form-control" name="productosDestino" id="productosDestino" placeholder="Ingrese producto/s para la empresa de destino"></textarea>
                             </div>                    
                         </div> -->
-                        <!--________________-->
-                        
-                        <!--_________________ Agregar_________________-->
-                        <div class="col-md-12 col-sm-12 col-xs-12">
-                            <div style="margin-top: 25px;" class="form-group text-right">
-                                <button type="button" class="btn btn-primary" onclick="agregarDestino()" >Agregar Destino</button>
-                            </div>
-                        </div>                
-                        <!--__________________________________-->
 
-                        <div class="col-md-12 col-sm-12 col-xs-12 centrar">
-                            <h4 class="titDataDinamica">Empresa Destino:</h4>
-                            <div id="sec_destinos"></div>
-                        <hr>
-                        </div>
-                        <!--________________-->
 
                         <!--Termico Patente-->
                         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -619,6 +646,7 @@ function agregarDestino(){
         direccion = depo_destino.split(" - ");
         datos.calle = direccion[0];
         datos.altura = direccion[1];
+        datos.depo_destino = depo_destino;
 
         var div = `<div class='form-group empreDestino' data-json='${JSON.stringify(datos)}'>
                         <span>
@@ -700,6 +728,58 @@ function verDestino(tag){
     $("#modalVerProductosDestino").val(data.productos);
     $("#mdl-verDetalleDestino").modal('show');
 }
+
+//Arma tabla de empresas asociadas a un permiso cuando editas.
+function armaTablaEmpresas(e){
+
+e.forEach(function(element) {
+    var datos = {};
+    datos.rol = "DESTINO";
+    datos.empr_id = element.empr_id;
+    datos.depo_id = element.depo_id;
+    datos.razon_social = element.razon_social;
+    datos.productos = element.productos;
+    var direccion = element.depo_destino;
+
+    var div = `<div class='form-group empreDestino' data-json='${JSON.stringify(datos)}'>
+                        <span> 
+                        <i class='fa fa-fw fa-eye text-light-blue' style='cursor: pointer;' title='Ver detalle' onclick='verDestino(this)'></i> 
+                        <i class='fa fa-fw fa-edit text-light-blue' style='cursor: pointer;' title='Editar' onclick='editarDestino(this)'></i>
+                        <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i>
+                        | ${element.razon_social} - ${element.depo_destino}
+                        </span>
+                </div>`;
+    $('#sec_destinos').append(div);
+  });
+}
+
+//obtiene datos de la tabla empresa destino para agregar a un permiso
+function obtieneEmpresasDestinos(){
+                //
+                //VALIDACION tabla EMPRESAS DESTINO
+                //
+                if ( !$('#sec_destinos').children().length > 0 ) {
+                    wc();
+                    Swal.fire(
+                        'Error..',
+                        'No se agregaron empresas de destino (*)',
+                        'error'
+                    );
+                    return;
+                }else {
+                    //obtengo destinos desde la tabla
+                        empresas = [];
+                        $('#sec_destinos div.empreDestino').each(function(i, obj) {
+                            var aux = $(obj).attr('data-json');
+                            aux = aux.replace("cuit", "empr_id");
+                            var json = JSON.parse(aux);
+                            json.case_id = case_id;
+                            empresas[i] = json;
+                        });
+                }
+                $('#sec_destinos').children().remove();
+                return empresas;
+}
 //
 //FIN Script's seccion destino
 /****************************************************** */
@@ -708,71 +788,112 @@ function verDestino(tag){
 //Scripts Permisos transito
 //
 var editando = false;// Utilizo para que no se pierdan los permisos al editar
-function agregarPermiso(){
-    //Informamos el campo vacio 
-    var reporte = validarCamposPermiso();
-                            
-    if(reporte == ''){
-        
-        var soli_num = $("#soli_num").val();
-        var permi_num = $("#permi_num").val();
-        // var descDepo = $("#depo_origen_id option:selected").text();
-        var emision = $('#emision').val();
-        var salida = $('#salida').val();
-        var fecha = $("#fecha").val();
-        var tipo = $('input[name=doc_sanitaria]:checked').val();
-        var origen = $("#esta_nom").select2('data')[0].id;
-        var origen_nom = $("#esta_nom").select2('data')[0].text;
-        var origen_num = $("#esta_num").val();
-        var productos = $("#tipr_id").select2('data')[0].text;
-        var tipr_id = $("#tipr_id").select2('data')[0].id;
-        var kilos = $("#kilos").val(); 
-        var neto = $("#neto").val(); 
-        var bruto = $("#bruto").val(); 
-        var temperatura = $("#temperatura").val();
-        var estado = $("#estado_pr_id").select2('data')[0].text; 
-        var estado_pr_id = $("#estado_pr_id").select2('data')[0].id;
+async function agregarPermiso(){
+debugger;
+//Informamos el campo vacio 
+var reporte = validarCamposPermiso();
 
-        var datos = {};
-        datos.perm_id = permi_num;
-        datos.soli_num = soli_num;
-        datos.lugar_emision = emision;
-        datos.fecha_hora_salida = fecha +" "+salida;
-        datos.tipo = tipo;
-        datos.case_id = $("#caseId").val(); 
-        datos.origen = origen;
-        datos.origen_nom = origen_nom;
-        datos.origen_num = origen_num;
-        datos.productos = productos;
-        datos.tipr_id = tipr_id;
-        datos.kilos = kilos;
-        datos.neto = neto;
-        datos.bruto = bruto;
-        datos.temperatura = temperatura;
-        datos.estado = estado;
-        datos.estado_pr_id = estado_pr_id ; 
+if(reporte == ''){
 
-        var div = `<div class='form-group permTransito' data-json='${JSON.stringify(datos)}'>
-                        <span> 
-                        <i class='fa fa-fw fa-eye text-light-blue' style='cursor: pointer;' title='Ver detalle' onclick='verPermiso(this)'></i> 
-                        <i class='fa fa-fw fa-edit text-light-blue' style='cursor: pointer;' title='Editar' onclick='editarPermiso(this)'></i> 
-                        <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i>
-                        | <span class='numPermiso'>${soli_num}</span> - ${permi_num}
-                        </span>
-                </div>`;
-        $('#sec_permisos').append(div);
-        //Limpio luego de agregar
-        // $("#soli_num").val('');
-        // $("#emision").val('');
-        // $("#salida").val('');
-        // $("#fecha").val('');
-        // $('input[name=doc_sanitaria]:checked').prop('checked',false);
-        editando = false;
-        alertify.success("Permiso de tránsito agregado correctamente!");
-    }else{
+//valida si existe el permiso
+    validarPermiso($("#permi_num").val()).then((result) => {
+            var soli_num = $("#soli_num").val();
+            var permi_num = $("#permi_num").val();
+            // var descDepo = $("#depo_origen_id option:selected").text();
+            var emision = $('#emision').val();
+            var salida = $('#salida').val();
+            var fecha = $("#fecha").val();
+            var tipo = $('input[name=doc_sanitaria]:checked').val();
+            var origen = $("#esta_nom").select2('data')[0].id;
+            var origen_nom = $("#esta_nom").select2('data')[0].text;
+            var origen_num = $("#esta_num").val();
+            var tipr_id = $("#tipr_id").select2('data')[0].id;
+            var productos = $("#tipr_id").select2('data')[0].text;
+            // var productos = $("#producto").val();
+            //var kilos = $("#kilos").val(); 
+            var netoPermiso = $("#netoPermiso").val(); 
+            var brutoPermiso = $("#brutoPermiso").val(); 
+            var temperatura = $("#temperatura").val(); 
+            var estado = $("#estado_pr_id").select2('data')[0].text; 
+            var estado_pr_id = $("#estado_pr_id").select2('data')[0].id;
+
+            //datos de empresas destino
+            empresas = obtieneEmpresasDestinos();
+
+            var datos = {};
+            datos.perm_id = permi_num;
+            datos.soli_num = soli_num;
+            datos.lugar_emision = emision;
+            datos.fecha_hora_salida = fecha +" "+salida;
+            datos.tipo = tipo;
+            datos.origen = origen;
+            datos.origen_nom = origen_nom;
+            datos.origen_num = origen_num;
+            datos.productos = productos;
+            datos.tipr_id = tipr_id;
+            //datos.kilos = kilos;
+            datos.neto = netoPermiso;
+            datos.bruto = brutoPermiso;
+            datos.temperatura = temperatura;
+            datos.estado = estado;
+            datos.estado_pr_id = estado_pr_id ;
+            datos.empresas =  empresas;
+
+            var div = `<div class='form-group permTransito' data-json='${JSON.stringify(datos)}'>
+                            <span> 
+                            <i class='fa fa-fw fa-eye text-light-blue' style='cursor: pointer;' title='Ver detalle' onclick='verPermiso(this)'></i> 
+                            <i class='fa fa-fw fa-edit text-light-blue' style='cursor: pointer;' title='Editar' onclick='editarPermiso(this)'></i>
+                            <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i>
+                            | <span class='numPermiso'>${soli_num}</span> - ${permi_num}
+                            </span>
+                    </div>`;
+            $('#sec_permisos').append(div);
+            //Limpio luego de agregar
+            // $("#soli_num").val('');
+            // $("#emision").val('');
+            // $("#salida").val('');
+            // $("#fecha").val('');
+            // $('input[name=doc_sanitaria]:checked').prop('checked',false);
+
+            editando = false;
+            alertify.success("Permiso de tránsito agregado correctamente!");
+
+    }).catch((err) => {
+       notificar('Error!',  'Permiso Existente','warning');
+    });
+}else{
         notificar('Cuidado',reporte,'warning');
     }
+
 }
+
+//evalua si el permiso ya existe en la base
+async function validarPermiso(num_permiso){
+
+let validacionPermiso = new Promise((resolve,reject) => {
+    $.ajax({
+        type: "POST",
+        data: {num_permiso},
+        cache: false,
+        dataType: "json",
+        url:"<?php echo SICP; ?>inspeccion/validacionPermiso",
+        success: function (rsp) {
+            //si trae perm_id existe el permiso
+            if(_isset(rsp.perm_id)){
+                reject(rsp);
+            }else{
+                resolve(rsp);
+            } 
+        },
+        error: function (rsp) {
+            Swal.fire('Oops...','No se guardo formulario dinámico','error');
+            reject("Ocurrió un error al gurdar el formulario dinámico");
+        }
+    });
+});
+return await validacionPermiso; 
+}
+
 function validarCamposPermiso(){
     var valida = '';
     //Numero de solicitud
@@ -811,6 +932,7 @@ function validarCamposPermiso(){
 function editarPermiso(tag){
     if(!editando){
         var data =	JSON.parse($(tag).closest('div').attr('data-json'));
+        armaTablaEmpresas(data.empresas);
         $("#soli_num").val(data.soli_num);
         $("#permi_num").val(data.perm_id);
         $("#emision").val(data.lugar_emision);
@@ -822,7 +944,7 @@ function editarPermiso(tag){
         $("#netoPermiso").val(data.neto);
         $("#brutoPermiso").val(data.bruto);
         $("#temperatura").val(data.temperatura);
-        $("#estado_pr_id").val(data.estado);
+        $("#estado_pr_id").val(data.estado_pr_id);
         emprVal = data.origen;
         emprNombre = data.origen_nom;
         emprNum = data.origen_num;
@@ -1003,7 +1125,10 @@ async function cerrarTareaform(){
     
     //obtengo el formulario de la inspeccion
     var dataForm = new FormData($('#formPreCarga')[0]);
-    dataForm.append('case_id', $("#caseId").val());
+    //dataForm.append('case_id', $("#caseId").val());
+    
+    var case_id = $("#caseId").val();
+    dataForm.append('case_id', case_id);
     correcto = ""; //Confirma que todo se guardo correctamente para cerrar tarea
 
     //Limpio la data pre cargada si existiera para evitar errores
@@ -1015,17 +1140,25 @@ async function cerrarTareaform(){
 
     //Guardo los datos del formulario para no perderlos en reload
     //obtengo los permisos
+
     permisos = [];
     $('#sec_permisos div.permTransito').each(function(i, obj) {
         var json = JSON.parse($(obj).attr('data-json'));
+        json.case_id = case_id;
         permisos[i] = json;
     });
-debugger;
+
     //obtengo los destinos
     empresas = [];
-    $('#sec_destinos div.empreDestino').each(function(i, obj) {
-        var json = JSON.parse($(obj).attr('data-json'));
-        empresas[i] = json;
+    permisos.forEach(function(permiso) {
+        var empresasAsociadas = permiso.empresas;
+        var perm_id = permiso.perm_id;
+        empresasAsociadas.forEach(function(empresa) {
+            json = empresa;
+            json.perm_id = perm_id;
+            json.case_id= case_id;
+            empresas.push(json);
+        });
     });
     //obtengo origen
     //EL ORIGEN ES MULTIPLE AHORA, SE CARGA EN LOS PERMISOS DE TRANSITO
@@ -1069,7 +1202,7 @@ debugger;
                     //Guardo los permisos, empresas y termicos
                     $.ajax({
                         type: 'POST',
-                        data: {permisos, empresas, termicos},
+                        data: {permisos, empresas, termicos, case_id},
                         url: "<?php echo SICP; ?>inspeccion/guardarDatosInspeccion",
                         success: function(data) {
                             resp = JSON.parse(data);
@@ -1128,7 +1261,7 @@ function cerrarTarea() {
     //
     //VALIDACION EMPRESAS DESTINO
     //
-    if ( !$('#sec_destinos').children().length > 0 ) {
+   /*  if ( !$('#sec_destinos').children().length > 0 ) {
         Swal.fire(
             'Error..',
             'No se agregaron empresas de destino (*)',
@@ -1136,7 +1269,7 @@ function cerrarTarea() {
         );
         wc();
         return;
-    }
+    } */
     //
     //VALIDACION TERMICOS
     //
