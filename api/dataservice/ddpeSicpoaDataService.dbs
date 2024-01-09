@@ -307,7 +307,7 @@
       <param name="num_permiso" sqlType="STRING"/>
    </query>
    <query id="getActasNotificacion" useConfig="SICPOADataSource">
-      <sql>SELECT * &#xd;FROM sicpoa.actas_notificacion&#xd;where empr_id = cast(:empr_id as integer)&#xd;and eliminado = false&#xd;order by acno_id desc;</sql>
+      <sql>SELECT * &#xd;FROM sicpoa.actas_notificacion&#xd;where empr_id = cast(:empr_id as integer)&#xd;and eliminado = false&#xd;order by acno_id ASC;</sql>
       <result outputType="json">{&#xd;  "actas_notificacion": {&#xd;    "acta_notificacion": [&#xd;      {&#xd;        "acno_id": "$acno_id",&#xd;        "fec_hora": "$fec_hora",&#xd;        "texto": "$texto",&#xd;        "fec_alta": "$fec_alta",&#xd;        "usuario": "$usuario",&#xd;        "usuario_app": "$usuario_app",&#xd;        "empr_id": "$empr_id"&#xd;      }&#xd;    ]&#xd;  }&#xd;}</result>
       <param name="empr_id" sqlType="STRING"/>
    </query>
@@ -331,6 +331,11 @@
    <query id="getTiempoMaximoPcc" useConfig="SICPOADataSource">
       <sql>select t.valor2 &#xd;from core.tablas t&#xd;left join core.empresas e on t.empr_id = e.empr_id &#xd;where e.descripcion like 'DDPE'&#xd;and t.tabl_id = concat(e.empr_id, '-configuracionesmaximo_tiempoPCC')&#xd;and t.eliminado = false;</sql>
       <result outputType="json">{&#xd;    "tiempomaximopcc":{&#xd;        "tiempomaximo":[&#xd;            {&#xd;                "valor2":"$valor2",&#xd;            }&#xd;        ]&#xd;    }&#xd;}</result>
+   </query>
+   <query id="getActaNotificacion" useConfig="SICPOADataSource">
+      <sql>select *&#xd;from sicpoa.actas_notificacion ac&#xd;where ac.acno_id = cast(:acno_id as integer)&#xd;and ac.eliminado = false</sql>
+      <result outputType="json">{&#xd;    "acta_notificacion":{&#xd;       "acno_id":"$acno_id",&#xd;       "fec_hora":"$fec_hora",&#xd;       "texto":"$texto",&#xd;       "fec_alta":"$fec_alta",&#xd;       "usuario":"$usuario",&#xd;       "usuario_app":"$usuario_app",&#xd;       "empr_id":"$empr_id",&#xd;       "eliminado":"$eliminado"&#xd;    }&#xd;}</result>
+      <param name="acno_id" sqlType="STRING"/>
    </query>
    <resource method="GET" path="/inspeccion/id/{case_id}">
       <call-query href="getInspeccion">
@@ -667,5 +672,10 @@
    </resource>
    <resource method="GET" path="/tiempomaximopcc">
       <call-query href="getTiempoMaximoPcc"/>
+   </resource>
+   <resource method="GET" path="/actaNotificacion/{acno_id}">
+      <call-query href="getActaNotificacion">
+         <with-param name="acno_id" query-param="acno_id"/>
+      </call-query>
    </resource>
 </data>
