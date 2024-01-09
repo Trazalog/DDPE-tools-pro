@@ -84,6 +84,24 @@ class Actas_notificacion extends CI_Controller
 		$acno_id = $this->input->post('acno_id');
 		$resp = $this->Actasnotificacion->eliminarActa($acno_id);
 		echo json_encode($resp);
-	}    
-  
+	}
+	
+	/**
+        * Trae información pertinente al acta de notificacion para ser impresa
+        *@param 
+        *@return array view con datos de la notificacion
+    */
+    public function cargar_detalle_acta(){
+
+        $acno_id = $this->input->get('acno_id');
+        $data['acta_notificacion'] = $this->Actasnotificacion->getPreCargaDatos($acno_id);
+        //Formateo la fecha de inspeccion para los input's
+        $fecAux = explode(' ', $data['acta_notificacion']->fec_hora);
+        $data['horaInspeccion'] = $fecAux[1];
+        $data['diaInspeccion'] = date('d',strtotime($fecAux[0]));
+        $data['mesInspeccion'] = date('m',strtotime($fecAux[0]));
+        $data['anioInspeccion'] = date('Y',strtotime($fecAux[0]));
+
+		$this->load->view(SICP . "actas/acta_notificacion", $data);
+    }  
 }
