@@ -27,7 +27,7 @@
 								echo "<tr id='$acno_id' data-json='" . json_encode($rsp) . "'>";
 								echo "<td class='text-center text-light-blue'>";
 								echo '<i class="fa fa-trash-o" style="cursor: pointer;margin: 3px;" title="Eliminar acta" onclick="confirmaEliminar(this)"></i>';
-								// echo '<i class="fa fa-print" style="cursor: pointer; margin: 3px;" title="Imprimir acta" onclick="#"></i>';
+								echo '<i class="fa fa-print" style="cursor: pointer; margin: 3px;" title="Imprimir acta" onclick="imprimirActa(this)"></i>';
 								echo "</td>";
 								echo '<td class="text-center">'.$acno_id.'</td>';
 								echo '<td class="text-center">'.$fecha_formateada.'</td>';
@@ -48,7 +48,7 @@
 <!-- FIN MODAL AGREGAR INGRESO POR BARRERA -->
 
 <!-- ACTA -->
-  <!-- <div id="actaImprimir" style="display:none"></div> -->
+  <div id="actaImprimir" style="display:none"></div>
 <!-- FIN ACTA -->
 <script>
 	function abrirModalNuevo() {
@@ -82,42 +82,68 @@
 			//acción si se cancela la confimación
 		}
 		});
+	}
 
-		}
-
-		//
-		//Elimina el Ingreso por barrera, es lo mismo que pedido de trabajo
-		//
-		function eliminarActa(datosActa) {
-			$.ajax({
-				type: 'POST',
-				data: datosActa,
-				url: '<?php echo SICP ?>Actas_notificacion/eliminarActa',
-				success: function(rsp) {
-					resp = JSON.parse(rsp);					
-					if(resp.status){
-					setTimeout(() => {
-						Swal.fire(
-							'Perfecto!',
-							'Se elimino el acta correctamente!',
-							'success'
-						)
-					}, 5000);
-					}else{
-						Swal.fire(
-							'Error!',
-							'Se produjo un error al eliminar acta',
-							'error'
-						)
-					}
-				},
-				error: function(rsp) {
+	//
+	//Elimina el Ingreso por barrera, es lo mismo que pedido de trabajo
+	//
+	function eliminarActa(datosActa) {
+		$.ajax({
+			type: 'POST',
+			data: datosActa,
+			url: '<?php echo SICP ?>Actas_notificacion/eliminarActa',
+			success: function(rsp) {
+				resp = JSON.parse(rsp);					
+				if(resp.status){
+				setTimeout(() => {
+					Swal.fire(
+						'Perfecto!',
+						'Se elimino el acta correctamente!',
+						'success'
+					)
+				}, 5000);
+				}else{
 					Swal.fire(
 						'Error!',
 						'Se produjo un error al eliminar acta',
 						'error'
 					)
 				}
+			},
+			error: function(rsp) {
+				Swal.fire(
+					'Error!',
+					'Se produjo un error al eliminar acta',
+					'error'
+				)
+			}
+		});
+	}
+	//
+	//Carga el acta correspondiente segun resultado de la inspeccion
+	//
+	function imprimirActa(tag) {
+		base = "<?php echo base_url()?>";
+		dataJson = JSON.parse($(tag).closest('tr').attr('data-json'));
+		datosActa = "<?php echo base_url(SICP); ?>Actas_notificacion/cargar_detalle_acta?acno_id=" + dataJson.acno_id;
+		wo();
+		$("#actaImprimir").empty();
+		$("#actaImprimir").load(datosActa,function(){
+			wc();
+			$("#actaImprimir").printThis({
+			debug: false,
+			importCSS: false,
+			importStyle: true,
+			loadCSS: "",
+			base: base,
+			pageTitle : "TRAZALOG TOOLS",
+			beforePrint: function () {
+				$("#actaImprimir").show();
+			},
+			afterPrint: function(){
+				$("#actaImprimir").hide();
+			}
 			});
-		}
+		});
+	}
 </script>
