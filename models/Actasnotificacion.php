@@ -41,4 +41,21 @@ class Actasnotificacion extends CI_Model
       $aux = $this->rest->callAPI("DELETE",REST_SICP."/actaNotificacion", $post);
       return $aux;
     }
+
+    /**
+	* Obtengo la informacion del acta de notificacion precargada
+	* @param int acno_id
+	* @return array informacion pre cargada en paso Pre - Carga de Datos
+	*/
+    public function getPreCargaDatos($acno_id){
+
+        $url = REST_SICP."/actaNotificacion/".$acno_id;
+
+        $aux = $this->rest->callAPI("GET",$url);
+        $resp = json_decode($aux['data']);
+
+        log_message('DEBUG', "#TRAZA | #SICPOA | ActasNotificacion | getPreCargaDatos() ");
+
+        return $resp->acta_notificacion;
+    }
 }
