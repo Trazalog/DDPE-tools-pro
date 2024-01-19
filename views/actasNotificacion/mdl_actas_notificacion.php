@@ -77,15 +77,8 @@
             dataType: 'JSON',
             url: recurso,
             success: function(rsp) {
-                resp = JSON.parse(rsp);					
-					if(resp.status){
-					setTimeout(() => {
-						Swal.fire(
-							'Perfecto!',
-							'Se generó el acta correctamente!',
-							'success'
-						)
-					}, 5000);
+					if(rsp){
+                        imprimirActa(rsp, true);
 					}else{
 						Swal.fire(
 							'Error!',
