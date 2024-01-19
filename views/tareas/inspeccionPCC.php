@@ -1515,7 +1515,7 @@ function agregarTermico(){
         datos.nro_senasa = nro_senasa;
         datos.precintos = precintos;
         datos.term_id = term_patente;
-
+        datos.patente = term_patente;
         var div = `<div class='form-group termicos' data-json='${JSON.stringify(datos)}'>
                         <span>
                         <i class='fa fa-fw fa-eye text-light-blue' style='cursor: pointer;' title='Ver detalle' onclick='verTermico(this)'></i> 
@@ -1673,6 +1673,7 @@ async function cerrarTareaform(){
 
     //Guardo los datos del formulario para no perderlos en reload
     //obtengo los permisos
+    debugger;
     permisos = [];
     $('#sec_permisos div.permTransito').each(function(i, obj) {
         var json = JSON.parse($(obj).attr('data-json'));
@@ -2072,7 +2073,7 @@ function imprimirActa(){
         json = JSON.parse(aux);
         infoPrecintos += json.precintos + " ";
         infoSenasa += json.nro_senasa + "; ";
-        infoPatenteTermico += json.term_id + "; ";
+        infoPatenteTermico += json.patente + "; ";
     });
     $(".acta_precintos").text(infoPrecintos);
     $(".acta_numSenasa").text(infoSenasa);
@@ -2085,7 +2086,7 @@ function imprimirActa(){
         infoDestino += json.razon_social+". ";
     });
     $(".acta_destinos").text(infoDestino);
-
+    
     infoTodos = "";
     infoPermisos = "";
     infoProductos = "";
@@ -2111,6 +2112,8 @@ function imprimirActa(){
         infoTodos += "<br>";
     });
     $(".acta_docSanitaria").html(infoTodos);
+
+    debugger;
     // $(".acta_productos").text(infoProductos);
     // $(".acta_origenNombres").text(infoOrigen);
     // $(".acta_origenNumeros").text(infoOrigenNums);

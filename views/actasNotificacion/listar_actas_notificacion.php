@@ -122,10 +122,19 @@
 	//
 	//Carga el acta correspondiente segun resultado de la inspeccion
 	//
-	function imprimirActa(tag) {
+	function imprimirActa(tag, modal) {
+		//debugger;
 		base = "<?php echo base_url()?>";
-		dataJson = JSON.parse($(tag).closest('tr').attr('data-json'));
-		datosActa = "<?php echo base_url(SICP); ?>Actas_notificacion/cargar_detalle_acta?acno_id=" + dataJson.acno_id;
+		
+		//comprobacion si el imprimir viene desde mdl_actas_notificaciones o desde el tag del listar_actas_notificaciones
+		//si modal = true la impresion viene desde mdl_actas_notificaciones
+		if(modal){
+			datosActa = "<?php echo base_url(SICP); ?>Actas_notificacion/cargar_detalle_acta?acno_id=" + tag.acno_id;
+		}else{
+			dataJson = JSON.parse($(tag).closest('tr').attr('data-json'));
+			datosActa = "<?php echo base_url(SICP); ?>Actas_notificacion/cargar_detalle_acta?acno_id=" + dataJson.acno_id;
+		}
+
 		wo();
 		$("#actaImprimir").empty();
 		$("#actaImprimir").load(datosActa,function(){
