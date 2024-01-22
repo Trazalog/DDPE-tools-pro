@@ -412,6 +412,10 @@
                                 </div>
                             </div> 
                             <input type="hidden" name="contador" id="contador" value="<?php echo isset($inspeccion->numerador_inspeccion) ? $inspeccion->numerador_inspeccion : null; ?>" >                   
+                            <?php if($inspeccion->reprecintado == 'true'){ ?>
+                                <button type='button' class='btn btn-primary' id="btnreprecintado" onclick='imprimirActa()'>Imprimir Reprecintado</button>
+                                <!--________________-->
+                            <?php } ?>
                             <!--________________-->
                         </div> <!--FIN box-primary-->
                     </div><!--FIN col-->

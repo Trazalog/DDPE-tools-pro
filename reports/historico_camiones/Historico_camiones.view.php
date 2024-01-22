@@ -434,7 +434,7 @@ use function PHPSTORM_META\type;
     tipoActa = resultado.trim(); 
     let resultadoreprecintado = $(tag).parents("tr").find("td").eq(11).html();
     reprecintado = resultadoreprecintado.trim();
-    if(reprecintado != false){
+    if(reprecintado != 'false'){
       $("#btnreprecintado").show();
     } else {
       console.log("holis");
