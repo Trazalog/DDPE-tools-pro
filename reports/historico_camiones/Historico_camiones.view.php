@@ -124,8 +124,8 @@ use function PHPSTORM_META\type;
           "columns" => array(
             array(
               "label" => "Ver",
-              "value" => function () {
-                return '<i class="fa fa-search text-light-blue"  style="cursor: pointer;margin: 3px;" title="Ver Pedido" onclick="buscaDetalleInspeccion(this)"></i>';
+              "value" => function ($row) {
+                return "<i class='fa fa-search text-light-blue'  style='cursor: pointer;margin: 3px;' title='Ver Pedido' onclick='buscaDetalleInspeccion(this)' data-json='".json_encode($row)."'></i>";
               }
             ),
             "case_id" => array(
@@ -187,12 +187,6 @@ use function PHPSTORM_META\type;
                  return $row["resultado"];
                  }
              
-            ),
-            array(
-              "label" => "Reprecintado",
-              "value" => function ($row) {
-                return '<span class="hidden">' . $row["numerador_reprecintado"] . '</span>';
-              }
             )
           ),
           "cssClass" => array(
@@ -425,21 +419,18 @@ use function PHPSTORM_META\type;
   var reprecintado = '';
   // Levanta modal detalle de reporte
   function buscaDetalleInspeccion(tag) {
+    var data =	JSON.parse($(tag).attr('data-json'));
+    reprecintado = data.numerador_reprecintado;
     wo();
     $("#modalBodyDetalle").empty();
     let case_id = $(tag).parents("tr").find("td").eq(1).html();
     let caseId = case_id.trim();
-
     let resultado = $(tag).parents("tr").find("td").eq(10).html();
     tipoActa = resultado.trim(); 
-    let resultadoreprecintado = $(tag).parents("tr").find("td").eq(11).text();
-    reprecintado = resultadoreprecintado.trim();
-    // debugger;
     if(reprecintado != ""){
       $("#btnreprecintado").show();
     } else {
       $("#btnreprecintado").hide();
-      console.log("holis");
     }
     var data = {};
     data.caseId = caseId;
