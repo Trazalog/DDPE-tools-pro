@@ -191,7 +191,7 @@ use function PHPSTORM_META\type;
             array(
               "label" => "Reprecintado",
               "value" => function ($row) {
-                return $row["resultado"] . '<span class="hidden">' . $row["reprecintado"] . '</span>';
+                return '<span class="hidden">' . $row["numerador_reprecintado"] . '</span>';
               }
             )
           ),
@@ -432,11 +432,13 @@ use function PHPSTORM_META\type;
 
     let resultado = $(tag).parents("tr").find("td").eq(10).html();
     tipoActa = resultado.trim(); 
-    let resultadoreprecintado = $(tag).parents("tr").find("td").eq(11).html();
+    let resultadoreprecintado = $(tag).parents("tr").find("td").eq(11).text();
     reprecintado = resultadoreprecintado.trim();
-    if(reprecintado != 'false'){
+    // debugger;
+    if(reprecintado != ""){
       $("#btnreprecintado").show();
     } else {
+      $("#btnreprecintado").hide();
       console.log("holis");
     }
     var data = {};
@@ -502,6 +504,20 @@ use function PHPSTORM_META\type;
 
                 });
         } */
+    });
+  }
+
+  function imprimirActaReprecintado() {
+    acta = "#actaReprecintado";
+
+    var base = "<?php echo base_url(); ?>";
+    $(acta).printThis({
+      debug: false,
+      importCSS: true,
+      importStyle: true,
+      loadCSS: "",
+      base: base,
+      pageTitle: "TRAZALOG TOOLS"
     });
   }
 
@@ -582,7 +598,7 @@ use function PHPSTORM_META\type;
       <div class='modal-footer'>
         <button type='button' class='btn btn-default' onclick='cerrarModal()'>Cancelar</button>
         <button type='button' class='btn btn-primary' onclick='imprimirActa()'>Imprimir Acta</button>
-        <button type='button' class='btn btn-primary' id="btnreprecintado" onclick='imprimirActa()'>Imprimir Reprecintado</button>
+        <button type='button' class='btn btn-primary' id="btnreprecintado" onclick='imprimirActaReprecintado()'>Imprimir Reprecintado</button>
       </div>
     </div>
   </div>
