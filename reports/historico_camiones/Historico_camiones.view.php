@@ -427,7 +427,7 @@ use function PHPSTORM_META\type;
     let caseId = case_id.trim();
     let resultado = $(tag).parents("tr").find("td").eq(10).html();
     tipoActa = resultado.trim(); 
-    if(reprecintado != ""){
+    if ($.trim(reprecintado) !== "") {
       $("#btnreprecintado").show();
     } else {
       $("#btnreprecintado").hide();
