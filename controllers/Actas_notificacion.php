@@ -69,8 +69,14 @@ class Actas_notificacion extends CI_Controller
 				$rsp = $this->Valores->editarValor($dato);
 			}
 		}
-		echo json_encode($resp);
-    	log_message('ERROR', '#TRAZA | ACTAS | guardarActa() >> $datos: '.$acta);
+    	
+		if($resp){
+			log_message('DEBUG', '#TRAZA | ACTAS | guardarActa() >> $datos: '.$acta);
+			echo json_encode($acta);
+		}else{
+			log_message('ERROR', '#TRAZA | #SICPOA | ACTAS | >> guardarActa()  >> ERROR TREMENDO');
+			echo json_encode($rsp);
+		}
 	}
 
 	/**

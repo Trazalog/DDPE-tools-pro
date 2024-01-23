@@ -36,9 +36,14 @@
 
 								echo "<td class='text-center text-light-blue'>";
 								echo '<i class="fa fa-trash-o" style="cursor: pointer;margin: 3px;" title="Eliminar ingreso por barrera" onclick="confirmaEliminar(this)"></i>';
-								echo '<i class="fa fa-print" style="cursor: pointer; margin: 3px;" title="Imprimir acta" onclick="imprimirActa(this)"></i>';
+								echo '<i class="fa fa-print" style="cursor: pointer; margin: 3px;" title="Imprimir acta" onclick="imprimirActa(this, false)"></i>';
 								echo '<i class="fa fa-search"  style="cursor: pointer;margin: 3px;" title="Ver Pedido" onclick="verPedido(this)"></i>';
-								echo "</td>";
+                if($estado == 'estados_sicpoaREPRECINTADO')
+                {   
+                  echo '<i class="fa fa-file-text"  style="cursor: pointer;margin: 3px;" title="Imprimir acta Reprecintado" onclick="imprimirActa(this, true)"></i>';
+                  echo "</td>"; 
+                }
+                else echo "</td>";
 								echo '<td class="text-center">'.$petr_id.'</td>';
                 echo '<td class="text-center">'.$patente.'</td>';
 								echo '<td class="text-center">'.formatFechaPG($fec_inicio).'</td>';
@@ -164,12 +169,12 @@ function verPedido(tag) {
 //
 //Carga el acta correspondiente segun resultado de la inspeccion
 //
-function imprimirActa(tag) {
+function imprimirActa(tag, reprecintado) {
   
   base = "<?php echo base_url()?>";
   dataJson = JSON.parse($(tag).closest('tr').attr('data-json'));
 
-  actaCorrespondiente = "<?php echo base_url(SICP); ?>Ingreso_barrera/cargar_detalle_acta?petr_id=" + dataJson.petr_id + "&case_id=" + dataJson.case_id;
+  actaCorrespondiente = "<?php echo base_url(SICP); ?>Ingreso_barrera/cargar_detalle_acta?petr_id=" + dataJson.petr_id + "&case_id=" + dataJson.case_id + "&estado=" + reprecintado;
   wo();
 
   $("#actaImprimir").empty();
