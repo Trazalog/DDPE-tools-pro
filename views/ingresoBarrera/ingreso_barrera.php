@@ -11,7 +11,7 @@
 .incorrecto{
     border: 6px solid #ff8989 !important;
 }
-</style>
+</style>    
 <div class="panel panel-default">
     <div class="panel-heading">
         <h3 class="panel-title">Nuevo Ingreso por Barrera</h3>
