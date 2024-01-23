@@ -187,6 +187,12 @@ use function PHPSTORM_META\type;
                  return $row["resultado"];
                  }
              
+            ),
+            array(
+              "label" => "Reprecintado",
+              "value" => function ($row) {
+                return '<span class="hidden">' . $row["numerador_reprecintado"] . '</span>';
+              }
             )
           ),
           "cssClass" => array(
@@ -416,6 +422,7 @@ use function PHPSTORM_META\type;
     return data;
   }
   var tipoActa = '';
+  var reprecintado = '';
   // Levanta modal detalle de reporte
   function buscaDetalleInspeccion(tag) {
     wo();
@@ -425,6 +432,15 @@ use function PHPSTORM_META\type;
 
     let resultado = $(tag).parents("tr").find("td").eq(10).html();
     tipoActa = resultado.trim(); 
+    let resultadoreprecintado = $(tag).parents("tr").find("td").eq(11).text();
+    reprecintado = resultadoreprecintado.trim();
+    // debugger;
+    if(reprecintado != ""){
+      $("#btnreprecintado").show();
+    } else {
+      $("#btnreprecintado").hide();
+      console.log("holis");
+    }
     var data = {};
     data.caseId = caseId;
     $("#modalBodyDetalle").load("<?php echo base_url(SICP); ?>reportes/detaReporte", data, function() {
@@ -491,6 +507,20 @@ use function PHPSTORM_META\type;
     });
   }
 
+  function imprimirActaReprecintado() {
+    acta = "#actaReprecintado";
+
+    var base = "<?php echo base_url(); ?>";
+    $(acta).printThis({
+      debug: false,
+      importCSS: true,
+      importStyle: true,
+      loadCSS: "",
+      base: base,
+      pageTitle: "TRAZALOG TOOLS"
+    });
+  }
+
   // cierra modal detalle de reporte
   function cerrarModal() {
     $("#modalDetalle").modal('hide');
@@ -500,6 +530,7 @@ use function PHPSTORM_META\type;
   //excel, pdf, copiado portapapeles e impresion
 
   $(document).ready(function() {
+    // $("#btnreprecintado").hide();
     $('.dataTable').DataTable({
       responsive: true,
       language: {
@@ -566,7 +597,8 @@ use function PHPSTORM_META\type;
       </div>
       <div class='modal-footer'>
         <button type='button' class='btn btn-default' onclick='cerrarModal()'>Cancelar</button>
-        <button type='button' class='btn btn-primary' onclick='imprimirActa()'>Imprimir</button>
+        <button type='button' class='btn btn-primary' onclick='imprimirActa()'>Imprimir Acta</button>
+        <button type='button' class='btn btn-primary' id="btnreprecintado" onclick='imprimirActaReprecintado()'>Imprimir Reprecintado</button>
       </div>
     </div>
   </div>

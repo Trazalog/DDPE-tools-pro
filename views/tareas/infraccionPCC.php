@@ -411,7 +411,7 @@
                                     </div>
                                 </div>
                             </div> 
-                            <input type="hidden" name="contador" id="contador" value="<?php echo isset($inspeccion->numerador_inspeccion) ? $inspeccion->numerador_inspeccion : null; ?>" >                   
+                            <input type="hidden" name="contador" id="contador" value="<?php echo isset($inspeccion->numerador_inspeccion) ? $inspeccion->numerador_inspeccion : null; ?>" >
                             <!--________________-->
                         </div> <!--FIN box-primary-->
                     </div><!--FIN col-->
@@ -430,6 +430,13 @@
             <div class="row">
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <?php $this->load->view(SICP."actas/acta_infraccion.php"); ?>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane" id="actaReprecintado_tab">
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <?php $this->load->view(SICP."actas/acta_reprecintado.php"); ?>
                 </div>
             </div>
         </div>
