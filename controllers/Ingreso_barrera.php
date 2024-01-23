@@ -339,6 +339,8 @@ class Ingreso_barrera extends CI_Controller
         $this->load->model('Sicpoatareas');
         $case_id = $this->input->get('case_id');
         $petr_id = $this->input->get('petr_id');
+        $estado = $this->input->get('estado');
+
 
         // $data['petr_id'] = $petr_id;
         $data['inspeccion'] = $this->Sicpoatareas->getPreCargaDatos($case_id);
@@ -391,14 +393,16 @@ class Ingreso_barrera extends CI_Controller
                 $data['contador'] = $data['inspeccion']->numerador_infraccion;
                 $this->load->view(SICP . "actas/acta_infraccion", $data);
             }else{
-                if(!empty($data['inspeccion']->numerador_reprecintado))
+                //si viene en true es reprecintado sino es inspeccion
+                if($estado == "true")
                 {
                     $data['contador'] = $data['inspeccion']->numerador_reprecintado;
+                    $this->load->view(SICP . "actas/acta_inspeccion", $data);
                 }
                 else{
                     $data['contador'] = $data['inspeccion']->numerador_inspeccion;
+                    $this->load->view(SICP . "actas/acta_inspeccion", $data);
                 }
-                $this->load->view(SICP . "actas/acta_inspeccion", $data);
             }
         }else{
             $this->load->view(SICP . "actas/acta_error");
