@@ -397,7 +397,7 @@ class Ingreso_barrera extends CI_Controller
                 if($estado == "true")
                 {
                     $data['contador'] = $data['inspeccion']->numerador_reprecintado;
-                    $this->load->view(SICP . "actas/acta_inspeccion", $data);
+                    $this->load->view(SICP . "actas/acta_reprecintado", $data);
                 }
                 else{
                     $data['contador'] = $data['inspeccion']->numerador_inspeccion;
