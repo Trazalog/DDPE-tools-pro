@@ -249,6 +249,7 @@ class Inspeccion extends CI_Controller
 		$permisos = $this->input->post('permisos');
         $empresas = $this->input->post('empresas');
 		$termicos = $this->input->post('termicos');
+		$reprecintado = $this->input->post('reprecintado');
 		$infraccion = $this->input->post('infraccion');
 		$tiposInfraccion = $this->input->post('tiposInfraccion');
 
@@ -258,12 +259,18 @@ class Inspeccion extends CI_Controller
 		//Agrego empresas
 		$respEmpresas = $this->Inspecciones->agregarEmpresas($empresas);
 
-		//Agrego termicos a la tabla termicos
-		$this->Inspecciones->agregarTermicos($termicos);
-
-		//Luego los agrego a tabla inspecciones_termicos
-		$respTermInspeccion = $this->Inspecciones->agregarTermicosInspeccion($termicos);
-
+		//si viene de inspeccionPCC agrega termico 
+		if(empty($reprecintado)){
+			//Agrego termicos a la tabla termicos
+			$this->Inspecciones->agregarTermicos($termicos);
+			//Luego los agrego a tabla inspecciones_termicos
+			$respTermInspeccion = $this->Inspecciones->agregarTermicosInspeccion($termicos);
+		}
+		else{
+			//si viene de reprecintado no agrega termico 
+			$respTermInspeccion['status'] = true;
+		}
+		
 		//Puede o no tener una infraccion asociada
 		if(!empty($infraccion)){
 			$respInfraccion = $this->Inspecciones->agregarInfraccion($infraccion);

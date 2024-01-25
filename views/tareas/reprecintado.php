@@ -98,6 +98,8 @@
                             <input type="text" class="form-control hidden" name="info_id_doc" id="info_id_doc" value="<?php echo $inspeccion->info_id_doc ?>">
                             <input type="text" class="form-control hidden" name="info_id_acta" id="info_id_acta" value="<?php echo isset($inspeccion->info_id_acta) ? $inspeccion->info_id_acta : '' ?>">
                             <!-- Bloque campos necesarios para cierre de reprecintado-->
+                            <input type="text" name="patente_tractor" id="patente_tractor" value="<?php echo isset($inspeccion->patente_tractor) ? $inspeccion->patente_tractor : '' ?>" hidden/>
+                            <input type="text" name="chof_id" id="chof_id" value="<?php echo isset($inspeccion->chof_id) ? $inspeccion->chof_id : '' ?>" hidden/>
                             <input type="text" name="emailTransportista" id="emailTransportista" value="<?php echo isset($inspeccion->email_transportista) ? $inspeccion->email_transportista : '' ?>" hidden/>
                             <input type="text" name="telTransportista" id="telTransportista" value="<?php echo isset($inspeccion->tel_transportista) ? $inspeccion->tel_transportista : '' ?>" hidden/>
                             <input type="text" name="depa_idActa" id="depa_idActa" value="<?php echo isset($inspeccion->depa_id) ? $inspeccion->depa_id : '' ?>" hidden/>
@@ -331,7 +333,7 @@
                             <div class="col-md-12 col-sm-12 col-xs-12 centrar">
                                  <h4 class="titDataDinamica">Empresa Destino:</h4>
                                 <div id="sec_destinos">
-                                    <?php 
+                                  <!--   <?php 
                                     if(!empty($destinos)){
                                         foreach ($destinos as $key) {
                                     ?>
@@ -346,7 +348,7 @@
                                     <?php
                                         }
                                     }
-                                    ?>
+                                    ?> -->
                                 </div>
                             <hr>
                             </div>
@@ -362,7 +364,7 @@
                             <div class="col-md-12 col-sm-12 col-xs-12 centrar">
                                  <h4 class="titDataDinamica">Permisos:</h4>
                                 <div id="sec_permisos">
-                                    <?php 
+                              <!--       <?php 
                                     if(!empty($preCargaDatos->permisos_transito->permiso_transito)){
                                         foreach ($preCargaDatos->permisos_transito->permiso_transito as $key) {
                                     ?>
@@ -377,7 +379,7 @@
                                     <?php
                                         }
                                     }
-                                    ?>
+                                    ?> -->
                                 </div>
                                 <hr>
                             </div>
@@ -510,6 +512,13 @@
             <div class="row">
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <?php $this->load->view(SICP."actas/acta_infraccion.php"); ?>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane" id="actaReprecintado_tab">
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <?php $this->load->view(SICP."actas/acta_reprecintado.php"); ?>
                 </div>
             </div>
         </div>
@@ -687,6 +696,7 @@ async function cerrarTareaform(){
     $('#sec_permisos div.permTransito').each(function(i, obj) {
         var json = JSON.parse($(obj).attr('data-json'));
         json.case_id = case_id;
+        json.reprecintado = true;
         permisos[i] = json;
     });
 
@@ -701,6 +711,9 @@ async function cerrarTareaform(){
             empresas.push(json);
         });
     });
+
+    //validacion para que no agregue termicos nuevos en la inspeccion
+    var reprecintado = true; 
 
     //Guardo la inspeccion
     let guardadoCompleto = new Promise( function(resolve,reject){
@@ -724,13 +737,13 @@ async function cerrarTareaform(){
                 //Guardo los permisos, empresas, termicos e infraccion si hubiese
                 $.ajax({
                     type: 'POST',
-                    data: {permisos, empresas, case_id},
+                    data: {permisos, empresas, case_id, reprecintado},
                     url: "<?php echo SICP; ?>inspeccion/guardarDatosInspeccion",
                     success: function(data) {
                         resp = JSON.parse(data);
                         if(resp.status){
-                            resp.info_id = newInfoID;
-                            resp.info_id_acta = info_id_acta;//Foto del acta en papel realizada offline
+                            //resp.info_id = newInfoID;
+                            //resp.info_id_acta = info_id_acta;//Foto del acta en papel realizada offline
                             resolve(resp);
                         }else{
                             console.log(resp.message);
@@ -818,7 +831,7 @@ function showValidar(resultado){
 //
 function imprimirActa(){
 
-    var idActa = "#actaInspeccionPCC";
+    var idActa = "#actaReprecintado";
     //Completo datos en el acta antes de imprimir
 
     $(".acta_contador").text($("#contador").val());
@@ -884,6 +897,31 @@ function imprimirActa(){
     }
 
    
+    infoTodos = "";
+    infoPermisos = "";
+    infoProductos = "";
+    infoOrigen = "";
+    infoOrigenNums = "";
+    infoTemperatura = "";
+    $('#sec_permisos div.permTransito').each(function(i, obj) {
+        if (i < 3) {
+            aux = $(obj).attr('data-json');
+            json = JSON.parse(aux);
+
+            infoTodos += "Tipo de PT " + json.tipo + " | ";
+            infoTodos += "N° de Permiso " + json.perm_id + " | ";            
+            infoTodos += "Producto " + json.productos + " | ";
+            infoTodos += "Temperatura " + json.temperatura + " | ";
+            infoTodos += "Empresa de Origen " + json.origen_nom + " | ";
+            var empresasAsociadas = json.empresas;
+            empresasAsociadas.forEach(function(empresa) {
+                infoTodos += " Destino " +  empresa.razon_social + " | ";
+                infoTodos += " Domicilio " +  empresa.calle + ", " + empresa.altura + " | " ;
+            });
+        }
+        infoTodos += "<br>";
+    });
+    $(".acta_docSanitaria").html(infoTodos);
        
 
     //Valído
