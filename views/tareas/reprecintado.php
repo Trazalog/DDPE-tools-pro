@@ -111,6 +111,8 @@
                             <input type="text" name="quienAtendio" id="quienAtendio" value="<?php echo isset($inspeccion->atendidos_por) ? $inspeccion->atendidos_por : '' ?>" hidden/>
                             <input type="text" name="caracterAtendio" id="caracterAtendio" value="<?php echo isset($inspeccion->caracter_de) ? $inspeccion->caracter_de : '' ?>" hidden/>
                             <input type="text" name="procedenAccion" id="procedenAccion" value="<?php echo isset($inspeccion->proceden_a) ? $inspeccion->proceden_a : '' ?>" hidden/>
+                            <input type="text" name="fechaActaInspeccion" id="fechaActaInspeccion" value="<?php echo isset($fechaInspeccion) ? $fechaInspeccion : '' ?>" hidden/>
+                            <input type="text" name="horaActaInspeccion" id="horaActaInspeccion" value="<?php echo isset($horaInspeccion) ? $horaInspeccion : '' ?>" hidden/>
                             <!-- FIN Bloque campos necesarios para cierre de reprecintado-->
                             <div class="box-tittle centrar">
                                 <h3>Permiso de tránsito</h3>
@@ -434,7 +436,7 @@
                             <div class="col-md-12 col-sm-6 col-xs-6">
                                 <div class="form-group">
                                     <label for="nroPrecintosCierre">Nro de Precintos de cierre(<strong style="color: #dd4b39">*</strong>):</label>
-                                    <input class="form-control onlyNumbers" name="nroPrecintosCierre" id="nroPrecintosCierre" placeholder="Ingrese Precintos"/>
+                                    <input class="form-control limited" name="nroPrecintosCierre" id="nroPrecintosCierre" placeholder="Ingrese Precintos"/>
                                 </div>                    
                             </div>
                             <!--________________-->
@@ -868,6 +870,10 @@ function imprimirActa(){
     // $(".acta_caractOrganolepticas").text($("#caractOrganolepticasActa").val());
     // $(".acta_caractDeposito").text($("#caractDeposito").val());
     // $(".acta_tempCamaraActa").text($("#tempCamaraActa").val());
+    $(".acta_diaInspeccion").text(moment($("#fechaActaInspeccion").val()).format('D'));
+    $(".acta_mesInspeccion").text(moment($("#fechaActaInspeccion").val()).format('MMMM'));
+    $(".acta_anioInspeccion").text(moment($("#fechaActaInspeccion").val()).format('Y'));
+    $(".acta_horaInspeccion").text($("#horaActaInspeccion").val());
 
     /**
      * @author Pablo kenny
