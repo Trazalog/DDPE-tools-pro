@@ -156,4 +156,17 @@ class Ingresosbarrera extends CI_Model
         $aux = json_decode($aux["data"]);
         return $aux->tablas->tabla;
     }
+
+     /**
+	* verifico si el pedido paso por reprecintado
+	* @param case_id
+	* @return array true o false en caso de tener reprecintado
+	*/
+    public function verificaRepecintado($case_id){
+        $resource = "/verificarepecintado/$case_id";
+        $url = REST_SICP . $resource;
+        $aux = $this->rest->callApi('GET', $url);
+        $aux = json_decode($aux["data"]);
+        return $aux;
+    }
 }
