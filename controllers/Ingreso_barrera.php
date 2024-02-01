@@ -34,6 +34,7 @@ class Ingreso_barrera extends CI_Controller
         if(!empty($data['pedidos'])){
             foreach ($data['pedidos'] as $key) {
                 $key->patente = $this->Ingresosbarrera->getFormIngresoBarrera($key->info_id)->formulario->items->item[4]->valor;
+                $key->reprecintado =  $this->Ingresosbarrera->verificaRepecintado($key->case_id)->resultado->existe;
             }
         }
         $url_info= $_SERVER["REQUEST_URI"];
