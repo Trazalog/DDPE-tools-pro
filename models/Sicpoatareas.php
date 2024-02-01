@@ -292,6 +292,11 @@ class Sicpoatareas extends CI_Model
                     }
                 }
 
+                //Formateo la fecha de inspeccion para los input's
+                $fecAux = explode(' ',$data['inspeccion']->fec_inspeccion);
+                $data['horaInspeccion'] = $fecAux[1];
+                $data['fechaInspeccion'] = $fecAux[0];
+
                 $puntosControl = $this->Ingresosbarrera->getPuntosControl();
                 foreach ($puntosControl  as $key) {
                     if($key->tabl_id == $this->session->userdata['puntoControl']){
