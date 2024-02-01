@@ -337,6 +337,11 @@
       <result outputType="json">{&#xd;    "acta_notificacion":{&#xd;       "acno_id":"$acno_id",&#xd;       "fec_hora":"$fec_hora",&#xd;       "texto":"$texto",&#xd;       "fec_alta":"$fec_alta",&#xd;       "usuario":"$usuario",&#xd;       "usuario_app":"$usuario_app",&#xd;       "empr_id":"$empr_id",&#xd;       "eliminado":"$eliminado"&#xd;    }&#xd;}</result>
       <param name="acno_id" sqlType="STRING"/>
    </query>
+   <query id="verificaReprecintado" useConfig="SICPOADataSource">
+      <sql>select case when exists &#xd;(select true from sicpoa.inspecciones i&#xd;where i.case_id = cast(:case_id as integer) and i.numerador_reprecintado is not null&#xd;) then 'true' else 'false'&#xd;end;</sql>
+      <result outputType="json">{&#xd;    "resultado": {&#xd;        "existe": "$case"&#xd;    }&#xd;}</result>
+      <param name="case_id" sqlType="STRING"/>
+   </query>
    <resource method="GET" path="/inspeccion/id/{case_id}">
       <call-query href="getInspeccion">
          <with-param name="case_id" query-param="case_id"/>
@@ -676,6 +681,11 @@
    <resource method="GET" path="/actaNotificacion/{acno_id}">
       <call-query href="getActaNotificacion">
          <with-param name="acno_id" query-param="acno_id"/>
+      </call-query>
+   </resource>
+   <resource method="GET" path="/verificarepecintado/{case_id}">
+      <call-query href="verificaReprecintado">
+         <with-param name="case_id" query-param="case_id"/>
       </call-query>
    </resource>
 </data>

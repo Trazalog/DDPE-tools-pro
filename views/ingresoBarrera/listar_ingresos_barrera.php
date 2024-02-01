@@ -31,6 +31,7 @@
                 $tipo_trabajo = $rsp->tipo_trabajo;
                 $dir_entrega = $rsp->dir_entrega;
                 $patente = $rsp->patente;
+                $reprecintado = $rsp->reprecintado;
 
 								echo "<tr id='$petr_id' data-json='" . json_encode($rsp) . "'>";
 
@@ -38,7 +39,7 @@
 								echo '<i class="fa fa-trash-o" style="cursor: pointer;margin: 3px;" title="Eliminar ingreso por barrera" onclick="confirmaEliminar(this)"></i>';
 								echo '<i class="fa fa-print" style="cursor: pointer; margin: 3px;" title="Imprimir acta" onclick="imprimirActa(this, false)"></i>';
 								echo '<i class="fa fa-search"  style="cursor: pointer;margin: 3px;" title="Ver Pedido" onclick="verPedido(this)"></i>';
-                if($estado == 'estados_sicpoaREPRECINTADO')
+                if($reprecintado == 'true')
                 {   
                   echo '<i class="fa fa-file-text"  style="cursor: pointer;margin: 3px;" title="Imprimir acta Reprecintado" onclick="imprimirActa(this, true)"></i>';
                   echo "</td>"; 
