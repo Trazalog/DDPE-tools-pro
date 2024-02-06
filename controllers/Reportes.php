@@ -108,6 +108,14 @@ function historicoCamiones()
         $data['mesInspeccion'] = date('m',strtotime($fecAux[0]));
         $data['anioInspeccion'] = date('Y',strtotime($fecAux[0]));
 
+
+        //Formateo la fecha de reprecintado para los input's
+        $fecAux = explode(' ', $data['inspeccion']->fec_reprecintado);
+        $data['horaInspeccionReprecintado'] = $fecAux[1];
+        $data['diaInspeccionReprecintado'] = date('d',strtotime($fecAux[0]));
+        $data['mesInspeccionReprecintado'] = date('m',strtotime($fecAux[0]));
+        $data['anioInspeccionReprecintado'] = date('Y',strtotime($fecAux[0]));
+
         if(!empty($data['inspeccion']->resultado)){
           if($data['inspeccion']->resultado == 'incorrecta'){
               $data['contador'] = $data['inspeccion']->numerador_infraccion;
