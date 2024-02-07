@@ -107,7 +107,7 @@
                             <input type="text" name="localidad" id="localidad" value="<?php echo isset($inspeccion->localidad) ? $inspeccion->localidad : '' ?>" hidden/>
                             <input type="text" name="dondeConstituyen" id="dondeConstituyen" value="<?php echo isset($inspeccion->se_constituye) ? $inspeccion->se_constituye : '' ?>" hidden/>
                             <input type="text" name="domicilio" id="domicilio" value="<?php echo isset($inspeccion->domicilio_constituye) ? $inspeccion->domicilio_constituye : '' ?>" hidden/>
-                            <input type="text" name="propiedad" id="propiedad" value="<?php echo isset($inspeccion->se_constituye) ? $inspeccion->se_constituye : '' ?>" hidden/>
+                            <input type="text" name="propiedad" id="propiedad" value="<?php echo isset($inspeccion->propiedad_de) ? $inspeccion->propiedad_de : '' ?>" hidden/>
                             <input type="text" name="quienAtendio" id="quienAtendio" value="<?php echo isset($inspeccion->atendidos_por) ? $inspeccion->atendidos_por : '' ?>" hidden/>
                             <input type="text" name="caracterAtendio" id="caracterAtendio" value="<?php echo isset($inspeccion->caracter_de) ? $inspeccion->caracter_de : '' ?>" hidden/>
                             <input type="text" name="procedenAccion" id="procedenAccion" value="<?php echo isset($inspeccion->proceden_a) ? $inspeccion->proceden_a : '' ?>" hidden/>
@@ -691,6 +691,20 @@ async function cerrarTareaform(){
     dataForm.append('case_id', $("#caseId").val());
     dataForm.append('info_id_doc', frm_info_id);
     dataForm.append('tipo', 'reprecintado');
+
+    dataForm.append('fec_inspeccion', $("#fechaActaInspeccion").val() + " " + $("#horaActaInspeccion").val());
+
+    var fechaHoraActual = new Date();
+
+    //obtengo fecha y hora actual en la que se hace el reprecintado
+    var formatoFechaHora = fechaHoraActual.getFullYear() + '-' +
+                       ('0' + (fechaHoraActual.getMonth() + 1)).slice(-2) + '-' +
+                       ('0' + fechaHoraActual.getDate()).slice(-2) + ' ' +
+                       ('0' + fechaHoraActual.getHours()).slice(-2) + ':' +
+                       ('0' + fechaHoraActual.getMinutes()).slice(-2) + ':' +
+                       ('0' + fechaHoraActual.getSeconds()).slice(-2);
+
+    dataForm.append('fec_reprecintado', formatoFechaHora);
 
     //Guardo los datos del formulario para no perderlos en reload
     //obtengo los permisos
