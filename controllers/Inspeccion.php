@@ -315,7 +315,7 @@ class Inspeccion extends CI_Controller
 			//EVALUO RESPUESTA PERMISOS DE TRANSITO
 			if(!$rspPermisos['status']){
 				if(stripos($rspPermisos['data'], "permisos_transito_pk")){ 
-					$resp['message'] .= "<br> -> <b>Error</b> al agregar los permisos de tránsito.<br> <b>Información duplicada!</b> <br>";
+					$resp['message'] .= "<br> -> <b>Error</b> al agregar los permisos de tránsito.<br> <b>Nro de permiso duplicado!</b> <br>";
 				}else{
 					$resp['message'] .= "<br> -> <b>Error</b> al agregar los permisos de tránsito. <br>";
 				}

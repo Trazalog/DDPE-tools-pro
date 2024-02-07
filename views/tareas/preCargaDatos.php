@@ -82,7 +82,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                         <label for="emision">Lugar de Emisión(<strong style="color: #dd4b39">*</strong>):</label>
-                        <input type="text" class="form-control" id="emision" placeholder="Ingrese lugar de emisión"/>
+                        <input type="text" class="form-control requerido" id="emision" placeholder="Ingrese lugar de emisión"/>
                     </div>
                 </div>
                 <!--________________-->
@@ -395,7 +395,7 @@
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <div class="form-group">
                                 <label for="term_patente">Patente Térmico(<strong style="color: #dd4b39">*</strong>):</label>
-                                <input class="form-control limited" id="term_patente" placeholder="Ingrese patente del térmico" value="<?php echo isset($patente) ? $patente : null ?>"/>
+                                <input class="form-control limited" id="term_patente" placeholder="Ingrese patente del térmico" value="<?php echo isset($patente) ? $patente : null ?>" required/>
                             </div>                    
                         </div>
                         <!--________________-->
@@ -413,7 +413,7 @@
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <div class="form-group">
                                 <label for="precintos">N° de Precintos(<strong style="color: #dd4b39">*</strong>):</label>
-                                <input class="form-control limited" id="precintos" placeholder="Ingrese precintos" />
+                                <input class="form-control limited" id="precintos" placeholder="Ingrese precintos" required/>
                             </div>                    
                         </div>
                         <!--________________-->
