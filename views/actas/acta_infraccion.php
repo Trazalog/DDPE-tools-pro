@@ -25,14 +25,14 @@
         <div style="margin-bottom: 35px;width: 100%; float:left">
             <div class="bodyActa" style="">
                 <div style="text-indent: 30px;">
-                    En la ciudad de San Juan, departamento <span class="acta_depto"><?php echo $inspeccion->departamento ?></span>, localidad <span class="acta_localidad"><?php echo $inspeccion->localidad ?></span> a los <span class="acta_diaInspeccion"><?php echo $diaInspeccion; ?></span> días del mes de <span class="acta_mesInspeccion"><?php echo $mesInspeccion; ?></span> del año <span class="acta_anioInspeccion"><?php echo $anioInspeccion; ?></span>,
-                    siendo las <span class="acta_horaInspeccion"><?php echo date('H'); ?></span> horas.  Los inspectores del S. V. I. S. <span class="acta_inspectores"><?php echo $inspeccion->inspectores ?></span>, se constituyen en <span class="acta_puntoControl"><?php echo $inspeccion->se_constituye ?></span> 
+                    En la ciudad de San Juan, departamento <span class="acta_depto"><?php echo $inspeccion->departamento ?></span>, localidad <span class="acta_localidad"><?php echo $inspeccion->localidad ?></span> a los <span class="acta_diaInspeccion"><?php echo $diaInfraccion; ?></span> días del mes de <span class="acta_mesInspeccion"><?php echo $mesInfraccion; ?></span> del año <span class="acta_anioInspeccion"><?php echo $anioInfraccion; ?></span>,
+                    siendo las <span class="acta_horaInspeccion"><?php echo $horaInfraccion ?></span> horas.  Los inspectores del S. V. I. S. <span class="acta_inspectores"><?php echo $inspeccion->inspectores ?></span>, se constituyen en <span class="acta_puntoControl"><?php echo $inspeccion->se_constituye ?></span> 
                     con domicilio en <span class="acta_puntoControlDomicilio"><?php echo $inspeccion->domicilio_constituye ?></span> propiedad de <span class="acta_propiedadDe"><?php echo $inspeccion->propiedad_de ?></span>. Siendo atendidos por <span class="acta_quienAtendio"><?php echo $inspeccion->atendidos_por ?></span> D.N.I. N° <span class="dniActa"><?php echo $inspeccion->chof_id ?></span> en su carácter de <span class="acta_caracter"><?php echo $inspeccion->caracter_de ?></span>.<br>
                 </div>
                 <br>
                 <div style="text-indent: 30px;">
                     Proceden a <span class="acta_procedenA"><?php echo $inspeccion->proceden_a ?></span>, Termico/s patente/s: <?php foreach ($inspeccion->termicos->termico as $termico) { echo $termico->patente. "; ";} ?><br> 
-                    <?php foreach ($inspeccion->permisos_transito->permiso_transito as $permiso) { echo "Tipo de PT " . $permiso->tipo. " | N° de permiso " . $permiso->perm_id .   " | Producto " . $permiso->producto .  " | Temperatura " .$permiso->temperatura. " | Empresa de origen " .$permiso->origen_nom ; foreach ($destinos as $destino){ if($permiso->perm_id == $destino->perm_id ){ echo " | Destino " . $destino->departamento. " | Domicilio " . $destino->calle. ", ".$destino->altura ;}}echo "</br>";} ?>
+                    <?php foreach ($inspeccion->permisos_transito->permiso_transito as $permiso) { echo "Tipo de PT " . $permiso->tipo. " | N° de permiso " . $permiso->perm_id .   " | Producto " . $permiso->productos .  " | Temperatura " .$permiso->temperatura. " | Empresa de origen " .$permiso->origen_nom ; foreach ($destinos as $destino){ if($permiso->perm_id == $destino->perm_id ){ echo " | Destino " . $destino->departamento. " | Domicilio " . $destino->calle. ", ".$destino->altura ;}}echo "</br>";} ?>
                     Transportista <?php echo $transportista->razon_social ?>, teléfono del transportista 
                     <span class="acta_telTransportista"><?php echo $inspeccion->tel_transportista ?></span> correo electrónico del transportista <span class="acta_emailTransportista"><?php echo $inspeccion->email_transportista ?></span> 
                     precintos <?php foreach ($inspeccion->termicos->termico as $termico) { echo $termico->precintos. " ";} ?>, Peso Bruto <?php echo $inspeccion->bruto ?>, 
@@ -58,7 +58,7 @@
                     <?php if($inspeccion->infracciones->infraccion->temperatura_actual) echo ", y registrándose la siguiente temperatura " . $inspeccion->infracciones->infraccion->temperatura_actual?>
                   
                     <br>
-                    Fecha y Hora: <span class="acta_fecha"><?php echo date('d-m-Y'); ?></span>, <span class="acta_hora"><?php echo date('H:i'); ?></span> horas.<br>
+                    Fecha y Hora: <span class="acta_fecha"><?php echo $inspeccion->infracciones->infraccion->fecha_hora; ?></span> <span class="acta_hora"></span> horas.<br>
                     <div class="firmaDepositario" style="text-align: right;">
                         <div style="text-align: center;">
                             <p>. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .</p>
@@ -131,13 +131,14 @@
         <div style="margin-bottom: 35px;width: 100%; float:left">
             <div class="bodyActa" style="">
                 <div style="text-indent: 30px;">
-                    En la ciudad de San Juan, departamento <span class="acta_depto"><?php echo $inspeccion->departamento ?></span>, localidad <span class="acta_localidad"><?php echo $inspeccion->localidad ?></span> a los <span class="acta_diaInspeccion"><?php echo $diaInspeccion; ?></span> días del mes de <span class="acta_mesInspeccion"><?php echo $mesInspeccion; ?></span> del año <span class="acta_anioInspeccion"><?php echo $anioInspeccion; ?></span>,
-                    siendo las <span class="acta_horaInspeccion"><?php echo date('H'); ?></span> horas.  Los inspectores del S. V. I. S. <span class="acta_inspectores"><?php echo $inspeccion->inspectores ?></span>, se constituyen en <span class="acta_puntoControl"><?php echo $inspeccion->se_constituye ?></span> 
+                    En la ciudad de San Juan, departamento <span class="acta_depto"><?php echo $inspeccion->departamento ?></span>, localidad <span class="acta_localidad"><?php echo $inspeccion->localidad ?></span> a los <span class="acta_diaInspeccion"><?php echo $diaInfraccion; ?></span> días del mes de <span class="acta_mesInspeccion"><?php echo $mesInfraccion; ?></span> del año <span class="acta_anioInspeccion"><?php echo $anioInfraccion; ?></span>,
+                    siendo las <span class="acta_horaInspeccion"><?php echo $horaInfraccion ?></span> horas.  Los inspectores del S. V. I. S. <span class="acta_inspectores"><?php echo $inspeccion->inspectores ?></span>, se constituyen en <span class="acta_puntoControl"><?php echo $inspeccion->se_constituye ?></span> 
                     con domicilio en <span class="acta_puntoControlDomicilio"><?php echo $inspeccion->domicilio_constituye ?></span> propiedad de <span class="acta_propiedadDe"><?php echo $inspeccion->propiedad_de ?></span>. Siendo atendidos por <span class="acta_quienAtendio"><?php echo $inspeccion->atendidos_por ?></span> D.N.I. N° <span class="dniActa"><?php echo $inspeccion->chof_id ?></span> en su carácter de <span class="acta_caracter"><?php echo $inspeccion->caracter_de ?></span>.<br>
                 </div>
+                <br>
                 <div style="text-indent: 30px;">
                     Proceden a <span class="acta_procedenA"><?php echo $inspeccion->proceden_a ?></span>, Termico/s patente/s: <?php foreach ($inspeccion->termicos->termico as $termico) { echo $termico->patente. "; ";} ?><br> 
-                    <?php foreach ($inspeccion->permisos_transito->permiso_transito as $permiso) { echo "Tipo de PT " . $permiso->tipo. " | N° de permiso " . $permiso->perm_id .   " | Producto " . $permiso->producto .  " | Temperatura " .$permiso->temperatura. " | Empresa de origen " .$permiso->origen_nom ; foreach ($destinos as $destino){ if($permiso->perm_id == $destino->perm_id ){ echo " | Destino " . $destino->departamento. " | Domicilio " . $destino->calle. ", ".$destino->altura ;}}echo "</br>";} ?>
+                    <?php foreach ($inspeccion->permisos_transito->permiso_transito as $permiso) { echo "Tipo de PT " . $permiso->tipo. " | N° de permiso " . $permiso->perm_id .   " | Producto " . $permiso->productos .  " | Temperatura " .$permiso->temperatura. " | Empresa de origen " .$permiso->origen_nom ; foreach ($destinos as $destino){ if($permiso->perm_id == $destino->perm_id ){ echo " | Destino " . $destino->departamento. " | Domicilio " . $destino->calle. ", ".$destino->altura ;}}echo "</br>";} ?>
                     Transportista <?php echo $transportista->razon_social ?>, teléfono del transportista 
                     <span class="acta_telTransportista"><?php echo $inspeccion->tel_transportista ?></span> correo electrónico del transportista <span class="acta_emailTransportista"><?php echo $inspeccion->email_transportista ?></span> 
                     precintos <?php foreach ($inspeccion->termicos->termico as $termico) { echo $termico->precintos. " ";} ?>, Peso Bruto <?php echo $inspeccion->bruto ?>, 
@@ -151,7 +152,7 @@
                     Observaciones: <?php echo $inspeccion->observaciones ?>.<br><br>
                 </div>
                 <div style="text-indent: 30px;">
-                <span class="acta_infoInfraccion"></span><span class="acta_infoCaracteristicasInfraccion"></span>
+                    <span class="acta_infoInfraccion"></span><span class="acta_infoCaracteristicasInfraccion"></span>
                     <?php if($inspeccion->infracciones->infraccion->depositario) echo 'Quedando como Depositario Judicial de la mercadería en cuestión, el señor/a ' .$inspeccion->infracciones->infraccion->depositario;  ?>
                     <?php if($inspeccion->infracciones->infraccion->documento) echo ", D.N.I. N° " . $inspeccion->infracciones->infraccion->documento ;?>
                     <?php if($inspeccion->infracciones->infraccion->telefono) echo ", Teléfono " . $inspeccion->infracciones->infraccion->telefono; ?> 
@@ -163,7 +164,7 @@
                     <?php if($inspeccion->infracciones->infraccion->temperatura_actual) echo ", y registrándose la siguiente temperatura " . $inspeccion->infracciones->infraccion->temperatura_actual?>
                   
                     <br>
-                    Fecha y Hora: <span class="acta_fecha"><?php echo date('d-m-Y'); ?></span>, <span class="acta_hora"><?php echo date('H:i'); ?></span> horas.<br>
+                    Fecha y Hora: <span class="acta_fecha"><?php echo $inspeccion->infracciones->infraccion->fecha_hora; ?></span> <span class="acta_hora"></span> horas.<br>
                     <div class="firmaDepositario" style="text-align: right;">
                         <div style="text-align: center;">
                             <p>. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .</p>
@@ -234,15 +235,16 @@
             <h2>ACTA N° <?php echo $contador; ?></h2>
         </div>
         <div style="margin-bottom: 35px;width: 100%; float:left">
-            <div class="bodyActa" style="">
+        <div class="bodyActa" style="">
                 <div style="text-indent: 30px;">
-                    En la ciudad de San Juan, departamento <span class="acta_depto"><?php echo $inspeccion->departamento ?></span>, localidad <span class="acta_localidad"><?php echo $inspeccion->localidad ?></span> a los <span class="acta_diaInspeccion"><?php echo $diaInspeccion; ?></span> días del mes de <span class="acta_mesInspeccion"><?php echo $mesInspeccion; ?></span> del año <span class="acta_anioInspeccion"><?php echo $anioInspeccion; ?></span>,
-                    siendo las <span class="acta_horaInspeccion"><?php echo date('H'); ?></span> horas.  Los inspectores del S. V. I. S. <span class="acta_inspectores"><?php echo $inspeccion->inspectores ?></span>, se constituyen en <span class="acta_puntoControl"><?php echo $inspeccion->se_constituye ?></span> 
+                    En la ciudad de San Juan, departamento <span class="acta_depto"><?php echo $inspeccion->departamento ?></span>, localidad <span class="acta_localidad"><?php echo $inspeccion->localidad ?></span> a los <span class="acta_diaInspeccion"><?php echo $diaInfraccion; ?></span> días del mes de <span class="acta_mesInspeccion"><?php echo $mesInfraccion; ?></span> del año <span class="acta_anioInspeccion"><?php echo $anioInfraccion; ?></span>,
+                    siendo las <span class="acta_horaInspeccion"><?php echo $horaInfraccion ?></span> horas.  Los inspectores del S. V. I. S. <span class="acta_inspectores"><?php echo $inspeccion->inspectores ?></span>, se constituyen en <span class="acta_puntoControl"><?php echo $inspeccion->se_constituye ?></span> 
                     con domicilio en <span class="acta_puntoControlDomicilio"><?php echo $inspeccion->domicilio_constituye ?></span> propiedad de <span class="acta_propiedadDe"><?php echo $inspeccion->propiedad_de ?></span>. Siendo atendidos por <span class="acta_quienAtendio"><?php echo $inspeccion->atendidos_por ?></span> D.N.I. N° <span class="dniActa"><?php echo $inspeccion->chof_id ?></span> en su carácter de <span class="acta_caracter"><?php echo $inspeccion->caracter_de ?></span>.<br>
                 </div>
+                <br>
                 <div style="text-indent: 30px;">
-                Proceden a <span class="acta_procedenA"><?php echo $inspeccion->proceden_a ?></span>, Termico/s patente/s: <?php foreach ($inspeccion->termicos->termico as $termico) { echo $termico->patente. "; ";} ?><br> 
-                    <?php foreach ($inspeccion->permisos_transito->permiso_transito as $permiso) { echo "Tipo de PT " . $permiso->tipo. " | N° de permiso " . $permiso->perm_id .   " | Producto " . $permiso->producto .  " | Temperatura " .$permiso->temperatura. " | Empresa de origen " .$permiso->origen_nom ; foreach ($destinos as $destino){ if($permiso->perm_id == $destino->perm_id ){ echo " | Destino " . $destino->departamento. " | Domicilio " . $destino->calle. ", ".$destino->altura ;}}echo "</br>";} ?>
+                    Proceden a <span class="acta_procedenA"><?php echo $inspeccion->proceden_a ?></span>, Termico/s patente/s: <?php foreach ($inspeccion->termicos->termico as $termico) { echo $termico->patente. "; ";} ?><br> 
+                    <?php foreach ($inspeccion->permisos_transito->permiso_transito as $permiso) { echo "Tipo de PT " . $permiso->tipo. " | N° de permiso " . $permiso->perm_id .   " | Producto " . $permiso->productos .  " | Temperatura " .$permiso->temperatura. " | Empresa de origen " .$permiso->origen_nom ; foreach ($destinos as $destino){ if($permiso->perm_id == $destino->perm_id ){ echo " | Destino " . $destino->departamento. " | Domicilio " . $destino->calle. ", ".$destino->altura ;}}echo "</br>";} ?>
                     Transportista <?php echo $transportista->razon_social ?>, teléfono del transportista 
                     <span class="acta_telTransportista"><?php echo $inspeccion->tel_transportista ?></span> correo electrónico del transportista <span class="acta_emailTransportista"><?php echo $inspeccion->email_transportista ?></span> 
                     precintos <?php foreach ($inspeccion->termicos->termico as $termico) { echo $termico->precintos. " ";} ?>, Peso Bruto <?php echo $inspeccion->bruto ?>, 
@@ -256,7 +258,7 @@
                     Observaciones: <?php echo $inspeccion->observaciones ?>.<br><br>
                 </div>
                 <div style="text-indent: 30px;">
-                <span class="acta_infoInfraccion"></span><span class="acta_infoCaracteristicasInfraccion"></span>
+                    <span class="acta_infoInfraccion"></span><span class="acta_infoCaracteristicasInfraccion"></span>
                     <?php if($inspeccion->infracciones->infraccion->depositario) echo 'Quedando como Depositario Judicial de la mercadería en cuestión, el señor/a ' .$inspeccion->infracciones->infraccion->depositario;  ?>
                     <?php if($inspeccion->infracciones->infraccion->documento) echo ", D.N.I. N° " . $inspeccion->infracciones->infraccion->documento ;?>
                     <?php if($inspeccion->infracciones->infraccion->telefono) echo ", Teléfono " . $inspeccion->infracciones->infraccion->telefono; ?> 
@@ -268,7 +270,7 @@
                     <?php if($inspeccion->infracciones->infraccion->temperatura_actual) echo ", y registrándose la siguiente temperatura " . $inspeccion->infracciones->infraccion->temperatura_actual?>
                   
                     <br>
-                    Fecha y Hora: <span class="acta_fecha"><?php echo date('d-m-Y'); ?></span>, <span class="acta_hora"><?php echo date('H:i'); ?></span> horas.<br>
+                    Fecha y Hora: <span class="acta_fecha"><?php echo $inspeccion->infracciones->infraccion->fecha_hora; ?></span> <span class="acta_hora"></span> horas.<br>
                     <div class="firmaDepositario" style="text-align: right;">
                         <div style="text-align: center;">
                             <p>. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .</p>

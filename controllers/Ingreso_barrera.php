@@ -378,6 +378,16 @@ class Ingreso_barrera extends CI_Controller
         $data['mesInspeccionReprecintado'] = date('m',strtotime($fecAux[0]));
         $data['anioInspeccionReprecintado'] = date('Y',strtotime($fecAux[0]));
 
+        //formateo fecha de infraccion si tiene
+        if($data['inspeccion']->infracciones->infraccion){
+            $fecAuxInfracc = explode(' ', $data['inspeccion']->infracciones->infraccion->fecha_hora);
+            $data['horaInfraccion'] = $fecAuxInfracc[1];
+            $data['diaInfraccion'] = date('d',strtotime($fecAuxInfracc[0]));
+            $data['mesInfraccion'] = date('m',strtotime($fecAuxInfracc[0]));
+            $data['anioInfraccion'] = date('Y',strtotime($fecAuxInfracc[0]));
+
+        }
+
         $puntosControl = $this->Ingresosbarrera->getPuntosControl();
         foreach ($puntosControl  as $key) {
             if($key->tabl_id == $this->session->userdata['puntosControl']){
