@@ -116,6 +116,16 @@ function historicoCamiones()
         $data['mesInspeccionReprecintado'] = date('m',strtotime($fecAux[0]));
         $data['anioInspeccionReprecintado'] = date('Y',strtotime($fecAux[0]));
 
+        //formateo fecha de infraccion si tiene
+        if($data['inspeccion']->infracciones->infraccion){
+          $fecAuxInfracc = explode(' ', $data['inspeccion']->infracciones->infraccion->fecha_hora);
+          $data['horaInfraccion'] = $fecAuxInfracc[1];
+          $data['diaInfraccion'] = date('d',strtotime($fecAuxInfracc[0]));
+          $data['mesInfraccion'] = date('m',strtotime($fecAuxInfracc[0]));
+          $data['anioInfraccion'] = date('Y',strtotime($fecAuxInfracc[0]));
+
+      }
+
         if(!empty($data['inspeccion']->resultado)){
           if($data['inspeccion']->resultado == 'incorrecta'){
               $data['contador'] = $data['inspeccion']->numerador_infraccion;
