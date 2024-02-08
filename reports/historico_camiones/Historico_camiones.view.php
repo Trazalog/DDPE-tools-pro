@@ -471,7 +471,7 @@ use function PHPSTORM_META\type;
     var base = "<?php echo base_url(); ?>";
     $(acta).printThis({
       debug: false,
-      importCSS: true,
+      importCSS: false,
       importStyle: true,
       loadCSS: "",
       base: base,
@@ -504,7 +504,7 @@ use function PHPSTORM_META\type;
     var base = "<?php echo base_url(); ?>";
     $(acta).printThis({
       debug: false,
-      importCSS: true,
+      importCSS: false,
       importStyle: true,
       loadCSS: "",
       base: base,
