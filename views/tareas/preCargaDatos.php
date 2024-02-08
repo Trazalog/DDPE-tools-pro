@@ -341,7 +341,7 @@
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <div class="form-group has-feedback">
                             <label for="patenteTractor">Patente de Tractor(<strong style="color: #dd4b39">*</strong>):</label>
-                                <input class="form-control limited" name="patente_tractor" id="patenteTractor" placeholder="Ingrese Patente Tractor" value="<?php echo isset($patente) ? $patente : null ?>" required/>
+                                <input class="form-control limited" name="patente_tractor" id="patenteTractor" placeholder="Ingrese Patente Tractor" required/>
                             </div>
                         </div>
                         <!--________________-->
