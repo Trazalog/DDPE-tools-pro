@@ -113,6 +113,11 @@
                             <input type="text" name="procedenAccion" id="procedenAccion" value="<?php echo isset($inspeccion->proceden_a) ? $inspeccion->proceden_a : '' ?>" hidden/>
                             <input type="text" name="fechaActaInspeccion" id="fechaActaInspeccion" value="<?php echo isset($fechaInspeccion) ? $fechaInspeccion : '' ?>" hidden/>
                             <input type="text" name="horaActaInspeccion" id="horaActaInspeccion" value="<?php echo isset($horaInspeccion) ? $horaInspeccion : '' ?>" hidden/>
+                            <input type="text" name="ticket" id="ticket" value="<?php echo isset($inspeccion->ticket) ? $inspeccion->ticket : '' ?>" hidden/>
+                            <input type="text" name="observaciones" id="observaciones" value="<?php echo isset($inspeccion->observaciones) ? $inspeccion->observaciones : '' ?>" hidden/>                            
+                            <input type="text" name="tara" id="tara" value="<?php echo isset($inspeccion->tara) ? $inspeccion->tara : '' ?>" hidden/>                            
+                            <input type="text" name="bruto" id="bruto" value="<?php echo isset($inspeccion->bruto) ? $inspeccion->bruto : '' ?>" hidden/>                            
+                            <input type="text" name="inspectores" id="inspectores" value="<?php echo isset($inspeccion->inspectores) ? $inspeccion->inspectores : '' ?>" hidden/>                            
                             <!-- FIN Bloque campos necesarios para cierre de reprecintado-->
                             <div class="box-tittle centrar">
                                 <h3>Permiso de tránsito</h3>
@@ -394,8 +399,8 @@
                         <!--Inspectores-->
                         <div style="margin-top: 50px;" class="col-md-12 col-sm-12 col-xs-12">
                             <div class="form-group">
-                                <label for="inspectores">Inspectores(<strong style="color: #dd4b39">*</strong>):</label>
-                                <input class="form-control" name="inspectores" id="inspectores" placeholder="Ingrese Inspectores" value="<?php echo $inspeccion->inspectores ?>"/>
+                                <label for="inspectores_reprecintado">Inspectores(<strong style="color: #dd4b39">*</strong>):</label>
+                                <input class="form-control" name="inspectores_reprecintado" id="inspectores" placeholder="Ingrese Inspectores" value="<?php echo isset($inspeccion->inspectores_reprecintado) ? $inspeccion->inspectores : null; ?>"/>
                             </div>                    
                         </div>
                         <!--________________-->
@@ -403,16 +408,16 @@
                             <!--Bruto-->
                             <div class="col-md-4 col-sm-6 col-xs-6">
                                 <div class="form-group">
-                                    <label for="bruto">Bruto:</label>
-                                    <input class="form-control neto onlyNumbers" name="bruto" id="bruto" value="<?php echo isset($inspeccion->bruto) ? $inspeccion->bruto : null; ?>"/>
+                                    <label for="bruto_reprecintado">Bruto:</label>
+                                    <input class="form-control neto onlyNumbers" name="bruto_reprecintado" id="bruto" value="<?php echo isset($inspeccion->bruto_reprecintado) ? $inspeccion->bruto : null; ?>"/>
                                 </div>                    
                             </div>
                             <!--________________-->
                             <!--Tara-->
                             <div class="col-md-4 col-sm-6 col-xs-6">
                                 <div class="form-group">
-                                    <label for="tara">Tara:</label>
-                                    <input class="form-control neto onlyNumbers" name="tara" id="tara" value="<?php echo isset($inspeccion->tara) ? $inspeccion->tara : null; ?>"/>
+                                    <label for="tara_reprecintado">Tara:</label>
+                                    <input class="form-control neto onlyNumbers" name="tara_reprecintado" id="tara" value="<?php echo isset($inspeccion->tara_reprecintado) ? $inspeccion->tara : null; ?>"/>
                                 </div>                    
                             </div>
                             <!--________________-->
@@ -427,8 +432,8 @@
                             <!--Ticket-->
                             <div class="col-md-12 col-sm-6 col-xs-6">
                                 <div class="form-group">
-                                    <label for="ticket">Ticket:</label>
-                                    <input class="form-control" name="ticket" id="ticket" value="<?php echo isset($inspeccion->ticket) ? $inspeccion->ticket : null; ?>"/>
+                                    <label for="ticket_reprecintado">Ticket:</label>
+                                    <input class="form-control" name="ticket_reprecintado" id="ticket" value="<?php echo isset($inspeccion->ticket_reprecintado) ? $inspeccion->ticket : null; ?>"/>
                                 </div>                    
                             </div>
                             <!--________________-->
@@ -443,8 +448,8 @@
                             <!--Observaciones Reprecintado-->
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 <div class="form-group">
-                                    <label for="observaciones">Observaciones:</label>
-                                    <textarea class="form-control" name="observaciones" id="observacionesReprecintado" placeholder="Observaciones"></textarea>
+                                    <label for="observaciones_reprecintado">Observaciones:</label>
+                                    <textarea class="form-control" name="observaciones_reprecintado" id="observacionesReprecintado" placeholder="Observaciones"></textarea>
                                 </div>                    
                             </div>
                             <!--________________-->
@@ -810,7 +815,6 @@ function cerrarTarea() {
             contentType: false,
             processData: false,
             url: '<?php base_url() ?>index.php/<?php echo BPM ?>Proceso/cerrarTarea/' + id,
-            // url: '<?php base_url() ?>index.php/<?php echo BPM ?>Proceso/cerrarTareaReprecintado/' + id,
             success: function(data) {
                 wc();
                 imprimirActa();
