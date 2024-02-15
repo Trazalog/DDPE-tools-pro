@@ -169,6 +169,9 @@ class Inspeccion extends CI_Controller
 		$data['info_id_acta'] =  !empty($this->input->post('info_id_acta'))? $this->input->post('info_id_acta') : "";
 		$data['fec_reprecintado'] =  !empty($this->input->post('fec_reprecintado'))? $this->input->post('fec_reprecintado') : "";
 		$data['precinto_reprecintado'] =  !empty($this->input->post('nroPrecintosCierre'))? $this->input->post('nroPrecintosCierre') : "";
+		$data['observaciones_reprecintado'] =  !empty($this->input->post('observaciones_reprecintado'))? $this->input->post('observaciones_reprecintado') : "";
+		$data['tara_reprecintado'] =  !empty($this->input->post('tara_reprecintado'))? $this->input->post('tara_reprecintado') : "";
+		$data['inspectores_reprecintado'] =  !empty($this->input->post('inspectores_reprecintado'))? $this->input->post('inspectores_reprecintado') : "";
 		
 		$resp = $this->Inspecciones->agregarInspeccion($data);
 		        
