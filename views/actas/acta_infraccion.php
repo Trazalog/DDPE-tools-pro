@@ -43,7 +43,7 @@
                 </div>
                 <br>
                 <div style="text-indent: 30px;">
-                    Observaciones: <?php echo $inspeccion->observaciones ?>.<br><br>
+                    Observaciones: <?php echo $inspeccion->infracciones->infraccion->observacion_infraccion ?>.<br><br>
                 </div>
                 <div style="text-indent: 30px;">
                     <span class="acta_infoInfraccion"></span><span class="acta_infoCaracteristicasInfraccion"></span>
@@ -149,7 +149,7 @@
                 </div>
                 <br>
                 <div style="text-indent: 30px;">
-                    Observaciones: <?php echo $inspeccion->observaciones ?>.<br><br>
+                    Observaciones: <?php echo $inspeccion->infracciones->infraccion->observacion_infraccion  ?>.<br><br>
                 </div>
                 <div style="text-indent: 30px;">
                     <span class="acta_infoInfraccion"></span><span class="acta_infoCaracteristicasInfraccion"></span>
@@ -255,7 +255,7 @@
                 </div>
                 <br>
                 <div style="text-indent: 30px;">
-                    Observaciones: <?php echo $inspeccion->observaciones ?>.<br><br>
+                    Observaciones: <?php echo $inspeccion->infracciones->infraccion->observacion_infraccion  ?>.<br><br>
                 </div>
                 <div style="text-indent: 30px;">
                     <span class="acta_infoInfraccion"></span><span class="acta_infoCaracteristicasInfraccion"></span>

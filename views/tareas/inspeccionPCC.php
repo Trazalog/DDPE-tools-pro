@@ -1738,6 +1738,7 @@ async function cerrarTareaform(){
         infraccion.tipo_camara = $("#tipoCamaraActa").val();
         infraccion.temperatura_actual = $("#tempCamaraActa").val();
         infraccion.fecha_hora = $("#fechaActa").val() + " " + $("#horaActa").val();
+        infraccion.observacion_infraccion = $("#observaciones").val(); 
         dataForm.append('tipo', 'infraccion');
     }
     //Obtengo los tipos de infracciones

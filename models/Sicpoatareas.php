@@ -229,6 +229,7 @@ class Sicpoatareas extends CI_Model
                 $data['estados_productos'] = $this->getEstadosProductos();
 
                 $empresas = $data['preCargaDatos']->empresas->empresa;
+                $permisos = $data['preCargaDatos']->permisos_transito->permiso_transito;
 
                 //Separo las empresas por su rol
                 if(!empty($empresas)){
@@ -246,6 +247,31 @@ class Sicpoatareas extends CI_Model
                         }
                     }
                 }
+
+                 //empresas asociadas a un permiso
+                // Crear un arreglo para almacenar las empresas por perm_id
+                $empresasPorPermiso = [];
+                $empresasDestino= $data['destinos'];
+                // Agrupar las empresas por perm_id
+                foreach ($empresasDestino as $empresa) {
+                    $perm_id = $empresa->perm_id;
+                    if (!isset($empresasPorPermiso[$perm_id])) {
+                        $empresasPorPermiso[$perm_id] = [];
+                    }
+                    $empresasPorPermiso[$perm_id][] = $empresa;
+                }
+
+                // Combinar los permisos con las empresas asociadas
+                foreach ($permisos as $permiso) {
+                    $perm_id = $permiso->perm_id;
+                    if (isset($empresasPorPermiso[$perm_id])) {
+                        $permiso->empresas = $empresasPorPermiso[$perm_id];
+                    }
+                }
+
+                // Guardar la combinación en $data['preCargaInspecciones']
+                $data['preCargaInspecciones'] = $permisos;
+
 
                 //Es el info_id del formulario de escaneo documentacion
                 //que puede o no estar cargado a la hora de la inspeccion
