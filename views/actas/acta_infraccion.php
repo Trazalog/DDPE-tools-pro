@@ -20,7 +20,7 @@
             <h2><b>SERVICIO VETERINARIO DE INSPECCIÓN SANITARIA</b></h2>
         </div>
         <div style="width:20%;float:right">
-            <h2>ACTA N° <?php echo $contador; ?></h2>
+            <h2>ACTA N° <?php echo $inspeccion->numerador_infraccion ; ?></h2>
         </div>
         <div style="margin-bottom: 35px;width: 100%; float:left">
             <div class="bodyActa" style="">
@@ -126,7 +126,7 @@
             <h2><b>SERVICIO VETERINARIO DE INSPECCIÓN SANITARIA</b></h2>
         </div>
         <div style="width: 20%;float:right">
-            <h2>ACTA N° <?php echo $contador; ?></h2>
+            <h2>ACTA N° <?php echo $inspeccion->numerador_infraccion; ?></h2>
         </div>
         <div style="margin-bottom: 35px;width: 100%; float:left">
             <div class="bodyActa" style="">
@@ -232,7 +232,7 @@
             <h2><b>SERVICIO VETERINARIO DE INSPECCIÓN SANITARIA</b></h2>
         </div>
         <div style="width: 20%;float:right">
-            <h2>ACTA N° <?php echo $contador; ?></h2>
+            <h2>ACTA N° <?php echo $inspeccion->numerador_infraccion; ?></h2>
         </div>
         <div style="margin-bottom: 35px;width: 100%; float:left">
         <div class="bodyActa" style="">
