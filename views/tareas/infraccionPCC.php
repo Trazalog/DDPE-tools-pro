@@ -537,7 +537,7 @@ function cerrarTarea() {
     }
 
     //Una vez validado el formulario, lo guardo
-    cerrarTareaform().then((result) => {
+   // cerrarTareaform().then((result) => {
         
         var dataForm = new FormData($('#formInfraccionPCC')[0]);
         var frm_info_id = $('#info_id_doc').val();
@@ -578,10 +578,10 @@ function cerrarTarea() {
                 alert("Error al finalizar tarea");
             }
         });
-    }).catch((err) => {
+    /*}).catch((err) => {
         console.log(err);
         alert("Error al finalizar tarea");
-    });
+    });*/
 }
 //FIN Scripts Cierre tarea
 /***************************************************** */
