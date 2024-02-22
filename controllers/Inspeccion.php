@@ -144,7 +144,7 @@ class Inspeccion extends CI_Controller
 		$data['bruto'] =  !empty($this->input->post('bruto'))? $this->input->post('bruto') : "";
 		$data['tara'] =  !empty($this->input->post('tara'))? $this->input->post('tara') : "";
 		$data['ticket'] =  !empty($this->input->post('ticket'))? $this->input->post('ticket') : "";
-		$data['resultado'] =  !empty($this->input->post('inspValida'))? $this->input->post('inspValida') : "";
+		//$data['resultado'] =  !empty($this->input->post('inspValida'))? $this->input->post('inspValida') : "";
 		$data['cant_fajas'] =  !empty($this->input->post('cant_fajas'))? $this->input->post('cant_fajas') : "";
 		$data['bruto_reprecintado'] =  !empty($this->input->post('bruto_reprecintado'))? $this->input->post('bruto_reprecintado') : "";
 		$data['ticket_reprecintado'] =  !empty($this->input->post('ticket_reprecintado'))? $this->input->post('ticket_reprecintado') : "";
@@ -169,7 +169,19 @@ class Inspeccion extends CI_Controller
 		$data['info_id_acta'] =  !empty($this->input->post('info_id_acta'))? $this->input->post('info_id_acta') : "";
 		$data['fec_reprecintado'] =  !empty($this->input->post('fec_reprecintado'))? $this->input->post('fec_reprecintado') : "";
 		$data['precinto_reprecintado'] =  !empty($this->input->post('nroPrecintosCierre'))? $this->input->post('nroPrecintosCierre') : "";
+		$data['observaciones_reprecintado'] =  !empty($this->input->post('observaciones_reprecintado'))? $this->input->post('observaciones_reprecintado') : "";
+		$data['tara_reprecintado'] =  !empty($this->input->post('tara_reprecintado'))? $this->input->post('tara_reprecintado') : "";
+		$data['inspectores_reprecintado'] =  !empty($this->input->post('inspectores_reprecintado'))? $this->input->post('inspectores_reprecintado') : "";
 		
+
+		//harkodeo para que no remplace el estado en reprecintado cuando se produjo infraccion en inspeccionPCC
+		if(!empty($this->input->post('resultado'))){
+			$data['resultado'] = $this->input->post('resultado');
+		}
+		else{
+			$data['resultado'] =  !empty($this->input->post('inspValida'))? $this->input->post('inspValida') : "";
+		}
+
 		$resp = $this->Inspecciones->agregarInspeccion($data);
 		        
 		if ($resp['status']) {

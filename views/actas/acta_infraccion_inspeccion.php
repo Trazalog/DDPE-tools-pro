@@ -26,7 +26,7 @@
             <div class="bodyActa" style="">
                 <div style="text-indent: 30px;">
                     En la ciudad de San Juan, departamento <span class="acta_depto"></span>, localidad <span class="acta_localidad"></span> a los <span class="acta_diaInspeccion"><?php echo $diaInspeccion; ?></span> días del mes de <span class="acta_mesInspeccion"><?php echo $mesInspeccion ?></span> del año <span class="acta_anioInspeccion"><?php echo $anioInspeccion; ?></span>,
-                    siendo las <span class="acta_horaInspeccion"><?php echo $horaInspeccion; ?></span> horas.  Los inspectores del S. V. I. S. <span class="acta_inspectores"></span>, se constituyen en <span class="acta_puntoControl"></span> 
+                    siendo las <span class="acta_hora"><?php echo $horaInspeccion; ?></span> horas.  Los inspectores del S. V. I. S. <span class="acta_inspectores"></span>, se constituyen en <span class="acta_puntoControl"></span> 
                     con domicilio en <span class="acta_puntoControlDomicilio"></span> propiedad de <span class="acta_propiedadDe"></span>. Siendo atendidos por <span class="acta_quienAtendio"></span> D.N.I. N° <span class="acta_dniChofer"></span> en su carácter de <span class="acta_caracter"></span>.<br>
                 </div>
                 <br>
@@ -121,7 +121,7 @@
             <div class="bodyActa" style="">
                 <div style="text-indent: 30px;">
                     En la ciudad de San Juan, departamento <span class="acta_depto"></span>, localidad <span class="acta_localidad"></span> a los <span class="acta_diaInspeccion"><?php echo $diaInspeccion; ?></span> días del mes de <span class="acta_mesInspeccion"><?php echo $mesInspeccion ?></span> del año <span class="acta_anioInspeccion"><?php echo $anioInspeccion; ?></span>,
-                    siendo las <span class="acta_horaInspeccion"><?php echo $horaInspeccion; ?></span> horas.  Los inspectores del S. V. I. S. <span class="acta_inspectores"></span>, se constituyen en <span class="acta_puntoControl"></span> 
+                    siendo las <span class="acta_hora"><?php echo $horaInspeccion; ?></span> horas.  Los inspectores del S. V. I. S. <span class="acta_inspectores"></span>, se constituyen en <span class="acta_puntoControl"></span> 
                     con domicilio en <span class="acta_puntoControlDomicilio"></span> propiedad de <span class="acta_propiedadDe"></span>. Siendo atendidos por <span class="acta_quienAtendio"></span> D.N.I. N° <span class="acta_dniChofer"></span> en su carácter de <span class="acta_caracter"></span>.<br>
                 </div>
                 <br>
@@ -216,7 +216,7 @@
             <div class="bodyActa" style="">
                 <div style="text-indent: 30px;">
                     En la ciudad de San Juan, departamento <span class="acta_depto"></span>, localidad <span class="acta_localidad"></span> a los <span class="acta_diaInspeccion"><?php echo $diaInspeccion; ?></span> días del mes de <span class="acta_mesInspeccion"><?php echo $mesInspeccion ?></span> del año <span class="acta_anioInspeccion"><?php echo $anioInspeccion; ?></span>,
-                    siendo las <span class="acta_horaInspeccion"><?php echo $horaInspeccion; ?></span> horas.  Los inspectores del S. V. I. S. <span class="acta_inspectores"></span>, se constituyen en <span class="acta_puntoControl"></span> 
+                    siendo las <span class="acta_hora"><?php echo $horaInspeccion; ?></span> horas.  Los inspectores del S. V. I. S. <span class="acta_inspectores"></span>, se constituyen en <span class="acta_puntoControl"></span> 
                     con domicilio en <span class="acta_puntoControlDomicilio"></span> propiedad de <span class="acta_propiedadDe"></span>. Siendo atendidos por <span class="acta_quienAtendio"></span> D.N.I. N° <span class="acta_dniChofer"></span> en su carácter de <span class="acta_caracter"></span>.<br>
                 </div>
                 <br>
