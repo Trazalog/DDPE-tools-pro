@@ -348,6 +348,16 @@
       <result outputType="json">{&#xd;    "resultado": {&#xd;        "existe": "$case"&#xd;    }&#xd;}</result>
       <param name="case_id" sqlType="STRING"/>
    </query>
+   <query id="deleteEmpresaInspeccionxPermiso" useConfig="SICPOADataSource">
+      <sql>delete from sicpoa.inspecciones_empresas&#xd;WHERE case_id = cast(:case_id as integer) and perm_id = :perm_id</sql>
+      <param name="case_id" sqlType="STRING"/>
+      <param name="perm_id" sqlType="STRING"/>
+   </query>
+   <query id="deletePermisoInspeccionxPermiso" useConfig="SICPOADataSource">
+      <sql>delete from sicpoa.permisos_transito&#xd;WHERE case_id = cast(:case_id as integer) and perm_id = :perm_id</sql>
+      <param name="case_id" sqlType="STRING"/>
+      <param name="perm_id" sqlType="STRING"/>
+   </query>
    <resource method="GET" path="/inspeccion/id/{case_id}">
       <call-query href="getInspeccion">
          <with-param name="case_id" query-param="case_id"/>
@@ -698,6 +708,18 @@
    <resource method="GET" path="/verificarepecintado/{case_id}">
       <call-query href="verificaReprecintado">
          <with-param name="case_id" query-param="case_id"/>
+      </call-query>
+   </resource>
+   <resource method="DELETE" path="/inspeccion/empresa/permiso">
+      <call-query href="deleteEmpresaInspeccionxPermiso">
+         <with-param name="case_id" query-param="case_id"/>
+         <with-param name="perm_id" query-param="perm_id"/>
+      </call-query>
+   </resource>
+   <resource method="DELETE" path="/inspeccion/eliminapermiso">
+      <call-query href="deletePermisoInspeccionxPermiso">
+         <with-param name="case_id" query-param="case_id"/>
+         <with-param name="perm_id" query-param="perm_id"/>
       </call-query>
    </resource>
 </data>

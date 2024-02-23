@@ -611,4 +611,38 @@ class Inspecciones extends CI_Model {
 
         return $resp->termicos->termico;
     }
+
+
+     /**
+	* Baja de un permiso en una inspeccion
+	* @param array perm_id del permiso
+	* @return bool
+	*/
+    public function eliminarPermisoPorPermID($data){
+    
+        $post['_delete_inspeccion_eliminapermiso'] = $data;
+        $url = REST_SICP."/inspeccion/eliminapermiso";
+
+        $aux = $this->rest->callAPI("DELETE",$url,$post);
+
+        log_message('DEBUG', "#TRAZA | #SICPOA | Inspecciones | eliminarPermisoPorPermID()  resp: >> " . json_encode($aux));
+
+        return $aux;
+    }
+    /**
+	* Baja de una empresa en una inspeccion
+	* @param array datos del permiso
+	* @return bool
+	*/
+    public function eliminarEmpresaPorPermID($data){
+        
+        $post['_delete_inspeccion_empresa_permiso'] = $data;
+        $url = REST_SICP."/inspeccion/empresa/permiso";
+
+        $aux = $this->rest->callAPI("DELETE",$url,$post);
+
+        log_message('DEBUG', "#TRAZA | #SICPOA | Inspecciones | eliminarEmpresaPorPermID()  resp: >> " . json_encode($aux));
+
+        return $aux;
+    }
 }

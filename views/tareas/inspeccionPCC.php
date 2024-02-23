@@ -1159,11 +1159,12 @@ function validarCamposDestino(){
     return valida;
 }
 //Funcion para eliminar el registro en ambas SECCIONES
-$(document).on("click",".fa-trash",function(e) {
+// $(document).on("click",".fa-trash",function(e) 
+$(document).off("click", ".fa-trash").on("click", ".fa-trash", function(e){
     if (confirm('¿Desea borrar el registro?')) {
         $(e.target).closest('div').remove();		
     }
-});
+}); 
 function editarDestino(tag){
     if(!editandoDestino){
         var data =	JSON.parse($(tag).closest('div').attr('data-json'));
@@ -1219,6 +1220,8 @@ e.forEach(function(element) {
     datos.depo_id = element.depo_id;
     datos.razon_social = element.razon_social;
     datos.productos = element.productos;
+    datos.calle = element.calle;
+    datos.altura = element.altura;
     var direccion = element.depo_destino;
 
     var div = `<div class='form-group empreDestino' data-json='${JSON.stringify(datos)}'>
@@ -1226,7 +1229,7 @@ e.forEach(function(element) {
                         <i class='fa fa-fw fa-eye text-light-blue' style='cursor: pointer;' title='Ver detalle' onclick='verDestino(this)'></i> 
                         <i class='fa fa-fw fa-edit text-light-blue' style='cursor: pointer;' title='Editar' onclick='editarDestino(this)'></i>
                         <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i>
-                        | ${element.razon_social} - ${element.depo_destino}
+                        | ${element.razon_social} - ${element.calle} - ${element.altura}
                         </span>
                 </div>`;
     $('#sec_destinos').append(div);
@@ -1337,6 +1340,8 @@ async function agregarPermiso(){
 
                 editando = false;
                 alertify.success("Permiso de tránsito agregado correctamente!");
+                $("#permi_num").val('');
+                $("#soli_num").val('');
 
         }).catch((err) => {
            notificar('Error!',  'Permiso Existente','warning');
@@ -1452,11 +1457,40 @@ function editarPermiso(tag){
         $("#salida").val(aux[1]);
         $("#fecha").val(aux[0]);
         $("input[name=doc_sanitaria][value='"+data.tipo+"']").prop("checked",true);
-        $("#producto").val(data.productos);
+
         $("#netoPermiso").val(data.neto);
         $("#brutoPermiso").val(data.bruto);
         $("#temperatura").val(data.temperatura);
-        $("#estado_pr_id").val(data.estado_pr_id);
+   
+
+        productoVal = data.tipr_id;
+        productoNombre = data.productos; 
+
+        productoOpcion = new Option(productoNombre, productoVal, true, true);
+
+        $('#tipr_id').append(productoOpcion).trigger('change');
+        $('#tipr_id').trigger({
+            type: 'select2:select',
+            params: {
+                data: {'id': productoVal, 'text': productoNombre}
+            }
+        });
+
+        
+        estadoVal = data.estado_pr_id;
+        estadoNombre = data.estado; 
+
+        estadoOpcion = new Option(estadoNombre, estadoVal, true, true);
+
+        $('#estado_pr_id').append(estadoOpcion).trigger('change');
+        $('#estado_pr_id').trigger({
+            type: 'select2:select',
+            params: {
+                data: {'id': estadoVal, 'text': estadoNombre}
+            }
+        });
+
+
         emprVal = data.origen;
         emprNombre = data.origen_nom;
         emprNum = data.origen_num;
@@ -1472,12 +1506,53 @@ function editarPermiso(tag){
                 data: opcion
             }
         });
+        
         $(tag).closest('div').remove();
         editando = true;
+        
+        limpiarDataPreCargadaPermiso(data.perm_id).then((result) => {
+            console.log(result);
+        }).catch((err) => {
+            console.log(err);
+        }); 
+
+
     }else{
         notificar('Cuidado',"Ya se esta editando un <b>PERMISO DE TRÁNSITO</b>!",'warning');
     }
 }
+
+
+// Limpio Informacion pre cargada para no tener errores con PK de las tablas
+async function limpiarDataPreCargadaPermiso (perm_id) {
+    let limpiadoCompleto = new Promise( function(resolve,reject){
+        caseId =  $("#caseId").val();
+        $.ajax({
+            type: 'POST',
+            data: {caseId, perm_id},
+            cache: false,
+            dataType: "json",
+            url: "<?php echo SICP; ?>inspeccion/limpiarDataPreCargadaPermiso",
+            success: function(data) { 
+
+                if(data.status){
+                    console.log(data.message);
+                    resolve("Se limpio la data pre - cargada de permiso correctamente");
+                }else{
+                    console.log(data.message);
+                    reject("Error al limpiar la data pre - cargada");
+                }
+                 
+            },
+            error: function(data) {
+                reject("Error al limpiar la data pre - cargada de permiso");
+            }
+        });
+    });
+
+    return await limpiadoCompleto;
+}
+
 function verPermiso(tag){
     var data =	JSON.parse($(tag).closest('div').attr('data-json'));
     $("#modalVerPermiso").val(data.perm_id);
@@ -1495,6 +1570,7 @@ function verPermiso(tag){
     $("#modalVerTemperatura").val(data.temperatura);
     $("#mdl-verDetallePermiso").modal('show');
 }
+
 //FIN Script's seccion permisos transito
 /***************************************************** */
 /***************************************************** */
@@ -1838,18 +1914,6 @@ function cerrarTarea() {
         return;
     }
     //
-    //VALIDACION EMPRESAS DESTINO
-    //
-    /*if ( !$('#sec_destinos').children().length > 0 ) {
-        wc();
-        Swal.fire(
-            'Error..',
-            'No se agregaron empresas de destino (*)',
-            'error'
-        );
-        return;
-    }*/
-    //
     //VALIDACION TERMICOS
     //
     if ( !$('#sec_termicos').children().length > 0 ) {
@@ -2057,15 +2121,6 @@ function imprimirActa(){
         idActa = '#actaInfraccionPCC';
     }
 
-
-    // infoTemperatura = "";
-    // $('#sec_termicos div.termicos').each(function(i, obj) {
-    //     aux = $(obj).attr('data-json');
-    //     json = JSON.parse(aux);
-    //     infoTemperatura += json.temperatura + " ";
-    // });
-    // $(".acta_temperaturas").text(infoTemperatura);
-
     infoPrecintos = "";
     infoSenasa = "";
     infoPatenteTermico="";
@@ -2098,7 +2153,6 @@ function imprimirActa(){
         if (i < 3) {
             aux = $(obj).attr('data-json');
             json = JSON.parse(aux);
-
             infoTodos += "Tipo de PT " + json.tipo + " | ";
             infoTodos += "N° de Permiso " + json.perm_id + " | ";            
             infoTodos += "Producto " + json.productos + " | ";
@@ -2114,7 +2168,6 @@ function imprimirActa(){
     });
     $(".acta_docSanitaria").html(infoTodos);
 
-    debugger;
     // $(".acta_productos").text(infoProductos);
     // $(".acta_origenNombres").text(infoOrigen);
     // $(".acta_origenNumeros").text(infoOrigenNums);

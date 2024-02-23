@@ -1050,7 +1050,7 @@ function validarCamposDestino(){
     return valida;
 }
 //Funcion para eliminar el registro en ambas SECCIONES
-$(document).on("click",".fa-trash",function(e) {
+$(document).off("click", ".fa-trash").on("click", ".fa-trash", function(e) {
     if (confirm('¿Desea borrar el registro?')) {
         $(e.target).closest('div').remove();		
     }
