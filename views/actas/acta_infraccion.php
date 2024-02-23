@@ -53,9 +53,12 @@
                     <?php if($inspeccion->infracciones->infraccion->email ) echo ", correo electrónico " . $inspeccion->infracciones->infraccion->email ?>
                     <?php if($inspeccion->infracciones->infraccion->domicilio_legal) echo ", con domicilio legal " . $inspeccion->infracciones->infraccion->domicilio_legal?>
                     <?php if($inspeccion->infracciones->infraccion->domicilio_comercial) echo ", domicilio comercial " . $inspeccion->infracciones->infraccion->domicilio_comercial?>
-                    <?php if($inspeccion->infracciones->infraccion->caracteristicas_organolepticas) echo ".Con las características organolépticas que se describen a continuación " . $inspeccion->infracciones->infraccion->caracteristicas_organolepticas ?>
+                    <?php if($inspeccion->infracciones->infraccion->detalle_infraccion) echo ". Detalle de la infracción: " . $inspeccion->infracciones->infraccion->detalle_infraccion?>
+                    <?php if($inspeccion->infracciones->infraccion->caracteristicas_organolepticas) echo ", con las características organolépticas que se describen a continuación: " . $inspeccion->infracciones->infraccion->caracteristicas_organolepticas ?>
                     <?php if($inspeccion->infracciones->infraccion->caracteristicas_deposito) echo ", en un depósito con las siguientes características: " . $inspeccion->infracciones->infraccion->caracteristicas_deposito ?>
-                    <?php if($inspeccion->infracciones->infraccion->temperatura_actual) echo ", y registrándose la siguiente temperatura " . $inspeccion->infracciones->infraccion->temperatura_actual?>
+                    <?php if($inspeccion->infracciones->infraccion->tipo_camara) echo ", tipo de cámara: " . $inspeccion->infracciones->infraccion->tipo_camara ?>
+                    <?php if($inspeccion->infracciones->infraccion->temperatura_actual) echo ", registrándose la siguiente temperatura: " . $inspeccion->infracciones->infraccion->temperatura_actual?>
+                    <?php if($inspeccion->cant_fajas) echo "y cantidad de fajas: " . $inspeccion->cant_fajas?>
                   
                     <br>
                     Fecha y Hora: <span class="acta_fecha"><?php echo $inspeccion->infracciones->infraccion->fecha_hora; ?></span> <span class="acta_hora"></span> horas.<br>
@@ -159,9 +162,12 @@
                     <?php if($inspeccion->infracciones->infraccion->email ) echo ", correo electrónico " . $inspeccion->infracciones->infraccion->email ?>
                     <?php if($inspeccion->infracciones->infraccion->domicilio_legal) echo ", con domicilio legal " . $inspeccion->infracciones->infraccion->domicilio_legal?>
                     <?php if($inspeccion->infracciones->infraccion->domicilio_comercial) echo ", domicilio comercial " . $inspeccion->infracciones->infraccion->domicilio_comercial?>
-                    <?php if($inspeccion->infracciones->infraccion->caracteristicas_organolepticas) echo ".Con las características organolépticas que se describen a continuación " . $inspeccion->infracciones->infraccion->caracteristicas_organolepticas ?>
+                    <?php if($inspeccion->infracciones->infraccion->detalle_infraccion) echo ". Detalle de la infracción: " . $inspeccion->infracciones->infraccion->detalle_infraccion?>
+                    <?php if($inspeccion->infracciones->infraccion->caracteristicas_organolepticas) echo ", con las características organolépticas que se describen a continuación: " . $inspeccion->infracciones->infraccion->caracteristicas_organolepticas ?>
                     <?php if($inspeccion->infracciones->infraccion->caracteristicas_deposito) echo ", en un depósito con las siguientes características: " . $inspeccion->infracciones->infraccion->caracteristicas_deposito ?>
-                    <?php if($inspeccion->infracciones->infraccion->temperatura_actual) echo ", y registrándose la siguiente temperatura " . $inspeccion->infracciones->infraccion->temperatura_actual?>
+                    <?php if($inspeccion->infracciones->infraccion->tipo_camara) echo ", tipo de cámara: " . $inspeccion->infracciones->infraccion->tipo_camara ?>
+                    <?php if($inspeccion->infracciones->infraccion->temperatura_actual) echo ", registrándose la siguiente temperatura: " . $inspeccion->infracciones->infraccion->temperatura_actual?>
+                    <?php if($inspeccion->cant_fajas) echo "y cantidad de fajas: " . $inspeccion->cant_fajas?>
                   
                     <br>
                     Fecha y Hora: <span class="acta_fecha"><?php echo $inspeccion->infracciones->infraccion->fecha_hora; ?></span> <span class="acta_hora"></span> horas.<br>
@@ -265,9 +271,12 @@
                     <?php if($inspeccion->infracciones->infraccion->email ) echo ", correo electrónico " . $inspeccion->infracciones->infraccion->email ?>
                     <?php if($inspeccion->infracciones->infraccion->domicilio_legal) echo ", con domicilio legal " . $inspeccion->infracciones->infraccion->domicilio_legal?>
                     <?php if($inspeccion->infracciones->infraccion->domicilio_comercial) echo ", domicilio comercial " . $inspeccion->infracciones->infraccion->domicilio_comercial?>
-                    <?php if($inspeccion->infracciones->infraccion->caracteristicas_organolepticas) echo ".Con las características organolépticas que se describen a continuación " . $inspeccion->infracciones->infraccion->caracteristicas_organolepticas ?>
+                    <?php if($inspeccion->infracciones->infraccion->detalle_infraccion) echo ". Detalle de la infracción: " . $inspeccion->infracciones->infraccion->detalle_infraccion?>
+                    <?php if($inspeccion->infracciones->infraccion->caracteristicas_organolepticas) echo ", con las características organolépticas que se describen a continuación: " . $inspeccion->infracciones->infraccion->caracteristicas_organolepticas ?>
                     <?php if($inspeccion->infracciones->infraccion->caracteristicas_deposito) echo ", en un depósito con las siguientes características: " . $inspeccion->infracciones->infraccion->caracteristicas_deposito ?>
-                    <?php if($inspeccion->infracciones->infraccion->temperatura_actual) echo ", y registrándose la siguiente temperatura " . $inspeccion->infracciones->infraccion->temperatura_actual?>
+                    <?php if($inspeccion->infracciones->infraccion->tipo_camara) echo ", tipo de cámara: " . $inspeccion->infracciones->infraccion->tipo_camara ?>
+                    <?php if($inspeccion->infracciones->infraccion->temperatura_actual) echo ", registrándose la siguiente temperatura: " . $inspeccion->infracciones->infraccion->temperatura_actual?>
+                    <?php if($inspeccion->cant_fajas) echo "y cantidad de fajas: " . $inspeccion->cant_fajas?>
                   
                     <br>
                     Fecha y Hora: <span class="acta_fecha"><?php echo $inspeccion->infracciones->infraccion->fecha_hora; ?></span> <span class="acta_hora"></span> horas.<br>
