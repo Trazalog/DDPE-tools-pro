@@ -146,8 +146,8 @@ function historicoCamiones()
 
     if (isset($escaneoInfoId)) {
       $data['formEscaneo'] =  $this->getFormEscaneoDocu($escaneoInfoId);
+      $data['datosEscaneo'] = $data['formEscaneo']['datos'];
     }
-
     return $this->load->view(SICP . 'tareas/infraccionPCC', $data);
   }
 

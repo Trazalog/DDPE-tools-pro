@@ -634,4 +634,38 @@ class Inspeccion extends CI_Controller
 		}
     }
 
+	/**
+	* Limpia las tablas anexas a inspeccion
+	* @param array con permisos,empresas
+	* @return bool true o false segun resultado de servicio de borrado
+	*/
+    public function limpiarDataPreCargadaPermiso(){
+		log_message('DEBUG', "#TRAZA | #SICPOA | Inspeccion | limpiarDataPreCargadaPermiso()");
+		
+		$caseId = $this->input->post('caseId');
+		$perm_id = $this->input->post('perm_id');
+
+		$data['case_id'] = $caseId;
+		$data['perm_id'] = $perm_id;
+
+		//Elimino empresas de inspeccion
+		$respEmpresas = $this->Inspecciones->eliminarEmpresaPorPermID($data);
+
+		//Elimino permisos de inspeccion
+		$rspPermisos = $this->Inspecciones->eliminarPermisoPorPermID($data);
+
+        
+		if ($rspPermisos['status'] && $respEmpresas['status']) {
+			$resp['status'] = true;
+			$resp['message'] = "Se limpiaron las tablas permisos_transito, inspecciones_empresas correctamente";
+			echo json_encode($resp);
+		} else {
+			$resp['status'] = false;
+			$resp['message'] = "Se produjo un error guardando los datos";
+			$resp['permisos'] = $rspPermisos['data'];
+			$resp['empresas'] = $respEmpresas['data'];
+			echo json_encode($resp);
+		}
+    }
+
 }
