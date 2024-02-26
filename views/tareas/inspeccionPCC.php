@@ -2083,7 +2083,7 @@ function imprimirActa(){
     if($("#detalleInfraccionActa").val()){
         texto = "Detalle de la infracción: "; 
 
-        infoInfraccion +=texto.concat($("#detalleInfraccionActa").val());   
+        infoCaracteristicasInfraccion +=texto.concat($("#detalleInfraccionActa").val());   
     }
     
     if($("#caractOrganolepticasActa").val()){
@@ -2101,7 +2101,7 @@ function imprimirActa(){
     if($("#tipoCamaraActa").val()){
         texto = ", tipo de cámara: "; 
 
-        infoInfraccion +=texto.concat($("#tipoCamaraActa").val());   
+        infoCaracteristicasInfraccion +=texto.concat($("#tipoCamaraActa").val());   
     }
 
     if($("#tempCamaraActa").val()){
@@ -2113,7 +2113,7 @@ function imprimirActa(){
     if($("#cant_fajas").val()){
         texto = "y cantidad de fajas: "; 
 
-        infoInfraccion +=texto.concat($("#cant_fajas").val());   
+        infoCaracteristicasInfraccion +=texto.concat($("#cant_fajas").val());   
     }
 
     $(".acta_infoCaracteristicasInfraccion").text(infoCaracteristicasInfraccion);
