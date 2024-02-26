@@ -2079,9 +2079,15 @@ function imprimirActa(){
     }
    
     $(".acta_infoInfraccion").text(infoInfraccion);
+
+    if($("#detalleInfraccionActa").val()){
+        texto = "Detalle de la infracción: "; 
+
+        infoInfraccion +=texto.concat($("#detalleInfraccionActa").val());   
+    }
     
     if($("#caractOrganolepticasActa").val()){
-        texto = " Con las características organolépticas que se describen a continuación "; 
+        texto = ", con las características organolépticas que se describen a continuación: "; 
 
         infoCaracteristicasInfraccion +=texto.concat($("#caractOrganolepticasActa").val());   
     }
@@ -2092,10 +2098,22 @@ function imprimirActa(){
         infoCaracteristicasInfraccion +=texto.concat($("#caractDeposito").val());   
     }
 
+    if($("#tipoCamaraActa").val()){
+        texto = ", tipo de cámara: "; 
+
+        infoInfraccion +=texto.concat($("#tipoCamaraActa").val());   
+    }
+
     if($("#tempCamaraActa").val()){
-        texto = ", y registrándose la siguiente temperatura "; 
+        texto = ", registrándose la siguiente temperatura: "; 
 
         infoCaracteristicasInfraccion +=texto.concat($("#tempCamaraActa").val());   
+    }
+
+    if($("#cant_fajas").val()){
+        texto = "y cantidad de fajas: "; 
+
+        infoInfraccion +=texto.concat($("#cant_fajas").val());   
     }
 
     $(".acta_infoCaracteristicasInfraccion").text(infoCaracteristicasInfraccion);
