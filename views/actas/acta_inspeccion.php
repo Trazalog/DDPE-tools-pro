@@ -21,7 +21,7 @@
             <h2><b>SERVICIO VETERINARIO DE INSPECCIÓN SANITARIA</b></h2>
         </div>
         <div style="width: 100%;margin-bottom: 40px;">
-            <h2 style="width: 100%;text-align: right;margin-right: 100px"><b>ACTA N° <span class="acta_contador"><?php echo $contador ?></span></b></h2>
+            <h2 style="width: 100%;text-align: right;margin-right: 100px"><b>ACTA N° <span class="acta_contador"><?php echo $inspeccion->numerador_inspeccion ?></span></b></h2>
         </div>
         <div style="margin-bottom: 35px;width: 100%;">
             <div class="bodyActa" style="">
@@ -31,7 +31,7 @@
                  <span class="acta_puntoControlDomicilio"><?php echo $inspeccion->domicilio_constituye ?></span> propiedad de <span class="acta_propiedadDe"><?php echo $inspeccion->propiedad_de ?></span>. siendo atendidos por <span class="acta_quienAtendio"><?php echo $inspeccion->atendidos_por ?></span> D.N.I. N° <span class="acta_dniChofer"><?php echo $inspeccion->chof_id; ?></span> en su carácter de <span class="acta_caracter"><?php echo $inspeccion->caracter_de ?></span>.<br>
                  Proceden a <span class="acta_procedenA"><?php echo $inspeccion->proceden_a ?></span>. Termico/s patente/s: </span><span class="acta_term_patente"><?php foreach ($inspeccion->termicos->termico as $termico) { echo $termico->patente. "; ";} ?></span>.</br>
                  <span class="acta_docSanitaria">
-                 <?php if ($inspeccion->permisos_transito->permiso_transito) { ?> <?php foreach ($inspeccion->permisos_transito->permiso_transito as $permiso) { if($permiso->reprecintado == 'false') { echo "Tipo de PT " . $permiso->tipo. " | N° de permiso " . $permiso->perm_id .   " | Producto " . $permiso->productos .  " | Temperatura " .$permiso->temperatura. " | Empresa de origen " .$permiso->origen_nom ; foreach ($destinos as $destino){ if($permiso->perm_id == $destino->perm_id ){ echo " | Destino " . $destino->departamento. " | Domicilio " . $destino->calle. ", ".$destino->altura ;}}echo "</br>";} }?><?php }?></span>
+                 <?php if ($inspeccion->permisos_transito->permiso_transito) { ?> <?php foreach ($inspeccion->permisos_transito->permiso_transito as $permiso) { if($permiso->reprecintado == 'false') { echo "Tipo de PT " . $permiso->tipo. " | N° de permiso " . $permiso->perm_id .   " | Producto " . $permiso->productos .  " | Temperatura " .$permiso->temperatura. " | Empresa de origen " .$permiso->origen_nom ; foreach ($destinos as $destino){ if($permiso->perm_id == $destino->perm_id ){ echo " | Destino " . $destino->razon_social. " | Domicilio " . $destino->calle. ", ".$destino->altura ;}}echo "</br>";} }?><?php }?></span>
                  Transportista <span class="acta_transportista"><?php echo $transportista->razon_social ?></span>, teléfono del transportista 
                  <span class="acta_telTransportista"><?php echo $inspeccion->tel_transportista ?></span> correo electrónico del transportista <span class="acta_emailTransportista"><?php echo $inspeccion->email_transportista ?></span> 
                  precintos <span class="acta_precintos"><?php foreach ($inspeccion->termicos->termico as $termico) { echo $termico->precintos. " ";} ?></span>, Peso Bruto <span class="acta_bruto"><?php echo $inspeccion->bruto ?></span>, 
@@ -66,7 +66,7 @@
             <h2><b>SERVICIO VETERINARIO DE INSPECCIÓN SANITARIA</b></h2>
         </div>
         <div style="width: 100%;margin-bottom: 40px;">
-            <h2 style="width: 100%;text-align: right;margin-right: 100px"><b>ACTA N° <span class="acta_contador"><?php echo $contador ?></span></b></h2>
+            <h2 style="width: 100%;text-align: right;margin-right: 100px"><b>ACTA N° <span class="acta_contador"><?php echo $inspeccion->numerador_inspeccion ?></span></b></h2>
         </div>
         <div style="margin-bottom: 35px;width: 100%;">
             <div class="bodyActa" style="">
@@ -75,7 +75,7 @@
                  <span class="acta_puntoControlDomicilio"><?php echo $inspeccion->domicilio_constituye ?></span> propiedad de <span class="acta_propiedadDe"><?php echo $inspeccion->propiedad_de ?></span>. siendo atendidos por <span class="acta_quienAtendio"><?php echo $inspeccion->atendidos_por ?></span> D.N.I. N° <span class="acta_dniChofer"><?php echo $inspeccion->chof_id; ?></span> en su carácter de <span class="acta_caracter"><?php echo $inspeccion->caracter_de ?></span>.<br>
                  Proceden a <span class="acta_procedenA"><?php echo $inspeccion->proceden_a ?></span>. Termico/s patente/s: </span><span class="acta_term_patente"><?php foreach ($inspeccion->termicos->termico as $termico) { echo $termico->patente. "; ";} ?></span>.</br>
                  <span class="acta_docSanitaria">
-                 <?php if ($inspeccion->permisos_transito->permiso_transito) { ?> <?php foreach ($inspeccion->permisos_transito->permiso_transito as $permiso) { echo "Tipo de PT " . $permiso->tipo. " | N° de permiso " . $permiso->perm_id .   " | Producto " . $permiso->productos .  " | Temperatura " .$permiso->temperatura. " | Empresa de origen " .$permiso->origen_nom ; foreach ($destinos as $destino){ if($permiso->perm_id == $destino->perm_id ){ echo " | Destino " . $destino->departamento. " | Domicilio " . $destino->calle. ", ".$destino->altura ;}}echo "</br>";} ?><?php }?></span>
+                 <?php if ($inspeccion->permisos_transito->permiso_transito) { ?> <?php foreach ($inspeccion->permisos_transito->permiso_transito as $permiso) { echo "Tipo de PT " . $permiso->tipo. " | N° de permiso " . $permiso->perm_id .   " | Producto " . $permiso->productos .  " | Temperatura " .$permiso->temperatura. " | Empresa de origen " .$permiso->origen_nom ; foreach ($destinos as $destino){ if($permiso->perm_id == $destino->perm_id ){ echo " | Destino " . $destino->razon_social. " | Domicilio " . $destino->calle. ", ".$destino->altura ;}}echo "</br>";} ?><?php }?></span>
                  Transportista <span class="acta_transportista"><?php echo $transportista->razon_social ?></span>, teléfono del transportista 
                  <span class="acta_telTransportista"><?php echo $inspeccion->tel_transportista ?></span> correo electrónico del transportista <span class="acta_emailTransportista"><?php echo $inspeccion->email_transportista ?></span> 
                  precintos <span class="acta_precintos"><?php foreach ($inspeccion->termicos->termico as $termico) { echo $termico->precintos. " ";} ?></span>, Peso Bruto <span class="acta_bruto"><?php echo $inspeccion->bruto ?></span>, 
@@ -110,7 +110,7 @@
             <h2><b>SERVICIO VETERINARIO DE INSPECCIÓN SANITARIA</b></h2>
         </div>
         <div style="width: 100%;margin-bottom: 40px;">
-            <h2 style="width: 100%;text-align: right;margin-right: 100px"><b>ACTA N° <span class="acta_contador"><?php echo $contador ?></span></b></h2>
+            <h2 style="width: 100%;text-align: right;margin-right: 100px"><b>ACTA N° <span class="acta_contador"><?php echo $inspeccion->numerador_inspeccion ?></span></b></h2>
         </div>
         <div style="margin-bottom: 35px;width: 100%;">
             <div class="bodyActa" style="">
@@ -119,7 +119,7 @@
                  <span class="acta_puntoControlDomicilio"><?php echo $inspeccion->domicilio_constituye ?></span> propiedad de <span class="acta_propiedadDe"><?php echo $inspeccion->propiedad_de ?></span>. siendo atendidos por <span class="acta_quienAtendio"><?php echo $inspeccion->atendidos_por ?></span> D.N.I. N° <span class="acta_dniChofer"><?php echo $inspeccion->chof_id; ?></span> en su carácter de <span class="acta_caracter"><?php echo $inspeccion->caracter_de ?></span>.<br>
                  Proceden a <span class="acta_procedenA"><?php echo $inspeccion->proceden_a ?></span>. Termico/s patente/s: </span><span class="acta_term_patente"><?php foreach ($inspeccion->termicos->termico as $termico) { echo $termico->patente. "; ";} ?></span>.</br>
                  <span class="acta_docSanitaria">
-                 <?php if ($inspeccion->permisos_transito->permiso_transito) { ?> <?php foreach ($inspeccion->permisos_transito->permiso_transito as $permiso) { echo "Tipo de PT " . $permiso->tipo. " | N° de permiso " . $permiso->perm_id .   " | Producto " . $permiso->productos .  " | Temperatura " .$permiso->temperatura. " | Empresa de origen " .$permiso->origen_nom ; foreach ($destinos as $destino){ if($permiso->perm_id == $destino->perm_id ){ echo " | Destino " . $destino->departamento. " | Domicilio " . $destino->calle. ", ".$destino->altura ;}}echo "</br>";} ?><?php }?></span>
+                 <?php if ($inspeccion->permisos_transito->permiso_transito) { ?> <?php foreach ($inspeccion->permisos_transito->permiso_transito as $permiso) { echo "Tipo de PT " . $permiso->tipo. " | N° de permiso " . $permiso->perm_id .   " | Producto " . $permiso->productos .  " | Temperatura " .$permiso->temperatura. " | Empresa de origen " .$permiso->origen_nom ; foreach ($destinos as $destino){ if($permiso->perm_id == $destino->perm_id ){ echo " | Destino " . $destino->razon_social. " | Domicilio " . $destino->calle. ", ".$destino->altura ;}}echo "</br>";} ?><?php }?></span>
                  Transportista <span class="acta_transportista"><?php echo $transportista->razon_social ?></span>, teléfono del transportista 
                  <span class="acta_telTransportista"><?php echo $inspeccion->tel_transportista ?></span> correo electrónico del transportista <span class="acta_emailTransportista"><?php echo $inspeccion->email_transportista ?></span> 
                  precintos <span class="acta_precintos"><?php foreach ($inspeccion->termicos->termico as $termico) { echo $termico->precintos. " ";} ?></span>, Peso Bruto <span class="acta_bruto"><?php echo $inspeccion->bruto ?></span>, 

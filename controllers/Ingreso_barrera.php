@@ -408,8 +408,15 @@ class Ingreso_barrera extends CI_Controller
         }
         if(!empty($data['inspeccion']->resultado)){
             if($data['inspeccion']->resultado == 'incorrecta'){
-                $data['contador'] = $data['inspeccion']->numerador_infraccion;
-                $this->load->view(SICP . "actas/acta_infraccion", $data);
+                 //si viene en true es reprecintado sino es infraccion
+                if($estado == "true")
+                {
+                    $this->load->view(SICP . "actas/acta_reprecintado", $data);
+                }
+                else{
+                    $data['contador'] = $data['inspeccion']->numerador_infraccion;
+                    $this->load->view(SICP . "actas/acta_infraccion", $data);
+                }
             }else{
                 //si viene en true es reprecintado sino es inspeccion
                 if($estado == "true")

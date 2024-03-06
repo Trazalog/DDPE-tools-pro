@@ -144,7 +144,7 @@ class Inspeccion extends CI_Controller
 		$data['bruto'] =  !empty($this->input->post('bruto'))? $this->input->post('bruto') : "";
 		$data['tara'] =  !empty($this->input->post('tara'))? $this->input->post('tara') : "";
 		$data['ticket'] =  !empty($this->input->post('ticket'))? $this->input->post('ticket') : "";
-		$data['resultado'] =  !empty($this->input->post('inspValida'))? $this->input->post('inspValida') : "";
+		//$data['resultado'] =  !empty($this->input->post('inspValida'))? $this->input->post('inspValida') : "";
 		$data['cant_fajas'] =  !empty($this->input->post('cant_fajas'))? $this->input->post('cant_fajas') : "";
 		$data['bruto_reprecintado'] =  !empty($this->input->post('bruto_reprecintado'))? $this->input->post('bruto_reprecintado') : "";
 		$data['ticket_reprecintado'] =  !empty($this->input->post('ticket_reprecintado'))? $this->input->post('ticket_reprecintado') : "";
@@ -173,6 +173,15 @@ class Inspeccion extends CI_Controller
 		$data['tara_reprecintado'] =  !empty($this->input->post('tara_reprecintado'))? $this->input->post('tara_reprecintado') : "";
 		$data['inspectores_reprecintado'] =  !empty($this->input->post('inspectores_reprecintado'))? $this->input->post('inspectores_reprecintado') : "";
 		
+
+		//harkodeo para que no remplace el estado en reprecintado cuando se produjo infraccion en inspeccionPCC
+		if(!empty($this->input->post('resultado'))){
+			$data['resultado'] = $this->input->post('resultado');
+		}
+		else{
+			$data['resultado'] =  !empty($this->input->post('inspValida'))? $this->input->post('inspValida') : "";
+		}
+
 		$resp = $this->Inspecciones->agregarInspeccion($data);
 		        
 		if ($resp['status']) {
@@ -621,6 +630,40 @@ class Inspeccion extends CI_Controller
 		if ($resp) {
 			echo json_encode($resp);
 		} else {
+			echo json_encode($resp);
+		}
+    }
+
+	/**
+	* Limpia las tablas anexas a inspeccion
+	* @param array con permisos,empresas
+	* @return bool true o false segun resultado de servicio de borrado
+	*/
+    public function limpiarDataPreCargadaPermiso(){
+		log_message('DEBUG', "#TRAZA | #SICPOA | Inspeccion | limpiarDataPreCargadaPermiso()");
+		
+		$caseId = $this->input->post('caseId');
+		$perm_id = $this->input->post('perm_id');
+
+		$data['case_id'] = $caseId;
+		$data['perm_id'] = $perm_id;
+
+		//Elimino empresas de inspeccion
+		$respEmpresas = $this->Inspecciones->eliminarEmpresaPorPermID($data);
+
+		//Elimino permisos de inspeccion
+		$rspPermisos = $this->Inspecciones->eliminarPermisoPorPermID($data);
+
+        
+		if ($rspPermisos['status'] && $respEmpresas['status']) {
+			$resp['status'] = true;
+			$resp['message'] = "Se limpiaron las tablas permisos_transito, inspecciones_empresas correctamente";
+			echo json_encode($resp);
+		} else {
+			$resp['status'] = false;
+			$resp['message'] = "Se produjo un error guardando los datos";
+			$resp['permisos'] = $rspPermisos['data'];
+			$resp['empresas'] = $respEmpresas['data'];
 			echo json_encode($resp);
 		}
     }

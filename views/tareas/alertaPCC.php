@@ -84,6 +84,7 @@
             <!--_______ FORMULARIO PERMISO DE TRANSITO BOX 1______-->
             <form class="formAlertaPCC" id="formAlertaPCC">
                 <div class="row">
+                    <input type="hidden" name="contador" id="contador" >
                     <div class="col-md-5 col-sm-6 col-xs-6">
                         <div class="col-md-12 col-sm-12 col-xs-12 box-tittle">
                             <h3>Fotos de Barrera</h3>
@@ -250,12 +251,12 @@
                                 </div>
                             </div> 
                             <!--Kilos-->
-                            <div class="col-md-6 col-sm-6 col-xs-12">
+                            <!-- div class="col-md-6 col-sm-6 col-xs-12">
                                 <div class="form-group">
                                     <label for="kilos">Kilos(<strong style="color: #dd4b39">*</strong>):</label>
                                     <input class="form-control onlyNumbers" name="kilos" id="kilos" placeholder="Ingrese kilos"/>
                                 </div>                    
-                            </div>
+                            </div> -->
                             <!--________________-->
 
                             <!--Neto-->
@@ -285,6 +286,49 @@
                             </div>
                             <!--________________-->
 
+                            <!--Empresa Destino-->
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label for="empre_destino">Empresa Destino(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <div class="input-group">
+                                        <select class="form-control select2 select2-hidden-accesible empresa" name="empre_destino" id="empre_destino">
+                                            <option value="" disabled selected></option>
+                                        </select>
+                                        <span id="add_empresa" class="input-group-addon" data-toggle="modal" data-target="#mdl-empresa" onclick="$('#tipoEmpresa').val('Empresa')"><i class="fa fa-plus"></i></span>
+                                    </div>
+                                </div>                    
+                            </div>
+                            <!--________________-->
+
+                            <!--Depósito Destino-->
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label for="depo_destino">Depósito Destino(<strong style="color: #dd4b39">*</strong>):</label>
+                                    <div class="input-group">
+                                        <select class="form-control select2 select2-hidden-accesible" name="depo_destino" id="depo_destino">
+                                            <option value="" disabled selected>-Seleccionar-</option>
+                                        </select>
+                                        <span id="add_deposito" class="input-group-addon" data-toggle="modal" data-target="#mdl-deposito"><i class="fa fa-plus"></i></span>
+                                    </div>
+                                </div>                    
+                            </div>
+
+                            <!--_________________ Agregar_________________-->
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div style="margin-top: 25px;" class="form-group text-right">
+                                    <button type="button" class="btn btn-primary" onclick="agregarDestino()" >Agregar Destino</button>
+                                </div>
+                            </div>                
+                            <!--__________________________________-->
+
+                            <div class="col-md-12 col-sm-12 col-xs-12 centrar">
+                                 <h4 class="titDataDinamica">Empresa Destino:</h4>
+                                <div id="sec_destinos">
+                                    
+                                </div>
+                            <hr>
+                            </div>
+
                             <!--_________________ Agregar_________________-->
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 <div class="form-group text-right">
@@ -296,15 +340,15 @@
                                  <h4 class="titDataDinamica">Permisos:</h4>
                                 <div id="sec_permisos">
                                     <?php 
-                                    if(!empty($preCargaDatos->permisos_transito->permiso_transito)){
-                                        foreach ($preCargaDatos->permisos_transito->permiso_transito as $key) {
+                                    if(!empty($preCargaInspecciones)){
+                                        foreach ($preCargaInspecciones as $key) {
                                     ?>
                                         <div class='form-group permTransito' data-json='<?php echo json_encode($key) ?>'>
                                             <span> 
                                                 <i class='fa fa-fw fa-eye text-light-blue' style='cursor: pointer;' title='Ver detalle' onclick='verPermiso(this)'></i> 
                                                 <i class='fa fa-fw fa-edit text-light-blue' style='cursor: pointer;' title='Editar' onclick='editarPermiso(this)'></i>
                                                 <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i>
-                                                <?php echo "| <span class='numPermiso'>$key->perm_id</span> - $key->tipo - $key->lugar_emision - $key->fecha_hora_salida" ?>
+                                                <?php echo "| <span class='numPermiso'>$key->soli_num</span> - $key->perm_id" ?>
                                             </span>
                                         </div>
                                     <?php
@@ -359,7 +403,7 @@
                                         <select class="form-control select2 select2-hidden-accesible empresa" id="transportista" required>
                                             <option value="" disabled selected></option>
                                         </select>
-                                        <span id="add_transportista" class="input-group-addon" data-toggle="modal" data-target="#mdl-transportista" onclick="$('#tipoEmpresa').val('Transportista')"><i class="fa fa-plus"></i></span>
+                                        <span id="add_transportista" class="input-group-addon" data-toggle="modal" data-target="#mdl-empresa" onclick="$('#tipoEmpresa').val('Transportista')"><i class="fa fa-plus"></i></span>
                                     </div>
                                 </div>                    
                             </div>
@@ -383,78 +427,12 @@
                             </div>
                             <!--________________-->
 
-                            <!--Empresa Destino-->
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <div class="form-group">
-                                    <label for="empre_destino">Empresa Destino(<strong style="color: #dd4b39">*</strong>):</label>
-                                    <div class="input-group">
-                                    <select class="form-control select2 select2-hidden-accesible empresa" name="empre_destino" id="empre_destino">
-                                        <option value="" disabled selected></option>
-                                    </select>
-                                        <span id="add_empresa" class="input-group-addon" data-toggle="modal" data-target="#mdl-empresa"><i class="fa fa-plus" onclick="$('#tipoEmpresa').val('Empresa')"></i></span>
-                                    </div>
-                                </div>                    
-                            </div>
-                            <!--________________-->
-
-                            <!--Depósito Destino-->
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <div class="form-group">
-                                    <label for="depo_destino">Depósito Destino(<strong style="color: #dd4b39">*</strong>):</label>
-                                    <div class="input-group">
-                                    <select class="form-control select2 select2-hidden-accesible" name="depo_destino" id="depo_destino">
-                                        <option value="" disabled selected>-Seleccionar-</option>
-                                    </select>
-                                        <span id="add_deposito" class="input-group-addon" data-toggle="modal" data-target="#mdl-deposito"><i class="fa fa-plus"></i></span>
-                                    </div>
-                                </div>                    
-                            </div>
-
-                            <!--Producto-->
-                            <!-- <div class="col-md-12 col-sm-12 col-xs-12 ocultar">
-                                <div class="form-group">
-                                    <label for="productosDestino">Producto/s para la empresa de destino(<strong style="color: #dd4b39">*</strong>):</label>
-                                    <textarea class="form-control" name="productosDestino" id="productosDestino" placeholder="Ingrese producto/s para la empresa de destino"></textarea>
-                                </div>                    
-                            </div> -->
-                            <!--________________-->
-                            <!--_________________ Agregar_________________-->
-                            <div class="col-md-12 col-sm-12 col-xs-12">
-                                <div style="margin-top: 25px;" class="form-group text-right">
-                                    <button type="button" class="btn btn-primary" onclick="agregarDestino()" >Agregar</button>
-                                </div>
-                            </div>                
-                            <!--__________________________________-->
-
-                            <div class="col-md-12 col-sm-12 col-xs-12 centrar">
-                                 <h4 class="titDataDinamica">Empresa Destino:</h4>
-                                <div id="sec_destinos">
-                                    <?php 
-                                    if(!empty($destinos)){
-                                        foreach ($destinos as $key) {
-                                    ?>
-                                        <div class='form-group empreDestino' data-json='<?php echo json_encode($key) ?>'>
-                                            <span> 
-                                                <i class='fa fa-fw fa-eye text-light-blue' style='cursor: pointer;' title='Ver detalle' onclick="verDestino(this)"></i> 
-                                                <i class='fa fa-fw fa-edit text-light-blue' style='cursor: pointer;' title='Editar' onclick='editarDestino(this)'></i> 
-                                                <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i>
-                                                <?php echo "| $key->razon_social - $key->calle - $key->altura" ?>
-                                            </span>
-                                        </div>
-                                    <?php
-                                        }
-                                    }
-                                    ?>
-                                </div>
-                                <hr>
-                            </div>
-                            <!--________________-->
 
                             <!--Termico Patente-->
                             <div class="col-md-6 col-sm-6 col-xs-12">
                                 <div class="form-group">
                                     <label for="term_patente">Patente Térmico(<strong style="color: #dd4b39">*</strong>):</label>
-                                    <input class="form-control limited" id="term_patente" placeholder="Ingrese térmico patente" />
+                                    <input class="form-control limited" id="term_patente" placeholder="Ingrese térmico patente" value="<?php echo isset($preCargaDatos->patente_tractor) ? $preCargaDatos->patente_tractor : $patente ?>"/>
                                 </div>                    
                             </div>
                             <!--________________-->
@@ -640,15 +618,15 @@
                     <!--Observaciones-->
                     <div class="col-md-12 col-sm-12 col-xs-12">
                         <div class="form-group">
-                            <label for="observaciones">Observaciones:</label>
-                            <textarea class="form-control" name="observaciones" id="observaciones" placeholder="Observaciones"><?php echo isset($preCargaDatos->observaciones) ? $preCargaDatos->observaciones : null; ?></textarea>
+                            <label for="observacionesInfraccion">Observaciones:</label>
+                            <textarea class="form-control" name="observacionesInfraccion" id="observacionesInfraccion" placeholder="Observaciones"><?php echo isset($preCargaDatos->observaciones) ? $preCargaDatos->observaciones : null; ?></textarea>
                         </div>                    
                     </div>
                     <!--________________-->
                     <div class="col-md-6 col-sm-6 col-xs-12 ocultar">
                         <div class="form-group">
-                            <label for="tpoInfraccion">Tipos Infracción(<strong style="color: #dd4b39">*</strong>):</label>
-                            <select class="form-control select2 select2-hidden-accesible" name="tpoInfraccion[]" id="tpoInfraccion" required style="width: 100%;" multiple>
+                            <label for="tpoInfraccion">Tipos Infracción</label>
+                            <select class="form-control select2 select2-hidden-accesible" name="tpoInfraccion[]" id="tpoInfraccion" style="width: 100%;" multiple>
                                 <?php
                                 if(!empty($infracciones)){
                                     foreach ($infracciones as $tipos) {
@@ -678,24 +656,24 @@
                     <!--DNI Acta-->
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <div class="form-group">
-                            <label for="dniActa">DNI(<strong style="color: #dd4b39">*</strong>):</label>
-                            <input type="number" class="form-control" name="dniActa" id="dniActa" placeholder="Ingrese DNI" required/>
+                            <label for="dniActa">DNI:</label>
+                            <input type="number" class="form-control" name="dniActa" id="dniActa" placeholder="Ingrese DNI"/>
                         </div>
                     </div>
                     <!--________________-->
                     <!--Nombre y Apellido Depositario Acta-->
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <div class="form-group">
-                            <label for="direccionActa">Nombre y Apellido Depositario(<strong style="color: #dd4b39">*</strong>):</label>
-                            <input type="text" class="form-control" name="nyaDepositario" id="nyaDepositario" placeholder="Ingrese Depositario" required/>
+                            <label for="direccionActa">Nombre y Apellido Depositario:</label>
+                            <input type="text" class="form-control" name="nyaDepositario" id="nyaDepositario" placeholder="Ingrese Depositario" />
                         </div>
                     </div>
                     <!--________________-->
                     <!--Domicilio Legal Acta-->
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <div class="form-group">
-                            <label for="domiLegalActa">Domicilio Legal(<strong style="color: #dd4b39">*</strong>):</label>
-                            <input type="text" class="form-control" name="domiLegalActa" id="domiLegalActa" placeholder="Ingrese Domicilio Legal" required/>
+                            <label for="domiLegalActa">Domicilio Legal:</label>
+                            <input type="text" class="form-control" name="domiLegalActa" id="domiLegalActa" placeholder="Ingrese Domicilio Legal" />
                         </div>
                     </div>
                     <!--________________-->
@@ -710,16 +688,16 @@
                     <!--Teléfono-->
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <div class="form-group">
-                            <label for="telefonoActa">Teléfono(<strong style="color: #dd4b39">*</strong>):</label>
-                            <input type="number" class="form-control" name="telefonoActa" id="telefonoActa" placeholder="Ingrese Teléfono" required/>
+                            <label for="telefonoActa">Teléfono:</label>
+                            <input type="number" class="form-control" name="telefonoActa" id="telefonoActa" placeholder="Ingrese Teléfono" />
                         </div>
                     </div>
                     <!--________________-->
                     <!--Correo Electrónico-->
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <div class="form-group">
-                            <label for="correoActa">Correo Electrónico(<strong style="color: #dd4b39">*</strong>):</label>
-                            <input type="text" class="form-control" name="correoActa" id="correoActa" placeholder="Ingrese Correo Electrónico" required/>
+                            <label for="correoActa">Correo Electrónico:</label>
+                            <input type="text" class="form-control" name="correoActa" id="correoActa" placeholder="Ingrese Correo Electrónico" />
                         </div>
                     </div>
                     <!--________________-->
@@ -750,24 +728,24 @@
                     <!--Tipo de Cámara-->
                     <div class="col-md-4 col-sm-6 col-xs-12">
                         <div class="form-group">
-                            <label for="tipoCamaraActa">Tipo de Cámara(<strong style="color: #dd4b39">*</strong>):</label>
-                            <input type="text" class="form-control" name="tipoCamaraActa" id="tipoCamaraActa" placeholder="Ingrese Tipo de Cámara" required/>
+                            <label for="tipoCamaraActa">Tipo de Cámara:</label>
+                            <input type="text" class="form-control" name="tipoCamaraActa" id="tipoCamaraActa" placeholder="Ingrese Tipo de Cámara" />
                         </div>
                     </div>
                     <!--________________-->
                     <!--T° Actual Cámara-->
                     <div class="col-md-4 col-sm-6 col-xs-12">
                         <div class="form-group">
-                            <label for="tempCamaraActa">T° Actual Cámara(<strong style="color: #dd4b39">*</strong>):</label>
-                            <input type="number" class="form-control" name="tempCamaraActa" id="tempCamaraActa" placeholder="Ingrese T° Actual Cámara" required/>
+                            <label for="tempCamaraActa">T° Actual Cámara:</label>
+                            <input type="number" class="form-control" name="tempCamaraActa" id="tempCamaraActa" placeholder="Ingrese T° Actual Cámara" />
                         </div>
                     </div>
                     <!--________________-->
                     <!--Cant de Fajas-->
                     <div class="col-md-4 col-sm-6 col-xs-12">
                         <div class="form-group">
-                            <label for="cant_fajas">Cant de Fajas(<strong style="color: #dd4b39">*</strong>):</label>
-                            <input type="text" class="form-control" name="cant_fajas" id="cant_fajas" placeholder="Ingrese Cant de Fajas" required/>
+                            <label for="cant_fajas">Cant de Fajas:</label>
+                            <input type="text" class="form-control" name="cant_fajas" id="cant_fajas" placeholder="Ingrese Cant de Fajas" />
                         </div>
                     </div>
                     <!--________________-->
@@ -1123,6 +1101,59 @@ function verDestino(tag){
     $("#modalVerProductosDestino").val(data.productos);
     $("#mdl-verDetalleDestino").modal('show');
 }
+
+//Arma tabla de empresas asociadas a un permiso cuando editas.
+function armaTablaEmpresas(e){
+
+e.forEach(function(element) {
+    var datos = {};
+    datos.rol = "DESTINO";
+    datos.empr_id = element.empr_id;
+    datos.depo_id = element.depo_id;
+    datos.razon_social = element.razon_social;
+    datos.productos = element.productos;
+    var direccion = element.depo_destino;
+
+    var div = `<div class='form-group empreDestino' data-json='${JSON.stringify(datos)}'>
+                        <span> 
+                        <i class='fa fa-fw fa-eye text-light-blue' style='cursor: pointer;' title='Ver detalle' onclick='verDestino(this)'></i> 
+                        <i class='fa fa-fw fa-edit text-light-blue' style='cursor: pointer;' title='Editar' onclick='editarDestino(this)'></i>
+                        <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i>
+                        | ${element.razon_social} - ${element.depo_destino}
+                        </span>
+                </div>`;
+    $('#sec_destinos').append(div);
+  });
+}
+
+
+//obtiene datos de la tabla empresa destino para agregar a un permiso
+function obtieneEmpresasDestinos(){
+                //
+                //VALIDACION tabla EMPRESAS DESTINO
+                //
+                if ( !$('#sec_destinos').children().length > 0 ) {
+                    wc();
+                    Swal.fire(
+                        'Error..',
+                        'No se agregaron empresas de destino (*)',
+                        'error'
+                    );
+                    return;
+                }else {
+                    //obtengo destinos desde la tabla
+                        empresas = [];
+                        $('#sec_destinos div.empreDestino').each(function(i, obj) {
+                            var aux = $(obj).attr('data-json');
+                            aux = aux.replace("cuit", "empr_id");
+                            var json = JSON.parse(aux);
+                            json.case_id = case_id;
+                            empresas[i] = json;
+                        });
+                }
+                $('#sec_destinos').children().remove();
+                return empresas;
+}
 //
 //FIN Script's seccion destino
 /****************************************************** */
@@ -1137,66 +1168,107 @@ function agregarPermiso(){
                             
     if(reporte == ''){
         
-        var soli_num = $("#soli_num").val();
-        var permi_num = $("#permi_num").val();
-        // var descDepo = $("#depo_origen_id option:selected").text();
-        var emision = $('#emision').val();
-        var salida = $('#salida').val();
-        var fecha = $("#fecha").val();
-        var tipo = $('input[name=doc_sanitaria]:checked').val();
-        var origen = $("#esta_nom").select2('data')[0].id;
-        var origen_nom = $("#esta_nom").select2('data')[0].text;
-        var origen_num = $("#esta_num").val();
-        var productos = $("#tipr_id").select2('data')[0].text;
-        var tipr_id = $("#tipr_id").select2('data')[0].id;
-        var kilos = $("#kilos").val(); 
-        var netoPermiso = $("#netoPermiso").val(); 
-        var brutoPermiso = $("#brutoPermiso").val(); 
-        var temperatura = $("#temperatura").val();
-        var estado = $("#estado_pr_id").select2('data')[0].text; 
-        var estado_pr_id = $("#estado_pr_id").select2('data')[0].id; 
+       //valida si existe el permiso
+       validarPermiso($("#permi_num").val()).then((result) => {
+                var soli_num = $("#soli_num").val();
+                var permi_num = $("#permi_num").val();
+                // var descDepo = $("#depo_origen_id option:selected").text();
+                var emision = $('#emision').val();
+                var salida = $('#salida').val();
+                var fecha = $("#fecha").val();
+                var tipo = $('input[name=doc_sanitaria]:checked').val();
+                var origen = $("#esta_nom").select2('data')[0].id;
+                var origen_nom = $("#esta_nom").select2('data')[0].text;
+                var origen_num = $("#esta_num").val();
+                var tipr_id = $("#tipr_id").select2('data')[0].id;
+                var productos = $("#tipr_id").select2('data')[0].text;
+                // var productos = $("#producto").val();
+                //var kilos = $("#kilos").val(); 
+                var netoPermiso = $("#netoPermiso").val(); 
+                var brutoPermiso = $("#brutoPermiso").val(); 
+                var temperatura = $("#temperatura").val(); 
+                var estado = $("#estado_pr_id").select2('data')[0].text; 
+                var estado_pr_id = $("#estado_pr_id").select2('data')[0].id;
 
-        var datos = {};
-        datos.perm_id = permi_num;
-        datos.soli_num = soli_num;
-        datos.lugar_emision = emision;
-        datos.fecha_hora_salida = fecha +" "+salida;
-        datos.tipo = tipo;
-        datos.origen = origen;
-        datos.origen_nom = origen_nom;
-        datos.origen_num = origen_num;
-        datos.productos = productos;
-        datos.tipr_id = tipr_id;
-        datos.kilos = kilos;
-        datos.neto = netoPermiso;
-        datos.bruto = brutoPermiso;
-        datos.temperatura = temperatura;
-        datos.estado = estado;
-        datos.estado_pr_id = estado_pr_id; 
+                //datos de empresas destino
+                empresas = obtieneEmpresasDestinos();
 
-        var div = `<div class='form-group permTransito' data-json='${JSON.stringify(datos)}'>
-                        <span> 
-                        <i class='fa fa-fw fa-eye text-light-blue' style='cursor: pointer;' title='Ver detalle' onclick='verPermiso(this)'></i> 
-                        <i class='fa fa-fw fa-edit text-light-blue' style='cursor: pointer;' title='Editar' onclick='editarPermiso(this)'></i>
-                        <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i> 
-                        | <span class='numPermiso'>${soli_num}</span> - ${permi_num}
-                        </span>
-                </div>`;
-        $('#sec_permisos').append(div);
-        //Limpio luego de agregar
-        // $("#soli_num").val('');
-        // $("#emision").val('');
-        // $("#salida").val('');
-        // $("#fecha").val('');
-        // $('input[name=doc_sanitaria]:checked').prop('checked',false);
+                var datos = {};
+                datos.perm_id = permi_num;
+                datos.soli_num = soli_num;
+                datos.lugar_emision = emision;
+                datos.fecha_hora_salida = fecha +" "+salida;
+                datos.tipo = tipo;
+                datos.origen = origen;
+                datos.origen_nom = origen_nom;
+                datos.origen_num = origen_num;
+                datos.productos = productos;
+                datos.tipr_id = tipr_id;
+                //datos.kilos = kilos;
+                datos.neto = netoPermiso;
+                datos.bruto = brutoPermiso;
+                datos.temperatura = temperatura;
+                datos.estado = estado;
+                datos.estado_pr_id = estado_pr_id ;
+                datos.empresas =  empresas;
 
-        editando = false;
-        alertify.success("Permiso de tránsito agregado correctamente!");
+                var div = `<div class='form-group permTransito' data-json='${JSON.stringify(datos)}'>
+                                <span> 
+                                <i class='fa fa-fw fa-eye text-light-blue' style='cursor: pointer;' title='Ver detalle' onclick='verPermiso(this)'></i> 
+                                <i class='fa fa-fw fa-edit text-light-blue' style='cursor: pointer;' title='Editar' onclick='editarPermiso(this)'></i>
+                                <i class='fa fa-fw fa-trash text-light-blue' style='cursor: pointer;' title='Eliminar'></i>
+                                | <span class='numPermiso'>${soli_num}</span> - ${permi_num}
+                                </span>
+                        </div>`;
+                $('#sec_permisos').append(div);
+                //Limpio luego de agregar
+                // $("#soli_num").val('');
+                // $("#emision").val('');
+                // $("#salida").val('');
+                // $("#fecha").val('');
+                // $('input[name=doc_sanitaria]:checked').prop('checked',false);
 
-    }else{
-        notificar('Cuidado',reporte,'warning');
-    }
+                editando = false;
+                alertify.success("Permiso de tránsito agregado correctamente!");
+
+        }).catch((err) => {
+           notificar('Error!',  'Permiso Existente','warning');
+        });
+}else{
+            notificar('Cuidado',reporte,'warning');
+        }
 }
+
+
+//evalua si el permiso ya existe en la base
+async function validarPermiso(num_permiso){
+
+let validacionPermiso = new Promise((resolve,reject) => {
+    $.ajax({
+        type: "POST",
+        data: {num_permiso},
+        cache: false,
+        dataType: "json",
+        url:"<?php echo SICP; ?>inspeccion/validacionPermiso",
+        success: function (rsp) {
+            //si trae perm_id existe el permiso
+            if(_isset(rsp.perm_id)){
+                debugger;
+                reject(rsp);
+            }else{
+                resolve(rsp);
+            } 
+        },
+        error: function (rsp) {
+            Swal.fire('Oops...','No se guardo formulario dinámico','error');
+            reject("Ocurrió un error al gurdar el formulario dinámico");
+        }
+    });
+});
+return await validacionPermiso; 
+}
+
+
 function validarCamposPermiso(){
     var valida = '';
     //Numero de solicitud
@@ -1237,6 +1309,16 @@ function validarCamposPermiso(){
     if($("#brutoPermiso").val() == ""){
         valida = "Seleccione una Peso Bruto!";
     }
+
+    bruto = $("#brutoPermiso").val();
+    neto = $("#netoPermiso").val();
+
+    tara = bruto - neto;
+    if(tara < 0){
+        valida = "El peso bruto es menor al peso neto"; 
+        return valida;
+    }
+
     //Temperatura
     if($("#temperatura").val() == ""){
         valida = "Seleccione una Temperatura!";
@@ -1251,6 +1333,8 @@ function validarCamposPermiso(){
 function editarPermiso(tag){
     if(!editando){
         var data =	JSON.parse($(tag).closest('div').attr('data-json'));
+
+        armaTablaEmpresas(data.empresas);
         $("#soli_num").val(data.soli_num);
         $("#permi_num").val(data.perm_id);
         $("#emision").val(data.lugar_emision);
@@ -1263,7 +1347,7 @@ function editarPermiso(tag){
         $("#netoPermiso").val(data.neto);
         $("#brutoPermiso").val(data.bruto);
         $("#temperatura").val(data.temperatura);
-        $("#estado_pr_id").val(data.estado);
+        $("#estado_pr_id").val(data.estado_pr_id);
 
         emprVal = data.origen;
         emprNombre = data.origen_nom;
@@ -1440,6 +1524,23 @@ $("#empre_destino").on('change', function(){
     });
 });
 //FIN Scripts SELECTS
+
+//Actualizo neto cuando se cargue Bruto y Tara
+$(".neto").on("change", function () {
+    bruto = $("#bruto").val();
+    tara = $("#tara").val();
+
+    if(bruto != '' && tara != ''){
+        neto = bruto - tara;
+        if(neto > 0){
+            $('#neto').val(neto);
+        }else{
+            $("#bruto").val('');
+            $("#tara").val('');
+            alert("El peso bruto es menor al peso tara");
+        }
+    }
+});
 /***************************************************** */
 //Comienzo scripts preparacion y cierre tarea
 //Guardado de formulario y limpieza de datos en BD
@@ -1449,7 +1550,9 @@ async function cerrarTareaform(){
     //obtengo el formulario de la inspeccion
     var dataForm = new FormData($('#formAlertaPCC')[0]);
     dataForm.append('case_id', $("#caseId").val());
-
+    dataForm.append('tipo', 'infraccion');
+    dataForm.append('inspValida', 'incorrecta');
+    
     //Guardo formulario de escaneo documentacion, se valido en cerrarTarea()
     var newInfoID = await frmGuardarConPromesa($('#formEscaneoDocu').find('form'));
     dataForm.append('info_id_doc', newInfoID);
@@ -1466,26 +1569,22 @@ async function cerrarTareaform(){
     permisos = [];
     $('#sec_permisos div.permTransito').each(function(i, obj) {
         var json = JSON.parse($(obj).attr('data-json'));
-        json.case_id = $("#caseId").val();
+        json.case_id = case_id;
         permisos[i] = json;
     });
-
     //obtengo los destinos
     empresas = [];
-    $('#sec_destinos div.empreDestino').each(function(i, obj) {
-        var aux = $(obj).attr('data-json');
-        aux = aux.replace("cuit", "empr_id");
-        var json = JSON.parse(aux);
-        json.case_id = $("#caseId").val();
-        empresas[i] = json;
+    permisos.forEach(function(permiso) {
+        var empresasAsociadas = permiso.empresas;
+        var perm_id = permiso.perm_id;
+        empresasAsociadas.forEach(function(empresa) {
+            json = empresa;
+            json.perm_id = perm_id;
+            json.case_id= case_id;
+            empresas.push(json);
+
+        });
     });
-    //obtengo origen
-    origen = {};
-    origen.rol = "ORIGEN";
-    origen.empr_id = $("#esta_nom").val();
-    origen.case_id = $("#caseId").val();
-    origen.depo_id = "";
-    empresas.push(origen);
 
     //obtengo transportista
     transp = {};
@@ -1508,10 +1607,25 @@ async function cerrarTareaform(){
 
     //obtengo el tipo de infraccion
     infraccion = {};
-    if($('#tpoInfraccion').val() != null){
+ /*    if($('#tpoInfraccion').val() != null){
         infraccion.case_id = $("#caseId").val();
         infraccion.tiin_id = $("#tpoInfraccion").val();
-    }
+    } */
+
+    infraccion.case_id = $("#caseId").val();
+    infraccion.depositario = $("#nyaDepositario").val();
+    infraccion.documento = $("#dniActa").val();
+    infraccion.domicilio_legal = $("#domiLegalActa").val();
+    infraccion.domicilio_comercial = $("#domiComercialActa").val();
+    infraccion.telefono = $("#telefonoActa").val();
+    infraccion.email = $("#correoActa").val();
+    infraccion.detalle_infraccion = $("#detalleInfraccionActa").val();
+    infraccion.caracteristicas_organolepticas = $("#caractOrganolepticasActa").val();
+    infraccion.caracteristicas_deposito = $("#caractDeposito").val();
+    infraccion.tipo_camara = $("#tipoCamaraActa").val();
+    infraccion.temperatura_actual = $("#tempCamaraActa").val();
+    infraccion.fecha_hora = $("#fechaActa").val() + " " + $("#horaActa").val();
+    infraccion.observacion_infraccion = $('#observacionesInfraccion').val();
 
     //Obtengo los tipos de infracciones
     tiposInfraccion = {};
@@ -1521,6 +1635,7 @@ async function cerrarTareaform(){
             tiposInfraccion[i] = {"tiin_id": tiposInfracciones[i].id,"case_id": case_id};
         }
     }
+
     //Guardo la inspeccion
     let guardadoCompleto = new Promise( function(resolve,reject){
         $.ajax({
@@ -1532,7 +1647,11 @@ async function cerrarTareaform(){
         url: "<?php echo SICP; ?>inspeccion/agregarInspeccion",
         success: function(data) {
             console.log("Se guardo el formulario de alerta PCC correctamente");
-            
+            resp = JSON.parse(data);
+            if(data){
+                console.log("Se creo contador correctamente");
+                $("#contador").val(resp.contador);
+            }
             //Guardo los permisos, empresas, termicos e infraccion si hubiese
             $.ajax({
                 type: 'POST',
@@ -1540,12 +1659,12 @@ async function cerrarTareaform(){
                 url: "<?php echo SICP; ?>inspeccion/guardarDatosInspeccion",
                 success: function(data) {
                     resp = JSON.parse(data);
-                    if(resp.status){
+                    if(data){
                         resp.info_id = newInfoID;
                         resolve(resp);
                     }else{
                         console.log(resp.message);
-                        reject(resp);
+                        reject(data);
                     }
                 },
                 error: function(data) {
@@ -1604,7 +1723,7 @@ function cerrarTarea() {
     //
     //VALIDACION EMPRESAS DESTINO
     //
-    if ( !$('#sec_destinos').children().length > 0 ) {
+ /*    if ( !$('#sec_destinos').children().length > 0 ) {
         wc();
         Swal.fire(
             'Error..',
@@ -1612,7 +1731,7 @@ function cerrarTarea() {
             'error'
         );
         return;
-    }
+    } */
     //
     //VALIDACION TERMICOS
     //
@@ -1726,13 +1845,14 @@ $(document).on('change',"input[name='-file-acta_infraccion']",function() {
 function imprimirActa(){
     
     //Completo datos en el acta antes de imprimir
+    $(".acta_contador").text($("#contador").val());
     $(".acta_caseId").text($("#case_id").val());
     $(".acta_chofer").text($("#nom_chofer").val());
     $(".acta_dniChofer").text($("#doc_chofer").val());
     $(".acta_patenteTractor").text($("#patenteTractor").val());
     // $(".acta_numSenasa").text($("#num_senasa").val());
     $(".acta_cantFajas").text($("#cant_fajas").val());
-    $(".acta_observaciones").text($("#observaciones").val());
+    $(".acta_observaciones").text($("#observacionesInfraccion").val());
     // $(".acta_origenNro").text($("#esta_num").val());
     // $(".acta_estaOrigen").text($("#esta_nom").select2('data')[0].text);
     $(".acta_transportista").text($('#transportista').select2('data')[0].text);
@@ -1752,17 +1872,78 @@ function imprimirActa(){
     $(".acta_procedenA").text($("#procedenAccion").val());
     $(".acta_telTransportista").text($("#telTransportista").val());
     $(".acta_emailTransportista").text($("#emailTransportista").val());
-    $(".acta_nyaDepositario").text($("#nyaDepositario").val());
-    $(".dniActa").text($("#dniActa").val());
-    $(".telefonoActa").text($("#telefonoActa").val());
-    $(".correoActa").text($("#correoActa").val());
-    $(".direccionLegalActa").text($("#domiLegalActa").val());
-    $(".direccionComercialActa").text($("#domiComercialActa").val());
-    $(".acta_caractOrganolepticas").text($("#caractOrganolepticasActa").val());
-    $(".acta_caractDeposito").text($("#caractDeposito").val());
-    $(".acta_tempCamaraActa").text($("#tempCamaraActa").val());
+
+    //Datos de infraccion
+    //arma solo los datos que ingresan para imprimir el acta de infraccion
+    infoInfraccion = "";
+    infoCaracteristicasInfraccion = "";
+    texto ="";
+
+    if($("#nyaDepositario").val())
+    {
+        texto = "Quedando como Depositario Judicial de la mercadería en cuestión, el señor/a "; 
+        infoInfraccion += texto.concat($("#nyaDepositario").val());
+    }
+
+    if($("#dniActa").val()){
+        texto = ", D.N.I. N° "; 
+
+        infoInfraccion +=  texto.concat($("#dniActa").val());   
+    }
+
+    if($("#telefonoActa").val()){
+        texto = ", Teléfono  "; 
+
+        infoInfraccion += texto.concat($("#telefonoActa").val());   
+    }
+
+    if($("#correoActa").val()){
+        texto = ", correo electrónico  "; 
+
+        infoInfraccion += texto.concat($("#correoActa").val());   
+    }
+
+    if($("#domiLegalActa").val()){
+        texto = ", con domicilio legal "; 
+
+        infoInfraccion += texto.concat($("#domiLegalActa").val());   
+    }
+ 
+    if($("#domiComercialActa").val()){
+        texto = ", domicilio comercial "; 
+
+        infoInfraccion +=texto.concat($("#domiComercialActa").val());   
+    }
+   
+    $(".acta_infoInfraccion").text(infoInfraccion);
+    
+    if($("#caractOrganolepticasActa").val()){
+        texto = " Con las características organolépticas que se describen a continuación "; 
+
+        infoCaracteristicasInfraccion +=texto.concat($("#caractOrganolepticasActa").val());   
+    }
+
+    if($("#caractDeposito").val()){
+        texto = ", en un depósito con las siguientes características: "; 
+
+        infoCaracteristicasInfraccion +=texto.concat($("#caractDeposito").val());   
+    }
+
+    if($("#tempCamaraActa").val()){
+        texto = ", y registrándose la siguiente temperatura "; 
+
+        infoCaracteristicasInfraccion +=texto.concat($("#tempCamaraActa").val());   
+    }
+
+    $(".acta_infoCaracteristicasInfraccion").text(infoCaracteristicasInfraccion);
+    
     $(".acta_fecha").text(dateFormat($("#fechaActa").val()));
     $(".acta_hora").text($("#horaActa").val());
+    $(".acta_diaInspeccion").text(moment($("#fechaActaInspeccion").val()).format('D'));
+    $(".acta_mesInspeccion").text(moment($("#fechaActaInspeccion").val()).format('MMMM'));
+    $(".acta_anioInspeccion").text(moment($("#fechaActaInspeccion").val()).format('Y'));
+    $(".acta_horaInspeccion").text($("#horaActa").val());
+   
 
     //Valído
     // if($('input[name=inspValida]:checked').val() == 'incorrecta'){
@@ -1778,13 +1959,7 @@ function imprimirActa(){
 
     $(".acta_tposInfracciones").text(tiposInfraccion.slice(0, -1));
 
- /*    infoTemperatura = "";
-    $('#sec_termicos div.termicos').each(function(i, obj) {
-        aux = $(obj).attr('data-json');
-        json = JSON.parse(aux);
-        infoTemperatura += json.temperatura + " ";
-    });
-    $(".acta_temperaturas").text(infoTemperatura); */
+
 
     infoPrecintos = "";
     infoSenasa = "";
@@ -1805,6 +1980,33 @@ function imprimirActa(){
     });
     $(".acta_destinos").text(infoDestino);
 
+    infoTodos = "";
+    infoPermisos = "";
+    infoProductos = "";
+    infoOrigen = "";
+    infoOrigenNums = "";
+    infoTemperatura = "";
+    $('#sec_permisos div.permTransito').each(function(i, obj) {
+        if (i < 3) {
+            aux = $(obj).attr('data-json');
+            json = JSON.parse(aux);
+
+            infoTodos += "Tipo de PT " + json.tipo + " | ";
+            infoTodos += "N° de Permiso " + json.perm_id + " | ";            
+            infoTodos += "Producto " + json.productos + " | ";
+            infoTodos += "Temperatura " + json.temperatura + " | ";
+            infoTodos += "Empresa de Origen " + json.origen_nom + " | ";
+            var empresasAsociadas = json.empresas;
+            empresasAsociadas.forEach(function(empresa) {
+                infoTodos += " Destino " +  empresa.razon_social + " | ";
+                infoTodos += " Domicilio " +  empresa.calle + ", " + empresa.altura + " | " ;
+            });
+        }
+        infoTodos += "<br>";
+    });
+    $(".acta_docSanitaria").html(infoTodos);
+
+/* 
     infoPermisos = "";
     infoProductos = "";
     infoOrigen = "";
@@ -1824,7 +2026,7 @@ function imprimirActa(){
     $(".acta_productos").text(infoProductos);
     $(".acta_origenNombres").text(infoOrigen);
     $(".acta_origenNumeros").text(infoOrigenNums);
-    $(".acta_temperaturas").text(infoTemperatura);
+    $(".acta_temperaturas").text(infoTemperatura); */
 
     var base = "<?php echo base_url()?>";
     

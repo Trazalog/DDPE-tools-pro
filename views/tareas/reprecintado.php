@@ -118,6 +118,7 @@
                             <input type="text" name="tara" id="tara" value="<?php echo isset($inspeccion->tara) ? $inspeccion->tara : '' ?>" hidden/>                            
                             <input type="text" name="bruto" id="bruto" value="<?php echo isset($inspeccion->bruto) ? $inspeccion->bruto : '' ?>" hidden/>                            
                             <input type="text" name="inspectores" id="inspectores" value="<?php echo isset($inspeccion->inspectores) ? $inspeccion->inspectores : '' ?>" hidden/>                            
+                            <input type="text" name="resultado" id="resultado" value="<?php echo isset($inspeccion->resultado) ? $inspeccion->resultado : '' ?>" hidden/>                            
                             <!-- FIN Bloque campos necesarios para cierre de reprecintado-->
                             <div class="box-tittle centrar">
                                 <h3>Permiso de tránsito</h3>
@@ -1049,7 +1050,7 @@ function validarCamposDestino(){
     return valida;
 }
 //Funcion para eliminar el registro en ambas SECCIONES
-$(document).on("click",".fa-trash",function(e) {
+$(document).off("click", ".fa-trash").on("click", ".fa-trash", function(e) {
     if (confirm('¿Desea borrar el registro?')) {
         $(e.target).closest('div').remove();		
     }
