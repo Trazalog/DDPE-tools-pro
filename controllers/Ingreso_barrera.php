@@ -205,6 +205,7 @@ class Ingreso_barrera extends CI_Controller
     {
         $data['_delete_pedidotrabajo'] = array(
             'petr_id' => $petr_id,
+            'empr_id' => empresa(),
         );
 
         $data = $this->Ingresosbarrera->eliminarPedidoTrabajo($data);
@@ -225,6 +226,7 @@ class Ingreso_barrera extends CI_Controller
 
         $data['_delete_pedidotrabajo'] = array(
             'petr_id' => $petr_id,
+            'empr_id' => empresa(),
         );
 
         $respPetr = $this->Ingresosbarrera->eliminarPedidoTrabajo($data);
