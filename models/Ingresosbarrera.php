@@ -97,7 +97,7 @@ class Ingresosbarrera extends CI_Model
     }
 
     public function obtenerHitosXPedido($petrId){
-        $url = REST_TST . "/pedidostrabajo/hitos/$petrId";
+        $url = REST_TST . "/pedidostrabajo/hitos/$petrId?empr_id=" . empresa();
         return wso2($url);
     }
 
